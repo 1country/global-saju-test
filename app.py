@@ -461,19 +461,31 @@ def main():
 if __name__ == "__main__":
     main()
 # ----------------------------------------------------------------
-# [스마트 커피 후원 버튼] (언어 자동 감지)
+# [스마트 커피 후원 버튼] (최종 수정 버전)
 # ----------------------------------------------------------------
-# 1. 언어에 따라 멘트 설정 (기본값: 한국어)
+# 1. 기본 멘트 (한국어)
 coffee_header = "☕ 개발자 응원하기"
 coffee_text = "운명의 코드를 응원해 주세요! ☕"
 
-# 2. 만약 언어가 'English'라면 영어 멘트로 변경
-# (혹시 선생님 코드의 언어 변수명이 'lang'이나 'selected_lang'이라면 아래 'language'를 그걸로 바꿔주세요)
-if 'language' in locals() and language == 'English':
+# 2. 언어 감지 로직 (변수명이 en, lang, language 무엇이든 다 찾아냅니다)
+is_english = False
+
+# 변수 이름이 'en' 이고, 값이 'English' 일 때
+if 'en' in locals() and (en == 'English' or en == 'en'):
+    is_english = True
+# 변수 이름이 'lang' 이고, 값이 'English' 일 때
+elif 'lang' in locals() and (lang == 'English' or lang == 'en'):
+    is_english = True
+# 변수 이름이 'language' 이고, 값이 'English' 일 때
+elif 'language' in locals() and (language == 'English' or language == 'en'):
+    is_english = True
+
+# 3. 영어라면 멘트 변경
+if is_english:
     coffee_header = "☕ Support the Developer"
     coffee_text = "Fuel the destiny code with a coffee! ☕"
 
-# 3. 화면에 표시 (변수 적용)
+# 4. 화면 표시
 st.sidebar.markdown("---")
 st.sidebar.header(coffee_header)
 st.sidebar.markdown(f"""
