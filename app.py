@@ -395,16 +395,37 @@ def main():
                     txt['t_adv']: row['Advice']
                 })
             
-            # --- 숫자 인덱스 제거 로직 ---
-            df = pd.DataFrame(table_data)
-            # 1. Index를 '월' 컬럼으로 지정하여 0,1,2 숫자 제거
+           df = pd.DataFrame(table_data)
             df = df.set_index(txt['t_mon'])
-            # 2. Table 출력
             st.table(df)
 
+        # --- 인쇄 및 후원 섹션 ---
         st.write("---")
+        
+        # 1. 인쇄 버튼
         if st.button(txt['print'], key="final_print"):
             components.html("<script>window.print();</script>", height=0, width=0)
+
+        # 2. 글로벌 후원 버튼
+        st.write("")
+        st.subheader(txt['donation'])
+        st.caption(txt['donation_desc'])
+        
+        d_col1, d_col2 = st.columns(2)
+        
+        # ✅ 한국인용 (카카오/토스) - 한국어 모드일 때만 보임
+        if lang == "ko":
+            with d_col1:
+                st.link_button("💛 카카오페이 송금 (Kakao)", "https://qr.kakaopay.com/본인QR코드")
+            with d_col2:
+                st.link_button("💙 토스 송금 (Toss)", "https://toss.me/본인아이디")
+        
+        # ✅ 글로벌용 (바이미어커피/페이팔) - 둘 다 보임 (외국인도 접근 가능하게)
+        else:
+            with d_col1:
+                st.link_button("☕ Buy Me a Coffee (Card)", "https://www.buymeacoffee.com/본인아이디")
+            with d_col2:
+                st.link_button("🅿️ PayPal (Global)", "https://paypal.me/본인아이디")
 
 if __name__ == "__main__":
     main()
