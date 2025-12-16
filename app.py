@@ -10,7 +10,7 @@ UNLOCK_CODE = "2026RICH"
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
 # ----------------------------------------------------------------
-# [스타일 설정: 인쇄 최적화]
+# [인쇄 문제 해결사: 절대 좌표 강제 설정]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
@@ -19,43 +19,51 @@ st.markdown("""
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
 
-        /* 2. 🖨️ 인쇄할 때 적용되는 스타일 (자동 적용) */
+        /* 2. 🖨️ 인쇄 모드 (강력한 강제 설정) */
         @media print {
-            /* (1) 화면의 불필요한 요소들(버튼, 사이드바, 입력창) 숨기기 */
+            /* (1) 모든 요소 숨기기 (일단 다 숨기고 시작) */
+            html, body, .stApp {
+                height: auto !important;
+                overflow: visible !important;
+                background: white !important;
+            }
+            
+            /* (2) 방해꾼들 영구 삭제 */
             [data-testid="stSidebar"], 
-            [data-testid="stHeader"], 
-            header, footer, 
+            header, 
+            footer, 
             .stDeployButton, 
             button, 
-            .stButton, 
-            .no-print {
+            .stButton {
                 display: none !important;
             }
 
-            /* (2) 배경과 글자색 강제 설정 */
-            body, .stApp {
-                background-color: white !important;
-                color: black !important;
-                height: auto !important;
-                overflow: visible !important;
-            }
-
-            /* (3) 여백 제거 및 내용 펼치기 */
+            /* (3) ★핵심★ 내용을 강제로 끄집어내서 종이(0,0)에 고정 */
             .block-container {
-                padding: 0 !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
                 max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+                display: block !important;
+                z-index: 999999 !important;
             }
 
-            /* (4) 카드가 페이지 사이에서 잘리지 않게 설정 */
-            .card {
-                break-inside: avoid;
-                border: 1px solid #ddd !important;
-                box-shadow: none !important;
+            /* (4) 글자색 검정 강제 */
+            * {
+                color: black !important;
+                -webkit-print-color-adjust: exact !important;
             }
             
-            /* (5) 테이블 폰트 조정 */
-            table {
-                font-size: 11pt !important;
+            /* (5) 카드 테두리 확실하게 */
+            .card {
+                border: 1px solid #000 !important;
+                break-inside: avoid;
+                box-shadow: none !important;
+                margin-bottom: 20px !important;
             }
         }
     </style>
