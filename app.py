@@ -18,18 +18,21 @@ st.markdown("""
         display: block; background-color: #4f46e5; color: white !important; 
         text-align: center; text-decoration: none !important; padding: 12px 20px; 
         border-radius: 8px; font-size: 1.1em; font-weight: bold; margin-top: 20px; 
-        width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer;
     }
     .print-btn:hover {background-color: #4338ca;}
 
-    /* 🖨️ 인쇄 모드 설정 */
+    /* 🖨️ 인쇄 모드 설정 (강제 잉크 절약 및 레이아웃) */
     @media print {
-        [data-testid="stSidebar"], [data-testid="stHeader"], .stTextInput, .stDateInput, 
-        .stTimeInput, .stButton, .stTabs [data-baseweb="tab-list"], .print-btn, footer {
-            display: none !important;
+        body * { visibility: hidden; }
+        .card, .card * { visibility: visible; }
+        .card {
+            position: absolute; left: 0; top: 0; width: 100%;
+            margin: 0; padding: 20px;
+            background-color: white !important; color: black !important;
+            border: 2px solid #333 !important; box-shadow: none !important;
         }
-        * {-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;}
-        .card {border: 1px solid #ccc !important; box-shadow: none !important; break-inside: avoid;}
+        [data-testid="stSidebar"], [data-testid="stHeader"], .print-btn, footer { display: none !important; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -58,7 +61,7 @@ def calculate_day_gan(birth_date):
 
 # --- 3. 데이터베이스 (성격 & 운세) ---
 def get_interpretation(element, lang):
-    # 한국어 상세 데이터 (선생님이 좋아하셨던 긴 버전)
+    # 한국어 상세 데이터
     traits_ko = {
         "Wood": """#### 🌲 총론: 곧게 뻗는 성장의 아이콘
 당신은 뚫고 나가는 힘이 강한 '개척자'입니다. 인정이 많고 착하지만, 한번 고집을 피우면 아무도 못 말립니다. 남의 밑에 있기보다 내가 대장이 되어야 직성이 풀리는 스타일입니다.
@@ -186,25 +189,29 @@ You are caring and adaptable, but you keep a secret side. This mystery makes you
 
     # 2026년 운세 총평
     forecast_ko = {}
+    forecast_en = {}
+    
     if element == "Wood":
-        forecast_ko = {"title": "🔥 재능 폭발의 해", "gen": "일이 쏟아지고 능력을 인정받습니다. 너무 바빠서 건강을 챙겨야 합니다.", "money": "수입도 늘고 지출도 늡니다.", "love": "연애운 최상입니다."}
+        forecast_ko = {"title": "🔥 재능 폭발의 해 (식상운)", "gen": "나를 태워 세상을 밝히는 형국입니다. 당신의 재능이 꽃을 피우고, 바쁘게 움직일수록 성과가 따릅니다. 다만, 너무 많은 일을 벌이면 건강을 해칠 수 있으니 선택과 집중이 필요합니다.", "money": "수입이 늘어나지만 그만큼 품위 유지비나 투자로 인한 지출도 늘어납니다.", "love": "표현력이 좋아져 인기가 많아집니다. 연애하기 최적의 시기입니다."}
+        forecast_en = {"title": "🔥 A Year of Explosive Talent (Output)", "gen": "You will burn bright like a fire. Your talents will bloom, and being busy will lead to success. However, taking on too much can hurt your health, so focus is key.", "money": "Income increases, but expenses for investments or lifestyle will also rise.", "love": "Your expressiveness improves, boosting your popularity. Great time for romance."}
     elif element == "Fire":
-        forecast_ko = {"title": "🤝 경쟁과 협력의 해", "gen": "자존심이 강해지고 경쟁자가 나타납니다. 혼자보다는 함께할 때 성공합니다.", "money": "돈 거래는 피하세요.", "love": "친구가 연인이 됩니다."}
+        forecast_ko = {"title": "🤝 경쟁과 협력의 해 (비겁운)", "gen": "불이 불을 만난 격이라 에너지가 넘칩니다. 자존심이 강해지고 경쟁자가 나타나지만, 혼자보다는 동료와 협력할 때 더 큰 성과를 냅니다. 독립하고 싶은 욕구가 강해집니다.", "money": "공동 투자는 신중해야 합니다. 친구나 형제간의 돈 거래는 피하세요.", "love": "친구가 연인으로 발전할 수 있습니다. 경쟁자가 생길 수도 있습니다."}
+        forecast_en = {"title": "🤝 Year of Competition & Cooperation", "gen": "Fire meets Fire, creating immense energy. Your pride grows, and rivals appear. You will achieve more by cooperating rather than working alone. Desire for independence grows.", "money": "Be careful with joint investments. Avoid lending money to friends.", "love": "Friends may turn into lovers. Be aware of potential romantic rivals."}
     elif element == "Earth":
-        forecast_ko = {"title": "📜 문서와 귀인의 해", "gen": "윗사람의 도움을 받고 계약운이 좋습니다. 공부하거나 자격증 따기 좋습니다.", "money": "부동산/문서 이득.", "love": "사랑받는 시기입니다."}
+        forecast_ko = {"title": "📜 문서와 귀인의 해 (인성운)", "gen": "불이 흙을 단단하게 구워줍니다. 윗사람의 도움을 받고, 학업이나 계약에서 좋은 성과를 냅니다. 부동산 취득이나 자격증 시험에 아주 유리한 시기입니다.", "money": "현금보다는 문서(부동산, 주식, 계약권)로 재산을 늘리는 것이 유리합니다.", "love": "사랑받는 시기입니다. 나를 챙겨주는 듬직한 사람을 만납니다."}
+        forecast_en = {"title": "📜 Year of Documents & Mentors (Resource)", "gen": "Fire strengthens the Earth. You will receive help from superiors and succeed in studies or contracts. Excellent time for real estate or certifications.", "money": "Better to grow wealth through assets (documents/real estate) than cash.", "love": "You will be loved. You might meet someone reliable who takes care of you."}
     elif element == "Metal":
-        forecast_ko = {"title": "🔨 명예와 승진의 해", "gen": "책임감이 커지고 압박이 있지만, 견디면 승진합니다. 직장운이 좋습니다.", "money": "고정 수입 상승.", "love": "남자는 자식운, 여자는 남편운."}
+        forecast_ko = {"title": "🔨 명예와 승진의 해 (관성운)", "gen": "불이 쇠를 녹여 도구를 만듭니다. 직장에서 책임감이 커지고 압박이 있지만, 이를 견디면 확실한 승진과 명예가 따릅니다. 조직에서 자리를 잡는 중요한 해입니다.", "money": "고정 수입이 늘어나거나 직급 상승에 따른 인센티브가 있습니다.", "love": "여자는 남자가 들어오는 운이며, 남자는 자녀와 관련된 기쁜 일이 있습니다."}
+        forecast_en = {"title": "🔨 Year of Honor & Promotion (Power)", "gen": "Fire shapes Metal. Responsibility and pressure at work will increase, but enduring it brings promotion and honor. A crucial year for your career.", "money": "Fixed income increases, or bonuses come from higher status.", "love": "Women may meet a partner; Men may have good news regarding children."}
     elif element == "Water":
-        forecast_ko = {"title": "💰 재물 쟁취의 해", "gen": "큰 돈을 벌 기회가 오지만 치열하게 싸워야 합니다. 결과가 확실합니다.", "money": "투자 수익 기대.", "love": "남자는 여자운 상승."}
-
-    # 영어 총평 (임시)
-    forecast_en = {"title": "2026 Forecast", "gen": "A year of great energy change.", "money": "Financial opportunities.", "love": "Romance luck."}
+        forecast_ko = {"title": "💰 재물 쟁취의 해 (재성운)", "gen": "물이 불을 끄려 합니다. 불은 당신에게 '재물'입니다. 큰 돈을 벌 기회가 오지만, 그만큼 치열하게 싸워야 쟁취할 수 있습니다. 결과가 확실하게 나오는 해입니다.", "money": "사업 확장이나 투자를 통해 큰 수익을 기대할 수 있습니다. 과욕은 금물.", "love": "남자는 매력적인 이성을 만나게 됩니다. 즐거운 일이 많아집니다."}
+        forecast_en = {"title": "💰 Year of Wealth Conquest (Wealth)", "gen": "Water controls Fire. Fire represents money to you. Huge financial opportunities arise, but you must fight to claim them. Results will be clear.", "money": "Expect gains from business expansion or investments. Don't be too greedy.", "love": "Men will meet attractive partners. A year full of joy."}
 
     if lang == "ko": return traits_ko[element], forecast_ko
     else: return traits_en[element], forecast_en
 
-# --- 4. 월별 운세 로직 (상세) ---
-def get_monthly_forecast(element, month):
+# --- 4. 월별 운세 로직 (상세 & 영어 포함) ---
+def get_monthly_forecast(element, month, lang):
     season = ""
     if month in [2, 3]: season = "Wood"   
     elif month in [5, 6]: season = "Fire" 
@@ -214,38 +221,98 @@ def get_monthly_forecast(element, month):
 
     msg = ""
     score = ""
-
-    if element == "Wood":
-        if season == "Wood": msg, score = "경쟁자가 나타납니다. 실속 챙기세요.", "⭐⭐"
-        elif season == "Fire": msg, score = "재능이 꽃피는 시기. 활동 최적기!", "⭐⭐⭐⭐⭐"
-        elif season == "Earth": msg, score = "뜻밖의 꽁돈이나 보너스 운.", "⭐⭐⭐⭐"
-        elif season == "Metal": msg, score = "직장 스트레스 주의. 건강 유의.", "⭐⭐"
-        elif season == "Water": msg, score = "계약운 좋음. 윗사람 도움.", "⭐⭐⭐⭐"
-    elif element == "Fire":
-        if season == "Wood": msg, score = "귀인 도움. 자격증/승진 대길.", "⭐⭐⭐⭐⭐"
-        elif season == "Fire": msg, score = "자신감 과잉 주의. 다툼 조심.", "⭐⭐"
-        elif season == "Earth": msg, score = "능력 인정받음. 말로 돈을 범.", "⭐⭐⭐⭐"
-        elif season == "Metal": msg, score = "재물운 폭발! 투자 수익 기대.", "⭐⭐⭐⭐⭐"
-        elif season == "Water": msg, score = "과로 주의. 압박감 심함.", "⭐"
-    elif element == "Earth":
-        if season == "Wood": msg, score = "명예운 상승. 승진/이직 기회.", "⭐⭐⭐⭐"
-        elif season == "Fire": msg, score = "문서운 최고. 부동산 계약 적기.", "⭐⭐⭐⭐⭐"
-        elif season == "Earth": msg, score = "지출 큼. 사람 만날 일 많음.", "⭐⭐"
-        elif season == "Metal": msg, score = "창작 활동 좋음. 새로운 일 시작.", "⭐⭐⭐"
-        elif season == "Water": msg, score = "큰 돈 보이나 욕심 금물.", "⭐⭐⭐"
-    elif element == "Metal":
-        if season == "Wood": msg, score = "노력한 만큼 보상. 성과급.", "⭐⭐⭐⭐⭐"
-        elif season == "Fire": msg, score = "관재구설 조심. 묵묵히 일할 것.", "⭐"
-        elif season == "Earth": msg, score = "부동산/계약 길함. 부모님 덕.", "⭐⭐⭐⭐"
-        elif season == "Metal": msg, score = "고집 세짐. 충돌 주의.", "⭐⭐"
-        elif season == "Water": msg, score = "인기 상승. 문제 해결 능력.", "⭐⭐⭐⭐"
-    elif element == "Water":
-        if season == "Wood": msg, score = "새 프로젝트 적기. 자녀 경사.", "⭐⭐⭐⭐"
-        elif season == "Fire": msg, score = "일확천금 기회이나 위험 따름.", "⭐⭐⭐"
-        elif season == "Earth": msg, score = "승진/감투. 책임감 무거움.", "⭐⭐⭐"
-        elif season == "Metal": msg, score = "공부 대길. 귀인 나타남.", "⭐⭐⭐⭐⭐"
-        elif season == "Water": msg, score = "경쟁자 주의. 돈 거래 금지.", "⭐⭐"
     
+    # 한국어/영어 멘트 설정
+    # 1. 나무(Wood)
+    if element == "Wood":
+        if season == "Wood": 
+            score = "⭐⭐"
+            msg = "경쟁자가 나타나 내 성과를 나누자고 합니다. 동업 제안은 신중히 하고 실속을 챙기세요." if lang == "ko" else "Competitors appear. Be careful with partnerships and focus on your own benefits."
+        elif season == "Fire": 
+            score = "⭐⭐⭐⭐⭐"
+            msg = "당신의 재능이 꽃을 피웁니다. 바쁘게 움직일수록 돈과 명예가 따릅니다. 활동 최적기!" if lang == "ko" else "Your talents bloom. The busier you are, the more success you gain. Best time to act!"
+        elif season == "Earth": 
+            score = "⭐⭐⭐⭐"
+            msg = "뜻밖의 꽁돈이나 보너스 운이 있습니다. 재물운이 아주 좋습니다." if lang == "ko" else "Unexpected bonus or windfall. Financial luck is very good."
+        elif season == "Metal": 
+            score = "⭐⭐"
+            msg = "직장 스트레스를 조심하세요. 책임질 일이 많아지니 건강 관리가 필수입니다." if lang == "ko" else "Beware of work stress. Responsibilities increase, so health care is essential."
+        elif season == "Water": 
+            score = "⭐⭐⭐⭐"
+            msg = "계약운이 좋습니다. 윗사람이나 귀인의 도움으로 문제가 해결됩니다." if lang == "ko" else "Good contract luck. Problems are solved with help from mentors."
+
+    # 2. 불(Fire)
+    elif element == "Fire":
+        if season == "Wood": 
+            score = "⭐⭐⭐⭐⭐"
+            msg = "귀인의 도움을 받습니다. 자격증 시험이나 승진에 아주 유리한 시기입니다." if lang == "ko" else "Help from mentors. Excellent time for exams or promotions."
+        elif season == "Fire": 
+            score = "⭐⭐"
+            msg = "자신감이 과해 다툼이 생길 수 있습니다. 주변과 충돌하지 않도록 겸손하세요." if lang == "ko" else "Overconfidence may lead to conflicts. Stay humble to avoid clashes."
+        elif season == "Earth": 
+            score = "⭐⭐⭐⭐"
+            msg = "당신의 말과 아이디어로 돈을 법니다. 능력을 인정받아 성과를 냅니다." if lang == "ko" else "You make money with your ideas. Your abilities are recognized."
+        elif season == "Metal": 
+            score = "⭐⭐⭐⭐⭐"
+            msg = "재물운이 폭발합니다! 투자 수익이나 큰 돈이 들어올 기회입니다." if lang == "ko" else "Explosive financial luck! Great chance for investment gains."
+        elif season == "Water": 
+            score = "⭐"
+            msg = "과로를 주의하세요. 직장에서 압박감을 느낄 수 있으니 휴식이 필요합니다." if lang == "ko" else "Beware of overwork. You may feel pressure at work; rest is needed."
+
+    # 3. 흙(Earth)
+    elif element == "Earth":
+        if season == "Wood": 
+            score = "⭐⭐⭐⭐"
+            msg = "명예운이 상승합니다. 승진하거나 더 좋은 조건의 이직 제안이 옵니다." if lang == "ko" else "Honor rises. Promotion or a better job offer is coming."
+        elif season == "Fire": 
+            score = "⭐⭐⭐⭐⭐"
+            msg = "문서운이 최고입니다. 부동산 계약이나 중요 서류를 처리하기에 적기입니다." if lang == "ko" else "Best luck for documents. Great time for real estate or contracts."
+        elif season == "Earth": 
+            score = "⭐⭐"
+            msg = "사람들과 어울리느라 지출이 큽니다. 고집을 부리면 손해를 봅니다." if lang == "ko" else "High expenses from socializing. Stubbornness leads to loss."
+        elif season == "Metal": 
+            score = "⭐⭐⭐"
+            msg = "창작 활동에 좋습니다. 새로운 일을 벌이거나 표현하기 좋은 때입니다." if lang == "ko" else "Good for creativity. A good time to start something new."
+        elif season == "Water": 
+            score = "⭐⭐⭐"
+            msg = "큰 돈이 눈앞에 보이지만 욕심내면 탈이 납니다. 신중하게 접근하세요." if lang == "ko" else "Big money is visible, but greed brings trouble. Be cautious."
+
+    # 4. 쇠(Metal)
+    elif element == "Metal":
+        if season == "Wood": 
+            score = "⭐⭐⭐⭐⭐"
+            msg = "노력한 만큼 확실한 보상을 받습니다. 성과급이나 수익을 기대하세요." if lang == "ko" else "Sure rewards for your efforts. Expect bonuses or profits."
+        elif season == "Fire": 
+            score = "⭐"
+            msg = "관재구설(시비)을 조심하세요. 나서지 말고 묵묵히 일하면 전화위복됩니다." if lang == "ko" else "Beware of disputes. Work quietly to turn things around."
+        elif season == "Earth": 
+            score = "⭐⭐⭐⭐"
+            msg = "부동산이나 계약 관련 좋은 소식이 있습니다. 부모님의 덕을 볼 수 있습니다." if lang == "ko" else "Good news regarding real estate or contracts. Help from parents."
+        elif season == "Metal": 
+            score = "⭐⭐"
+            msg = "고집이 세져서 주변과 충돌할 수 있습니다. 유연한 태도가 필요합니다." if lang == "ko" else "Stubbornness may cause conflicts. Be flexible."
+        elif season == "Water": 
+            score = "⭐⭐⭐⭐"
+            msg = "재능을 발휘하여 문제를 해결합니다. 인기가 많아지고 찾는 사람이 늘어납니다." if lang == "ko" else "Solve problems with your talent. Your popularity rises."
+
+    # 5. 물(Water)
+    elif element == "Water":
+        if season == "Wood": 
+            score = "⭐⭐⭐⭐"
+            msg = "새로운 프로젝트를 시작하기 좋습니다. 자녀에게 좋은 일이 생깁니다." if lang == "ko" else "Great to start new projects. Good news for your children."
+        elif season == "Fire": 
+            score = "⭐⭐⭐"
+            msg = "일확천금의 기회가 오지만 위험도 따릅니다. 신중하게 투자하면 대박입니다." if lang == "ko" else "High risk, high return. Careful investment brings big wins."
+        elif season == "Earth": 
+            score = "⭐⭐⭐"
+            msg = "승진하거나 감투를 씁니다. 어깨가 무거워지지만 명예로운 시기입니다." if lang == "ko" else "Promotion or new title. Heavy responsibility but honorable."
+        elif season == "Metal": 
+            score = "⭐⭐⭐⭐⭐"
+            msg = "공부하기 딱 좋은 시기입니다. 나를 돕는 귀인이 나타납니다." if lang == "ko" else "Perfect time for study. A helpful mentor appears."
+        elif season == "Water": 
+            score = "⭐⭐"
+            msg = "경쟁자가 내 돈을 노립니다. 돈 거래는 절대 금물입니다." if lang == "ko" else "Rivals eye your money. Do not lend money."
+
     return msg, score
 
 # --- 5. 메인 실행 ---
@@ -256,19 +323,20 @@ def main():
         lang = "ko" if "Korean" in lang_opt else "en"
         st.info("💡 **Print Tip:** Press the 'Print Report' button to save as PDF.")
 
-    # ✅ 단어장 (수정됨)
     ui = {
         "ko": {
             "title": "디 엘리먼트: 사주 프로", "sub": "당신의 운명 지도와 2026년 정밀 분석", 
             "name": "이름", "btn": "운명 분석하기", 
             "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세", 
-            "print": "🖨️ 리포트 인쇄하기"
+            "print": "🖨️ 리포트 인쇄하기",
+            "t_mon": "월 (Month)", "t_sco": "운세 점수", "t_adv": "상세 조언"
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
             "name": "Name", "btn": "Analyze Destiny", 
             "tab1": "Personality", "tab2": "2026 Forecast", 
-            "print": "🖨️ Print Report"
+            "print": "🖨️ Print Report",
+            "t_mon": "Month", "t_sco": "Luck Score", "t_adv": "Detailed Advice"
         }
     }
     txt = ui[lang]
@@ -299,37 +367,45 @@ def main():
                     <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
                 </div>
                 """, unsafe_allow_html=True)
-                # 인쇄 버튼
-                st.markdown(f'<a href="javascript:window.print()" class="print-btn">{txt["print"]}</a>', unsafe_allow_html=True)
+                # 인쇄 버튼 (링크 태그)
+                st.markdown(f'<a href="#" onclick="window.print(); return false;" class="print-btn">{txt["print"]}</a>', unsafe_allow_html=True)
 
             with tab2: # 운세
-                if lang == "ko":
-                    st.markdown(f"""
-                    <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
-                        <h2 style='color: #be185d;'>👑 2026년 병오년 핵심 요약</h2>
-                        <h3 class='highlight'>{forecast['title']}</h3>
-                        <p>{forecast['gen']}</p>
-                        <ul style='margin-top:10px;'>
-                            <li><b>💰 재물:</b> {forecast['money']}</li>
-                            <li><b>❤️ 연애:</b> {forecast['love']}</li>
-                        </ul>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    st.subheader("📅 2026년 월별 상세 흐름")
-                    monthly_data = []
-                    month_seq = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1]
-                    month_names = ["2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", "내년 1월"]
+                # 1. 2026년 총평 박스
+                st.markdown(f"""
+                <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
+                    <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
+                    <p style='font-size:1.1em;'>{forecast['gen']}</p>
+                    <ul style='margin-top:10px;'>
+                        <li><b>💰 Wealth:</b> {forecast['money']}</li>
+                        <li><b>❤️ Love:</b> {forecast['love']}</li>
+                    </ul>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # 2. 월별 운세 테이블 (언어 적용)
+                st.subheader(f"📅 2026 {txt['t_adv']}")
+                monthly_data = []
+                month_seq = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1]
+                month_names_ko = ["2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", "내년 1월"]
+                month_names_en = ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"]
+                
+                month_names = month_names_ko if lang == "ko" else month_names_en
 
-                    for idx, m_num in enumerate(month_seq):
-                        msg, score = get_monthly_forecast(element_type, m_num)
-                        monthly_data.append({"Month": month_names[idx], "Luck": score, "Advice": msg})
-                    
-                    st.table(pd.DataFrame(monthly_data))
-                    # 인쇄 버튼
-                    st.markdown(f'<a href="javascript:window.print()" class="print-btn">{txt["print"]}</a>', unsafe_allow_html=True)
-                else:
-                    st.info("Full monthly forecast is currently available in Korean mode.")
+                for idx, m_num in enumerate(month_seq):
+                    # 이제 lang 변수를 전달하여 영어 멘트도 가져옵니다.
+                    msg, score = get_monthly_forecast(element_type, m_num, lang)
+                    monthly_data.append({
+                        txt['t_mon']: month_names[idx], 
+                        txt['t_sco']: score, 
+                        txt['t_adv']: msg
+                    })
+                
+                st.table(pd.DataFrame(monthly_data))
+                
+                # 인쇄 버튼
+                st.markdown(f'<a href="#" onclick="window.print(); return false;" class="print-btn">{txt["print"]}</a>', unsafe_allow_html=True)
+
         else:
             st.warning("Please enter your name.")
 
