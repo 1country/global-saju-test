@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import streamlit.components.v1 as components  # 인쇄 기능을 위한 필수 도구
+import streamlit.components.v1 as components
 from datetime import datetime, date
 
 # --- 1. 페이지 설정 ---
@@ -55,6 +55,7 @@ def calculate_day_gan(birth_date):
         {"ko": "계수(癸)", "en": "Yin Water (Gye)", "element": "Water"}
     ]
     return gans[gan_index]
+    
 # --- 3. 데이터베이스 (성격 & 운세) ---
 def get_interpretation(element, lang):
     # 한국어 상세 데이터
@@ -206,79 +207,79 @@ You are caring and adaptable, but you keep a secret side. This mystery makes you
     if lang == "ko": return traits_ko[element], forecast_ko
     else: return traits_en[element], forecast_en
 
-# --- 4. [수정됨] 60개 중복 없는 월별 운세 데이터 ---
+# --- 4. 월별 정밀 운세 (1월~12월 순서로 정렬) ---
 def get_monthly_forecast_unique(element, lang):
-    # 각 오행별 12개월(2월~내년1월) 고유 멘트
+    # 각 오행별 12개월(1월~12월) 순서대로 정렬
     data = {
         "Wood": [
-            ("2월", "경쟁자가 나타나 신경이 쓰입니다. 실속을 챙기세요.", "Competition arises. Focus on benefits."),
-            ("3월", "사람들과 어울릴 일이 많지만 말실수를 조심해야 합니다.", "Socializing increases. Watch your words."),
-            ("4월", "뜻밖의 재물이 들어옵니다. 보너스나 꽁돈 운!", "Unexpected money or bonus comes in."),
-            ("5월", "아이디어가 샘솟습니다. 새로운 일을 벌이기 최고입니다.", "Great ideas flow. Best time to start new things."),
-            ("6월", "너무 바빠서 몸이 열 개라도 모자랍니다. 건강 챙기세요.", "Extremely busy. Take care of your health."),
+            ("1월", "친구가 돈을 빌려달라고 합니다. 거절하세요.", "Friends may ask for money. Refuse politely."),
+            ("2월", "경쟁자가 나타납니다. 실속을 챙기세요.", "Competition arises. Focus on benefits."),
+            ("3월", "사람들과 어울리며 말실수 조심.", "Socializing increases. Watch your words."),
+            ("4월", "뜻밖의 재물이 들어옵니다. 꽁돈 운!", "Unexpected money or bonus comes in."),
+            ("5월", "아이디어가 샘솟습니다. 활동하기 최고입니다.", "Great ideas flow. Best time for action."),
+            ("6월", "몸이 열 개라도 모자랍니다. 건강 챙기세요.", "Extremely busy. Take care of health."),
             ("7월", "재물운이 안정적입니다. 저축하기 좋은 달.", "Financial stability. Good month to save."),
-            ("8월", "직장에서 스트레스를 받습니다. 참는 자에게 복이 옵니다.", "Stress at work. Patience brings luck."),
-            ("9월", "책임질 일이 늘어납니다. 완벽하게 처리하면 인정받습니다.", "Responsibilities grow. Success brings recognition."),
-            ("10월", "부동산이나 계약 관련 좋은 소식이 들립니다.", "Good news regarding real estate or contracts."),
+            ("8월", "직장 스트레스. 참는 자에게 복이 옵니다.", "Stress at work. Patience brings luck."),
+            ("9월", "책임질 일이 늘어납니다. 인정받는 시기.", "Responsibilities grow. Success brings recognition."),
+            ("10월", "부동산이나 계약 관련 좋은 소식.", "Good news regarding real estate or contracts."),
             ("11월", "윗사람의 도움으로 막힌 일이 뚫립니다.", "Help from superiors solves problems."),
-            ("12월", "공부나 자격증 취득에 행운이 따릅니다.", "Good luck with studies or certifications."),
-            ("1월", "친구가 돈을 빌려달라고 할 수 있습니다. 거절하세요.", "Friends may ask for money. Refuse politely.")
+            ("12월", "공부나 자격증 취득에 행운이 따릅니다.", "Good luck with studies or certifications.")
         ],
         "Fire": [
-            ("2월", "귀인이 나타나 나를 도와줍니다. 합격운이 좋습니다.", "Mentors appear. Good luck for exams."),
-            ("3월", "마음이 편안하고 문서 계약하기 좋은 달입니다.", "Peaceful mind. Good for signing contracts."),
-            ("4월", "자신감을 표현하면 돈이 됩니다. 능력을 인정받습니다.", "Express confidence to make money."),
-            ("5월", "친구들과 경쟁이 치열합니다. 지지 않으려다 다툼 주의.", "Fierce competition. Avoid arguments."),
-            ("6월", "고집을 부리면 손해를 봅니다. 주변과 협력하세요.", "Stubbornness leads to loss. Cooperate."),
+            ("1월", "스트레스성 두통 주의. 건강검진 필요.", "Watch out for stress. Get a checkup."),
+            ("2월", "귀인이 나타나 도와줍니다. 합격운 대길.", "Mentors appear. Good luck for exams."),
+            ("3월", "마음이 편안하고 계약하기 좋은 달입니다.", "Peaceful mind. Good for signing contracts."),
+            ("4월", "자신감을 표현하면 돈이 됩니다.", "Express confidence to make money."),
+            ("5월", "경쟁이 치열합니다. 다툼 주의.", "Fierce competition. Avoid arguments."),
+            ("6월", "고집을 부리면 손해를 봅니다. 협력하세요.", "Stubbornness leads to loss. Cooperate."),
             ("7월", "말 한마디로 천 냥 빚을 갚습니다. 영업운 최고.", "Your words have power. Great for sales."),
-            ("8월", "큰 돈이 들어올 기회입니다. 투자를 검토해보세요.", "Opportunity for big money. Consider investing."),
-            ("9월", "재물운이 폭발적입니다. 다만 지출도 큽니다.", "Explosive wealth luck, but high expenses."),
+            ("8월", "큰 돈이 들어올 기회입니다. 투자 검토.", "Opportunity for big money. Consider investing."),
+            ("9월", "재물운 폭발. 다만 지출도 큽니다.", "Explosive wealth luck, but high expenses."),
             ("10월", "성과에 대한 확실한 보상을 받습니다.", "Sure rewards for your performance."),
-            ("11월", "직장 상사의 압박이 심합니다. 휴식이 필요합니다.", "Pressure from bosses. Rest is needed."),
-            ("12월", "업무량이 많아지지만 명예는 올라갑니다.", "Workload increases, but honor rises."),
-            ("1월", "스트레스성 두통 주의. 건강검진을 받아보세요.", "Watch out for stress. Get a checkup.")
+            ("11월", "상사의 압박이 심합니다. 휴식 필요.", "Pressure from bosses. Rest is needed."),
+            ("12월", "업무량이 많아지지만 명예는 올라갑니다.", "Workload increases, but honor rises.")
         ],
         "Earth": [
-            ("2월", "명예운이 좋습니다. 승진이나 스카우트 제의가 옵니다.", "Honor rises. Promotion or scout offers."),
-            ("3월", "직장에서 능력을 인정받아 감투를 씁니다.", "Recognized at work, get a new title."),
+            ("1월", "직장 변동수. 신중하게 결정하세요.", "Job change possible. Decide carefully."),
+            ("2월", "명예운 상승. 승진이나 스카우트 제의.", "Honor rises. Promotion or scout offers."),
+            ("3월", "능력을 인정받아 감투를 씁니다.", "Recognized at work, get a new title."),
             ("4월", "친구들과 만나 돈 쓸 일이 많아집니다.", "Spending money with friends increases."),
-            ("5월", "공부하기 딱 좋은 시기입니다. 집중력이 좋아집니다.", "Perfect for study. Concentration improves."),
-            ("6월", "계약서에 도장 찍을 일이 생깁니다. 문서운 대길.", "Signing contracts. Great document luck."),
+            ("5월", "공부하기 딱 좋은 시기. 집중력 최고.", "Perfect for study. Concentration improves."),
+            ("6월", "계약서에 도장 찍을 일. 문서운 대길.", "Signing contracts. Great document luck."),
             ("7월", "동료와 협력하여 문제를 해결합니다.", "Solve problems with colleagues."),
-            ("8월", "새로운 취미나 창작 활동을 시작해보세요.", "Start a new hobby or creative activity."),
-            ("9월", "말주변이 좋아져서 인기가 많아집니다.", "Eloquence improves, popularity rises."),
-            ("10월", "생각지도 못한 용돈이나 수익이 생깁니다.", "Unexpected allowance or profit."),
-            ("11월", "큰 돈이 눈앞에 보이지만 욕심내면 낭패.", "Big money visible, but greed causes failure."),
-            ("12월", "사업 성과가 나타나는 시기입니다. 수금하세요.", "Business results appear. Collect payments."),
-            ("1월", "직장 변동수가 있습니다. 신중하게 결정하세요.", "Job change possible. Decide carefully.")
+            ("8월", "새로운 취미나 창작 활동 시작.", "Start a new hobby or creative activity."),
+            ("9월", "말주변이 좋아져 인기가 많아집니다.", "Eloquence improves, popularity rises."),
+            ("10월", "생각지도 못한 용돈이나 수익.", "Unexpected allowance or profit."),
+            ("11월", "큰 돈이 보이지만 욕심내면 낭패.", "Big money visible, but greed causes failure."),
+            ("12월", "사업 성과가 나타납니다. 수금하세요.", "Business results appear. Collect payments.")
         ],
         "Metal": [
-            ("2월", "노력한 만큼 통장에 돈이 쌓입니다. 성실함이 무기.", "Hard work pays off. Diligence is key."),
-            ("3월", "예상치 못한 보너스를 받을 수 있습니다.", "Unexpected bonus possible."),
-            ("4월", "문서 계약 시 꼼꼼히 확인하세요. 실수가 있을 수 있습니다.", "Check documents carefully. Mistakes possible."),
-            ("5월", "관재구설 주의. 나서지 말고 조용히 지내세요.", "Avoid disputes. Stay low profile."),
-            ("6월", "직장에서 스트레스가 극에 달합니다. 멘탈 관리 필수.", "Extreme work stress. Mental care needed."),
+            ("1월", "재물운이 좋습니다. 맛있는 것 드세요.", "Good financial luck. Treat yourself."),
+            ("2월", "노력한 만큼 돈이 쌓입니다. 성실함이 무기.", "Hard work pays off. Diligence is key."),
+            ("3월", "예상치 못한 보너스를 받습니다.", "Unexpected bonus possible."),
+            ("4월", "문서 계약 시 꼼꼼히 확인하세요.", "Check documents carefully."),
+            ("5월", "관재구설 주의. 조용히 지내세요.", "Avoid disputes. Stay low profile."),
+            ("6월", "직장 스트레스 최고조. 멘탈 관리.", "Extreme work stress. Mental care needed."),
             ("7월", "윗사람의 도움으로 위기를 넘깁니다.", "Help from superiors saves the day."),
-            ("8월", "주관이 뚜렷해지지만 고집으로 비칠 수 있습니다.", "Strong will, but may seem stubborn."),
+            ("8월", "주관이 뚜렷해지지만 고집으로 보일 수 있음.", "Strong will, but may seem stubborn."),
             ("9월", "경쟁심이 생겨 성과를 냅니다. 이기는 달.", "Competitive spirit leads to results."),
             ("10월", "나를 도와주는 귀인이 나타납니다.", "A helpful noble person appears."),
-            ("11월", "재능을 발휘하여 문제를 해결합니다. 박수받는 달.", "Solve problems with talent. Applause."),
-            ("12월", "말을 아끼세요. 말실수로 오해가 생깁니다.", "Save your words. Misunderstandings possible."),
-            ("1월", "재물운이 좋습니다. 맛있는 것을 사드세요.", "Good financial luck. Treat yourself.")
+            ("11월", "재능 발휘로 박수받는 달.", "Solve problems with talent. Applause."),
+            ("12월", "말을 아끼세요. 오해가 생깁니다.", "Save your words. Misunderstandings possible.")
         ],
         "Water": [
-            ("2월", "새로운 일을 기획하거나 시작하기 좋습니다.", "Great to plan or start new things."),
-            ("3월", "자녀에게 좋은 일이 있거나, 아랫사람 덕을 봅니다.", "Good news for children or help from juniors."),
-            ("4월", "직장에서 승진하거나 책임이 무거워집니다.", "Promotion or heavy responsibility at work."),
-            ("5월", "일확천금의 꿈을 꾸지만 위험합니다. 투기 금지.", "Dream of jackpot but risky. No speculation."),
-            ("6월", "재물운이 좋지만 나가는 돈도 만만치 않습니다.", "Good wealth luck but high expenses."),
-            ("7월", "명예가 올라가고 사람들이 나를 찾습니다.", "Honor rises, people seek you out."),
-            ("8월", "공부나 연구에 몰두하면 큰 성과가 있습니다.", "Focus on study/research brings results."),
-            ("9월", "자격증을 따거나 계약하기 좋은 달입니다.", "Good for certifications or contracts."),
-            ("10월", "나를 방해하는 경쟁자가 나타납니다.", "Competitors appear to hinder you."),
-            ("11월", "형제나 친구와 돈 문제로 다투지 마세요.", "Don't fight over money with friends."),
-            ("12월", "자존심이 강해져서 타인과 충돌 주의.", "High pride may cause conflicts."),
-            ("1월", "창의력이 폭발합니다. 예술 활동 대길.", "Creativity explodes. Great for arts.")
+            ("1월", "창의력이 폭발합니다. 예술 활동 대길.", "Creativity explodes. Great for arts."),
+            ("2월", "새로운 일을 기획하기 좋습니다.", "Great to plan or start new things."),
+            ("3월", "자녀 경사 혹은 아랫사람 덕을 봅니다.", "Good news for children or help from juniors."),
+            ("4월", "승진하거나 책임이 무거워집니다.", "Promotion or heavy responsibility at work."),
+            ("5월", "일확천금 꿈은 위험합니다. 투기 금지.", "Dream of jackpot but risky. No speculation."),
+            ("6월", "재물운 좋지만 지출도 큽니다.", "Good wealth luck but high expenses."),
+            ("7월", "명예가 올라가고 사람들이 찾습니다.", "Honor rises, people seek you out."),
+            ("8월", "공부나 연구에 몰두하면 큰 성과.", "Focus on study/research brings results."),
+            ("9월", "자격증을 따거나 계약하기 좋은 달.", "Good for certifications or contracts."),
+            ("10월", "방해하는 경쟁자가 나타납니다.", "Competitors appear to hinder you."),
+            ("11월", "친구와 돈 문제로 다투지 마세요.", "Don't fight over money with friends."),
+            ("12월", "자존심 때문에 충돌 주의.", "High pride may cause conflicts.")
         ]
     }
     
@@ -287,15 +288,15 @@ def get_monthly_forecast_unique(element, lang):
     
     for mon_ko, text_ko, text_en in months:
         msg = text_ko if lang == "ko" else text_en
-        # 점수 로직 (멘트 뉘앙스에 따라 자동 배정)
         score = "⭐⭐⭐"
         if "주의" in text_ko or "조심" in text_ko or "스트레스" in text_ko: score = "⭐⭐"
         if "최고" in text_ko or "대길" in text_ko or "폭발" in text_ko or "행운" in text_ko: score = "⭐⭐⭐⭐⭐"
         if "좋은" in text_ko or "이득" in text_ko: score = "⭐⭐⭐⭐"
         
+        # 날짜 포맷 (영어는 Jan, Feb...)
         month_label = mon_ko
         if lang != "ko":
-            month_map = {"2월":"Feb", "3월":"Mar", "4월":"Apr", "5월":"May", "6월":"Jun", "7월":"Jul", "8월":"Aug", "9월":"Sep", "10월":"Oct", "11월":"Nov", "12월":"Dec", "1월":"Jan"}
+            month_map = {"1월":"Jan", "2월":"Feb", "3월":"Mar", "4월":"Apr", "5월":"May", "6월":"Jun", "7월":"Jul", "8월":"Aug", "9월":"Sep", "10월":"Oct", "11월":"Nov", "12월":"Dec"}
             month_label = month_map.get(mon_ko, mon_ko)
             
         result.append({"Month": month_label, "Luck": score, "Advice": msg})
@@ -316,14 +317,20 @@ def main():
             "name": "이름", "btn": "운명 분석하기", 
             "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세", 
             "print": "🖨️ 리포트 인쇄하기",
-            "t_mon": "월 (Month)", "t_sco": "운세 점수", "t_adv": "상세 조언"
+            "t_mon": "월 (Month)", 
+            "t_sco": "운세 점수 (5점 만점)", 
+            "t_adv": "상세 조언",
+            "legend": "※ 별점 기준: ⭐⭐⭐⭐⭐ (최고) ~ ⭐ (주의)"
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
             "name": "Name", "btn": "Analyze Destiny", 
             "tab1": "Personality", "tab2": "2026 Forecast", 
             "print": "🖨️ Print Report",
-            "t_mon": "Month", "t_sco": "Luck Score", "t_adv": "Detailed Advice"
+            "t_mon": "Month", 
+            "t_sco": "Luck Score (Max 5)", 
+            "t_adv": "Detailed Advice",
+            "legend": "※ Scale: ⭐⭐⭐⭐⭐ (Best) ~ ⭐ (Caution)"
         }
     }
     txt = ui[lang]
@@ -336,61 +343,68 @@ def main():
     with c2: b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=date(1990,1,1))
     with c3: b_time = st.time_input("Time of Birth", value=None)
 
-    # 결과 화면
+    # 상태 유지 로직
+    if "analyzed" not in st.session_state:
+        st.session_state["analyzed"] = False
+
     if st.button(txt['btn'], use_container_width=True):
         if name:
-            day_info = calculate_day_gan(b_date)
-            element_type = day_info['element']
-            trait, forecast = get_interpretation(element_type, lang)
-            
-            # --- 탭 구성 ---
-            tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
-            
-            with tab1: # 성격
-                st.markdown(f"""
-                <div class='card'>
-                    <h3 style='color: #64748b;'>👋 {name}</h3>
-                    <h1 style='color: #4f46e5; margin: 10px 0;'>{day_info[lang]}</h1>
-                    <hr>
-                    <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with tab2: # 2026 운세
-                # 1. 총평
-                st.markdown(f"""
-                <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
-                    <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
-                    <p style='font-size:1.1em;'>{forecast['gen']}</p>
-                    <ul style='margin-top:10px;'>
-                        <li><b>💰 Wealth:</b> {forecast['money']}</li>
-                        <li><b>❤️ Love:</b> {forecast['love']}</li>
-                    </ul>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # 2. 월별 상세 운세 (중복 없음)
-                st.subheader(f"📅 2026 {txt['t_adv']}")
-                
-                raw_data = get_monthly_forecast_unique(element_type, lang)
-                
-                table_data = []
-                for row in raw_data:
-                    table_data.append({
-                        txt['t_mon']: row['Month'], 
-                        txt['t_sco']: row['Luck'], 
-                        txt['t_adv']: row['Advice']
-                    })
-                
-                st.table(pd.DataFrame(table_data))
-            
-            # 🛑 확실한 인쇄 버튼 (여기에 위치해야 클릭 후 사라지지 않음)
-            st.write("---")
-            if st.button(txt['print'], key="print_btn_action"):
-                 components.html(f"<script>window.print();</script>", height=0, width=0)
-
+            st.session_state["analyzed"] = True
         else:
             st.warning("Please enter your name.")
+
+    if st.session_state["analyzed"]:
+        day_info = calculate_day_gan(b_date)
+        element_type = day_info['element']
+        trait, forecast = get_interpretation(element_type, lang)
+        
+        tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
+        
+        with tab1:
+            st.markdown(f"""
+            <div class='card'>
+                <h3 style='color: #64748b;'>👋 {name}</h3>
+                <h1 style='color: #4f46e5; margin: 10px 0;'>{day_info[lang]}</h1>
+                <hr>
+                <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with tab2:
+            st.markdown(f"""
+            <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
+                <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
+                <p style='font-size:1.1em;'>{forecast['gen']}</p>
+                <ul style='margin-top:10px;'>
+                    <li><b>💰 Wealth:</b> {forecast['money']}</li>
+                    <li><b>❤️ Love:</b> {forecast['love']}</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.subheader(f"📅 2026 {txt['t_adv']}")
+            st.caption(txt['legend'])
+            
+            raw_data = get_monthly_forecast_unique(element_type, lang)
+            
+            table_data = []
+            for row in raw_data:
+                table_data.append({
+                    txt['t_mon']: row['Month'], 
+                    txt['t_sco']: row['Luck'], 
+                    txt['t_adv']: row['Advice']
+                })
+            
+            # --- 숫자 인덱스 제거 로직 ---
+            df = pd.DataFrame(table_data)
+            # 1. Index를 '월' 컬럼으로 지정하여 0,1,2 숫자 제거
+            df = df.set_index(txt['t_mon'])
+            # 2. Table 출력
+            st.table(df)
+
+        st.write("---")
+        if st.button(txt['print'], key="final_print"):
+            components.html("<script>window.print();</script>", height=0, width=0)
 
 if __name__ == "__main__":
     main()
