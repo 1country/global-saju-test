@@ -380,9 +380,14 @@ def main():
                 df = df.set_index(txt['t_mon'])
                 st.table(df)
                 
-                # ★ 여기에 버튼 부활! (이 버튼은 종이엔 안 나옵니다)
+               # ✅ 인쇄 트리거 버튼 (이게 핵심!)
                 st.write("---")
                 if st.button(txt['print_btn_label'], type="primary"):
+                    st.markdown("""
+                        <script>
+                            window.print();
+                        </script>
+                    """, unsafe_allow_html=True)
                     
 
         # ------------------------------------------------
