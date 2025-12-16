@@ -1,65 +1,71 @@
 import streamlit as st
-# ----------------------------------------------------------------
-# [인쇄 스타일 설정] (빈 페이지 방지 코드)
-# ----------------------------------------------------------------
-st.markdown("""
-    <style>
-        @media print {
-            /* 1. 사이드바, 헤더, 버튼 등 불필요한 요소 숨기기 */
-            [data-testid="stSidebar"], header, footer, .stButton, button {
-                display: none !important;
-            }
-            /* 2. 본문 내용이 잘리지 않고 다 나오게 설정 */
-            .stApp, [data-testid="stAppViewContainer"], .main {
-                overflow: visible !important;
-                height: auto !important;
-                display: block !important;
-            }
-            /* 3. 배경색 흰색, 글자색 검정으로 강제 통일 */
-            body, .stApp {
-                background-color: white !important;
-                color: black !important;
-            }
-        }
-    </style>
-""", unsafe_allow_html=True)
 import pandas as pd
 import streamlit.components.v1 as components
 from datetime import datetime, date
 
+# 🔑 잠금 해제 비밀번호 (테스트할 때 이 코드를 넣으세요!)
 UNLOCK_CODE = "2026RICH"
 
 # --- 1. 페이지 설정 ---
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
-# 스타일 (CSS) - 인쇄 최적화 및 디자인
+# ----------------------------------------------------------------
+# [통합 스타일 설정] (인쇄 문제 완벽 해결 버전)
+# ----------------------------------------------------------------
 st.markdown("""
-<style>
-    .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
-    .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
-    .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
-    .highlight {color: #4f46e5; font-weight: bold;}
-    
-    /* 인쇄 버튼 스타일 */
-    div.stButton > button {
-        background-color: #4f46e5; color: white; border: none; padding: 10px 20px; 
-        border-radius: 8px; font-weight: bold; width: 100%; margin-top: 10px;
-    }
-    div.stButton > button:hover {background-color: #4338ca;}
-
-    /* 🖨️ 인쇄 모드 (종이 출력 시 적용) */
-    @media print {
-        body * { visibility: hidden; }
-        .card, .card * { visibility: visible; }
-        .card {
-            position: absolute; left: 0; top: 0; width: 100%;
-            margin: 0; padding: 20px;
-            background-color: white !important; color: black !important;
-            border: none !important; box-shadow: none !important;
+    <style>
+        /* 1. 기본 디자인 */
+        .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
+        .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
+        .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
+        .highlight {color: #4f46e5; font-weight: bold;}
+        
+        /* 2. 인쇄 버튼 스타일 */
+        div.stButton > button {
+            background-color: #4f46e5; color: white; border: none; padding: 10px 20px; 
+            border-radius: 8px; font-weight: bold; width: 100%; margin-top: 10px;
         }
-        [data-testid="stSidebar"], [data-testid="stHeader"], .stButton, footer { display: none !important; }
-    }
-</style>
+        div.stButton > button:hover {background-color: #4338ca;}
+
+        /* 3. 🖨️ 인쇄 전용 스타일 (여기가 핵심!) */
+        @media print {
+            /* (1) 방해꾼들 숨기기: 사이드바, 헤더, 버튼, 푸터 등 */
+            [data-testid="stSidebar"], 
+            header, 
+            footer, 
+            .stDeployButton,
+            [data-testid="stHeader"],
+            .stButton, 
+            button,
+            .no-print {
+                display: none !important;
+            }
+
+            /* (2) 본문 내용 강제 표시 */
+            .stApp, [data-testid="stAppViewContainer"], .main, .block-container {
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* (3) 카드 디자인 유지 */
+            .card {
+                break-inside: avoid; /* 카드가 페이지 중간에 짤리지 않게 함 */
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                margin-bottom: 20px !important;
+            }
+            
+            /* (4) 글자색 검정으로 통일 */
+            body {
+                color: black !important;
+                background-color: white !important;
+            }
+        }
+    </style>
 """, unsafe_allow_html=True)
 
 # --- 2. 만세력 엔진 (일주 계산) ---
@@ -86,128 +92,20 @@ def calculate_day_gan(birth_date):
 def get_interpretation(element, lang):
     # 한국어 상세 데이터
     traits_ko = {
-        "Wood": """#### 🌲 총론: 곧게 뻗는 성장의 아이콘
-당신은 뚫고 나가는 힘이 강한 '개척자'입니다. 인정이 많고 착하지만, 한번 고집을 피우면 아무도 못 말립니다. 남의 밑에 있기보다 내가 대장이 되어야 직성이 풀리는 스타일입니다.
-
-#### 💰 재물운: 차곡차곡 쌓는 거목
-요행을 바라기보다 자신의 노력으로 정직하게 부를 축적합니다. 처음에는 느려 보여도 시간이 갈수록 뿌리가 깊어져 말년에는 큰 부자가 될 그릇입니다.
-
-#### 💼 직장/사업운: 기획과 교육의 리더
-새로운 일을 기획하거나 사람을 가르치는 일이 천직입니다. (교육, 건축, 디자인, 스타트업). 융통성만 조금 더한다면 조직의 최고 자리에 오를 수 있습니다.
-
-#### ❤️ 연애운: 내 사람은 내가 지킨다
-연애할 때도 리드하는 것을 좋아합니다. 상대방을 책임지려는 마음이 강합니다. 다만 가끔은 상대방의 의견을 굽혀주는 부드러움이 필요합니다.""",
-
-        "Fire": """#### 🔥 총론: 세상을 밝히는 열정의 태양
-당신은 에너지가 넘치고 솔직한 '비전가'입니다. 예의가 바르고 화끈해서 주변에 사람이 끊이지 않습니다. 비밀이 없고 감정이 얼굴에 다 드러나는 투명한 사람입니다.
-
-#### 💰 재물운: 화려하지만 관리가 필요해
-돈을 버는 능력은 탁월하나, 쓰는 씀씀이도 큽니다. 기분에 따라 한턱내는 것을 좋아해 돈이 모이기 힘들 수 있습니다. 통장 관리를 꼼꼼히 해야 부자가 됩니다.
-
-#### 💼 직장/사업운: 무대 체질, 말로 먹고산다
-자신을 드러내는 일이 맞습니다. (방송, 예술, 영업, 정치, 유튜버). 반복적이고 지루한 사무직보다는 변화가 많은 곳에서 능력을 발휘합니다.
-
-#### ❤️ 연애운: 금방 뜨거워지는 사랑
-첫눈에 반하는 금사빠 기질이 있습니다. 열정적인 사랑을 하지만 빨리 식을 수도 있습니다. 밀당보다는 직설적인 고백이 통하는 스타일입니다.""",
-
-        "Earth": """#### ⛰️ 총론: 묵직한 신용의 수호자
-당신은 모든 것을 품어주는 넓은 땅입니다. 입이 무겁고 신용을 목숨처럼 아낍니다. 속마음을 잘 드러내지 않아 답답해 보일 수 있지만, 한번 믿은 사람은 끝까지 배신하지 않습니다.
-
-#### 💰 재물운: 부동산이 최고의 파트너
-현금보다는 땅이나 건물 같은 '문서' 형태의 재산이 잘 맞습니다. 묵묵히 저축하고 지키는 능력이 뛰어나 알부자가 많습니다.
-
-#### 💼 직장/사업운: 중간 관리자와 중개자
-사람과 사람 사이를 연결하거나 갈등을 중재하는 능력이 탁월합니다. (부동산, 컨설팅, 농업, 종교). 변화가 적고 안정적인 조직에서 빛을 발합니다.
-
-#### ❤️ 연애운: 은근하고 오래가는 뚝배기
-표현이 서툴러 재미없다는 소리를 들을 수 있지만, 한결같은 해바라기입니다. 화려한 이벤트보다 진심 어린 믿음을 주는 연애를 선호합니다.""",
-
-        "Metal": """#### ⚔️ 총론: 결단력 있는 정의의 사도
-당신은 맺고 끊음이 확실한 '장군'감입니다. 의리를 중요시하고 불의를 보면 참지 못합니다. 차가워 보이지만 내 사람에게는 확실하게 정을 주는 '츤데레' 매력이 있습니다.
-
-#### 💰 재물운: 확실한 결과와 성과
-일한 만큼 확실하게 보상받아야 직성이 풀립니다. 승부욕이 강해 경쟁을 통해 남보다 더 많은 부를 쟁취해냅니다.
-
-#### 💼 직장/사업운: 권력과 기술의 조화
-원칙이 중요한 분야가 어울립니다. (군인, 경찰, 금융, 엔지니어, 의료). 흐지부지한 것을 싫어해 리더가 되면 카리스마 있게 조직을 이끕니다.
-
-#### ❤️ 연애운: 확실한 내 편 만들기
-좋고 싫음이 분명합니다. 질질 끄는 썸을 싫어하고 확실한 관계 정립을 원합니다. 한번 마음을 주면 변치 않는 의리 있는 사랑을 합니다.""",
-
-        "Water": """#### 🌊 총론: 유연한 지혜의 전략가
-당신은 어디든 흐르는 물처럼 적응력이 뛰어납니다. 머리가 비상하고 기획력이 좋으며, 겉으로는 부드러워 보이나 속은 깊고 냉철합니다.
-
-#### 💰 재물운: 흐름을 읽는 투자의 귀재
-돈의 흐름을 본능적으로 읽어냅니다. 유통, 무역, 투자 등 돈이 도는 길목을 지키면 큰돈을 만집니다. 해외와 인연이 깊습니다.
-
-#### 💼 직장/사업운: 두뇌 플레이어
-몸을 쓰는 일보다 머리를 쓰는 일이 맞습니다. (기획, 연구, 무역, 심리 상담). 남들이 보지 못하는 틈새시장을 찾아내는 눈이 있습니다.
-
-#### ❤️ 연애운: 매력적인 미스터리
-상대방의 마음을 잘 맞춰주는 배려심이 있습니다. 하지만 자신의 속은 다 보여주지 않아 신비로운 매력을 풍깁니다. 집착보다는 자유로운 연애를 지향합니다."""
+        "Wood": """#### 🌲 총론: 곧게 뻗는 성장의 아이콘\n당신은 뚫고 나가는 힘이 강한 '개척자'입니다. 인정이 많고 착하지만, 한번 고집을 피우면 아무도 못 말립니다. 남의 밑에 있기보다 내가 대장이 되어야 직성이 풀리는 스타일입니다.\n\n#### 💰 재물운: 차곡차곡 쌓는 거목\n요행을 바라기보다 자신의 노력으로 정직하게 부를 축적합니다. 처음에는 느려 보여도 시간이 갈수록 뿌리가 깊어져 말년에는 큰 부자가 될 그릇입니다.\n\n#### 💼 직장/사업운: 기획과 교육의 리더\n새로운 일을 기획하거나 사람을 가르치는 일이 천직입니다. (교육, 건축, 디자인, 스타트업). 융통성만 조금 더한다면 조직의 최고 자리에 오를 수 있습니다.\n\n#### ❤️ 연애운: 내 사람은 내가 지킨다\n연애할 때도 리드하는 것을 좋아합니다. 상대방을 책임지려는 마음이 강합니다. 다만 가끔은 상대방의 의견을 굽혀주는 부드러움이 필요합니다.""",
+        "Fire": """#### 🔥 총론: 세상을 밝히는 열정의 태양\n당신은 에너지가 넘치고 솔직한 '비전가'입니다. 예의가 바르고 화끈해서 주변에 사람이 끊이지 않습니다. 비밀이 없고 감정이 얼굴에 다 드러나는 투명한 사람입니다.\n\n#### 💰 재물운: 화려하지만 관리가 필요해\n돈을 버는 능력은 탁월하나, 쓰는 씀씀이도 큽니다. 기분에 따라 한턱내는 것을 좋아해 돈이 모이기 힘들 수 있습니다. 통장 관리를 꼼꼼히 해야 부자가 됩니다.\n\n#### 💼 직장/사업운: 무대 체질, 말로 먹고산다\n자신을 드러내는 일이 맞습니다. (방송, 예술, 영업, 정치, 유튜버). 반복적이고 지루한 사무직보다는 변화가 많은 곳에서 능력을 발휘합니다.\n\n#### ❤️ 연애운: 금방 뜨거워지는 사랑\n첫눈에 반하는 금사빠 기질이 있습니다. 열정적인 사랑을 하지만 빨리 식을 수도 있습니다. 밀당보다는 직설적인 고백이 통하는 스타일입니다.""",
+        "Earth": """#### ⛰️ 총론: 묵직한 신용의 수호자\n당신은 모든 것을 품어주는 넓은 땅입니다. 입이 무겁고 신용을 목숨처럼 아낍니다. 속마음을 잘 드러내지 않아 답답해 보일 수 있지만, 한번 믿은 사람은 끝까지 배신하지 않습니다.\n\n#### 💰 재물운: 부동산이 최고의 파트너\n현금보다는 땅이나 건물 같은 '문서' 형태의 재산이 잘 맞습니다. 묵묵히 저축하고 지키는 능력이 뛰어나 알부자가 많습니다.\n\n#### 💼 직장/사업운: 중간 관리자와 중개자\n사람과 사람 사이를 연결하거나 갈등을 중재하는 능력이 탁월합니다. (부동산, 컨설팅, 농업, 종교). 변화가 적고 안정적인 조직에서 빛을 발합니다.\n\n#### ❤️ 연애운: 은근하고 오래가는 뚝배기\n표현이 서툴러 재미없다는 소리를 들을 수 있지만, 한결같은 해바라기입니다. 화려한 이벤트보다 진심 어린 믿음을 주는 연애를 선호합니다.""",
+        "Metal": """#### ⚔️ 총론: 결단력 있는 정의의 사도\n당신은 맺고 끊음이 확실한 '장군'감입니다. 의리를 중요시하고 불의를 보면 참지 못합니다. 차가워 보이지만 내 사람에게는 확실하게 정을 주는 '츤데레' 매력이 있습니다.\n\n#### 💰 재물운: 확실한 결과와 성과\n일한 만큼 확실하게 보상받아야 직성이 풀립니다. 승부욕이 강해 경쟁을 통해 남보다 더 많은 부를 쟁취해냅니다.\n\n#### 💼 직장/사업운: 권력과 기술의 조화\n원칙이 중요한 분야가 어울립니다. (군인, 경찰, 금융, 엔지니어, 의료). 흐지부지한 것을 싫어해 리더가 되면 카리스마 있게 조직을 이끕니다.\n\n#### ❤️ 연애운: 확실한 내 편 만들기\n좋고 싫음이 분명합니다. 질질 끄는 썸을 싫어하고 확실한 관계 정립을 원합니다. 한번 마음을 주면 변치 않는 의리 있는 사랑을 합니다.""",
+        "Water": """#### 🌊 총론: 유연한 지혜의 전략가\n당신은 어디든 흐르는 물처럼 적응력이 뛰어납니다. 머리가 비상하고 기획력이 좋으며, 겉으로는 부드러워 보이나 속은 깊고 냉철합니다.\n\n#### 💰 재물운: 흐름을 읽는 투자의 귀재\n돈의 흐름을 본능적으로 읽어냅니다. 유통, 무역, 투자 등 돈이 도는 길목을 지키면 큰돈을 만집니다. 해외와 인연이 깊습니다.\n\n#### 💼 직장/사업운: 두뇌 플레이어\n몸을 쓰는 일보다 머리를 쓰는 일이 맞습니다. (기획, 연구, 무역, 심리 상담). 남들이 보지 못하는 틈새시장을 찾아내는 눈이 있습니다.\n\n#### ❤️ 연애운: 매력적인 미스터리\n상대방의 마음을 잘 맞춰주는 배려심이 있습니다. 하지만 자신의 속은 다 보여주지 않아 신비로운 매력을 풍깁니다. 집착보다는 자유로운 연애를 지향합니다."""
     }
 
     # 영어 상세 데이터
     traits_en = {
-        "Wood": """#### 🌲 General: The Icon of Growth
-You are a 'Pioneer' with strong drive. You are benevolent but stubborn. You prefer to lead rather than follow.
-
-#### 💰 Wealth: Steady Accumulation
-You build wealth through honest effort rather than luck. Like a tree, your assets grow larger and deeper over time.
-
-#### 💼 Career: Planner & Educator
-You excel in planning or teaching. (Education, Design, Startups). You can reach the top if you learn to be a bit more flexible.
-
-#### ❤️ Love: Protective Leader
-You like to lead in relationships. You have a strong desire to protect your partner. Try to listen more to your partner's opinions.""",
-
-        "Fire": """#### 🔥 General: Passionate Visionary
-You are like the sun—energetic and honest. You are polite and transparent; your emotions show clearly on your face.
-
-#### 💰 Wealth: High Flow
-You are great at making money but also great at spending it. You need to manage your expenses carefully to build true wealth.
-
-#### 💼 Career: Born for the Stage
-You shine in jobs where you can express yourself. (Arts, Media, Sales, Politics). You thrive in dynamic environments.
-
-#### ❤️ Love: Hot & Fast
-You fall in love quickly and passionately. You prefer direct confessions over playing hard-to-get.""",
-
-        "Earth": """#### ⛰️ General: Guardian of Trust
-You are steady like a mountain. You value trust above all else. You don't reveal your feelings easily, but you never betray a friend.
-
-#### 💰 Wealth: Real Estate Expert
-Assets like land or buildings suit you better than cash. You have a talent for saving and protecting your wealth.
-
-#### 💼 Career: Mediator & Manager
-You excel at connecting people or resolving conflicts. (Real Estate, Consulting, Religion). You shine in stable organizations.
-
-#### ❤️ Love: Steady Sunflower
-You might seem quiet, but your love is unchanging. You prefer sincere trust over flashy events.""",
-
-        "Metal": """#### ⚔️ General: Decisive Warrior
-You value justice and loyalty. You are decisive and hate ambiguity. You have a 'tough on the outside, soft on the inside' charm.
-
-#### 💰 Wealth: Result-Oriented
-You want clear rewards for your work. Your competitive spirit helps you earn more than others.
-
-#### 💼 Career: Power & Tech
-You suit fields where principles matter. (Finance, Engineering, Military, Medicine). You are a charismatic leader.
-
-#### ❤️ Love: Clear Boundaries
-You dislike ambiguous relationships. Once you commit, you offer a loyal and responsible love.""",
-
-        "Water": """#### 🌊 General: Wise Strategist
-You are adaptable like water. You are incredibly smart and a deep thinker. You appear soft, but your mind is sharp.
-
-#### 💰 Wealth: Master of Flow
-You instinctively read the flow of money. You can succeed in trade, investment, or distribution.
-
-#### 💼 Career: Brain Player
-You excel in intellectual fields. (Planning, Research, Trade, Psychology). You can find niche markets others miss.
-
-#### ❤️ Love: Mysterious Charisma
-You are caring and adaptable, but you keep a secret side. This mystery makes you attractive to others."""
+        "Wood": """#### 🌲 General: The Icon of Growth\nYou are a 'Pioneer' with strong drive. You are benevolent but stubborn. You prefer to lead rather than follow.\n\n#### 💰 Wealth: Steady Accumulation\nYou build wealth through honest effort rather than luck. Like a tree, your assets grow larger and deeper over time.\n\n#### 💼 Career: Planner & Educator\nYou excel in planning or teaching. (Education, Design, Startups). You can reach the top if you learn to be a bit more flexible.\n\n#### ❤️ Love: Protective Leader\nYou like to lead in relationships. You have a strong desire to protect your partner. Try to listen more to your partner's opinions.""",
+        "Fire": """#### 🔥 General: Passionate Visionary\nYou are like the sun—energetic and honest. You are polite and transparent; your emotions show clearly on your face.\n\n#### 💰 Wealth: High Flow\nYou are great at making money but also great at spending it. You need to manage your expenses carefully to build true wealth.\n\n#### 💼 Career: Born for the Stage\nYou shine in jobs where you can express yourself. (Arts, Media, Sales, Politics). You thrive in dynamic environments.\n\n#### ❤️ Love: Hot & Fast\nYou fall in love quickly and passionately. You prefer direct confessions over playing hard-to-get.""",
+        "Earth": """#### ⛰️ General: Guardian of Trust\nYou are steady like a mountain. You value trust above all else. You don't reveal your feelings easily, but you never betray a friend.\n\n#### 💰 Wealth: Real Estate Expert\nAssets like land or buildings suit you better than cash. You have a talent for saving and protecting your wealth.\n\n#### 💼 Career: Mediator & Manager\nYou excel at connecting people or resolving conflicts. (Real Estate, Consulting, Religion). You shine in stable organizations.\n\n#### ❤️ Love: Steady Sunflower\nYou might seem quiet, but your love is unchanging. You prefer sincere trust over flashy events.""",
+        "Metal": """#### ⚔️ General: Decisive Warrior\nYou value justice and loyalty. You are decisive and hate ambiguity. You have a 'tough on the outside, soft on the inside' charm.\n\n#### 💰 Wealth: Result-Oriented\nYou want clear rewards for your work. Your competitive spirit helps you earn more than others.\n\n#### 💼 Career: Power & Tech\nYou suit fields where principles matter. (Finance, Engineering, Military, Medicine). You are a charismatic leader.\n\n#### ❤️ Love: Clear Boundaries\nYou dislike ambiguous relationships. Once you commit, you offer a loyal and responsible love.""",
+        "Water": """#### 🌊 General: Wise Strategist\nYou are adaptable like water. You are incredibly smart and a deep thinker. You appear soft, but your mind is sharp.\n\n#### 💰 Wealth: Master of Flow\nYou instinctively read the flow of money. You can succeed in trade, investment, or distribution.\n\n#### 💼 Career: Brain Player\nYou excel in intellectual fields. (Planning, Research, Trade, Psychology). You can find niche markets others miss.\n\n#### ❤️ Love: Mysterious Charisma\nYou are caring and adaptable, but you keep a secret side. This mystery makes you attractive to others."""
     }
 
     # 2026 총평
@@ -333,16 +231,20 @@ def get_monthly_forecast_unique(element, lang):
 def main():
     with st.sidebar:
         st.title("Settings")
+        # 1. 언어 선택 버튼
         lang_opt = st.radio("Language", ["한국어", "English"])
+        
+        # 2. 언어 변수 설정 (en 또는 ko)
         lang = "ko" if "Korean" in lang_opt else "en"
+        
         st.info("💡 **Tip:** Click 'Print Report' to save as PDF.")
+        
         # ----------------------------------------------------
-        # [커피 후원 버튼] (위치 변경: 여기로 옮기세요!)
+        # [커피 후원 버튼] (만능 언어 감지 적용)
         # ----------------------------------------------------
         coffee_head = "☕ 개발자 응원하기"
         coffee_msg = "운명의 코드를 응원해 주세요! ☕"
 
-        # 선생님 코드의 변수 'lang'이 'en'일 때만 영어로 변경
         if lang == 'en':
             coffee_head = "☕ Support the Developer"
             coffee_msg = "Fuel the destiny code with a coffee! ☕"
@@ -361,8 +263,6 @@ def main():
                 </p>
             </div>
         """, unsafe_allow_html=True)
-
-    
 
     
     ui = {
@@ -436,7 +336,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        # [수정] with tab2: 내부를 아래 코드로 싹 교체하세요.
         with tab2:
             # 0. 잠금 상태 확인을 위한 변수 초기화
             if "is_unlocked" not in st.session_state:
@@ -455,11 +354,11 @@ def main():
                 c_pay1, c_pay2 = st.columns(2)
                 # 선생님의 실제 링크로 바꿔주세요!
                 if lang == "ko":
-                    with c_pay1: st.link_button("💛 카카오페이 송금", "https://qr.kakaopay.com/본인QR코드")
-                    with c_pay2: st.link_button("💙 토스 익명 송금", "https://toss.me/본인아이디")
+                    with c_pay1: st.link_button("💛 카카오페이 송금", "https://buymeacoffee.com/5codes")
+                    with c_pay2: st.link_button("💙 토스 익명 송금", "https://buymeacoffee.com/5codes")
                 else:
-                    with c_pay1: st.link_button("☕ Buy Me a Coffee", "https://www.buymeacoffee.com/본인아이디")
-                    with c_pay2: st.link_button("🅿️ PayPal", "https://paypal.me/본인아이디")
+                    with c_pay1: st.link_button("☕ Buy Me a Coffee", "https://buymeacoffee.com/5codes")
+                    with c_pay2: st.link_button("🅿️ PayPal", "https://buymeacoffee.com/5codes")
                 
                 st.write("---")
                 
@@ -510,5 +409,6 @@ def main():
                 st.write("---")
                 if st.button(txt['print'], key="final_print"):
                     components.html("<script>window.print();</script>", height=0, width=0)
+
 if __name__ == "__main__":
     main()
