@@ -312,7 +312,35 @@ def main():
         lang_opt = st.radio("Language", ["한국어", "English"])
         lang = "ko" if "Korean" in lang_opt else "en"
         st.info("💡 **Tip:** Click 'Print Report' to save as PDF.")
+        # ----------------------------------------------------
+        # [커피 후원 버튼] (위치 변경: 여기로 옮기세요!)
+        # ----------------------------------------------------
+        coffee_head = "☕ 개발자 응원하기"
+        coffee_msg = "운명의 코드를 응원해 주세요! ☕"
 
+        # 선생님 코드의 변수 'lang'이 'en'일 때만 영어로 변경
+        if lang == 'en':
+            coffee_head = "☕ Support the Developer"
+            coffee_msg = "Fuel the destiny code with a coffee! ☕"
+
+        st.sidebar.markdown("---")
+        st.sidebar.header(coffee_head)
+        st.sidebar.markdown(f"""
+            <div style="text-align: center;">
+                <a href="https://buymeacoffee.com/5codes" target="_blank">
+                    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+                        alt="Buy Me A Coffee" 
+                        style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
+                </a>
+                <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
+                    {coffee_msg}
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+
+    
+
+    
     ui = {
         "ko": {
             "title": "디 엘리먼트: 사주 프로", "sub": "당신의 운명 지도와 2026년 정밀 분석", 
@@ -460,43 +488,3 @@ def main():
                     components.html("<script>window.print();</script>", height=0, width=0)
 if __name__ == "__main__":
     main()
-# ----------------------------------------------------------------
-# [스마트 커피 후원 버튼] (최종 수정 버전)
-# ----------------------------------------------------------------
-# 1. 기본 멘트 (한국어)
-coffee_header = "☕ 개발자 응원하기"
-coffee_text = "운명의 코드를 응원해 주세요! ☕"
-
-# 2. 언어 감지 로직 (변수명이 en, lang, language 무엇이든 다 찾아냅니다)
-is_english = False
-
-# 변수 이름이 'en' 이고, 값이 'English' 일 때
-if 'en' in locals() and (en == 'English' or en == 'en'):
-    is_english = True
-# 변수 이름이 'lang' 이고, 값이 'English' 일 때
-elif 'lang' in locals() and (lang == 'English' or lang == 'en'):
-    is_english = True
-# 변수 이름이 'language' 이고, 값이 'English' 일 때
-elif 'language' in locals() and (language == 'English' or language == 'en'):
-    is_english = True
-
-# 3. 영어라면 멘트 변경
-if is_english:
-    coffee_header = "☕ Support the Developer"
-    coffee_text = "Fuel the destiny code with a coffee! ☕"
-
-# 4. 화면 표시
-st.sidebar.markdown("---")
-st.sidebar.header(coffee_header)
-st.sidebar.markdown(f"""
-    <div style="text-align: center;">
-        <a href="https://buymeacoffee.com/5codes" target="_blank">
-            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-                 alt="Buy Me A Coffee" 
-                 style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
-        </a>
-        <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
-            {coffee_text}
-        </p>
-    </div>
-""", unsafe_allow_html=True)
