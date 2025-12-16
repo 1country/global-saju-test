@@ -461,11 +461,22 @@ def main():
 if __name__ == "__main__":
     main()
 # ----------------------------------------------------------------
-# [커피 후원 버튼 추가]
+# [스마트 커피 후원 버튼] (언어 자동 감지)
 # ----------------------------------------------------------------
-st.sidebar.markdown("---") # 사이드바 구분선
-st.sidebar.header("☕ 개발자 응원하기")
-st.sidebar.markdown("""
+# 1. 언어에 따라 멘트 설정 (기본값: 한국어)
+coffee_header = "☕ 개발자 응원하기"
+coffee_text = "운명의 코드를 응원해 주세요! ☕"
+
+# 2. 만약 언어가 'English'라면 영어 멘트로 변경
+# (혹시 선생님 코드의 언어 변수명이 'lang'이나 'selected_lang'이라면 아래 'language'를 그걸로 바꿔주세요)
+if 'language' in locals() and language == 'English':
+    coffee_header = "☕ Support the Developer"
+    coffee_text = "Fuel the destiny code with a coffee! ☕"
+
+# 3. 화면에 표시 (변수 적용)
+st.sidebar.markdown("---")
+st.sidebar.header(coffee_header)
+st.sidebar.markdown(f"""
     <div style="text-align: center;">
         <a href="https://buymeacoffee.com/5codes" target="_blank">
             <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
@@ -473,7 +484,7 @@ st.sidebar.markdown("""
                  style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
         </a>
         <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
-            운명의 코드를 응원해 주세요! ☕
+            {coffee_text}
         </p>
     </div>
 """, unsafe_allow_html=True)
