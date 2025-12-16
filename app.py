@@ -227,8 +227,7 @@ def main():
         st.title("Settings")
         
         # 1. 언어 선택
-        lang_opt = st.radio("Language", ["한국어", "English"])
-        
+        lang_opt = st.radio("Language", ["English", "한국어"])        
         # 🔴 [여기가 문제였습니다!] "Korean"을 "한국어"로 수정했습니다.
         lang = "ko" if "한국어" in lang_opt else "en"
         
