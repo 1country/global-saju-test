@@ -221,20 +221,23 @@ def get_monthly_forecast_unique(element, lang):
         
     return result
 
-# --- 5. 메인 실행 (인쇄 모드 탑재 & 영어 기본 설정) ---
+# --- 5. 메인 실행 (기억력 보강 & 인쇄 모드) ---
 def main():
+    # 0. 세션 상태 초기화 (컴퓨터에게 기억력 심어주기)
+    if "saved_name" not in st.session_state: st.session_state["saved_name"] = ""
+    if "saved_date" not in st.session_state: st.session_state["saved_date"] = date(1990, 1, 1)
+    if "saved_time" not in st.session_state: st.session_state["saved_time"] = None
+
     with st.sidebar:
         st.title("Settings")
         
-        # 1. 언어 선택 (영어가 먼저 나오도록 순서 변경 완료!)
+        # 1. 언어 선택
         lang_opt = st.radio("Language", ["English", "한국어"])
         lang = "ko" if "한국어" in lang_opt else "en"
         
-        # 2. ★ 인쇄 모드 스위치 (이걸 체크하면 탭이 사라집니다!)
+        # 2. ★ 인쇄 모드 스위치
         st.write("---")
-        print_mode = st.checkbox("🖨️ Print Mode (인쇄 화면)", help="Check this box to print clean.")
-        if not print_mode:
-            st.info("💡 **Tip:** Check 'Print Mode' above to print.")
+        print_mode = st.checkbox("🖨️ Print Mode (인쇄 화면)", help="Check this to print cleanly.")
         
         # [커피 후원 버튼]
         coffee_head = "☕ 개발자 응원하기"
@@ -290,15 +293,26 @@ def main():
     }
     txt = ui[lang]
 
-    # [헤더] 인쇄 모드가 아닐 때만 표시
+    # 변수 초기화 (에러 방지용)
+    name = st.session_state["saved_name"]
+    b_date = st.session_state["saved_date"]
+    b_time = st.session_state["saved_time"]
+
+    # [헤더 & 입력창] 인쇄 모드가 아닐 때만 표시
     if not print_mode:
         st.markdown(f"<div class='main-header'>{txt['title']}</div>", unsafe_allow_html=True)
         st.markdown(f"<div class='sub-header'>{txt['sub']}</div>", unsafe_allow_html=True)
 
         c1, c2, c3 = st.columns([1, 1, 1])
-        with c1: name = st.text_input(txt['name'])
-        with c2: b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=date(1990,1,1))
-        with c3: b_time = st.time_input("Time of Birth", value=None)
+        with c1: 
+            name = st.text_input(txt['name'], value=st.session_state["saved_name"])
+            st.session_state["saved_name"] = name # 입력하자마자 저장
+        with c2: 
+            b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=st.session_state["saved_date"])
+            st.session_state["saved_date"] = b_date # 입력하자마자 저장
+        with c3: 
+            b_time = st.time_input("Time of Birth", value=st.session_state["saved_time"])
+            st.session_state["saved_time"] = b_time # 입력하자마자 저장
 
         if "analyzed" not in st.session_state:
             st.session_state["analyzed"] = False
@@ -309,31 +323,18 @@ def main():
             else:
                 st.warning("Please enter your name.")
     
-    # [인쇄 모드]일 때는 바로 분석 상태로 간주 (단, 이름은 있어야 함)
+    # [인쇄 모드]일 때는 저장된 값 사용
     else:
-        if "analyzed" not in st.session_state or not st.session_state["analyzed"]:
-            st.warning("Please analyze your destiny first.")
+        if not st.session_state.get("analyzed"):
+            st.warning("Please analyze your destiny first, then switch to Print Mode.")
             return
-        # 기존 입력값 가져오기 (변수 재할당)
-        # Streamlit은 session_state에 input 값을 저장하지 않을 수도 있어서, 
-        # 실제로는 위에서 입력한 값이 유지되길 기대하거나, 간단히 처리.
-        # *주의: 인쇄 모드를 켰을 때 입력창이 사라지므로, 미리 입력하고 켜야 합니다.
 
     # ----------------------------------------------------
     # [결과 화면 표시 로직]
     # ----------------------------------------------------
     if st.session_state.get("analyzed"):
-        # (혹시 변수가 없을 경우를 대비해 기본값 재계산)
-        # 실제 앱에서는 위젯이 사라지면 값이 날아갈 수 있으므로, 
-        # 인쇄 모드에서도 데이터가 유지되도록 session_state를 활용하는 것이 좋으나,
-        # 지금은 가장 간단한 방법(위젯 값 유지)으로 갑니다.
-        
-        # ※ 주의: '인쇄 모드' 체크박스를 누르면 화면이 리로딩되면서 
-        # text_input 값이 초기화될 수 있습니다. 
-        # 이를 방지하기 위해 session_state에 이름을 저장해두는 것이 좋습니다.
-        
-        # 계산 로직
-        day_info = calculate_day_gan(b_date) # b_date가 위에서 정의되어야 함
+        # 여기서 b_date는 위에서 저장된 값을 불러왔기 때문에 에러가 안 납니다!
+        day_info = calculate_day_gan(b_date) 
         element_type = day_info['element']
         trait, forecast = get_interpretation(element_type, lang)
 
@@ -341,13 +342,13 @@ def main():
         # [A] 인쇄 모드 (Print Mode) - 탭 없이 쭉 펼쳐 보여줌
         # ------------------------------------------------
         if print_mode:
-            # 잠금 확인
             if not st.session_state.get("is_unlocked"):
                 st.error(txt['plz_unlock'])
             else:
                 # 1. 인쇄용 헤더
                 st.markdown(f"## {txt['title']}")
-                st.markdown(f"### Name: {st.session_state.get('name_saved', 'User')}") 
+                st.markdown(f"### Name: {name}") 
+                st.markdown(f"### Birth Date: {b_date}")
                 st.markdown("---")
 
                 # 2. 내용 (탭 없이 순서대로 출력)
@@ -381,17 +382,12 @@ def main():
                 df = df.set_index(txt['t_mon'])
                 st.table(df)
                 
-                # 인쇄 안내
                 st.info("💡 Now press 'Ctrl + P' (or Cmd + P) to print this page.")
 
         # ------------------------------------------------
         # [B] 일반 모드 (Normal Mode) - 탭 사용
         # ------------------------------------------------
         else:
-            # 이름 저장 (인쇄 모드 전환 시 유지를 위해)
-            if 'name' in locals() and name:
-                st.session_state['name_saved'] = name
-
             tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
             
             with tab1:
@@ -459,9 +455,8 @@ def main():
                     st.table(df)
 
                     st.write("---")
-                    # 인쇄 모드 유도 버튼
                     if st.button(txt['print']):
-                        st.info("👈 왼쪽 사이드바의 '🖨️ Print Mode' 체크박스를 켜주세요! (Please check 'Print Mode' in the sidebar)")
+                        st.info("👈 왼쪽 사이드바의 '🖨️ Print Mode' 체크박스를 켜주세요! (Check 'Print Mode' in the sidebar)")
 
 if __name__ == "__main__":
     main()
