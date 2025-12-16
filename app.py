@@ -15,7 +15,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 다국어 UI 팩 (제목을 길게 수정) ---
+# --- 2. 다국어 UI 팩 ---
 ui_languages = {
     "English 🇺🇸": {
         "code": "en", "title": "The Element: Discover Your True Self", "subtitle": "Ancient Asian Wisdom Decoded for the Modern Soul",
@@ -29,7 +29,6 @@ ui_languages = {
         "btn": "🔮 나의 에너지 분석하기", "tab1": "기본 성격", "tab2": "2026년 운세",
         "msg": "반갑습니다", "born": "출생년도"
     },
-    # 다른 언어들도 제목을 길게 수정했습니다.
     "中文 (Chinese) 🇨🇳": { "code": "cn", "title": "The Element: 发现真实的自己", "subtitle": "Ancient Wisdom Decoded", "name": "姓名", "date": "出生日期", "time": "时间", "btn": "🔮 分析", "tab1": "基本性格", "tab2": "2026年 运势", "msg": "你好", "born": "年份" },
     "Español (Spanish) 🇪🇸": { "code": "es", "title": "The Element: Descubre tu verdadero ser", "subtitle": "Sabiduría antigua para el alma moderna", "name": "Nombre", "date": "Fecha", "time": "Hora", "btn": "🔮 Analizar", "tab1": "Perfil", "tab2": "Pronóstico 2026", "msg": "Hola", "born": "Nacido en" },
     "Français (French) 🇫🇷": { "code": "fr", "title": "The Element: Découvrez votre vrai moi", "subtitle": "Sagesse ancienne décodée", "name": "Nom", "date": "Date", "time": "Heure", "btn": "🔮 Analyser", "tab1": "Profil", "tab2": "Prévisions 2026", "msg": "Bonjour", "born": "Né en" },
