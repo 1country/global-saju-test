@@ -1,5 +1,16 @@
+import streamlit as st
+import pandas as pd
+import streamlit.components.v1 as components
+from datetime import datetime, date
+
+# 🔑 잠금 해제 비밀번호
+UNLOCK_CODE = "2026RICH"
+
+# --- 1. 페이지 설정 (이게 무조건 맨 위에 있어야 합니다!) ---
+st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
+
 # ----------------------------------------------------------------
-# [인쇄 문제 해결사: 높이 제한 해제 버전]
+# [인쇄 문제 해결사: 높이 제한 해제 최종 버전]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
