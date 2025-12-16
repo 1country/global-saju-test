@@ -221,7 +221,7 @@ def get_monthly_forecast_unique(element, lang):
         
     return result
 
-# --- 5. 메인 실행 (기억력 보강 & 인쇄 모드) ---
+# --- 5. 메인 실행 (최종 완성: 버튼 부활 & 에러 방지) ---
 def main():
     # 0. 세션 상태 초기화 (컴퓨터에게 기억력 심어주기)
     if "saved_name" not in st.session_state: st.session_state["saved_name"] = ""
@@ -231,18 +231,17 @@ def main():
     with st.sidebar:
         st.title("Settings")
         
-        # 1. 언어 선택
+        # 1. 언어 선택 (영어가 기본)
         lang_opt = st.radio("Language", ["English", "한국어"])
         lang = "ko" if "한국어" in lang_opt else "en"
         
-        # 2. ★ 인쇄 모드 스위치
+        # 2. 인쇄 모드 스위치
         st.write("---")
         print_mode = st.checkbox("🖨️ Print Mode (인쇄 화면)", help="Check this to print cleanly.")
         
         # [커피 후원 버튼]
         coffee_head = "☕ 개발자 응원하기"
         coffee_msg = "운명의 코드를 응원해 주세요! ☕"
-
         if lang == 'en':
             coffee_head = "☕ Support the Developer"
             coffee_msg = "Fuel the destiny code with a coffee! ☕"
@@ -275,7 +274,8 @@ def main():
             "locked_desc": "2026년 월별 정밀 운세는 **$5(약 6,500원)** 결제 후 확인하실 수 있습니다.\n결제 완료 후 받으신 **'잠금 해제 코드'**를 아래에 입력해주세요.",
             "code_label": "잠금 해제 코드 입력", "unlock_btn": "확인 (Unlock)",
             "err_code": "⛔ 코드가 올바르지 않습니다. 다시 확인해주세요.",
-            "plz_unlock": "🔒 먼저 잠금을 해제해야 인쇄할 수 있습니다."
+            "plz_unlock": "🔒 먼저 잠금을 해제해야 인쇄할 수 있습니다.",
+            "print_btn_label": "🖨️ 인쇄 창 열기 (Click to Print)"
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
@@ -288,12 +288,13 @@ def main():
             "locked_desc": "The 2026 Monthly Forecast is available for **$5**.\nPlease enter the **'Unlock Code'** provided after payment.",
             "code_label": "Enter Unlock Code", "unlock_btn": "Unlock",
             "err_code": "⛔ Invalid Code. Please check again.",
-            "plz_unlock": "🔒 Please unlock the content first to print."
+            "plz_unlock": "🔒 Please unlock the content first to print.",
+            "print_btn_label": "🖨️ Open Print Dialog"
         }
     }
     txt = ui[lang]
 
-    # 변수 초기화 (에러 방지용)
+    # 변수 불러오기 (기억된 값 사용)
     name = st.session_state["saved_name"]
     b_date = st.session_state["saved_date"]
     b_time = st.session_state["saved_time"]
@@ -306,13 +307,13 @@ def main():
         c1, c2, c3 = st.columns([1, 1, 1])
         with c1: 
             name = st.text_input(txt['name'], value=st.session_state["saved_name"])
-            st.session_state["saved_name"] = name # 입력하자마자 저장
+            st.session_state["saved_name"] = name
         with c2: 
             b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=st.session_state["saved_date"])
-            st.session_state["saved_date"] = b_date # 입력하자마자 저장
+            st.session_state["saved_date"] = b_date
         with c3: 
             b_time = st.time_input("Time of Birth", value=st.session_state["saved_time"])
-            st.session_state["saved_time"] = b_time # 입력하자마자 저장
+            st.session_state["saved_time"] = b_time
 
         if "analyzed" not in st.session_state:
             st.session_state["analyzed"] = False
@@ -322,24 +323,22 @@ def main():
                 st.session_state["analyzed"] = True
             else:
                 st.warning("Please enter your name.")
-    
-    # [인쇄 모드]일 때는 저장된 값 사용
     else:
+        # 인쇄 모드인데 분석 안 된 경우 처리
         if not st.session_state.get("analyzed"):
-            st.warning("Please analyze your destiny first, then switch to Print Mode.")
+            st.warning("Please analyze your destiny first.")
             return
 
     # ----------------------------------------------------
-    # [결과 화면 표시 로직]
+    # [결과 화면 표시]
     # ----------------------------------------------------
     if st.session_state.get("analyzed"):
-        # 여기서 b_date는 위에서 저장된 값을 불러왔기 때문에 에러가 안 납니다!
         day_info = calculate_day_gan(b_date) 
         element_type = day_info['element']
         trait, forecast = get_interpretation(element_type, lang)
 
         # ------------------------------------------------
-        # [A] 인쇄 모드 (Print Mode) - 탭 없이 쭉 펼쳐 보여줌
+        # [A] 인쇄 모드 (Print Mode)
         # ------------------------------------------------
         if print_mode:
             if not st.session_state.get("is_unlocked"):
@@ -347,11 +346,10 @@ def main():
             else:
                 # 1. 인쇄용 헤더
                 st.markdown(f"## {txt['title']}")
-                st.markdown(f"### Name: {name}") 
-                st.markdown(f"### Birth Date: {b_date}")
+                st.markdown(f"### Name: {name} | Birth: {b_date}")
                 st.markdown("---")
 
-                # 2. 내용 (탭 없이 순서대로 출력)
+                # 2. 내용 출력
                 st.markdown(f"### {txt['tab1']}")
                 st.markdown(f"""
                 <div class='card' style='border:1px solid #ddd; padding:20px;'>
@@ -382,10 +380,13 @@ def main():
                 df = df.set_index(txt['t_mon'])
                 st.table(df)
                 
-                st.info("💡 Now press 'Ctrl + P' (or Cmd + P) to print this page.")
+                # ★ 여기에 버튼 부활! (이 버튼은 종이엔 안 나옵니다)
+                st.write("---")
+                if st.button(txt['print_btn_label'], type="primary"):
+                    components.html("<script>window.print();</script>", height=0, width=0)
 
         # ------------------------------------------------
-        # [B] 일반 모드 (Normal Mode) - 탭 사용
+        # [B] 일반 모드 (Normal Mode)
         # ------------------------------------------------
         else:
             tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
@@ -401,8 +402,8 @@ def main():
                 """, unsafe_allow_html=True)
 
             with tab2:
-                if "is_unlocked" not in st.session_state:
-                    st.session_state["is_unlocked"] = False
+                # (잠금 로직 생략 없이 그대로 유지)
+                if "is_unlocked" not in st.session_state: st.session_state["is_unlocked"] = False
 
                 if not st.session_state["is_unlocked"]:
                     st.markdown(f"""
@@ -454,6 +455,7 @@ def main():
                     df = df.set_index(txt['t_mon'])
                     st.table(df)
 
+                    # 일반 모드일 때 인쇄 안내
                     st.write("---")
                     if st.button(txt['print']):
                         st.info("👈 왼쪽 사이드바의 '🖨️ Print Mode' 체크박스를 켜주세요! (Check 'Print Mode' in the sidebar)")
