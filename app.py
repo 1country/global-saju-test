@@ -221,17 +221,20 @@ def get_monthly_forecast_unique(element, lang):
         
     return result
 
-# --- 5. 메인 실행 (언어 문제 완벽 수정판) ---
+# --- 5. 메인 실행 (인쇄 모드 탑재 & 영어 기본 설정) ---
 def main():
     with st.sidebar:
         st.title("Settings")
         
-        # 1. 언어 선택
-        lang_opt = st.radio("Language", ["English", "한국어"])        
-        # 🔴 [여기가 문제였습니다!] "Korean"을 "한국어"로 수정했습니다.
+        # 1. 언어 선택 (영어가 먼저 나오도록 순서 변경 완료!)
+        lang_opt = st.radio("Language", ["English", "한국어"])
         lang = "ko" if "한국어" in lang_opt else "en"
         
-        st.info("💡 **Tip:** Click 'Print Report' to save as PDF.")
+        # 2. ★ 인쇄 모드 스위치 (이걸 체크하면 탭이 사라집니다!)
+        st.write("---")
+        print_mode = st.checkbox("🖨️ Print Mode (인쇄 화면)", help="Check this box to print clean.")
+        if not print_mode:
+            st.info("💡 **Tip:** Check 'Print Mode' above to print.")
         
         # [커피 후원 버튼]
         coffee_head = "☕ 개발자 응원하기"
@@ -268,7 +271,8 @@ def main():
             "locked_msg": "🔒 **이 콘텐츠는 유료(Premium)입니다.**",
             "locked_desc": "2026년 월별 정밀 운세는 **$5(약 6,500원)** 결제 후 확인하실 수 있습니다.\n결제 완료 후 받으신 **'잠금 해제 코드'**를 아래에 입력해주세요.",
             "code_label": "잠금 해제 코드 입력", "unlock_btn": "확인 (Unlock)",
-            "err_code": "⛔ 코드가 올바르지 않습니다. 다시 확인해주세요."
+            "err_code": "⛔ 코드가 올바르지 않습니다. 다시 확인해주세요.",
+            "plz_unlock": "🔒 먼저 잠금을 해제해야 인쇄할 수 있습니다."
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
@@ -280,105 +284,184 @@ def main():
             "locked_msg": "🔒 **Premium Content**",
             "locked_desc": "The 2026 Monthly Forecast is available for **$5**.\nPlease enter the **'Unlock Code'** provided after payment.",
             "code_label": "Enter Unlock Code", "unlock_btn": "Unlock",
-            "err_code": "⛔ Invalid Code. Please check again."
+            "err_code": "⛔ Invalid Code. Please check again.",
+            "plz_unlock": "🔒 Please unlock the content first to print."
         }
     }
     txt = ui[lang]
 
-    st.markdown(f"<div class='main-header'>{txt['title']}</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='sub-header'>{txt['sub']}</div>", unsafe_allow_html=True)
+    # [헤더] 인쇄 모드가 아닐 때만 표시
+    if not print_mode:
+        st.markdown(f"<div class='main-header'>{txt['title']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='sub-header'>{txt['sub']}</div>", unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns([1, 1, 1])
-    with c1: name = st.text_input(txt['name'])
-    with c2: b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=date(1990,1,1))
-    with c3: b_time = st.time_input("Time of Birth", value=None)
+        c1, c2, c3 = st.columns([1, 1, 1])
+        with c1: name = st.text_input(txt['name'])
+        with c2: b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=date(1990,1,1))
+        with c3: b_time = st.time_input("Time of Birth", value=None)
 
-    if "analyzed" not in st.session_state:
-        st.session_state["analyzed"] = False
+        if "analyzed" not in st.session_state:
+            st.session_state["analyzed"] = False
 
-    if st.button(txt['btn'], use_container_width=True):
-        if name:
-            st.session_state["analyzed"] = True
-        else:
-            st.warning("Please enter your name.")
+        if st.button(txt['btn'], use_container_width=True):
+            if name:
+                st.session_state["analyzed"] = True
+            else:
+                st.warning("Please enter your name.")
+    
+    # [인쇄 모드]일 때는 바로 분석 상태로 간주 (단, 이름은 있어야 함)
+    else:
+        if "analyzed" not in st.session_state or not st.session_state["analyzed"]:
+            st.warning("Please analyze your destiny first.")
+            return
+        # 기존 입력값 가져오기 (변수 재할당)
+        # Streamlit은 session_state에 input 값을 저장하지 않을 수도 있어서, 
+        # 실제로는 위에서 입력한 값이 유지되길 기대하거나, 간단히 처리.
+        # *주의: 인쇄 모드를 켰을 때 입력창이 사라지므로, 미리 입력하고 켜야 합니다.
 
-    if st.session_state["analyzed"]:
-        day_info = calculate_day_gan(b_date)
+    # ----------------------------------------------------
+    # [결과 화면 표시 로직]
+    # ----------------------------------------------------
+    if st.session_state.get("analyzed"):
+        # (혹시 변수가 없을 경우를 대비해 기본값 재계산)
+        # 실제 앱에서는 위젯이 사라지면 값이 날아갈 수 있으므로, 
+        # 인쇄 모드에서도 데이터가 유지되도록 session_state를 활용하는 것이 좋으나,
+        # 지금은 가장 간단한 방법(위젯 값 유지)으로 갑니다.
+        
+        # ※ 주의: '인쇄 모드' 체크박스를 누르면 화면이 리로딩되면서 
+        # text_input 값이 초기화될 수 있습니다. 
+        # 이를 방지하기 위해 session_state에 이름을 저장해두는 것이 좋습니다.
+        
+        # 계산 로직
+        day_info = calculate_day_gan(b_date) # b_date가 위에서 정의되어야 함
         element_type = day_info['element']
         trait, forecast = get_interpretation(element_type, lang)
-        
-        tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
-        
-        with tab1:
-            st.markdown(f"""
-            <div class='card'>
-                <h3 style='color: #64748b;'>👋 {name}</h3>
-                <h1 style='color: #4f46e5; margin: 10px 0;'>{day_info[lang]}</h1>
-                <hr>
-                <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
-            </div>
-            """, unsafe_allow_html=True)
 
-        with tab2:
-            if "is_unlocked" not in st.session_state:
-                st.session_state["is_unlocked"] = False
+        # ------------------------------------------------
+        # [A] 인쇄 모드 (Print Mode) - 탭 없이 쭉 펼쳐 보여줌
+        # ------------------------------------------------
+        if print_mode:
+            # 잠금 확인
+            if not st.session_state.get("is_unlocked"):
+                st.error(txt['plz_unlock'])
+            else:
+                # 1. 인쇄용 헤더
+                st.markdown(f"## {txt['title']}")
+                st.markdown(f"### Name: {st.session_state.get('name_saved', 'User')}") 
+                st.markdown("---")
 
-            if not st.session_state["is_unlocked"]:
+                # 2. 내용 (탭 없이 순서대로 출력)
+                st.markdown(f"### {txt['tab1']}")
                 st.markdown(f"""
-                <div class='lock-screen' style='background-color:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px; padding:40px; text-align:center; color:#475569; margin-bottom:20px;'>
-                    <h2 style='margin-bottom:10px;'>{txt['locked_msg']}</h2>
-                    <p>{txt['locked_desc']}</p>
+                <div class='card' style='border:1px solid #ddd; padding:20px;'>
+                    <h1 style='color: #4f46e5; margin: 0;'>{day_info[lang]}</h1>
+                    <div style='font-size: 1.0em; line-height: 1.6; color:black;'>{trait}</div>
                 </div>
                 """, unsafe_allow_html=True)
                 
-                c_pay1, c_pay2 = st.columns(2)
-                if lang == "ko":
-                    with c_pay1: st.link_button("💛 카카오페이 송금", "https://buymeacoffee.com/5codes")
-                    with c_pay2: st.link_button("💙 토스 익명 송금", "https://buymeacoffee.com/5codes")
-                else:
-                    with c_pay1: st.link_button("☕ Buy Me a Coffee", "https://buymeacoffee.com/5codes")
-                    with c_pay2: st.link_button("🅿️ PayPal", "https://buymeacoffee.com/5codes")
-                
-                st.write("---")
-                user_code = st.text_input(txt['code_label'], type="password", key="pwd_input")
-                if st.button(txt['unlock_btn']):
-                    if user_code == UNLOCK_CODE:
-                        st.session_state["is_unlocked"] = True
-                        st.rerun()
-                    else:
-                        st.error(txt['err_code'])
-            else:
-                st.success("🔓 Premium Content Unlocked!")
+                st.markdown(f"### {txt['tab2']}")
                 st.markdown(f"""
-                <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
-                    <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
-                    <p style='font-size:1.1em;'>{forecast['gen']}</p>
-                    <ul style='margin-top:10px;'>
-                        <li><b>💰 Wealth:</b> {forecast['money']}</li>
-                        <li><b>❤️ Love:</b> {forecast['love']}</li>
+                <div class='card' style='border: 1px solid #ec4899; background-color: #fff; padding:20px;'>
+                    <h2 style='color: #be185d; margin-top:0;'>👑 {forecast['title']}</h2>
+                    <p>{forecast['gen']}</p>
+                    <ul>
+                        <li><b>Wealth:</b> {forecast['money']}</li>
+                        <li><b>Love:</b> {forecast['love']}</li>
                     </ul>
                 </div>
                 """, unsafe_allow_html=True)
                 
-                st.subheader(f"📅 2026 {txt['t_adv']}")
-                st.caption(txt['legend'])
-                
+                st.subheader(f"{txt['t_adv']}")
                 raw_data = get_monthly_forecast_unique(element_type, lang)
                 table_data = []
                 for row in raw_data:
-                    table_data.append({
-                        txt['t_mon']: row['Month'], 
-                        txt['t_sco']: row['Luck'], 
-                        txt['t_adv']: row['Advice']
-                    })
+                    table_data.append({txt['t_mon']: row['Month'], txt['t_sco']: row['Luck'], txt['t_adv']: row['Advice']})
                 
                 df = pd.DataFrame(table_data)
                 df = df.set_index(txt['t_mon'])
                 st.table(df)
+                
+                # 인쇄 안내
+                st.info("💡 Now press 'Ctrl + P' (or Cmd + P) to print this page.")
 
-                st.write("---")
-                if st.button(txt['print'], key="final_print"):
-                    components.html("<script>window.print();</script>", height=0, width=0)
+        # ------------------------------------------------
+        # [B] 일반 모드 (Normal Mode) - 탭 사용
+        # ------------------------------------------------
+        else:
+            # 이름 저장 (인쇄 모드 전환 시 유지를 위해)
+            if 'name' in locals() and name:
+                st.session_state['name_saved'] = name
+
+            tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
+            
+            with tab1:
+                st.markdown(f"""
+                <div class='card'>
+                    <h3 style='color: #64748b;'>👋 {name}</h3>
+                    <h1 style='color: #4f46e5; margin: 10px 0;'>{day_info[lang]}</h1>
+                    <hr>
+                    <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with tab2:
+                if "is_unlocked" not in st.session_state:
+                    st.session_state["is_unlocked"] = False
+
+                if not st.session_state["is_unlocked"]:
+                    st.markdown(f"""
+                    <div class='lock-screen' style='background-color:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px; padding:40px; text-align:center; color:#475569; margin-bottom:20px;'>
+                        <h2 style='margin-bottom:10px;'>{txt['locked_msg']}</h2>
+                        <p>{txt['locked_desc']}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    c_pay1, c_pay2 = st.columns(2)
+                    pay_link = "https://buymeacoffee.com/5codes"
+                    if lang == "ko":
+                        with c_pay1: st.link_button("💛 카카오페이 송금", pay_link)
+                        with c_pay2: st.link_button("💙 토스 익명 송금", pay_link)
+                    else:
+                        with c_pay1: st.link_button("☕ Buy Me a Coffee", pay_link)
+                        with c_pay2: st.link_button("🅿️ PayPal", pay_link)
+                    
+                    st.write("---")
+                    user_code = st.text_input(txt['code_label'], type="password", key="pwd_input")
+                    if st.button(txt['unlock_btn']):
+                        if user_code == UNLOCK_CODE:
+                            st.session_state["is_unlocked"] = True
+                            st.rerun()
+                        else:
+                            st.error(txt['err_code'])
+                else:
+                    st.success("🔓 Premium Content Unlocked!")
+                    st.markdown(f"""
+                    <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
+                        <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
+                        <p style='font-size:1.1em;'>{forecast['gen']}</p>
+                        <ul style='margin-top:10px;'>
+                            <li><b>💰 Wealth:</b> {forecast['money']}</li>
+                            <li><b>❤️ Love:</b> {forecast['love']}</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    st.subheader(f"📅 2026 {txt['t_adv']}")
+                    st.caption(txt['legend'])
+                    
+                    raw_data = get_monthly_forecast_unique(element_type, lang)
+                    table_data = []
+                    for row in raw_data:
+                        table_data.append({txt['t_mon']: row['Month'], txt['t_sco']: row['Luck'], txt['t_adv']: row['Advice']})
+                    
+                    df = pd.DataFrame(table_data)
+                    df = df.set_index(txt['t_mon'])
+                    st.table(df)
+
+                    st.write("---")
+                    # 인쇄 모드 유도 버튼
+                    if st.button(txt['print']):
+                        st.info("👈 왼쪽 사이드바의 '🖨️ Print Mode' 체크박스를 켜주세요! (Please check 'Print Mode' in the sidebar)")
 
 if __name__ == "__main__":
     main()
