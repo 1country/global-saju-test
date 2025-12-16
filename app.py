@@ -46,13 +46,32 @@ def calculate_day_gan(birth_date):
 
 # --- 3. 데이터베이스 (성격 및 운세) ---
 def get_interpretation(element, lang):
-    # 성격 데이터
+    # 1. 성격 데이터 (상세 버전)
     traits_ko = {
-        "Wood": "성장과 시작의 에너지. 곧게 뻗어나가는 의지와 추진력이 강합니다. 명예를 중시합니다.",
-        "Fire": "열정과 확산의 에너지. 솔직하고 화끈하며 예의가 바릅니다. 감정 표현이 풍부합니다.",
-        "Earth": "포용과 중재의 에너지. 믿음직스럽고 묵직합니다. 속마음을 잘 드러내지 않지만 신용이 있습니다.",
-        "Metal": "결단과 정의의 에너지. 맺고 끊음이 확실하고 의리가 있습니다. 리더십이 강합니다.",
-        "Water": "지혜와 유연함의 에너지. 상황 대처 능력이 뛰어나고 머리가 비상합니다. 생각이 깊습니다."
+        "Wood": """**[핵심: 성장과 자존심]**<br>
+        당신은 하늘을 향해 곧게 뻗어 올라가는 나무의 기운을 타고났습니다. 성격이 대쪽 같고 솔직하며, 성장하고자 하는 욕구가 매우 강합니다. 남의 밑에 있기보다는 우두머리가 되기를 좋아합니다.<br><br>
+        **[장점]** 추진력이 강하고 인자한 성품을 지녔습니다. 목표가 생기면 뒤를 돌아보지 않고 직진합니다.<br>
+        **[단점]** 굽히기를 싫어해서 부러질 수 있습니다. 융통성을 조금만 기르면 대성할 재목입니다.""",
+        
+        "Fire": """**[핵심: 열정과 표현]**<br>
+        당신은 세상을 환하게 비추는 태양이나 촛불입니다. 매사에 열정적이고 에너지가 넘쳐흐릅니다. 자신의 감정을 숨기지 못하고 얼굴에 다 드러나는 투명한 사람입니다.<br><br>
+        **[장점]** 예의가 바르고 화끈하며 뒤끝이 없습니다. 어디서나 분위기 메이커 역할을 합니다.<br>
+        **[단점]** 성격이 급해서 실수를 할 수 있습니다. 시작은 화려하나 마무리가 약할 수 있으니 끈기가 필요합니다.""",
+        
+        "Earth": """**[핵심: 신용과 중재]**<br>
+        당신은 묵직한 산이나 넓은 대지입니다. 가볍게 움직이지 않으며, 믿음과 신용을 목숨처럼 중요하게 생각합니다. 포용력이 넓어 많은 사람들이 당신에게 의지하려 합니다.<br><br>
+        **[장점]** 입이 무겁고 뚝심이 있어 한번 맡은 일은 끝까지 해냅니다. 중재자 역할을 잘합니다.<br>
+        **[단점]** 속마음을 잘 드러내지 않아 답답해 보일 수 있습니다. 때로는 과감한 표현이 필요합니다.""",
+        
+        "Metal": """**[핵심: 결단과 의리]**<br>
+        당신은 단단한 바위나 날카로운 칼입니다. 의리와 정의를 가장 중요하게 생각합니다. 흐지부지한 것을 싫어하고, 맺고 끊음이 확실한 '상남자/걸크러시' 스타일입니다.<br><br>
+        **[장점]** 리더십이 있고 결단력이 빠릅니다. 내 사람이라고 생각하면 끝까지 책임집니다.<br>
+        **[단점]** 말이 직설적이라 본의 아니게 남에게 상처를 줄 수 있습니다. 조금 더 부드러운 화법이 필요합니다.""",
+        
+        "Water": """**[핵심: 지혜와 유연함]**<br>
+        당신은 흐르는 물이나 바다입니다. 어떤 그릇에도 담길 수 있는 유연함과 상황 대처 능력을 가졌습니다. 머리가 비상하고 기획력이 뛰어나며 지혜롭습니다.<br><br>
+        **[장점]** 임기응변에 강하고 친화력이 좋습니다. 조용히 실속을 챙기는 능력이 탁월합니다.<br>
+        **[단점]** 생각이 꼬리에 꼬리를 물어 우울해지거나, 비밀이 너무 많아 속을 알 수 없다는 평을 듣기도 합니다."""
     }
     traits_en = {"Wood": "Energy of Growth", "Fire": "Energy of Passion", "Earth": "Energy of Stability", "Metal": "Energy of Justice", "Water": "Energy of Wisdom"}
 
@@ -77,57 +96,60 @@ def get_interpretation(element, lang):
 
 # --- 4. [핵심] 월별 정밀 운세 로직 ---
 def get_monthly_forecast(element, month):
-    # 2026년의 월별 오행 흐름 (절기 기준 대략적 분류)
-    # 2,3월(목) / 4월(토) / 5,6월(화) / 7월(토) / 8,9월(금) / 10월(토) / 11,12월(수) / 1월(수/토)
+    # 2026년(병오년)의 월별 흐름 (절기력 기준)
+    # 봄(2,3월:나무) / 여름(5,6월:불) / 가을(8,9월:쇠) / 겨울(11,12,1월:물) / 환절기(4,7,10월:흙)
     
-    season_element = ""
-    if month in [2, 3]: season_element = "Wood"   # 봄
-    elif month in [5, 6]: season_element = "Fire" # 여름
-    elif month in [8, 9]: season_element = "Metal"# 가을
-    elif month in [11, 12, 1]: season_element = "Water" # 겨울
-    else: season_element = "Earth" # 환절기 (4, 7, 10월)
+    season = ""
+    if month in [2, 3]: season = "Wood"   
+    elif month in [5, 6]: season = "Fire" 
+    elif month in [8, 9]: season = "Metal"
+    elif month in [11, 12, 1]: season = "Water" 
+    else: season = "Earth" 
 
-    # 오행별 월별 운세 멘트 생성기
     msg = ""
-    score = "⭐⭐⭐"
+    score = ""
 
-    if element == "Wood": # 나무인 사람
-        if season_element == "Wood": msg, score = "경쟁자가 나타납니다. 내 몫을 뺏기지 않게 주의하세요.", "⭐⭐"
-        elif season_element == "Fire": msg, score = "아이디어가 넘치고 일이 술술 풀립니다. 활동하기 최고입니다.", "⭐⭐⭐⭐⭐"
-        elif season_element == "Earth": msg, score = "뜻밖의 꽁돈이 생기거나 재물운이 좋습니다.", "⭐⭐⭐⭐"
-        elif season_element == "Metal": msg, score = "직장에서 스트레스를 받거나 책임질 일이 생깁니다.", "⭐⭐"
-        elif season_element == "Water": msg, score = "윗사람의 도움을 받거나 계약하기 좋은 달입니다.", "⭐⭐⭐⭐"
-        
-    elif element == "Fire": # 불인 사람
-        if season_element == "Wood": msg, score = "귀인의 도움으로 문서 계약이나 합격 소식이 있습니다.", "⭐⭐⭐⭐⭐"
-        elif season_element == "Fire": msg, score = "자신감이 넘치지만 독단적인 행동으로 다툼이 생길 수 있습니다.", "⭐⭐"
-        elif season_element == "Earth": msg, score = "말과 행동으로 능력을 인정받습니다. 표현하세요.", "⭐⭐⭐⭐"
-        elif season_element == "Metal": msg, score = "재물운이 폭발합니다. 보너스나 수익이 기대됩니다.", "⭐⭐⭐⭐⭐"
-        elif season_element == "Water": msg, score = "과로하거나 직장에서 압박을 받을 수 있습니다.", "⭐"
+    # 1. 나무(Wood) 일간인 경우
+    if element == "Wood":
+        if season == "Wood": msg, score = "경쟁자가 나타나 내 밥그릇을 노립니다. 동업 제안은 거절하고 내 실속을 챙겨야 합니다.", "⭐⭐"
+        elif season == "Fire": msg, score = "당신의 재능이 꽃을 피우는 시기입니다. 바쁘게 움직일수록 돈이 됩니다. 활동하기 최적기!", "⭐⭐⭐⭐⭐"
+        elif season == "Earth": msg, score = "뜻밖의 꽁돈이 생기거나 보너스를 받습니다. 재물운이 아주 좋습니다.", "⭐⭐⭐⭐"
+        elif season == "Metal": msg, score = "직장에서 스트레스를 받거나 책임질 일이 많아집니다. 건강 관리에 유의하세요.", "⭐⭐"
+        elif season == "Water": msg, score = "계약서에 도장 찍을 일이 생깁니다. 윗사람의 도움으로 문제가 해결됩니다.", "⭐⭐⭐⭐"
 
-    elif element == "Earth": # 흙인 사람
-        if season_element == "Wood": msg, score = "직장 변동이나 이직 제안이 올 수 있습니다. 명예운 상승.", "⭐⭐⭐"
-        elif season_element == "Fire": msg, score = "공부하기 좋고 윗사람에게 인정받습니다. 문서운 최고.", "⭐⭐⭐⭐⭐"
-        elif season_element == "Earth": msg, score = "친구나 동료와 어울리며 돈을 쓸 일이 많아집니다.", "⭐⭐"
-        elif season_element == "Metal": msg, score = "새로운 일을 벌이거나 창작 활동에 좋습니다.", "⭐⭐⭐⭐"
-        elif season_element == "Water": msg, score = "큰 돈이 들어오지만 욕심내면 탈이 납니다.", "⭐⭐⭐"
+    # 2. 불(Fire) 일간인 경우
+    elif element == "Fire":
+        if season == "Wood": msg, score = "귀인의 도움을 받습니다. 자격증 시험이나 승진 시험에 아주 좋은 달입니다.", "⭐⭐⭐⭐⭐"
+        elif season == "Fire": msg, score = "자신감이 지나쳐 독단적인 행동을 할 수 있습니다. 친구나 동료와 다툼을 주의하세요.", "⭐⭐"
+        elif season == "Earth": msg, score = "말과 아이디어로 돈을 법니다. 당신의 능력을 사람들이 인정해줍니다.", "⭐⭐⭐⭐"
+        elif season == "Metal": msg, score = "재물운이 폭발합니다. 투자 수익이나 큰 돈이 들어올 기회가 있습니다.", "⭐⭐⭐⭐⭐"
+        elif season == "Water": msg, score = "직장에서 압박을 받거나 과로할 수 있습니다. 무리하지 말고 휴식하세요.", "⭐"
 
-    elif element == "Metal": # 쇠인 사람
-        if season_element == "Wood": msg, score = "노력한 만큼 재물이 들어옵니다. 성과급 기대.", "⭐⭐⭐⭐⭐"
-        elif season_element == "Fire": msg, score = "관재구설(시비)를 조심하세요. 묵묵히 일하면 승진합니다.", "⭐⭐"
-        elif season_element == "Earth": msg, score = "부동산이나 계약 관련 좋은 소식이 있습니다.", "⭐⭐⭐⭐"
-        elif season_element == "Metal": msg, score = "고집이 세져서 주변과 충돌할 수 있습니다. 유연하세요.", "⭐⭐"
-        elif season_element == "Water": msg, score = "재능을 발휘하여 문제를 해결합니다. 인기가 많아집니다.", "⭐⭐⭐⭐"
+    # 3. 흙(Earth) 일간인 경우
+    elif element == "Earth":
+        if season == "Wood": msg, score = "명예운이 상승하여 승진하거나 좋은 직장으로 이직할 기회입니다.", "⭐⭐⭐⭐"
+        elif season == "Fire": msg, score = "문서운이 최고입니다. 부동산 계약이나 중요 서류를 처리하기 좋습니다.", "⭐⭐⭐⭐⭐"
+        elif season == "Earth": msg, score = "사람들과 어울리느라 돈이 나갑니다. 고집을 부리면 손해를 봅니다.", "⭐⭐"
+        elif season == "Metal": msg, score = "새로운 일을 벌이거나 창작 활동을 하기에 좋습니다. 표현력이 좋아집니다.", "⭐⭐⭐"
+        elif season == "Water": msg, score = "큰 돈이 눈앞에 보이지만 욕심내면 탈이 납니다. 돌다리도 두들겨 보세요.", "⭐⭐⭐"
 
-    elif element == "Water": # 물인 사람
-        if season_element == "Wood": msg, score = "새로운 프로젝트를 시작하거나 자녀에게 좋은 일이 있습니다.", "⭐⭐⭐⭐"
-        elif season_element == "Fire": msg, score = "돈 욕심이 생겨 투자하지만 신중해야 합니다. 결과는 큽니다.", "⭐⭐⭐"
-        elif season_element == "Earth": msg, score = "직장에서 인정받고 승진할 기회입니다. 부담감은 큽니다.", "⭐⭐⭐"
-        elif season_element == "Metal": msg, score = "공부와 자격증 취득에 최적의 시기입니다. 돕는 이가 있습니다.", "⭐⭐⭐⭐⭐"
-        elif season_element == "Water": msg, score = "경쟁 심리가 발동합니다. 내 것을 지키는 데 집중하세요.", "⭐⭐"
+    # 4. 쇠(Metal) 일간인 경우
+    elif element == "Metal":
+        if season == "Wood": msg, score = "노력한 만큼 재물이 들어옵니다. 성과급이나 보너스를 기대해볼 만합니다.", "⭐⭐⭐⭐⭐"
+        elif season == "Fire": msg, score = "관재구설(시비, 소송)을 조심해야 합니다. 묵묵히 일하면 오히려 전화위복이 됩니다.", "⭐"
+        elif season == "Earth": msg, score = "부동산이나 계약 관련 좋은 소식이 있습니다. 부모님이나 윗사람의 덕을 봅니다.", "⭐⭐⭐⭐"
+        elif season == "Metal": msg, score = "경쟁심이 강해져 주변과 충돌할 수 있습니다. 유연한 태도가 필요합니다.", "⭐⭐"
+        elif season == "Water": msg, score = "재능을 발휘하여 문제를 해결합니다. 인기가 많아지고 찾는 사람이 늘어납니다.", "⭐⭐⭐⭐"
+
+    # 5. 물(Water) 일간인 경우
+    elif element == "Water":
+        if season == "Wood": msg, score = "새로운 프로젝트를 시작하기 좋습니다. 자녀에게 좋은 일이 생깁니다.", "⭐⭐⭐⭐"
+        elif season == "Fire": msg, score = "일확천금의 기회가 오지만 위험도 따릅니다. 신중하게 투자하면 대박입니다.", "⭐⭐⭐"
+        elif season == "Earth": msg, score = "직장에서 승진하거나 감투를 쓰게 됩니다. 어깨가 무거워지지만 명예롭습니다.", "⭐⭐⭐"
+        elif season == "Metal": msg, score = "공부와 자격증 취득에 최적의 시기입니다. 돕는 귀인이 나타납니다.", "⭐⭐⭐⭐⭐"
+        elif season == "Water": msg, score = "내 밥그릇을 노리는 경쟁자가 나타납니다. 돈 거래는 절대 금물입니다.", "⭐⭐"
 
     return msg, score
-
 # --- 5. 메인 UI ---
 def main():
     with st.sidebar:
