@@ -1,10 +1,10 @@
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, time
 
 # --- 1. 페이지 설정 (디자인) ---
-st.set_page_config(page_title="The Element: Discover Your True Self", page_icon="🔮")
+st.set_page_config(page_title="The Element: Discover Your True Self", page_icon="🔮", layout="wide")
 
-# 스타일 꾸미기 (CSS) - 제목 폰트 크기와 여백 조정
+# 스타일 꾸미기 (CSS)
 st.markdown("""
 <style>
     .main-title {
@@ -36,9 +36,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 풍성해진 사주 해석 데이터 (DB) ---
+# --- 2. 사주 데이터 (DB) ---
 def get_element_from_year(year):
-    # 연도의 끝자리를 기준으로 천간(Heavenly Stem) 결정
     last_digit = int(str(year)[-1])
     
     elements = {
@@ -93,7 +92,7 @@ def get_element_from_year(year):
         2: {
             "type": "Water (Im) 🌊",
             "archetype": "The Strategist (The Ocean)",
-            "desc": "You are the vast ocean. You are incredibly wise, adaptable, and have a big heart. Like the ocean, your depth is hard to measure. You flow around obstacles rather than fighting them, but your power can be overwhelming when unleashed.",
+            "desc": "You are the wide ocean. Wise, adaptable, and you have deep thoughts. Like the ocean, your depth is hard to measure. You flow around obstacles rather than fighting them, but your power can be overwhelming when unleashed.",
             "keywords": "Wisdom, Flow, Big Picture"
         },
         3: {
@@ -111,47 +110,47 @@ st.markdown("<p class='sub-title'>Ancient Asian Wisdom Decoded for the Modern So
 
 st.write("---")
 
-# 입력창 디자인
-col1, col2 = st.columns(2)
+# [변경 포인트] 3개의 컬럼으로 나누어 시간 입력 추가
+col1, col2, col3 = st.columns([1.2, 1, 1]) 
+
 with col1:
     name = st.text_input("Name", placeholder="Enter your name")
 with col2:
-    birth_date = st.date_input("Birth Date", min_value=datetime(1920, 1, 1))
+    birth_date = st.date_input("Birth Date", min_value=datetime(1920, 1, 1), value=datetime(1990, 1, 1))
+with col3:
+    # 시간 입력 추가 (기본값 없음, 라벨에 Optional 표시)
+    birth_time = st.time_input("Birth Time (Optional)", value=None)
 
-# 버튼 스타일 지정 및 클릭 처리
+# 버튼 클릭 처리
 if st.button("🔮 Analyze My Soul Energy", use_container_width=True):
     if name:
         year = birth_date.year
         result = get_element_from_year(year)
         
-        st.write("") # 여백
+        # 시간이 입력되었는지 확인 (나중에 정밀 분석에 사용)
+        time_str = birth_time.strftime("%H:%M") if birth_time else "Unknown"
         
-        # 결과 카드 출력
-        st.markdown(f"""
-        <div class="result-box">
-            <h2 style="color: #333; margin-bottom: 10px;">Hello, {name}.</h2>
-            <p style="font-size: 1.1em; color: #555;">Based on the year <b>{year}</b>, your core energy is:</p>
-            
-            <h1 style="color: #4A90E2; font-size: 2.5em; margin: 20px 0;">{result['type']}</h1>
-            
-            <p style="font-size: 1.3em; font-weight: bold;">Archetype: <span class="highlight">{result['archetype']}</span></p>
-            
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-            
-            <p style="line-height: 1.6; font-size: 1.1em; color: #444;">
-                {result['desc']}
-            </p>
-            
-            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                <span style="font-weight: bold; color: #555;">🔑 Your Key Traits:</span><br>
-                {result['keywords']}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.write("") 
+        
+        # HTML 코드 (공백 제거 버전)
+        html_content = f"""
+<div class="result-box">
+<h2 style="color: #333; margin-bottom: 10px;">Hello, {name}.</h2>
+<p style="font-size: 1.1em; color: #555;">Born in <b>{year}</b> (Time: {time_str}), your core energy is:</p>
+<h1 style="color: #4A90E2; font-size: 2.5em; margin: 20px 0;">{result['type']}</h1>
+<p style="font-size: 1.3em; font-weight: bold;">Archetype: <span class="highlight">{result['archetype']}</span></p>
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+<p style="line-height: 1.6; font-size: 1.1em; color: #444;">{result['desc']}</p>
+<div style="background-color: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px;">
+<span style="font-weight: bold; color: #555;">🔑 Your Key Traits:</span><br>
+{result['keywords']}
+</div>
+</div>
+"""
+        st.markdown(html_content, unsafe_allow_html=True)
         
     else:
         st.warning("Please enter your name to begin the journey.")
 
-# 하단 푸터
 st.write("---")
 st.markdown("<div style='text-align: center; color: #888;'>© 2025 The Element Lab. <br> This analysis is based on the 'Year Pillar' of the Four Pillars of Destiny.</div>", unsafe_allow_html=True)
