@@ -1,57 +1,40 @@
-import streamlit as st
-import pandas as pd
-import streamlit.components.v1 as components
-from datetime import datetime, date
-
-# 🔑 잠금 해제 비밀번호
-UNLOCK_CODE = "2026RICH"
-
-# --- 1. 페이지 설정 ---
-st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
-
 # ----------------------------------------------------------------
-# [인쇄 문제 해결사: 강력 수정판]
+# [인쇄 문제 해결사: 높이 제한 해제 버전]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
-        /* 1. 평소 화면 디자인 */
+        /* 평소에는 예쁘게 보이기 */
         .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
-        
-        /* 2. 인쇄할 때 적용되는 설정 */
+
+        /* 🖨️ 인쇄할 때만 적용되는 "강제 확장" 설정 */
         @media print {
-            /* (1) 방해꾼들(사이드바, 버튼, 위아래 메뉴) 아예 없애버리기 */
+            /* 1. 모든 요소의 높이 제한을 풀어버림 (무한히 길어지게) */
+            html, body, [class*="ViewContainer"], [class*="AppView"], [class*="main"] {
+                height: auto !important;
+                min-height: 100vh !important;
+                overflow: visible !important;
+            }
+
+            /* 2. 사이드바와 헤더는 아예 삭제 취급 */
             [data-testid="stSidebar"], 
             [data-testid="stHeader"], 
             header, footer, 
-            .stDeployButton, 
-            button, 
-            .stButton,
-            .no-print {
-                display: none !important; 
+            .stDeployButton {
+                display: none !important;
             }
 
-            /* (2) 배경을 하얗게, 글자는 검게 강제 설정 */
-            body, .stApp {
-                background-color: white !important;
-                color: black !important;
-                visibility: visible !important; /* 무조건 보여라! */
-            }
-
-            /* (3) 내용이 짤리지 않고 종이에 꽉 차게 설정 */
+            /* 3. 본문 내용의 여백을 없애고 종이에 꽉 채움 */
             .block-container {
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
                 max-width: 100% !important;
-                padding: 1rem !important;
-                display: block !important;
             }
-            
-            /* (4) 카드는 깨지지 않게 */
-            .card {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                break-inside: avoid;
-                display: block !important;
+
+            /* 4. 버튼 숨기기 */
+            .stButton, button {
+                display: none !important;
             }
         }
     </style>
