@@ -1,29 +1,27 @@
 import streamlit as st
 import pandas as pd
-import streamlit.components.v1 as components  # ✅ 이 줄이 꼭 필요합니다!
+import streamlit.components.v1 as components  # 인쇄 기능을 위한 필수 도구
 from datetime import datetime, date
 
 # --- 1. 페이지 설정 ---
-st.set_page_config(page_title="The Element: Pro Report", page_icon="🖨️", layout="wide")
+st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
-# 스타일 (CSS) - 인쇄 및 디자인 설정
+# 스타일 (CSS) - 인쇄 최적화 및 디자인
 st.markdown("""
 <style>
-    .main-header {font-size: 2.2em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
-    .sub-header {font-size: 1.0em; color: #64748b; text-align: center; margin-bottom: 30px;}
-    .card {background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 20px;}
-    .highlight {color: #2563eb; font-weight: bold;}
+    .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
+    .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
+    .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
+    .highlight {color: #4f46e5; font-weight: bold;}
     
-    /* 인쇄 버튼 스타일 (링크 형태) */
-    .print-btn {
-        display: block; background-color: #4f46e5; color: white !important; 
-        text-align: center; text-decoration: none !important; padding: 12px 20px; 
-        border-radius: 8px; font-size: 1.1em; font-weight: bold; margin-top: 20px; 
-        width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer;
+    /* 인쇄 버튼 스타일 */
+    div.stButton > button {
+        background-color: #4f46e5; color: white; border: none; padding: 10px 20px; 
+        border-radius: 8px; font-weight: bold; width: 100%; margin-top: 10px;
     }
-    .print-btn:hover {background-color: #4338ca;}
+    div.stButton > button:hover {background-color: #4338ca;}
 
-    /* 🖨️ 인쇄 모드 설정 (강제 잉크 절약 및 레이아웃) */
+    /* 🖨️ 인쇄 모드 (종이 출력 시 적용) */
     @media print {
         body * { visibility: hidden; }
         .card, .card * { visibility: visible; }
@@ -31,21 +29,19 @@ st.markdown("""
             position: absolute; left: 0; top: 0; width: 100%;
             margin: 0; padding: 20px;
             background-color: white !important; color: black !important;
-            border: 2px solid #333 !important; box-shadow: none !important;
+            border: none !important; box-shadow: none !important;
         }
-        [data-testid="stSidebar"], [data-testid="stHeader"], .print-btn, footer { display: none !important; }
+        [data-testid="stSidebar"], [data-testid="stHeader"], .stButton, footer { display: none !important; }
     }
 </style>
 """, unsafe_allow_html=True)
 
 # --- 2. 만세력 엔진 (일주 계산) ---
 def calculate_day_gan(birth_date):
-    base_date = date(1900, 1, 1) # 기준일
+    base_date = date(1900, 1, 1)
     delta = birth_date - base_date
-    days_passed = delta.days
-    if days_passed < 0: return 0 
-    
-    gan_index = days_passed % 10
+    if delta.days < 0: return 0
+    gan_index = delta.days % 10
     gans = [
         {"ko": "갑목(甲)", "en": "Yang Wood (Gap)", "element": "Wood"},
         {"ko": "을목(乙)", "en": "Yin Wood (Eul)", "element": "Wood"},
@@ -59,7 +55,6 @@ def calculate_day_gan(birth_date):
         {"ko": "계수(癸)", "en": "Yin Water (Gye)", "element": "Water"}
     ]
     return gans[gan_index]
-
 # --- 3. 데이터베이스 (성격 & 운세) ---
 def get_interpretation(element, lang):
     # 한국어 상세 데이터
@@ -188,34 +183,32 @@ You excel in intellectual fields. (Planning, Research, Trade, Psychology). You c
 You are caring and adaptable, but you keep a secret side. This mystery makes you attractive to others."""
     }
 
-    # 2026년 운세 총평
+    # 2026 총평
     forecast_ko = {}
     forecast_en = {}
     
     if element == "Wood":
-        forecast_ko = {"title": "🔥 재능 폭발의 해 (식상운)", "gen": "나를 태워 세상을 밝히는 형국입니다. 당신의 재능이 꽃을 피우고, 바쁘게 움직일수록 성과가 따릅니다. 다만, 너무 많은 일을 벌이면 건강을 해칠 수 있으니 선택과 집중이 필요합니다.", "money": "수입이 늘어나지만 그만큼 품위 유지비나 투자로 인한 지출도 늘어납니다.", "love": "표현력이 좋아져 인기가 많아집니다. 연애하기 최적의 시기입니다."}
-        forecast_en = {"title": "🔥 A Year of Explosive Talent (Output)", "gen": "You will burn bright like a fire. Your talents will bloom, and being busy will lead to success. However, taking on too much can hurt your health, so focus is key.", "money": "Income increases, but expenses for investments or lifestyle will also rise.", "love": "Your expressiveness improves, boosting your popularity. Great time for romance."}
+        forecast_ko = {"title": "🔥 재능 폭발의 해 (식상운)", "gen": "나를 태워 세상을 밝히는 형국입니다. 당신의 재능이 꽃을 피우고, 바쁘게 움직일수록 성과가 따릅니다. 다만 건강을 해칠 수 있으니 선택과 집중이 필요합니다.", "money": "수입 증가, 품위 유지비 지출 증가.", "love": "표현력이 좋아져 인기가 많아집니다."}
+        forecast_en = {"title": "🔥 Year of Talent (Output)", "gen": "You burn bright. Your talents bloom. Being busy leads to success, but avoid burnout.", "money": "Income rises, but expenses also rise.", "love": "Popularity increases. Great for romance."}
     elif element == "Fire":
-        forecast_ko = {"title": "🤝 경쟁과 협력의 해 (비겁운)", "gen": "불이 불을 만난 격이라 에너지가 넘칩니다. 자존심이 강해지고 경쟁자가 나타나지만, 혼자보다는 동료와 협력할 때 더 큰 성과를 냅니다. 독립하고 싶은 욕구가 강해집니다.", "money": "공동 투자는 신중해야 합니다. 친구나 형제간의 돈 거래는 피하세요.", "love": "친구가 연인으로 발전할 수 있습니다. 경쟁자가 생길 수도 있습니다."}
-        forecast_en = {"title": "🤝 Year of Competition & Cooperation", "gen": "Fire meets Fire, creating immense energy. Your pride grows, and rivals appear. You will achieve more by cooperating rather than working alone. Desire for independence grows.", "money": "Be careful with joint investments. Avoid lending money to friends.", "love": "Friends may turn into lovers. Be aware of potential romantic rivals."}
+        forecast_ko = {"title": "🤝 경쟁과 협력의 해 (비겁운)", "gen": "에너지가 넘칩니다. 자존심이 강해지고 경쟁자가 나타나지만, 동료와 협력할 때 더 큰 성과를 냅니다. 독립 욕구가 강해집니다.", "money": "공동 투자 신중. 돈 거래 금지.", "love": "친구가 연인으로 발전 가능."}
+        forecast_en = {"title": "🤝 Year of Competition", "gen": "Energy is high. Rivals appear. Cooperate to win. Desire for independence grows.", "money": "Caution with joint investments.", "love": "Friends may turn into lovers."}
     elif element == "Earth":
-        forecast_ko = {"title": "📜 문서와 귀인의 해 (인성운)", "gen": "불이 흙을 단단하게 구워줍니다. 윗사람의 도움을 받고, 학업이나 계약에서 좋은 성과를 냅니다. 부동산 취득이나 자격증 시험에 아주 유리한 시기입니다.", "money": "현금보다는 문서(부동산, 주식, 계약권)로 재산을 늘리는 것이 유리합니다.", "love": "사랑받는 시기입니다. 나를 챙겨주는 듬직한 사람을 만납니다."}
-        forecast_en = {"title": "📜 Year of Documents & Mentors (Resource)", "gen": "Fire strengthens the Earth. You will receive help from superiors and succeed in studies or contracts. Excellent time for real estate or certifications.", "money": "Better to grow wealth through assets (documents/real estate) than cash.", "love": "You will be loved. You might meet someone reliable who takes care of you."}
+        forecast_ko = {"title": "📜 문서와 귀인의 해 (인성운)", "gen": "윗사람의 도움을 받고, 학업이나 계약에서 좋은 성과를 냅니다. 부동산 취득이나 자격증 시험에 아주 유리한 시기입니다.", "money": "부동산, 주식 등 문서 이득.", "love": "사랑받는 시기. 듬직한 인연."}
+        forecast_en = {"title": "📜 Year of Resources", "gen": "Help from superiors. Success in contracts and studies. Good for real estate.", "money": "Gains from assets/documents.", "love": "You will be loved and cared for."}
     elif element == "Metal":
-        forecast_ko = {"title": "🔨 명예와 승진의 해 (관성운)", "gen": "불이 쇠를 녹여 도구를 만듭니다. 직장에서 책임감이 커지고 압박이 있지만, 이를 견디면 확실한 승진과 명예가 따릅니다. 조직에서 자리를 잡는 중요한 해입니다.", "money": "고정 수입이 늘어나거나 직급 상승에 따른 인센티브가 있습니다.", "love": "여자는 남자가 들어오는 운이며, 남자는 자녀와 관련된 기쁜 일이 있습니다."}
-        forecast_en = {"title": "🔨 Year of Honor & Promotion (Power)", "gen": "Fire shapes Metal. Responsibility and pressure at work will increase, but enduring it brings promotion and honor. A crucial year for your career.", "money": "Fixed income increases, or bonuses come from higher status.", "love": "Women may meet a partner; Men may have good news regarding children."}
+        forecast_ko = {"title": "🔨 명예와 승진의 해 (관성운)", "gen": "직장에서 책임감이 커지고 압박이 있지만, 이를 견디면 확실한 승진과 명예가 따릅니다. 조직에서 자리를 잡는 중요한 해입니다.", "money": "고정 수입 증가, 승진 보너스.", "love": "여자는 남자가 들어오는 운."}
+        forecast_en = {"title": "🔨 Year of Honor", "gen": "More responsibility at work. Enduring pressure brings promotion. Crucial career year.", "money": "Stable income increases.", "love": "Women may meet a partner."}
     elif element == "Water":
-        forecast_ko = {"title": "💰 재물 쟁취의 해 (재성운)", "gen": "물이 불을 끄려 합니다. 불은 당신에게 '재물'입니다. 큰 돈을 벌 기회가 오지만, 그만큼 치열하게 싸워야 쟁취할 수 있습니다. 결과가 확실하게 나오는 해입니다.", "money": "사업 확장이나 투자를 통해 큰 수익을 기대할 수 있습니다. 과욕은 금물.", "love": "남자는 매력적인 이성을 만나게 됩니다. 즐거운 일이 많아집니다."}
-        forecast_en = {"title": "💰 Year of Wealth Conquest (Wealth)", "gen": "Water controls Fire. Fire represents money to you. Huge financial opportunities arise, but you must fight to claim them. Results will be clear.", "money": "Expect gains from business expansion or investments. Don't be too greedy.", "love": "Men will meet attractive partners. A year full of joy."}
+        forecast_ko = {"title": "💰 재물 쟁취의 해 (재성운)", "gen": "큰 돈을 벌 기회가 오지만, 치열하게 싸워야 쟁취할 수 있습니다. 결과가 확실하게 나오는 해입니다.", "money": "사업 확장, 투자 수익 기대.", "love": "남자는 매력적인 이성 만남."}
+        forecast_en = {"title": "💰 Year of Wealth", "gen": "Huge financial opportunities. You must fight to claim them. Clear results.", "money": "Business expansion gains.", "love": "Men will meet attractive partners."}
 
     if lang == "ko": return traits_ko[element], forecast_ko
     else: return traits_en[element], forecast_en
 
-# --- 4. [수정됨] 월별 정밀 운세 (12개월 전부 다름 & 영어 지원) ---
-def get_monthly_forecast(element, lang):
-    # 각 오행별 12개월(2월~내년1월) 고유 멘트 (한국어, 영어)
-    # 60개의 데이터가 모두 다릅니다.
-    
+# --- 4. [수정됨] 60개 중복 없는 월별 운세 데이터 ---
+def get_monthly_forecast_unique(element, lang):
+    # 각 오행별 12개월(2월~내년1월) 고유 멘트
     data = {
         "Wood": [
             ("2월", "경쟁자가 나타나 신경이 쓰입니다. 실속을 챙기세요.", "Competition arises. Focus on benefits."),
@@ -289,19 +282,17 @@ def get_monthly_forecast(element, lang):
         ]
     }
     
-    # 해당 오행의 12개월 데이터 반환
     months = data[element]
     result = []
     
     for mon_ko, text_ko, text_en in months:
         msg = text_ko if lang == "ko" else text_en
-        # 점수 로직 (멘트의 뉘앙스에 따라 자동 배정)
+        # 점수 로직 (멘트 뉘앙스에 따라 자동 배정)
         score = "⭐⭐⭐"
         if "주의" in text_ko or "조심" in text_ko or "스트레스" in text_ko: score = "⭐⭐"
-        if "최고" in text_ko or "대길" in text_ko or "폭발" in text_ko: score = "⭐⭐⭐⭐⭐"
+        if "최고" in text_ko or "대길" in text_ko or "폭발" in text_ko or "행운" in text_ko: score = "⭐⭐⭐⭐⭐"
         if "좋은" in text_ko or "이득" in text_ko: score = "⭐⭐⭐⭐"
         
-        # 날짜 포맷 (영어면 Feb, Mar 등으로 변환)
         month_label = mon_ko
         if lang != "ko":
             month_map = {"2월":"Feb", "3월":"Mar", "4월":"Apr", "5월":"May", "6월":"Jun", "7월":"Jul", "8월":"Aug", "9월":"Sep", "10월":"Oct", "11월":"Nov", "12월":"Dec", "1월":"Jan"}
@@ -310,13 +301,14 @@ def get_monthly_forecast(element, lang):
         result.append({"Month": month_label, "Luck": score, "Advice": msg})
         
     return result
+
 # --- 5. 메인 실행 ---
 def main():
     with st.sidebar:
         st.title("Settings")
         lang_opt = st.radio("Language", ["Korean (한국어)", "English (미국)"])
         lang = "ko" if "Korean" in lang_opt else "en"
-        st.info("💡 **Print Tip:** Press the 'Print Report' button to save as PDF.")
+        st.info("💡 **Tip:** Click 'Print Report' to save as PDF.")
 
     ui = {
         "ko": {
@@ -344,13 +336,14 @@ def main():
     with c2: b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=date(1990,1,1))
     with c3: b_time = st.time_input("Time of Birth", value=None)
 
+    # 결과 화면
     if st.button(txt['btn'], use_container_width=True):
         if name:
             day_info = calculate_day_gan(b_date)
             element_type = day_info['element']
             trait, forecast = get_interpretation(element_type, lang)
             
-            # --- 결과 화면 ---
+            # --- 탭 구성 ---
             tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
             
             with tab1: # 성격
@@ -362,11 +355,9 @@ def main():
                     <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
                 </div>
                 """, unsafe_allow_html=True)
-                # 인쇄 버튼 (링크 태그)
-                st.markdown(f'<a href="#" onclick="window.print(); return false;" class="print-btn">{txt["print"]}</a>', unsafe_allow_html=True)
 
-            with tab2: # 2026 운세 탭
-                # 1. 총평 (이전과 동일하게 유지)
+            with tab2: # 2026 운세
+                # 1. 총평
                 st.markdown(f"""
                 <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
                     <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
@@ -378,13 +369,11 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # 2. [수정됨] 월별 상세 운세 (새로운 함수 연결)
+                # 2. 월별 상세 운세 (중복 없음)
                 st.subheader(f"📅 2026 {txt['t_adv']}")
                 
-                # 여기서 방금 만든 '긴 함수'를 호출합니다.
-                raw_data = get_monthly_forecast(element_type, lang)
+                raw_data = get_monthly_forecast_unique(element_type, lang)
                 
-                # 표(Table)로 만들기
                 table_data = []
                 for row in raw_data:
                     table_data.append({
@@ -394,14 +383,12 @@ def main():
                     })
                 
                 st.table(pd.DataFrame(table_data))
+            
+            # 🛑 확실한 인쇄 버튼 (여기에 위치해야 클릭 후 사라지지 않음)
+            st.write("---")
+            if st.button(txt['print'], key="print_btn_action"):
+                 components.html(f"<script>window.print();</script>", height=0, width=0)
 
-    # --- [수정됨] 확실한 인쇄 기능 (JavaScript) ---
-    st.write("---")
-    # 'main' 함수 맨 끝자락에 넣으세요.
-    if st.button(txt['print'], key="print_btn"):
-        # 이 코드가 인쇄 창을 강제로 띄웁니다.
-        components.html("<script>window.print();</script>", height=0, width=0)
-        
         else:
             st.warning("Please enter your name.")
 
