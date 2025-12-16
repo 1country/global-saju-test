@@ -1,4 +1,28 @@
 import streamlit as st
+# ----------------------------------------------------------------
+# [인쇄 스타일 설정] (빈 페이지 방지 코드)
+# ----------------------------------------------------------------
+st.markdown("""
+    <style>
+        @media print {
+            /* 1. 사이드바, 헤더, 버튼 등 불필요한 요소 숨기기 */
+            [data-testid="stSidebar"], header, footer, .stButton, button {
+                display: none !important;
+            }
+            /* 2. 본문 내용이 잘리지 않고 다 나오게 설정 */
+            .stApp, [data-testid="stAppViewContainer"], .main {
+                overflow: visible !important;
+                height: auto !important;
+                display: block !important;
+            }
+            /* 3. 배경색 흰색, 글자색 검정으로 강제 통일 */
+            body, .stApp {
+                background-color: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+""", unsafe_allow_html=True)
 import pandas as pd
 import streamlit.components.v1 as components
 from datetime import datetime, date
