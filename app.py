@@ -3,6 +3,8 @@ import pandas as pd
 import streamlit.components.v1 as components
 from datetime import datetime, date
 
+UNLOCK_CODE = "2026RICH"
+
 # --- 1. 페이지 설정 ---
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
@@ -315,22 +317,34 @@ def main():
         "ko": {
             "title": "디 엘리먼트: 사주 프로", "sub": "당신의 운명 지도와 2026년 정밀 분석", 
             "name": "이름", "btn": "운명 분석하기", 
-            "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세", 
+            "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세 ($5)", # 탭 이름 변경
             "print": "🖨️ 리포트 인쇄하기",
             "t_mon": "월 (Month)", 
             "t_sco": "운세 점수 (5점 만점)", 
             "t_adv": "상세 조언",
-            "legend": "※ 별점 기준: ⭐⭐⭐⭐⭐ (최고) ~ ⭐ (주의)"
+            "legend": "※ 별점 기준: ⭐⭐⭐⭐⭐ (최고) ~ ⭐ (주의)",
+            # 👇 새로 추가된 부분
+            "locked_msg": "🔒 **이 콘텐츠는 유료(Premium)입니다.**",
+            "locked_desc": "2026년 월별 정밀 운세는 **$5(약 6,500원)** 결제 후 확인하실 수 있습니다.\n결제 완료 후 받으신 **'잠금 해제 코드'**를 아래에 입력해주세요.",
+            "code_label": "잠금 해제 코드 입력",
+            "unlock_btn": "확인 (Unlock)",
+            "err_code": "⛔ 코드가 올바르지 않습니다. 다시 확인해주세요."
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
             "name": "Name", "btn": "Analyze Destiny", 
-            "tab1": "Personality", "tab2": "2026 Forecast", 
+            "tab1": "Personality", "tab2": "2026 Forecast ($5)", # 탭 이름 변경
             "print": "🖨️ Print Report",
             "t_mon": "Month", 
             "t_sco": "Luck Score (Max 5)", 
             "t_adv": "Detailed Advice",
-            "legend": "※ Scale: ⭐⭐⭐⭐⭐ (Best) ~ ⭐ (Caution)"
+            "legend": "※ Scale: ⭐⭐⭐⭐⭐ (Best) ~ ⭐ (Caution)",
+            # 👇 새로 추가된 부분
+            "locked_msg": "🔒 **Premium Content**",
+            "locked_desc": "The 2026 Monthly Forecast is available for **$5**.\nPlease enter the **'Unlock Code'** provided after payment.",
+            "code_label": "Enter Unlock Code",
+            "unlock_btn": "Unlock",
+            "err_code": "⛔ Invalid Code. Please check again."
         }
     }
     txt = ui[lang]
@@ -370,62 +384,79 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
+        # [수정] with tab2: 내부를 아래 코드로 싹 교체하세요.
         with tab2:
-            st.markdown(f"""
-            <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
-                <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
-                <p style='font-size:1.1em;'>{forecast['gen']}</p>
-                <ul style='margin-top:10px;'>
-                    <li><b>💰 Wealth:</b> {forecast['money']}</li>
-                    <li><b>❤️ Love:</b> {forecast['love']}</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.subheader(f"📅 2026 {txt['t_adv']}")
-            st.caption(txt['legend'])
-            
-            raw_data = get_monthly_forecast_unique(element_type, lang)
-            
-            table_data = []
-            for row in raw_data:
-                table_data.append({
-                    txt['t_mon']: row['Month'], 
-                    txt['t_sco']: row['Luck'], 
-                    txt['t_adv']: row['Advice']
-                })
-            
-           df = pd.DataFrame(table_data)
-            df = df.set_index(txt['t_mon'])
-            st.table(df)
+            # 0. 잠금 상태 확인을 위한 변수 초기화
+            if "is_unlocked" not in st.session_state:
+                st.session_state["is_unlocked"] = False
 
-        # --- 인쇄 및 후원 섹션 ---
-        st.write("---")
-        
-        # 1. 인쇄 버튼
-        if st.button(txt['print'], key="final_print"):
-            components.html("<script>window.print();</script>", height=0, width=0)
+            # [상황 A] 잠겨있을 때 (결제 유도 화면)
+            if not st.session_state["is_unlocked"]:
+                st.markdown(f"""
+                <div class='lock-screen' style='background-color:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px; padding:40px; text-align:center; color:#475569; margin-bottom:20px;'>
+                    <h2 style='margin-bottom:10px;'>{txt['locked_msg']}</h2>
+                    <p>{txt['locked_desc']}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # 결제 버튼 보여주기
+                c_pay1, c_pay2 = st.columns(2)
+                # 선생님의 실제 링크로 바꿔주세요!
+                if lang == "ko":
+                    with c_pay1: st.link_button("💛 카카오페이 송금", "https://qr.kakaopay.com/본인QR코드")
+                    with c_pay2: st.link_button("💙 토스 익명 송금", "https://toss.me/본인아이디")
+                else:
+                    with c_pay1: st.link_button("☕ Buy Me a Coffee", "https://www.buymeacoffee.com/본인아이디")
+                    with c_pay2: st.link_button("🅿️ PayPal", "https://paypal.me/본인아이디")
+                
+                st.write("---")
+                
+                # 비밀번호 입력창
+                user_code = st.text_input(txt['code_label'], type="password", key="pwd_input")
+                if st.button(txt['unlock_btn']):
+                    if user_code == UNLOCK_CODE:
+                        st.session_state["is_unlocked"] = True
+                        st.rerun() # 화면 새로고침해서 내용 보여주기
+                    else:
+                        st.error(txt['err_code'])
+            
+            # [상황 B] 잠금 해제되었을 때 (원래 내용 보여주기)
+            else:
+                st.success("🔓 Premium Content Unlocked!")
+                
+                # 1. 총평
+                st.markdown(f"""
+                <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
+                    <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
+                    <p style='font-size:1.1em;'>{forecast['gen']}</p>
+                    <ul style='margin-top:10px;'>
+                        <li><b>💰 Wealth:</b> {forecast['money']}</li>
+                        <li><b>❤️ Love:</b> {forecast['love']}</li>
+                    </ul>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # 2. 월별 상세 표
+                st.subheader(f"📅 2026 {txt['t_adv']}")
+                st.caption(txt['legend'])
+                
+                raw_data = get_monthly_forecast_unique(element_type, lang)
+                
+                table_data = []
+                for row in raw_data:
+                    table_data.append({
+                        txt['t_mon']: row['Month'], 
+                        txt['t_sco']: row['Luck'], 
+                        txt['t_adv']: row['Advice']
+                    })
+                
+                df = pd.DataFrame(table_data)
+                df = df.set_index(txt['t_mon'])
+                st.table(df)
 
-        # 2. 글로벌 후원 버튼
-        st.write("")
-        st.subheader(txt['donation'])
-        st.caption(txt['donation_desc'])
-        
-        d_col1, d_col2 = st.columns(2)
-        
-        # ✅ 한국인용 (카카오/토스) - 한국어 모드일 때만 보임
-        if lang == "ko":
-            with d_col1:
-                st.link_button("💛 카카오페이 송금 (Kakao)", "https://qr.kakaopay.com/본인QR코드")
-            with d_col2:
-                st.link_button("💙 토스 송금 (Toss)", "https://toss.me/본인아이디")
-        
-        # ✅ 글로벌용 (바이미어커피/페이팔) - 둘 다 보임 (외국인도 접근 가능하게)
-        else:
-            with d_col1:
-                st.link_button("☕ Buy Me a Coffee (Card)", "https://www.buymeacoffee.com/본인아이디")
-            with d_col2:
-                st.link_button("🅿️ PayPal (Global)", "https://paypal.me/본인아이디")
-
+                # 3. 인쇄 버튼 (결제한 사람만 인쇄 가능)
+                st.write("---")
+                if st.button(txt['print'], key="final_print"):
+                    components.html("<script>window.print();</script>", height=0, width=0)
 if __name__ == "__main__":
     main()
