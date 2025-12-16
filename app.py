@@ -280,8 +280,24 @@ def main():
         st.info("💡 **Tip:** 일간(Day Master)과 2026년 월운(Monthly Energy)의 상호작용을 정밀 계산합니다.")
 
     ui = {
-        "ko": {"title": "디 엘리먼트: 사주 프로", "sub": "당신의 운명 지도와 2026년 정밀 분석", "name": "이름", "btn": "운명 분석하기", "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 월별 운세"},
-        "en": {"title": "The Element: Pro", "sub": "Precise Day-Master Analysis", "name": "Name", "btn": "Analyze Destiny", "tab1": "Personality", "tab2": "2026 Forecast"}
+        "ko": {
+            "title": "디 엘리먼트: 사주 프로", 
+            "sub": "당신의 운명 지도와 2026년 정밀 분석", 
+            "name": "이름", 
+            "btn": "운명 분석하기", 
+            "tab1": "🔮 타고난 기질", 
+            "tab2": "📅 2026년 정밀 운세", 
+            "print": "🖨️ 리포트 인쇄하기"  # ✅ 이 부분이 빠져서 에러가 났던 것입니다.
+        },
+        "en": {
+            "title": "The Element: Pro", 
+            "sub": "Precise Day-Master Analysis", 
+            "name": "Name", 
+            "btn": "Analyze Destiny", 
+            "tab1": "Personality", 
+            "tab2": "2026 Forecast", 
+            "print": "🖨️ Print Report"   # ✅ 영어 버전도 추가됨
+        }
     }
     txt = ui[lang]
 
