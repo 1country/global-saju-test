@@ -460,3 +460,20 @@ def main():
                     components.html("<script>window.print();</script>", height=0, width=0)
 if __name__ == "__main__":
     main()
+# ----------------------------------------------------------------
+# [커피 후원 버튼 추가]
+# ----------------------------------------------------------------
+st.sidebar.markdown("---") # 사이드바 구분선
+st.sidebar.header("☕ 개발자 응원하기")
+st.sidebar.markdown("""
+    <div style="text-align: center;">
+        <a href="https://buymeacoffee.com/5codes" target="_blank">
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+                 alt="Buy Me A Coffee" 
+                 style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
+        </a>
+        <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
+            운명의 코드를 응원해 주세요! ☕
+        </p>
+    </div>
+""", unsafe_allow_html=True)
