@@ -5,18 +5,44 @@ from datetime import datetime, date
 # --- 1. 페이지 설정 ---
 st.set_page_config(page_title="The Element: Pro", page_icon="🌌", layout="wide")
 
-# 스타일 (CSS)
+# 스타일 (CSS) - 인쇄(Print) 설정 추가
 st.markdown("""
 <style>
+    /* 화면 디자인 */
     .main-header {font-size: 2.2em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
     .sub-header {font-size: 1.0em; color: #64748b; text-align: center; margin-bottom: 30px;}
     .card {background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 20px;}
     .highlight {color: #2563eb; font-weight: bold;}
-    .lucky-score {color: #f59e0b; font-size: 1.2em;}
-    .warn {color: #ef4444; font-weight: bold;}
-    /* 표 스타일 */
-    thead tr th {background-color: #f1f5f9 !important; color: #334155 !important; font-weight: bold !important;}
-    tbody tr:nth-child(even) {background-color: #f8fafc;}
+    
+    /* 인쇄 버튼 스타일 */
+    .print-btn {
+        background-color: #4f46e5; color: white; border: none; padding: 10px 20px; 
+        border-radius: 5px; cursor: pointer; font-size: 1em; margin-top: 10px; width: 100%;
+    }
+    .print-btn:hover {background-color: #4338ca;}
+
+    /* 🖨️ 인쇄 모드 (종이에 출력될 때만 적용되는 규칙) */
+    @media print {
+        /* 사이드바, 입력창, 버튼, 탭 메뉴 숨기기 */
+        [data-testid="stSidebar"], 
+        [data-testid="stHeader"], 
+        .stTextInput, .stDateInput, .stTimeInput, .stButton, 
+        .stTabs [data-baseweb="tab-list"],
+        footer {
+            display: none !important;
+        }
+        /* 배경색 강제 출력 */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        /* 리포트 카드 디자인 유지 */
+        .card {
+            border: 1px solid #ccc !important;
+            box-shadow: none !important;
+            break-inside: avoid; /* 페이지 넘어갈 때 박스 잘림 방지 */
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -277,19 +303,25 @@ def main():
             # --- 결과 화면 ---
             tab1, tab2 = st.tabs([txt['tab1'], txt['tab2']])
             
-            with tab1: # 기본 성격
+            # 탭 1: 성격
+            with tab1:
                 st.markdown(f"""
                 <div class='card'>
-                    <h3 style='color: #64748b;'>👋 {name}님의 타고난 본질</h3>
+                    <h3 style='color: #64748b;'>👋 {name}</h3>
                     <h1 style='color: #4f46e5; margin: 10px 0;'>{day_info[lang]}</h1>
                     <hr>
-                    <p style='font-size: 1.1em; line-height: 1.8;'>{trait}</p>
+                    <div style='font-size: 1.1em; line-height: 1.8;'>{trait}</div>
                 </div>
                 """, unsafe_allow_html=True)
+                
+                # 인쇄 버튼 (HTML/JS 주입)
+                st.markdown(f"""
+                <button onclick="window.print()" class="print-btn">{txt['print']}</button>
+                """, unsafe_allow_html=True)
 
-            with tab2: # 2026 운세 (유료급)
+            # 탭 2: 2026 운세
+            with tab2:
                 if lang == "ko":
-                    # 총평
                     st.markdown(f"""
                     <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
                         <h2 style='color: #be185d;'>👑 2026년 병오년(붉은 말) 핵심 요약</h2>
@@ -302,24 +334,21 @@ def main():
                     </div>
                     """, unsafe_allow_html=True)
                     
-                    # 월별 상세 운세 (표 생성)
                     st.subheader("📅 2026년 월별 상세 흐름")
-                    
                     monthly_data = []
-                    # 2026년 2월(입춘)부터 2027년 1월까지 순서대로
                     month_seq = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1]
                     month_names = ["2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", "내년 1월"]
 
                     for idx, m_num in enumerate(month_seq):
                         msg, score = get_monthly_forecast(element_type, m_num)
-                        monthly_data.append({
-                            "월(Month)": month_names[idx], 
-                            "운세 점수": score, 
-                            "상세 코멘트 (Advice)": msg
-                        })
+                        monthly_data.append({"Month": month_names[idx], "Luck": score, "Advice": msg})
                     
-                    df = pd.DataFrame(monthly_data)
-                    st.table(df) # 깔끔한 표 출력
+                    st.table(pd.DataFrame(monthly_data))
+                    
+                    # 인쇄 버튼 (여기에도 추가)
+                    st.markdown(f"""
+                    <button onclick="window.print()" class="print-btn">{txt['print']}</button>
+                    """, unsafe_allow_html=True)
                 else:
                     st.info("Full monthly forecast is currently available in Korean mode.")
         else:
