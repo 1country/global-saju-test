@@ -2,77 +2,156 @@ import streamlit as st
 from datetime import datetime
 
 # --- 1. 페이지 설정 (디자인) ---
-st.set_page_config(page_title="The Element", page_icon="🌌")
+st.set_page_config(page_title="The Element: Discover Your True Self", page_icon="🔮")
 
-# 스타일 꾸미기 (CSS)
+# 스타일 꾸미기 (CSS) - 제목 폰트 크기와 여백 조정
 st.markdown("""
 <style>
-    .main-title {font-size: 3em; color: #4A90E2; text-align: center; margin-bottom: 0;}
-    .sub-title {font-size: 1.2em; color: #555; text-align: center; margin-top: 0;}
-    .result-box {background-color: #f0f2f6; padding: 20px; border-radius: 10px; border-left: 5px solid #4A90E2;}
+    .main-title {
+        font-size: 2.5em; 
+        color: #2C3E50; 
+        text-align: center; 
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .sub-title {
+        font-size: 1.2em; 
+        color: #7F8C8D; 
+        text-align: center; 
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+    .result-box {
+        background-color: #ffffff; 
+        padding: 25px; 
+        border-radius: 15px; 
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+    .highlight {
+        color: #E67E22;
+        font-weight: bold;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 진짜 사주 계산 로직 (만세력 엔진) ---
+# --- 2. 풍성해진 사주 해석 데이터 (DB) ---
 def get_element_from_year(year):
-    # 천간(Heavenly Stems) 계산: 연도 끝자리에 따라 결정됨
-    # 4:갑(Wood), 5:을(Wood), 6:병(Fire), 7:정(Fire), 8:무(Earth), 9:기(Earth), 0:경(Metal), 1:신(Metal), 2:임(Water), 3:계(Water)
-    
+    # 연도의 끝자리를 기준으로 천간(Heavenly Stem) 결정
     last_digit = int(str(year)[-1])
     
     elements = {
-        4: {"name": "Green Wood (Gap)", "type": "Wood 🌲", "desc": "You are like a giant tree. Straight, honest, and upward-growing."},
-        5: {"name": "Flower Wood (Eul)", "type": "Wood 🌿", "desc": "You are like a vine or flower. Flexible, resilient, and survive anywhere."},
-        6: {"name": "Burning Sun (Byeong)", "type": "Fire ☀️", "desc": "You are the sun. Passionate, fair, and you love to be the center of attention."},
-        7: {"name": "Candle Light (Jeong)", "type": "Fire 🔥", "desc": "You are a warm candle. Sensitive, artistic, and you guide people in the dark."},
-        8: {"name": "Great Mountain (Mu)", "type": "Earth ⛰️", "desc": "You are a massive mountain. Trustworthy, steady, and stubborn."},
-        9: {"name": "Garden Soil (Gi)", "type": "Earth 🪴", "desc": "You are fertile soil. Practical, nurturing, and you grow talents in others."},
-        0: {"name": "Iron Sword (Gyeong)", "type": "Metal ⚔️", "desc": "You are raw steel. Strong, decisive, and loyal."},
-        1: {"name": "Gold Jewelry (Sin)", "type": "Metal 💎", "desc": "You are a polished gem. Sharp, delicate, and you value perfection."},
-        2: {"name": "Ocean Water (Im)", "type": "Water 🌊", "desc": "You are the wide ocean. Wise, adaptable, and you have deep thoughts."},
-        3: {"name": "Rain Water (Gye)", "type": "Water 🌧️", "desc": "You are gentle rain. Quiet, intelligent, and you gently change the world."}
+        4: {
+            "type": "Wood (Gap) 🌲",
+            "archetype": "The Pioneer (The Giant Tree)",
+            "desc": "You possess the energy of a giant pine tree stretching towards the sky. You are straightforward, honest, and have a strong drive for growth. Once you set a goal, you move forward without looking back. Your leadership is natural, and you prefer to lead rather than follow.",
+            "keywords": "Growth, Leadership, Resilience"
+        },
+        5: {
+            "type": "Wood (Eul) 🌿",
+            "archetype": "The Survivor (The Wild Flower)",
+            "desc": "You are like a resilient vine or a flower that blooms even in harsh conditions. Unlike the rigid tree, you are flexible and adaptable. You have strong survival instincts and a practical mind. Your gentle exterior hides a very strong inner will.",
+            "keywords": "Flexibility, Adaptability, Networking"
+        },
+        6: {
+            "type": "Fire (Byeong) ☀️",
+            "archetype": "The Visionary (The Sun)",
+            "desc": "You are the sun shining brightly in the sky. You are passionate, open-hearted, and full of energy. You can't hide your emotions, and you love being the center of attention. Your presence naturally warms the people around you and gives them hope.",
+            "keywords": "Passion, Public Speaking, Optimism"
+        },
+        7: {
+            "type": "Fire (Jeong) 🔥",
+            "archetype": "The Mentor (The Candle Light)",
+            "desc": "You are like a warm candlelight or a guiding star in the dark. Unlike the sun, your fire is focused and intense. You are sensitive, artistic, and have a sacrificing spirit to help others. You have great intuition and can see things others miss.",
+            "keywords": "Insight, Sacrifice, Detail-oriented"
+        },
+        8: {
+            "type": "Earth (Mu) ⛰️",
+            "archetype": "The Guardian (The Big Mountain)",
+            "desc": "You stand tall like a majestic mountain range. You are trustworthy, steady, and hold a heavy sense of responsibility. People naturally rely on you. You may seem slow to move, but once you make a decision, your persistence is unstoppable.",
+            "keywords": "Trust, Stability, Persistence"
+        },
+        9: {
+            "type": "Earth (Gi) 🪴",
+            "archetype": "The Nurturer (The Fertile Soil)",
+            "desc": "You are the fertile soil of a garden that grows crops. You are practical, nurturing, and multifaceted. You know how to embrace others and help them succeed. You are very realistic and have a talent for managing assets.",
+            "keywords": "Nurturing, Practicality, Multitasking"
+        },
+        0: {
+            "type": "Metal (Gyeong) ⚔️",
+            "archetype": "The Warrior (The Iron Sword)",
+            "desc": "You are like raw steel or a powerful sword. You value loyalty and justice above all else. You are decisive and have strong executive power. You dislike ambiguity and prefer clear-cut conclusions. You are a natural reformer.",
+            "keywords": "Justice, Loyalty, Decisiveness"
+        },
+        1: {
+            "type": "Metal (Sin) 💎",
+            "archetype": "The Perfectionist (The Gemstone)",
+            "desc": "You are a polished jewel, shining and sharp. You have a delicate and sensitive aesthetic sense. You aim for perfection in everything you do. Although you look elegant on the outside, you have a very sharp mind and high standards.",
+            "keywords": "Elegance, Precision, Self-Respect"
+        },
+        2: {
+            "type": "Water (Im) 🌊",
+            "archetype": "The Strategist (The Ocean)",
+            "desc": "You are the vast ocean. You are incredibly wise, adaptable, and have a big heart. Like the ocean, your depth is hard to measure. You flow around obstacles rather than fighting them, but your power can be overwhelming when unleashed.",
+            "keywords": "Wisdom, Flow, Big Picture"
+        },
+        3: {
+            "type": "Water (Gye) 🌧️",
+            "archetype": "The Thinker (The Gentle Rain)",
+            "desc": "You are the spring rain that nurtures life. You are quiet, intelligent, and very logical. You prefer planning behind the scenes rather than standing in front. You are sensitive to others' feelings and have a kind, introverted nature.",
+            "keywords": "Intelligence, Empathy, Planning"
+        }
     }
     return elements[last_digit]
 
 # --- 3. 화면 구성 (UI) ---
-st.markdown("<h1 class='main-title'>The Element</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Discover the ancient energy code hidden in your birth date.</p>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-title'>The Element: Discover Your True Self</h1>", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>Ancient Asian Wisdom Decoded for the Modern Soul</p>", unsafe_allow_html=True)
 
 st.write("---")
 
-# 입력창
+# 입력창 디자인
 col1, col2 = st.columns(2)
 with col1:
-    name = st.text_input("Name", placeholder="Your Name")
+    name = st.text_input("Name", placeholder="Enter your name")
 with col2:
-    # 1900년~현재까지 선택 가능
-    birth_date = st.date_input("Birth Date", min_value=datetime(1900, 1, 1))
+    birth_date = st.date_input("Birth Date", min_value=datetime(1920, 1, 1))
 
-# 버튼 및 결과 처리
-if st.button("Analyze My Energy 🔮", use_container_width=True):
+# 버튼 스타일 지정 및 클릭 처리
+if st.button("🔮 Analyze My Soul Energy", use_container_width=True):
     if name:
-        # 로직 실행
         year = birth_date.year
         result = get_element_from_year(year)
         
-        # 결과 화면 출력
         st.write("") # 여백
-        st.success(f"Analysis Complete for {name}")
         
-        # 결과 카드
+        # 결과 카드 출력
         st.markdown(f"""
         <div class="result-box">
-            <h3>🌟 Your Root Energy is: {result['type']}</h3>
-            <p><strong>Archetype:</strong> {result['name']}</p>
-            <p>{result['desc']}</p>
+            <h2 style="color: #333; margin-bottom: 10px;">Hello, {name}.</h2>
+            <p style="font-size: 1.1em; color: #555;">Based on the year <b>{year}</b>, your core energy is:</p>
+            
+            <h1 style="color: #4A90E2; font-size: 2.5em; margin: 20px 0;">{result['type']}</h1>
+            
+            <p style="font-size: 1.3em; font-weight: bold;">Archetype: <span class="highlight">{result['archetype']}</span></p>
+            
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            
+            <p style="line-height: 1.6; font-size: 1.1em; color: #444;">
+                {result['desc']}
+            </p>
+            
+            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <span style="font-weight: bold; color: #555;">🔑 Your Key Traits:</span><br>
+                {result['keywords']}
+            </div>
         </div>
         """, unsafe_allow_html=True)
         
-        st.info("💡 This result is based on your 'Birth Year Stem' (The Foundation of Life). Full analysis coming soon!")
-        
     else:
-        st.error("Please enter your name to start.")
+        st.warning("Please enter your name to begin the journey.")
 
-# 푸터
+# 하단 푸터
 st.write("---")
-st.caption("© 2025 The Element Lab. Based on Asian Metaphysics.")
+st.markdown("<div style='text-align: center; color: #888;'>© 2025 The Element Lab. <br> This analysis is based on the 'Year Pillar' of the Four Pillars of Destiny.</div>", unsafe_allow_html=True)
