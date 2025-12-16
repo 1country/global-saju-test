@@ -383,7 +383,7 @@ def main():
                 # ★ 여기에 버튼 부활! (이 버튼은 종이엔 안 나옵니다)
                 st.write("---")
                 if st.button(txt['print_btn_label'], type="primary"):
-                    components.html("<script>window.print();</script>", height=0, width=0)
+                    
 
         # ------------------------------------------------
         # [B] 일반 모드 (Normal Mode)
@@ -454,6 +454,15 @@ def main():
                     df = pd.DataFrame(table_data)
                     df = df.set_index(txt['t_mon'])
                     st.table(df)
+                    # ✅ 인쇄 버튼: 정상 작동하는 window.print() 방식
+                    st.write("---")
+                    if st.button(txt['print_btn_label'], type="primary"):
+                        st.markdown("""
+                            <script>
+                                window.print();
+                            </script>
+                        """, unsafe_allow_html=True)
+
 
                     # 일반 모드일 때 인쇄 안내
                     st.write("---")
