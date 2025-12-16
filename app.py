@@ -73,8 +73,33 @@ def get_interpretation(element, lang):
         **[장점]** 임기응변에 강하고 친화력이 좋습니다. 조용히 실속을 챙기는 능력이 탁월합니다.<br>
         **[단점]** 생각이 꼬리에 꼬리를 물어 우울해지거나, 비밀이 너무 많아 속을 알 수 없다는 평을 듣기도 합니다."""
     }
-    traits_en = {"Wood": "Energy of Growth", "Fire": "Energy of Passion", "Earth": "Energy of Stability", "Metal": "Energy of Justice", "Water": "Energy of Wisdom"}
+    # 2. 영어 성격 데이터 (상세 버전)
+    traits_en = {
+        "Wood": """**[Core: Growth & Pride]**<br>
+        You have the energy of a tree stretching straight toward the sky. You are honest, straightforward, and have a strong desire for growth. You prefer to lead rather than follow, and you have a strong sense of pride.<br><br>
+        **[Strengths]** You have a strong drive and a benevolent nature. Once you set a goal, you move forward without looking back.<br>
+        **[Weaknesses]** You dislike bending your will, which means you can sometimes break. Learning a little flexibility will make you unstoppable.""",
 
+        "Fire": """**[Core: Passion & Expression]**<br>
+        You are like the sun or a candle that lights up the world. You are energetic, passionate, and transparent—your emotions show clearly on your face. You love being the center of attention.<br><br>
+        **[Strengths]** You are polite, warm-hearted, and hold no grudges. You are a natural mood maker who energizes people around you.<br>
+        **[Weaknesses]** You can be impatient and prone to making hasty mistakes. You often start things with great enthusiasm but struggle to finish them.""",
+
+        "Earth": """**[Core: Trust & Stability]**<br>
+        You are like a majestic mountain or a vast field. You are steady, and you value trust and credit above all else. People naturally rely on you because of your inclusive and comforting nature.<br><br>
+        **[Strengths]** You are heavy-mouthed (keep secrets well) and persistent. Once you are on someone's side, you protect them until the end.<br>
+        **[Weaknesses]** You don't reveal your true feelings easily, which can frustrate others. You can be quite stubborn once you make up your mind.""",
+
+        "Metal": """**[Core: Decision & Loyalty]**<br>
+        You are like a solid rock or a sharp sword. You value justice and loyalty. You dislike ambiguity—for you, things must be clearly black or white. You have a 'crush' or 'strong leader' vibe.<br><br>
+        **[Strengths]** You are decisive and have strong leadership skills. You take full responsibility for your people.<br>
+        **[Weaknesses]** Your blunt honesty can sometimes hurt others. You need to learn how to communicate more softly.""",
+
+        "Water": """**[Core: Wisdom & Flexibility]**<br>
+        You are like flowing water or the deep ocean. You can adapt to any shape or container. You are incredibly smart, wise, and have excellent planning skills.<br><br>
+        **[Strengths]** You are adaptable, social, and practical. You know how to quietly gain benefits without making a scene.<br>
+        **[Weaknesses]** You tend to overthink, which can lead to depression. You can be too secretive, making it hard for others to know your true intentions."""
+    }
     # 2026년(병오년-불) 총평
     forecast_ko = {}
     if element == "Wood":
