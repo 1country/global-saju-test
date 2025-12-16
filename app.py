@@ -67,7 +67,7 @@ st.markdown("""
             }
         }
     </style>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True) 
 
 # --- 2. 만세력 엔진 (일주 계산) ---
 def calculate_day_gan(birth_date):
