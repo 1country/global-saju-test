@@ -307,7 +307,7 @@ def get_monthly_forecast_unique(element, lang):
 def main():
     with st.sidebar:
         st.title("Settings")
-        lang_opt = st.radio("Language", ["Korean (한국어)", "English (미국)"])
+        lang_opt = st.radio("Language", ["한국어", "English"])
         lang = "ko" if "Korean" in lang_opt else "en"
         st.info("💡 **Tip:** Click 'Print Report' to save as PDF.")
 
