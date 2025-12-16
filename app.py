@@ -1,156 +1,213 @@
 import streamlit as st
-from datetime import datetime, time
+from datetime import datetime
 
-# --- 1. 페이지 설정 (디자인) ---
-st.set_page_config(page_title="The Element: Discover Your True Self", page_icon="🔮", layout="wide")
+# --- 1. 페이지 설정 ---
+st.set_page_config(page_title="The Element: Global Destiny", page_icon="🌏", layout="wide")
 
-# 스타일 꾸미기 (CSS)
+# 스타일 (CSS)
 st.markdown("""
 <style>
-    .main-title {
-        font-size: 2.5em; 
-        color: #2C3E50; 
-        text-align: center; 
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    .sub-title {
-        font-size: 1.2em; 
-        color: #7F8C8D; 
-        text-align: center; 
-        margin-top: 0;
-        margin-bottom: 30px;
-    }
-    .result-box {
-        background-color: #ffffff; 
-        padding: 25px; 
-        border-radius: 15px; 
-        border: 1px solid #e0e0e0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-    .highlight {
-        color: #E67E22;
-        font-weight: bold;
-    }
+    .main-title {font-size: 2.5em; color: #2C3E50; text-align: center; font-weight: bold; margin-bottom: 10px;}
+    .sub-title {font-size: 1.2em; color: #7F8C8D; text-align: center; margin-bottom: 30px;}
+    .result-box {background-color: #ffffff; padding: 25px; border-radius: 15px; border: 1px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px;}
+    .premium-box {background-color: #fff8e1; padding: 25px; border-radius: 15px; border: 2px solid #f1c40f; margin-top: 20px;}
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 사주 데이터 (DB) ---
-def get_element_from_year(year):
+# --- 2. 다국어 UI 팩 (Top 12 Languages) ---
+# 이곳에 언어를 계속 추가하면 됩니다.
+ui_languages = {
+    "English 🇺🇸": {
+        "code": "en", "title": "The Element", "subtitle": "Discover Your True Self",
+        "name": "Name", "date": "Birth Date", "time": "Birth Time (Optional)",
+        "btn": "🔮 Analyze Energy", "tab1": "Basic Profile", "tab2": "2026 Forecast",
+        "msg": "Hello", "born": "Born in"
+    },
+    "한국어 🇰🇷": {
+        "code": "ko", "title": "디 엘리먼트", "subtitle": "나를 찾는 여행",
+        "name": "이름", "date": "생년월일", "time": "태어난 시간 (선택)",
+        "btn": "🔮 분석하기", "tab1": "기본 성격", "tab2": "2026년 운세",
+        "msg": "반갑습니다", "born": "출생년도"
+    },
+    "中文 (Chinese) 🇨🇳": {
+        "code": "cn", "title": "五行 (The Element)", "subtitle": "发现真实的自己",
+        "name": "姓名", "date": "出生日期", "time": "出生时间 (可选)",
+        "btn": "🔮 分析能量", "tab1": "基本性格", "tab2": "2026年 运势",
+        "msg": "你好", "born": "出生年份"
+    },
+    "Español (Spanish) 🇪🇸": {
+        "code": "es", "title": "El Elemento", "subtitle": "Descubre tu verdadero ser",
+        "name": "Nombre", "date": "Fecha de nacimiento", "time": "Hora (Opcional)",
+        "btn": "🔮 Analizar Energía", "tab1": "Perfil Básico", "tab2": "Pronóstico 2026",
+        "msg": "Hola", "born": "Nacido en"
+    },
+    "Français (French) 🇫🇷": {
+        "code": "fr", "title": "L'Élément", "subtitle": "Découvrez votre vrai moi",
+        "name": "Nom", "date": "Date de naissance", "time": "Heure (Facultatif)",
+        "btn": "🔮 Analyser", "tab1": "Profil de base", "tab2": "Prévisions 2026",
+        "msg": "Bonjour", "born": "Né en"
+    },
+    "Deutsch (German) 🇩🇪": {
+        "code": "de", "title": "Das Element", "subtitle": "Entdecke dein wahres Ich",
+        "name": "Name", "date": "Geburtsdatum", "time": "Zeit (Optional)",
+        "btn": "🔮 Analysieren", "tab1": "Basisprofil", "tab2": "Prognose 2026",
+        "msg": "Hallo", "born": "Geboren in"
+    },
+    "日本語 (Japanese) 🇯🇵": {
+        "code": "jp", "title": "エレメント", "subtitle": "本当の自分を発見する",
+        "name": "名前", "date": "生年月日", "time": "出生時間 (任意)",
+        "btn": "🔮 診断する", "tab1": "基本性格", "tab2": "2026年の運勢",
+        "msg": "こんにちは", "born": "生まれ"
+    },
+    "Pусский (Russian) 🇷🇺": {
+        "code": "ru", "title": "Элемент", "subtitle": "Открой свое истинное Я",
+        "name": "Имя", "date": "Дата рождения", "time": "Время (Необязательно)",
+        "btn": "🔮 Анализировать", "tab1": "Профиль", "tab2": "Прогноз 2026",
+        "msg": "Привет", "born": "Год рождения"
+    },
+    "Português (Portuguese) 🇧🇷": {
+        "code": "pt", "title": "O Elemento", "subtitle": "Descubra seu verdadeiro eu",
+        "name": "Nome", "date": "Data de nascimento", "time": "Hora (Opcional)",
+        "btn": "🔮 Analisar", "tab1": "Perfil Básico", "tab2": "Previsão 2026",
+        "msg": "Olá", "born": "Nascido em"
+    },
+    "العربية (Arabic) 🇸🇦": {
+        "code": "ar", "title": "العنصر", "subtitle": "اكتشف ذاتك الحقيقية",
+        "name": "الاسم", "date": "تاريخ الميلاد", "time": "وقت الميلاد (اختياري)",
+        "btn": "🔮 تحليل الطاقة", "tab1": "الملف الشخصي", "tab2": "توقعات 2026",
+        "msg": "مرحباً", "born": "مواليد"
+    },
+    "Bahasa Indonesia 🇮🇩": {
+        "code": "id", "title": "Elemen", "subtitle": "Temukan Jati Dirimu",
+        "name": "Nama", "date": "Tanggal Lahir", "time": "Waktu (Opsional)",
+        "btn": "🔮 Analisis", "tab1": "Profil Dasar", "tab2": "Ramalan 2026",
+        "msg": "Halo", "born": "Lahir tahun"
+    },
+    "हिन्दी (Hindi) 🇮🇳": {
+        "code": "hi", "title": "तत्व (The Element)", "subtitle": "अपनी सच्ची पहचान खोजें",
+        "name": "नाम", "date": "जन्म तिथि", "time": "समय (वैकल्पिक)",
+        "btn": "🔮 विश्लेषण करें", "tab1": "मूल प्रोफ़ाइल", "tab2": "2026 का पूर्वानुमान",
+        "msg": "नमस्ते", "born": "जन्म वर्ष"
+    }
+}
+
+# --- 3. 사이드바: 언어 선택 ---
+with st.sidebar:
+    st.header("Language 🌐")
+    # 드롭다운 메뉴로 변경 (Selectbox)
+    lang_choice = st.selectbox("Select your language", list(ui_languages.keys()))
+    ui = ui_languages[lang_choice] # 선택된 언어팩 로드
+    
+    st.write("---")
+    st.caption("Developed by The Element Lab")
+
+# --- 4. 데이터 로직 (내용) ---
+def get_content(year, lang_code):
     last_digit = int(str(year)[-1])
     
-    elements = {
-        4: {
-            "type": "Wood (Gap) 🌲",
-            "archetype": "The Pioneer (The Giant Tree)",
-            "desc": "You possess the energy of a giant pine tree stretching towards the sky. You are straightforward, honest, and have a strong drive for growth. Once you set a goal, you move forward without looking back. Your leadership is natural, and you prefer to lead rather than follow.",
-            "keywords": "Growth, Leadership, Resilience"
-        },
-        5: {
-            "type": "Wood (Eul) 🌿",
-            "archetype": "The Survivor (The Wild Flower)",
-            "desc": "You are like a resilient vine or a flower that blooms even in harsh conditions. Unlike the rigid tree, you are flexible and adaptable. You have strong survival instincts and a practical mind. Your gentle exterior hides a very strong inner will.",
-            "keywords": "Flexibility, Adaptability, Networking"
-        },
-        6: {
-            "type": "Fire (Byeong) ☀️",
-            "archetype": "The Visionary (The Sun)",
-            "desc": "You are the sun shining brightly in the sky. You are passionate, open-hearted, and full of energy. You can't hide your emotions, and you love being the center of attention. Your presence naturally warms the people around you and gives them hope.",
-            "keywords": "Passion, Public Speaking, Optimism"
-        },
-        7: {
-            "type": "Fire (Jeong) 🔥",
-            "archetype": "The Mentor (The Candle Light)",
-            "desc": "You are like a warm candlelight or a guiding star in the dark. Unlike the sun, your fire is focused and intense. You are sensitive, artistic, and have a sacrificing spirit to help others. You have great intuition and can see things others miss.",
-            "keywords": "Insight, Sacrifice, Detail-oriented"
-        },
-        8: {
-            "type": "Earth (Mu) ⛰️",
-            "archetype": "The Guardian (The Big Mountain)",
-            "desc": "You stand tall like a majestic mountain range. You are trustworthy, steady, and hold a heavy sense of responsibility. People naturally rely on you. You may seem slow to move, but once you make a decision, your persistence is unstoppable.",
-            "keywords": "Trust, Stability, Persistence"
-        },
-        9: {
-            "type": "Earth (Gi) 🪴",
-            "archetype": "The Nurturer (The Fertile Soil)",
-            "desc": "You are the fertile soil of a garden that grows crops. You are practical, nurturing, and multifaceted. You know how to embrace others and help them succeed. You are very realistic and have a talent for managing assets.",
-            "keywords": "Nurturing, Practicality, Multitasking"
-        },
-        0: {
-            "type": "Metal (Gyeong) ⚔️",
-            "archetype": "The Warrior (The Iron Sword)",
-            "desc": "You are like raw steel or a powerful sword. You value loyalty and justice above all else. You are decisive and have strong executive power. You dislike ambiguity and prefer clear-cut conclusions. You are a natural reformer.",
-            "keywords": "Justice, Loyalty, Decisiveness"
-        },
-        1: {
-            "type": "Metal (Sin) 💎",
-            "archetype": "The Perfectionist (The Gemstone)",
-            "desc": "You are a polished jewel, shining and sharp. You have a delicate and sensitive aesthetic sense. You aim for perfection in everything you do. Although you look elegant on the outside, you have a very sharp mind and high standards.",
-            "keywords": "Elegance, Precision, Self-Respect"
-        },
-        2: {
-            "type": "Water (Im) 🌊",
-            "archetype": "The Strategist (The Ocean)",
-            "desc": "You are the wide ocean. Wise, adaptable, and you have deep thoughts. Like the ocean, your depth is hard to measure. You flow around obstacles rather than fighting them, but your power can be overwhelming when unleashed.",
-            "keywords": "Wisdom, Flow, Big Picture"
-        },
-        3: {
-            "type": "Water (Gye) 🌧️",
-            "archetype": "The Thinker (The Gentle Rain)",
-            "desc": "You are the spring rain that nurtures life. You are quiet, intelligent, and very logical. You prefer planning behind the scenes rather than standing in front. You are sensitive to others' feelings and have a kind, introverted nature.",
-            "keywords": "Intelligence, Empathy, Planning"
-        }
+    # 한국어만 특별 처리, 나머지는 영어(Global)로 표시
+    is_korean = (lang_code == "ko")
+    
+    # 영어 데이터 (기본값)
+    en_data = {
+        4: {"type": "Wood (Gap) 🌲", "arch": "The Pioneer", "desc": "Straight, honest, and upward-growing giant tree."}, 
+        5: {"type": "Wood (Eul) 🌿", "arch": "The Survivor", "desc": "Flexible and resilient flower or vine."}, 
+        6: {"type": "Fire (Byeong) ☀️", "arch": "The Visionary", "desc": "Passionate sun that shines on everyone."}, 
+        7: {"type": "Fire (Jeong) 🔥", "arch": "The Mentor", "desc": "Warm candle light, sensitive and artistic."}, 
+        8: {"type": "Earth (Mu) ⛰️", "arch": "The Guardian", "desc": "Huge mountain, trustworthy and steady."}, 
+        9: {"type": "Earth (Gi) 🪴", "arch": "The Nurturer", "desc": "Fertile soil, practical and nurturing."}, 
+        0: {"type": "Metal (Gyeong) ⚔️", "arch": "The Warrior", "desc": "Strong iron sword, decisive and loyal."}, 
+        1: {"type": "Metal (Sin) 💎", "arch": "The Perfectionist", "desc": "Polished gem, sharp and delicate."}, 
+        2: {"type": "Water (Im) 🌊", "arch": "The Strategist", "desc": "Vast ocean, wise and adaptable."}, 
+        3: {"type": "Water (Gye) 🌧️", "arch": "The Thinker", "desc": "Gentle rain, intelligent and logical."}
     }
-    return elements[last_digit]
+    
+    # 한국어 데이터
+    ko_data = {
+        4: {"type": "큰 나무 (갑목) 🌲", "arch": "개척자", "desc": "하늘을 향해 곧게 뻗은 소나무입니다. 정직하고 리더십이 강합니다."},
+        5: {"type": "꽃과 넝쿨 (을목) 🌿", "arch": "생존자", "desc": "유연하고 적응력이 뛰어난 꽃입니다. 끈기가 대단합니다."},
+        6: {"type": "태양 (병화) ☀️", "arch": "비전가", "desc": "세상을 비추는 태양입니다. 열정적이고 숨김이 없습니다."},
+        7: {"type": "촛불 (정화) 🔥", "arch": "멘토", "desc": "어둠을 밝히는 촛불입니다. 섬세하고 예술적인 감각이 있습니다."},
+        8: {"type": "큰 산 (무토) ⛰️", "arch": "수호자", "desc": "믿음직한 거대한 산입니다. 신용을 중시하며 묵직합니다."},
+        9: {"type": "비옥한 땅 (기토) 🪴", "arch": "양육자", "desc": "실속 있고 현실적인 텃밭입니다. 남을 잘 기르고 포용합니다."},
+        0: {"type": "무쇠 칼 (경금) ⚔️", "arch": "전사", "desc": "단단한 원석이나 칼입니다. 결단력이 있고 의리가 강합니다."},
+        1: {"type": "보석 (신금) 💎", "arch": "완벽주의자", "desc": "반짝이는 보석입니다. 예리하고 섬세하며 깔끔합니다."},
+        2: {"type": "바다 (임수) 🌊", "arch": "전략가", "desc": "깊고 넓은 바다입니다. 지혜롭고 포용력이 큽니다."},
+        3: {"type": "봄비 (계수) 🌧️", "arch": "사색가", "desc": "만물을 적시는 비입니다. 조용하지만 머리가 비상합니다."}
+    }
 
-# --- 3. 화면 구성 (UI) ---
-st.markdown("<h1 class='main-title'>The Element: Discover Your True Self</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Ancient Asian Wisdom Decoded for the Modern Soul</p>", unsafe_allow_html=True)
+    # 2026 운세 (한국어 vs 영어)
+    forecast_en = {
+        "Wood": "🔥 Very Busy & Passionate Year (Output)",
+        "Fire": "🤝 Competition & Partnership (Same Energy)",
+        "Earth": "📜 Support & Documents (Best Luck)",
+        "Metal": "🔨 Pressure & Transformation (Power)",
+        "Water": "💰 Wealth Opportunities (Money)"
+    }
+    forecast_ko = {
+        "Wood": "🔥 매우 바쁘고 열정적인 한 해 (식상운)",
+        "Fire": "🤝 경쟁자와 협력자가 동시에 나타남 (비겁운)",
+        "Earth": "📜 문서운과 귀인의 도움 (인성운 - 최고)",
+        "Metal": "🔨 압박감 속에서 성장하는 시기 (관성운)",
+        "Water": "💰 재물운이 따르지만 관리가 필요 (재성운)"
+    }
 
+    groups = ["Metal", "Metal", "Water", "Water", "Wood", "Wood", "Fire", "Fire", "Earth", "Earth"]
+    my_group = groups[last_digit]
+
+    if is_korean:
+        return {"basic": ko_data[last_digit], "forecast": forecast_ko[my_group]}
+    else:
+        return {"basic": en_data[last_digit], "forecast": forecast_en[my_group]}
+
+
+# --- 5. 화면 구성 (UI Rendering) ---
+st.markdown(f"<h1 class='main-title'>{ui['title']}</h1>", unsafe_allow_html=True)
+st.markdown(f"<p class='sub-title'>{ui['subtitle']}</p>", unsafe_allow_html=True)
 st.write("---")
 
-# [변경 포인트] 3개의 컬럼으로 나누어 시간 입력 추가
 col1, col2, col3 = st.columns([1.2, 1, 1]) 
-
 with col1:
-    name = st.text_input("Name", placeholder="Enter your name")
+    name = st.text_input(ui['name'])
 with col2:
-    birth_date = st.date_input("Birth Date", min_value=datetime(1920, 1, 1), value=datetime(1990, 1, 1))
+    birth_date = st.date_input(ui['date'], min_value=datetime(1920, 1, 1), value=datetime(1990, 1, 1))
 with col3:
-    # 시간 입력 추가 (기본값 없음, 라벨에 Optional 표시)
-    birth_time = st.time_input("Birth Time (Optional)", value=None)
+    birth_time = st.time_input(ui['time'], value=None)
 
-# 버튼 클릭 처리
-if st.button("🔮 Analyze My Soul Energy", use_container_width=True):
+# 탭 생성
+tab1, tab2 = st.tabs([ui['tab1'], ui['tab2']])
+
+if st.button(ui['btn'], use_container_width=True):
     if name:
         year = birth_date.year
-        result = get_element_from_year(year)
-        
-        # 시간이 입력되었는지 확인 (나중에 정밀 분석에 사용)
-        time_str = birth_time.strftime("%H:%M") if birth_time else "Unknown"
-        
-        st.write("") 
-        
-        # HTML 코드 (공백 제거 버전)
-        html_content = f"""
-<div class="result-box">
-<h2 style="color: #333; margin-bottom: 10px;">Hello, {name}.</h2>
-<p style="font-size: 1.1em; color: #555;">Born in <b>{year}</b> (Time: {time_str}), your core energy is:</p>
-<h1 style="color: #4A90E2; font-size: 2.5em; margin: 20px 0;">{result['type']}</h1>
-<p style="font-size: 1.3em; font-weight: bold;">Archetype: <span class="highlight">{result['archetype']}</span></p>
-<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-<p style="line-height: 1.6; font-size: 1.1em; color: #444;">{result['desc']}</p>
-<div style="background-color: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px;">
-<span style="font-weight: bold; color: #555;">🔑 Your Key Traits:</span><br>
-{result['keywords']}
-</div>
-</div>
-"""
-        st.markdown(html_content, unsafe_allow_html=True)
-        
+        content = get_content(year, ui['code'])
+        time_str = birth_time.strftime("%H:%M") if birth_time else ""
+
+        # [탭 1] 무료 결과
+        with tab1:
+            st.markdown(f"""
+            <div class="result-box">
+                <h3 style="color: #555;">{ui['msg']}, {name}.</h3>
+                <p>{ui['born']}: <b>{year}</b> {time_str}</p>
+                <h1 style="color: #4A90E2; margin: 10px 0;">{content['basic']['type']}</h1>
+                <p><b>Archetype:</b> {content['basic']['arch']}</p>
+                <hr>
+                <p style="font-size: 1.1em; line-height: 1.6;">{content['basic']['desc']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # [탭 2] 유료 결과 (데모)
+        with tab2:
+            st.markdown(f"""
+            <div class="premium-box">
+                <h3 style="color: #d35400;">👑 Premium 2026</h3>
+                <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 10px;">
+                    <h2 style="text-align: center; margin: 0;">{content['forecast']}</h2>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
     else:
-        st.warning("Please enter your name to begin the journey.")
+        st.warning(f"Please enter your {ui['name']}")
 
 st.write("---")
-st.markdown("<div style='text-align: center; color: #888;'>© 2025 The Element Lab. <br> This analysis is based on the 'Year Pillar' of the Four Pillars of Destiny.</div>", unsafe_allow_html=True)
+st.caption("© 2025 The Element Lab (Global)")
