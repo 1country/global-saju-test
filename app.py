@@ -3,71 +3,59 @@ import pandas as pd
 import streamlit.components.v1 as components
 from datetime import datetime, date
 
-# 🔑 잠금 해제 비밀번호 (테스트할 때 이 코드를 넣으세요!)
+# 🔑 잠금 해제 비밀번호
 UNLOCK_CODE = "2026RICH"
 
 # --- 1. 페이지 설정 ---
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
 # ----------------------------------------------------------------
-# [통합 스타일 설정] (인쇄 문제 완벽 해결 버전)
+# [인쇄 문제 해결사: 강력 수정판]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
-        /* 1. 기본 디자인 */
+        /* 1. 평소 화면 디자인 */
         .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
-        .highlight {color: #4f46e5; font-weight: bold;}
         
-        /* 2. 인쇄 버튼 스타일 */
-        div.stButton > button {
-            background-color: #4f46e5; color: white; border: none; padding: 10px 20px; 
-            border-radius: 8px; font-weight: bold; width: 100%; margin-top: 10px;
-        }
-        div.stButton > button:hover {background-color: #4338ca;}
-
-        /* 3. 🖨️ 인쇄 전용 스타일 (여기가 핵심!) */
+        /* 2. 인쇄할 때 적용되는 설정 */
         @media print {
-            /* (1) 방해꾼들 숨기기: 사이드바, 헤더, 버튼, 푸터 등 */
+            /* (1) 방해꾼들(사이드바, 버튼, 위아래 메뉴) 아예 없애버리기 */
             [data-testid="stSidebar"], 
-            header, 
-            footer, 
-            .stDeployButton,
-            [data-testid="stHeader"],
-            .stButton, 
-            button,
+            [data-testid="stHeader"], 
+            header, footer, 
+            .stDeployButton, 
+            button, 
+            .stButton,
             .no-print {
-                display: none !important;
+                display: none !important; 
             }
 
-            /* (2) 본문 내용 강제 표시 */
-            .stApp, [data-testid="stAppViewContainer"], .main, .block-container {
+            /* (2) 배경을 하얗게, 글자는 검게 강제 설정 */
+            body, .stApp {
+                background-color: white !important;
+                color: black !important;
+                visibility: visible !important; /* 무조건 보여라! */
+            }
+
+            /* (3) 내용이 짤리지 않고 종이에 꽉 차게 설정 */
+            .block-container {
+                max-width: 100% !important;
+                padding: 1rem !important;
                 display: block !important;
-                height: auto !important;
-                overflow: visible !important;
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-            /* (3) 카드 디자인 유지 */
-            .card {
-                break-inside: avoid; /* 카드가 페이지 중간에 짤리지 않게 함 */
-                border: 1px solid #ddd !important;
-                box-shadow: none !important;
-                margin-bottom: 20px !important;
             }
             
-            /* (4) 글자색 검정으로 통일 */
-            body {
-                color: black !important;
-                background-color: white !important;
+            /* (4) 카드는 깨지지 않게 */
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                break-inside: avoid;
+                display: block !important;
             }
         }
     </style>
 """, unsafe_allow_html=True)
-
 # --- 2. 만세력 엔진 (일주 계산) ---
 def calculate_day_gan(birth_date):
     base_date = date(1900, 1, 1)
