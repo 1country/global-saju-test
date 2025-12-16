@@ -6,46 +6,63 @@ from datetime import datetime, date
 # 🔑 잠금 해제 비밀번호
 UNLOCK_CODE = "2026RICH"
 
-# --- 1. 페이지 설정 (이게 무조건 맨 위에 있어야 합니다!) ---
+# --- 1. 페이지 설정 ---
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
 # ----------------------------------------------------------------
-# [인쇄 문제 해결사: 높이 제한 해제 최종 버전]
+# [인쇄 문제 해결사: 최종병기 (절대좌표 강제 설정)]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
-        /* 평소에는 예쁘게 보이기 */
+        /* 1. 평소 화면 디자인 */
         .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
-
-        /* 🖨️ 인쇄할 때만 적용되는 "강제 확장" 설정 */
+        
+        /* 2. 🖨️ 인쇄 모드 (강제 적용) */
         @media print {
-            /* 1. 모든 요소의 높이 제한을 풀어버림 (무한히 길어지게) */
-            html, body, [class*="ViewContainer"], [class*="AppView"], [class*="main"] {
-                height: auto !important;
-                min-height: 100vh !important;
-                overflow: visible !important;
+            /* (1) 모든 글자를 무조건 '검정색'으로! (흰색 글씨 방지) */
+            * {
+                color: black !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
-            /* 2. 사이드바와 헤더는 아예 삭제 취급 */
+            /* (2) 배경은 무조건 '흰색'으로! */
+            body, .stApp {
+                background-color: white !important;
+            }
+
+            /* (3) 방해꾼들(사이드바, 헤더, 버튼) 숨기기 */
             [data-testid="stSidebar"], 
             [data-testid="stHeader"], 
-            header, footer, 
-            .stDeployButton {
+            header, footer, .stDeployButton, button, .stButton {
                 display: none !important;
             }
 
-            /* 3. 본문 내용의 여백을 없애고 종이에 꽉 채움 */
-            .block-container {
-                padding-top: 0 !important;
-                padding-bottom: 0 !important;
-                max-width: 100% !important;
+            /* (4) ★핵심★ 내용을 스크롤 박스에서 꺼내서 종이에 펼치기 */
+            [data-testid="stAppViewContainer"] {
+                overflow: visible !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                z-index: 9999 !important;
+                display: block !important;
             }
 
-            /* 4. 버튼 숨기기 */
-            .stButton, button {
-                display: none !important;
+            /* (5) 내용물(Main)도 강제로 펼치기 */
+            [data-testid="stMain"] {
+                overflow: visible !important;
+                height: auto !important;
+                display: block !important;
+            }
+            
+            /* (6) 카드 테두리 그리기 (내용 확인용) */
+            .card {
+                border: 1px solid black !important;
+                break-inside: avoid;
             }
         }
     </style>
