@@ -46,59 +46,129 @@ def calculate_day_gan(birth_date):
 
 # --- 3. 데이터베이스 (성격 및 운세) ---
 def get_interpretation(element, lang):
-    # 1. 성격 데이터 (상세 버전)
+    # 1. 한국어 성격 데이터 (4단 상세 분석)
     traits_ko = {
-        "Wood": """**[핵심: 성장과 자존심]**<br>
-        당신은 하늘을 향해 곧게 뻗어 올라가는 나무의 기운을 타고났습니다. 성격이 대쪽 같고 솔직하며, 성장하고자 하는 욕구가 매우 강합니다. 남의 밑에 있기보다는 우두머리가 되기를 좋아합니다.<br><br>
-        **[장점]** 추진력이 강하고 인자한 성품을 지녔습니다. 목표가 생기면 뒤를 돌아보지 않고 직진합니다.<br>
-        **[단점]** 굽히기를 싫어해서 부러질 수 있습니다. 융통성을 조금만 기르면 대성할 재목입니다.""",
-        
-        "Fire": """**[핵심: 열정과 표현]**<br>
-        당신은 세상을 환하게 비추는 태양이나 촛불입니다. 매사에 열정적이고 에너지가 넘쳐흐릅니다. 자신의 감정을 숨기지 못하고 얼굴에 다 드러나는 투명한 사람입니다.<br><br>
-        **[장점]** 예의가 바르고 화끈하며 뒤끝이 없습니다. 어디서나 분위기 메이커 역할을 합니다.<br>
-        **[단점]** 성격이 급해서 실수를 할 수 있습니다. 시작은 화려하나 마무리가 약할 수 있으니 끈기가 필요합니다.""",
-        
-        "Earth": """**[핵심: 신용과 중재]**<br>
-        당신은 묵직한 산이나 넓은 대지입니다. 가볍게 움직이지 않으며, 믿음과 신용을 목숨처럼 중요하게 생각합니다. 포용력이 넓어 많은 사람들이 당신에게 의지하려 합니다.<br><br>
-        **[장점]** 입이 무겁고 뚝심이 있어 한번 맡은 일은 끝까지 해냅니다. 중재자 역할을 잘합니다.<br>
-        **[단점]** 속마음을 잘 드러내지 않아 답답해 보일 수 있습니다. 때로는 과감한 표현이 필요합니다.""",
-        
-        "Metal": """**[핵심: 결단과 의리]**<br>
-        당신은 단단한 바위나 날카로운 칼입니다. 의리와 정의를 가장 중요하게 생각합니다. 흐지부지한 것을 싫어하고, 맺고 끊음이 확실한 '상남자/걸크러시' 스타일입니다.<br><br>
-        **[장점]** 리더십이 있고 결단력이 빠릅니다. 내 사람이라고 생각하면 끝까지 책임집니다.<br>
-        **[단점]** 말이 직설적이라 본의 아니게 남에게 상처를 줄 수 있습니다. 조금 더 부드러운 화법이 필요합니다.""",
-        
-        "Water": """**[핵심: 지혜와 유연함]**<br>
-        당신은 흐르는 물이나 바다입니다. 어떤 그릇에도 담길 수 있는 유연함과 상황 대처 능력을 가졌습니다. 머리가 비상하고 기획력이 뛰어나며 지혜롭습니다.<br><br>
-        **[장점]** 임기응변에 강하고 친화력이 좋습니다. 조용히 실속을 챙기는 능력이 탁월합니다.<br>
-        **[단점]** 생각이 꼬리에 꼬리를 물어 우울해지거나, 비밀이 너무 많아 속을 알 수 없다는 평을 듣기도 합니다."""
+        "Wood": """#### 🌲 총론: 곧게 뻗는 성장의 아이콘
+당신은 뚫고 나가는 힘이 강한 '개척자'입니다. 인정이 많고 착하지만, 한번 고집을 피우면 아무도 못 말립니다. 남의 밑에 있기보다 내가 대장이 되어야 직성이 풀리는 스타일입니다.
+
+#### 💰 재물운: 차곡차곡 쌓는 거목
+요행을 바라기보다 자신의 노력으로 정직하게 부를 축적합니다. 처음에는 느려 보여도 시간이 갈수록 뿌리가 깊어져 말년에는 큰 부자가 될 그릇입니다.
+
+#### 💼 직장/사업운: 기획과 교육의 리더
+새로운 일을 기획하거나 사람을 가르치는 일이 천직입니다. (교육, 건축, 디자인, 스타트업). 융통성만 조금 더한다면 조직의 최고 자리에 오를 수 있습니다.
+
+#### ❤️ 연애운: 내 사람은 내가 지킨다
+연애할 때도 리드하는 것을 좋아합니다. 상대방을 책임지려는 마음이 강합니다. 다만 가끔은 상대방의 의견을 굽혀주는 부드러움이 필요합니다.""",
+
+        "Fire": """#### 🔥 총론: 세상을 밝히는 열정의 태양
+당신은 에너지가 넘치고 솔직한 '비전가'입니다. 예의가 바르고 화끈해서 주변에 사람이 끊이지 않습니다. 비밀이 없고 감정이 얼굴에 다 드러나는 투명한 사람입니다.
+
+#### 💰 재물운: 화려하지만 관리가 필요해
+돈을 버는 능력은 탁월하나, 쓰는 씀씀이도 큽니다. 기분에 따라 한턱내는 것을 좋아해 돈이 모이기 힘들 수 있습니다. 통장 관리를 꼼꼼히 해야 부자가 됩니다.
+
+#### 💼 직장/사업운: 무대 체질, 말로 먹고산다
+자신을 드러내는 일이 맞습니다. (방송, 예술, 영업, 정치, 유튜버). 반복적이고 지루한 사무직보다는 변화가 많은 곳에서 능력을 발휘합니다.
+
+#### ❤️ 연애운: 금방 뜨거워지는 사랑
+첫눈에 반하는 금사빠 기질이 있습니다. 열정적인 사랑을 하지만 빨리 식을 수도 있습니다. 밀당보다는 직설적인 고백이 통하는 스타일입니다.""",
+
+        "Earth": """#### ⛰️ 총론: 묵직한 신용의 수호자
+당신은 모든 것을 품어주는 넓은 땅입니다. 입이 무겁고 신용을 목숨처럼 아낍니다. 속마음을 잘 드러내지 않아 답답해 보일 수 있지만, 한번 믿은 사람은 끝까지 배신하지 않습니다.
+
+#### 💰 재물운: 부동산이 최고의 파트너
+현금보다는 땅이나 건물 같은 '문서' 형태의 재산이 잘 맞습니다. 묵묵히 저축하고 지키는 능력이 뛰어나 알부자가 많습니다.
+
+#### 💼 직장/사업운: 중간 관리자와 중개자
+사람과 사람 사이를 연결하거나 갈등을 중재하는 능력이 탁월합니다. (부동산, 컨설팅, 농업, 종교). 변화가 적고 안정적인 조직에서 빛을 발합니다.
+
+#### ❤️ 연애운: 은근하고 오래가는 뚝배기
+표현이 서툴러 재미없다는 소리를 들을 수 있지만, 한결같은 해바라기입니다. 화려한 이벤트보다 진심 어린 믿음을 주는 연애를 선호합니다.""",
+
+        "Metal": """#### ⚔️ 총론: 결단력 있는 정의의 사도
+당신은 맺고 끊음이 확실한 '장군'감입니다. 의리를 중요시하고 불의를 보면 참지 못합니다. 차가워 보이지만 내 사람에게는 확실하게 정을 주는 '츤데레' 매력이 있습니다.
+
+#### 💰 재물운: 확실한 결과와 성과
+일한 만큼 확실하게 보상받아야 직성이 풀립니다. 승부욕이 강해 경쟁을 통해 남보다 더 많은 부를 쟁취해냅니다.
+
+#### 💼 직장/사업운: 권력과 기술의 조화
+원칙이 중요한 분야가 어울립니다. (군인, 경찰, 금융, 엔지니어, 의료). 흐지부지한 것을 싫어해 리더가 되면 카리스마 있게 조직을 이끕니다.
+
+#### ❤️ 연애운: 확실한 내 편 만들기
+좋고 싫음이 분명합니다. 질질 끄는 썸을 싫어하고 확실한 관계 정립을 원합니다. 한번 마음을 주면 변치 않는 의리 있는 사랑을 합니다.""",
+
+        "Water": """#### 🌊 총론: 유연한 지혜의 전략가
+당신은 어디든 흐르는 물처럼 적응력이 뛰어납니다. 머리가 비상하고 기획력이 좋으며, 겉으로는 부드러워 보이나 속은 깊고 냉철합니다.
+
+#### 💰 재물운: 흐름을 읽는 투자의 귀재
+돈의 흐름을 본능적으로 읽어냅니다. 유통, 무역, 투자 등 돈이 도는 길목을 지키면 큰돈을 만집니다. 해외와 인연이 깊습니다.
+
+#### 💼 직장/사업운: 두뇌 플레이어
+몸을 쓰는 일보다 머리를 쓰는 일이 맞습니다. (기획, 연구, 무역, 심리 상담). 남들이 보지 못하는 틈새시장을 찾아내는 눈이 있습니다.
+
+#### ❤️ 연애운: 매력적인 미스터리
+상대방의 마음을 잘 맞춰주는 배려심이 있습니다. 하지만 자신의 속은 다 보여주지 않아 신비로운 매력을 풍깁니다. 집착보다는 자유로운 연애를 지향합니다."""
     }
-    # 2. 영어 성격 데이터 (상세 버전)
+    # 2. 영어 성격 데이터 (4단 상세 분석)
     traits_en = {
-        "Wood": """**[Core: Growth & Pride]**<br>
-        You have the energy of a tree stretching straight toward the sky. You are honest, straightforward, and have a strong desire for growth. You prefer to lead rather than follow, and you have a strong sense of pride.<br><br>
-        **[Strengths]** You have a strong drive and a benevolent nature. Once you set a goal, you move forward without looking back.<br>
-        **[Weaknesses]** You dislike bending your will, which means you can sometimes break. Learning a little flexibility will make you unstoppable.""",
+        "Wood": """#### 🌲 General: The Icon of Growth
+You are a 'Pioneer' with strong drive. You are benevolent but stubborn. You prefer to lead rather than follow.
 
-        "Fire": """**[Core: Passion & Expression]**<br>
-        You are like the sun or a candle that lights up the world. You are energetic, passionate, and transparent—your emotions show clearly on your face. You love being the center of attention.<br><br>
-        **[Strengths]** You are polite, warm-hearted, and hold no grudges. You are a natural mood maker who energizes people around you.<br>
-        **[Weaknesses]** You can be impatient and prone to making hasty mistakes. You often start things with great enthusiasm but struggle to finish them.""",
+#### 💰 Wealth: Steady Accumulation
+You build wealth through honest effort rather than luck. Like a tree, your assets grow larger and deeper over time.
 
-        "Earth": """**[Core: Trust & Stability]**<br>
-        You are like a majestic mountain or a vast field. You are steady, and you value trust and credit above all else. People naturally rely on you because of your inclusive and comforting nature.<br><br>
-        **[Strengths]** You are heavy-mouthed (keep secrets well) and persistent. Once you are on someone's side, you protect them until the end.<br>
-        **[Weaknesses]** You don't reveal your true feelings easily, which can frustrate others. You can be quite stubborn once you make up your mind.""",
+#### 💼 Career: Planner & Educator
+You excel in planning or teaching. (Education, Design, Startups). You can reach the top if you learn to be a bit more flexible.
 
-        "Metal": """**[Core: Decision & Loyalty]**<br>
-        You are like a solid rock or a sharp sword. You value justice and loyalty. You dislike ambiguity—for you, things must be clearly black or white. You have a 'crush' or 'strong leader' vibe.<br><br>
-        **[Strengths]** You are decisive and have strong leadership skills. You take full responsibility for your people.<br>
-        **[Weaknesses]** Your blunt honesty can sometimes hurt others. You need to learn how to communicate more softly.""",
+#### ❤️ Love: Protective Leader
+You like to lead in relationships. You have a strong desire to protect your partner. Try to listen more to your partner's opinions.""",
 
-        "Water": """**[Core: Wisdom & Flexibility]**<br>
-        You are like flowing water or the deep ocean. You can adapt to any shape or container. You are incredibly smart, wise, and have excellent planning skills.<br><br>
-        **[Strengths]** You are adaptable, social, and practical. You know how to quietly gain benefits without making a scene.<br>
-        **[Weaknesses]** You tend to overthink, which can lead to depression. You can be too secretive, making it hard for others to know your true intentions."""
+        "Fire": """#### 🔥 General: Passionate Visionary
+You are like the sun—energetic and honest. You are polite and transparent; your emotions show clearly on your face.
+
+#### 💰 Wealth: High Flow
+You are great at making money but also great at spending it. You need to manage your expenses carefully to build true wealth.
+
+#### 💼 Career: Born for the Stage
+You shine in jobs where you can express yourself. (Arts, Media, Sales, Politics). You thrive in dynamic environments.
+
+#### ❤️ Love: Hot & Fast
+You fall in love quickly and passionately. You prefer direct confessions over playing hard-to-get.""",
+
+        "Earth": """#### ⛰️ General: Guardian of Trust
+You are steady like a mountain. You value trust above all else. You don't reveal your feelings easily, but you never betray a friend.
+
+#### 💰 Wealth: Real Estate Expert
+Assets like land or buildings suit you better than cash. You have a talent for saving and protecting your wealth.
+
+#### 💼 Career: Mediator & Manager
+You excel at connecting people or resolving conflicts. (Real Estate, Consulting, Religion). You shine in stable organizations.
+
+#### ❤️ Love: Steady Sunflower
+You might seem quiet, but your love is unchanging. You prefer sincere trust over flashy events.""",
+
+        "Metal": """#### ⚔️ General: Decisive Warrior
+You value justice and loyalty. You are decisive and hate ambiguity. You have a 'tough on the outside, soft on the inside' charm.
+
+#### 💰 Wealth: Result-Oriented
+You want clear rewards for your work. Your competitive spirit helps you earn more than others.
+
+#### 💼 Career: Power & Tech
+You suit fields where principles matter. (Finance, Engineering, Military, Medicine). You are a charismatic leader.
+
+#### ❤️ Love: Clear Boundaries
+You dislike ambiguous relationships. Once you commit, you offer a loyal and responsible love.""",
+
+        "Water": """#### 🌊 General: Wise Strategist
+You are adaptable like water. You are incredibly smart and a deep thinker. You appear soft, but your mind is sharp.
+
+#### 💰 Wealth: Master of Flow
+You instinctively read the flow of money. You can succeed in trade, investment, or distribution.
+
+#### 💼 Career: Brain Player
+You excel in intellectual fields. (Planning, Research, Trade, Psychology). You can find niche markets others miss.
+
+#### ❤️ Love: Mysterious Charisma
+You are caring and adaptable, but you keep a secret side. This mystery makes you attractive to others."""
     }
     # 2026년(병오년-불) 총평
     forecast_ko = {}
