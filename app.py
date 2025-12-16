@@ -6,63 +6,58 @@ from datetime import datetime, date
 # 🔑 잠금 해제 비밀번호
 UNLOCK_CODE = "2026RICH"
 
-# --- 1. 페이지 설정 ---
+# --- 1. 페이지 설정 (반드시 맨 위에 있어야 함) ---
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
 # ----------------------------------------------------------------
-# [인쇄 문제 해결사: 최종병기 (절대좌표 강제 설정)]
+# [인쇄 설정: 안전 모드]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
-        /* 1. 평소 화면 디자인 */
+        /* 1. 화면용 디자인 */
         .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
-        
-        /* 2. 🖨️ 인쇄 모드 (강제 적용) */
+
+        /* 2. 인쇄용 디자인 (Print CSS) */
         @media print {
-            /* (1) 모든 글자를 무조건 '검정색'으로! (흰색 글씨 방지) */
-            * {
-                color: black !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            /* (2) 배경은 무조건 '흰색'으로! */
-            body, .stApp {
-                background-color: white !important;
-            }
-
-            /* (3) 방해꾼들(사이드바, 헤더, 버튼) 숨기기 */
-            [data-testid="stSidebar"], 
-            [data-testid="stHeader"], 
-            header, footer, .stDeployButton, button, .stButton {
+            /* (1) 사이드바, 헤더 등 방해꾼 숨기기 */
+            [data-testid="stSidebar"], [data-testid="stHeader"], header, footer, .stDeployButton, .stButton, button {
                 display: none !important;
             }
 
-            /* (4) ★핵심★ 내용을 스크롤 박스에서 꺼내서 종이에 펼치기 */
-            [data-testid="stAppViewContainer"] {
-                overflow: visible !important;
-                position: absolute !important;
-                top: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
+            /* (2) 전체 페이지 높이 제한 풀기 (잘림 방지) */
+            html, body, .stApp {
                 height: auto !important;
-                z-index: 9999 !important;
-                display: block !important;
+                overflow: visible !important;
+                background-color: white !important;
             }
 
-            /* (5) 내용물(Main)도 강제로 펼치기 */
-            [data-testid="stMain"] {
-                overflow: visible !important;
-                height: auto !important;
-                display: block !important;
+            /* (3) 글자색 검정 강제 (흰색 글씨 방지) */
+            * {
+                color: black !important;
+                -webkit-print-color-adjust: exact !important;
+            }
+
+            /* (4) 본문 내용 여백 조정 */
+            .block-container {
+                padding-top: 0 !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                max-width: 100% !important;
             }
             
-            /* (6) 카드 테두리 그리기 (내용 확인용) */
+            /* (5) 카드가 페이지 경계에서 깨지지 않게 */
             .card {
-                border: 1px solid black !important;
                 break-inside: avoid;
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            /* (6) 테이블 폰트 크기 조정 */
+            table {
+                font-size: 10pt !important;
             }
         }
     </style>
@@ -226,21 +221,20 @@ def get_monthly_forecast_unique(element, lang):
         
     return result
 
-# --- 5. 메인 실행 ---
+# --- 5. 메인 실행 (언어 문제 완벽 수정판) ---
 def main():
     with st.sidebar:
         st.title("Settings")
-        # 1. 언어 선택 버튼
+        
+        # 1. 언어 선택
         lang_opt = st.radio("Language", ["한국어", "English"])
         
-        # 2. 언어 변수 설정 (en 또는 ko)
-        lang = "ko" if "Korean" in lang_opt else "en"
+        # 🔴 [여기가 문제였습니다!] "Korean"을 "한국어"로 수정했습니다.
+        lang = "ko" if "한국어" in lang_opt else "en"
         
         st.info("💡 **Tip:** Click 'Print Report' to save as PDF.")
         
-        # ----------------------------------------------------
-        # [커피 후원 버튼] (만능 언어 감지 적용)
-        # ----------------------------------------------------
+        # [커피 후원 버튼]
         coffee_head = "☕ 개발자 응원하기"
         coffee_msg = "운명의 코드를 응원해 주세요! ☕"
 
@@ -263,38 +257,30 @@ def main():
             </div>
         """, unsafe_allow_html=True)
 
-    
+    # UI 텍스트 설정
     ui = {
         "ko": {
             "title": "디 엘리먼트: 사주 프로", "sub": "당신의 운명 지도와 2026년 정밀 분석", 
             "name": "이름", "btn": "운명 분석하기", 
-            "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세 ($5)", # 탭 이름 변경
+            "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세 ($5)",
             "print": "🖨️ 리포트 인쇄하기",
-            "t_mon": "월 (Month)", 
-            "t_sco": "운세 점수 (5점 만점)", 
-            "t_adv": "상세 조언",
+            "t_mon": "월 (Month)", "t_sco": "운세 점수 (5점 만점)", "t_adv": "상세 조언",
             "legend": "※ 별점 기준: ⭐⭐⭐⭐⭐ (최고) ~ ⭐ (주의)",
-            # 👇 새로 추가된 부분
             "locked_msg": "🔒 **이 콘텐츠는 유료(Premium)입니다.**",
             "locked_desc": "2026년 월별 정밀 운세는 **$5(약 6,500원)** 결제 후 확인하실 수 있습니다.\n결제 완료 후 받으신 **'잠금 해제 코드'**를 아래에 입력해주세요.",
-            "code_label": "잠금 해제 코드 입력",
-            "unlock_btn": "확인 (Unlock)",
+            "code_label": "잠금 해제 코드 입력", "unlock_btn": "확인 (Unlock)",
             "err_code": "⛔ 코드가 올바르지 않습니다. 다시 확인해주세요."
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
             "name": "Name", "btn": "Analyze Destiny", 
-            "tab1": "Personality", "tab2": "2026 Forecast ($5)", # 탭 이름 변경
+            "tab1": "Personality", "tab2": "2026 Forecast ($5)",
             "print": "🖨️ Print Report",
-            "t_mon": "Month", 
-            "t_sco": "Luck Score (Max 5)", 
-            "t_adv": "Detailed Advice",
+            "t_mon": "Month", "t_sco": "Luck Score (Max 5)", "t_adv": "Detailed Advice",
             "legend": "※ Scale: ⭐⭐⭐⭐⭐ (Best) ~ ⭐ (Caution)",
-            # 👇 새로 추가된 부분
             "locked_msg": "🔒 **Premium Content**",
             "locked_desc": "The 2026 Monthly Forecast is available for **$5**.\nPlease enter the **'Unlock Code'** provided after payment.",
-            "code_label": "Enter Unlock Code",
-            "unlock_btn": "Unlock",
+            "code_label": "Enter Unlock Code", "unlock_btn": "Unlock",
             "err_code": "⛔ Invalid Code. Please check again."
         }
     }
@@ -308,7 +294,6 @@ def main():
     with c2: b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=date(1990,1,1))
     with c3: b_time = st.time_input("Time of Birth", value=None)
 
-    # 상태 유지 로직
     if "analyzed" not in st.session_state:
         st.session_state["analyzed"] = False
 
@@ -336,11 +321,9 @@ def main():
             """, unsafe_allow_html=True)
 
         with tab2:
-            # 0. 잠금 상태 확인을 위한 변수 초기화
             if "is_unlocked" not in st.session_state:
                 st.session_state["is_unlocked"] = False
 
-            # [상황 A] 잠겨있을 때 (결제 유도 화면)
             if not st.session_state["is_unlocked"]:
                 st.markdown(f"""
                 <div class='lock-screen' style='background-color:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px; padding:40px; text-align:center; color:#475569; margin-bottom:20px;'>
@@ -349,9 +332,7 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # 결제 버튼 보여주기
                 c_pay1, c_pay2 = st.columns(2)
-                # 선생님의 실제 링크로 바꿔주세요!
                 if lang == "ko":
                     with c_pay1: st.link_button("💛 카카오페이 송금", "https://buymeacoffee.com/5codes")
                     with c_pay2: st.link_button("💙 토스 익명 송금", "https://buymeacoffee.com/5codes")
@@ -360,21 +341,15 @@ def main():
                     with c_pay2: st.link_button("🅿️ PayPal", "https://buymeacoffee.com/5codes")
                 
                 st.write("---")
-                
-                # 비밀번호 입력창
                 user_code = st.text_input(txt['code_label'], type="password", key="pwd_input")
                 if st.button(txt['unlock_btn']):
                     if user_code == UNLOCK_CODE:
                         st.session_state["is_unlocked"] = True
-                        st.rerun() # 화면 새로고침해서 내용 보여주기
+                        st.rerun()
                     else:
                         st.error(txt['err_code'])
-            
-            # [상황 B] 잠금 해제되었을 때 (원래 내용 보여주기)
             else:
                 st.success("🔓 Premium Content Unlocked!")
-                
-                # 1. 총평
                 st.markdown(f"""
                 <div class='card' style='border: 2px solid #ec4899; background-color: #fff1f2;'>
                     <h2 style='color: #be185d;'>👑 {forecast['title']}</h2>
@@ -386,12 +361,10 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # 2. 월별 상세 표
                 st.subheader(f"📅 2026 {txt['t_adv']}")
                 st.caption(txt['legend'])
                 
                 raw_data = get_monthly_forecast_unique(element_type, lang)
-                
                 table_data = []
                 for row in raw_data:
                     table_data.append({
@@ -404,7 +377,6 @@ def main():
                 df = df.set_index(txt['t_mon'])
                 st.table(df)
 
-                # 3. 인쇄 버튼 (결제한 사람만 인쇄 가능)
                 st.write("---")
                 if st.button(txt['print'], key="final_print"):
                     components.html("<script>window.print();</script>", height=0, width=0)
