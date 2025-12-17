@@ -335,83 +335,98 @@ You are caring and adaptable, but your mysterious side makes you attractive. You
     if lang == "ko": return traits_ko[element], forecast_ko
     else: return traits_en[element], forecast_en
 
-# --- 4. 월별 정밀 운세 ---
+# --- 4. 월별 정밀 운세 (1월~12월: 별점 수동 매칭 완벽 수정) ---
 def get_monthly_forecast_unique(element, lang):
+    # 데이터 구조: (월, 한국어 조언, 영어 조언, 별점)
+    # 별점 기준: ⭐⭐(주의), ⭐⭐⭐(보통/노력), ⭐⭐⭐⭐(좋음), ⭐⭐⭐⭐⭐(최고/대박)
     data = {
         "Wood": [
-            ("1월", "친구가 돈을 빌려달라고 합니다. 거절하세요.", "Friends may ask for money. Refuse politely."),
-            ("2월", "경쟁자가 나타납니다. 실속을 챙기세요.", "Competition arises. Focus on benefits."),
-            ("3월", "사람들과 어울리며 말실수 조심.", "Socializing increases. Watch your words."),
-            ("4월", "뜻밖의 재물이 들어옵니다. 꽁돈 운!", "Unexpected money or bonus comes in."),
-            ("5월", "아이디어가 샘솟습니다. 활동하기 최고입니다.", "Great ideas flow. Best time for action."),
-            ("6월", "몸이 열 개라도 모자랍니다. 건강 챙기세요.", "Extremely busy. Take care of health."),
-            ("7월", "재물운이 안정적입니다. 저축하기 좋은 달.", "Financial stability. Good month to save."),
-            ("8월", "직장 스트레스. 참는 자에게 복이 옵니다.", "Stress at work. Patience brings luck."),
-            ("9월", "책임질 일이 늘어납니다. 인정받는 시기.", "Responsibilities grow. Success brings recognition."),
-            ("10월", "부동산이나 계약 관련 좋은 소식.", "Good news regarding real estate or contracts."),
-            ("11월", "윗사람의 도움으로 막힌 일이 뚫립니다.", "Help from superiors solves problems."),
-            ("12월", "공부나 자격증 취득에 행운이 따릅니다.", "Good luck with studies or certifications.")
+            ("1월", "지인이나 친구가 금전 부탁을 해옵니다. 냉정하게 거절하지 않으면 돈도 잃고 사람도 잃습니다.", "People may ask for money. Refuse firmly to save both money and friends.", "⭐⭐"),
+            ("2월", "강력한 경쟁자가 나타나 내 밥그릇을 노립니다. 감정적으로 대응하지 말고 실속만 챙기세요.", "A strong rival appears. Focus on benefits, not emotions.", "⭐⭐⭐"),
+            ("3월", "사람들이 모이는 곳에서 말실수를 할 수 있습니다. '낮말은 새가 듣고 밤말은 쥐가 듣는다'를 명심하세요.", "Watch your words in social gatherings. A slip of the tongue causes trouble.", "⭐⭐"),
+            ("4월", "뜻밖의 횡재수가 있습니다. 생각지도 못한 보너스나 공돈이 들어오니 기분 좋은 달입니다.", "Unexpected windfall! You might receive a bonus or unexpected money.", "⭐⭐⭐⭐⭐"),
+            ("5월", "머리 회전이 빨라지고 아이디어가 폭발합니다. 기획이나 창작 활동에서 최고의 성과를 냅니다.", "Ideas flow endlessly. Best month for planning or creative work.", "⭐⭐⭐⭐⭐"),
+            ("6월", "몸이 열 개라도 모자랄 만큼 바쁩니다. 과로로 쓰러질 수 있으니 영양제를 챙겨 드세요.", "Extremely busy. Take care of your health to avoid burnout.", "⭐⭐"),
+            ("7월", "재물 흐름이 아주 안정적입니다. 헛돈 쓰지 말고 차곡차곡 저축하기 가장 좋은 시기입니다.", "Financial flow is stable. Best time to save money.", "⭐⭐⭐⭐"),
+            ("8월", "직장에서 스트레스가 극에 달합니다. 욱하고 사표 던지지 마세요. 참는 자에게 복이 옵니다.", "Work stress peaks. Don't quit impulsively. Patience brings rewards.", "⭐⭐"),
+            ("9월", "어깨가 무거워지지만 그만큼 인정받는 시기입니다. 승진이나 리더 자리를 제안받을 수 있습니다.", "Responsibilities grow, but so does recognition. Promotion is possible.", "⭐⭐⭐⭐"),
+            ("10월", "문서 운이 아주 좋습니다. 부동산 계약이나 중요한 도장을 찍기에 길한 달입니다.", "Great luck with documents. Good for real estate or contracts.", "⭐⭐⭐⭐⭐"),
+            ("11월", "꽉 막혔던 일이 귀인(윗사람)의 도움으로 시원하게 뚫립니다. 조언을 구하세요.", "Blocked problems are solved with help from a mentor.", "⭐⭐⭐⭐"),
+            ("12월", "학업이나 자격증 시험에 행운이 따릅니다. 새로운 것을 배우기에 딱 좋은 연말입니다.", "Good luck with studies or exams. Perfect time to learn.", "⭐⭐⭐⭐")
         ],
         "Fire": [
-            ("1월", "스트레스성 두통 주의. 건강검진 필요.", "Watch out for stress. Get a checkup."),
-            ("2월", "귀인이 나타나 도와줍니다. 합격운 대길.", "Mentors appear. Good luck for exams."),
-            ("3월", "마음이 편안하고 계약하기 좋은 달입니다.", "Peaceful mind. Good for signing contracts."),
-            ("4월", "자신감을 표현하면 돈이 됩니다.", "Express confidence to make money."),
-            ("5월", "경쟁이 치열합니다. 다툼 주의.", "Fierce competition. Avoid arguments."),
-            ("6월", "고집을 부리면 손해를 봅니다. 협력하세요.", "Stubbornness leads to loss. Cooperate."),
-            ("7월", "말 한마디로 천 냥 빚을 갚습니다. 영업운 최고.", "Your words have power. Great for sales."),
-            ("8월", "큰 돈이 들어올 기회입니다. 투자 검토.", "Opportunity for big money. Consider investing."),
-            ("9월", "재물운 폭발. 다만 지출도 큽니다.", "Explosive wealth luck, but high expenses."),
-            ("10월", "성과에 대한 확실한 보상을 받습니다.", "Sure rewards for your performance."),
-            ("11월", "상사의 압박이 심합니다. 휴식 필요.", "Pressure from bosses. Rest is needed."),
-            ("12월", "업무량이 많아지지만 명예는 올라갑니다.", "Workload increases, but honor rises.")
+            ("1월", "생각이 너무 많아 머리가 아픕니다. 스트레스성 두통을 주의하고 멍 때리는 시간을 가지세요.", "Too many thoughts cause headaches. Relax and clear your mind.", "⭐⭐"),
+            ("2월", "귀인이 나타나 나를 끌어줍니다. 취업이나 합격 소식을 듣기에 아주 좋은 달입니다.", "A noble person appears. Great month for job offers or passing exams.", "⭐⭐⭐⭐⭐"),
+            ("3월", "마음이 호수처럼 편안해집니다. 중요한 계약이나 약속을 잡기에 적합합니다.", "Peace of mind returns. Suitable for important contracts.", "⭐⭐⭐⭐"),
+            ("4월", "자신감을 가지고 나를 드러내세요. 내 매력이 돈이 되고 기회가 되는 시기입니다.", "Express yourself. Your charm turns into money and opportunities.", "⭐⭐⭐⭐"),
+            ("5월", "주변 사람들과 의견 충돌이 잦습니다. 이기려 하지 말고 '그럴 수도 있지' 하고 넘기세요.", "Conflicts increase. Don't try to win every argument.", "⭐⭐"),
+            ("6월", "고집을 부리다가 다 된 밥에 재 뿌릴 수 있습니다. 동료와 협력해야만 이득을 봅니다.", "Stubbornness leads to failure. Cooperation is the only way.", "⭐⭐"),
+            ("7월", "말 한마디로 천 냥 빚을 갚습니다. 영업이나 미팅에서 최고의 성과를 올립니다.", "Your words have power. Great results in sales or meetings.", "⭐⭐⭐⭐⭐"),
+            ("8월", "큰 돈이 들어올 기회가 보입니다. 다만, 들어온 만큼 나갈 수 있으니 지갑을 닫으세요.", "Opportunity for big money, but expenses rise too. Manage spending.", "⭐⭐⭐"),
+            ("9월", "재물운이 폭발하지만 지출도 큽니다. 기분파 쇼핑을 조심해야 하는 달입니다.", "Wealth luck explodes, but beware of emotional shopping.", "⭐⭐⭐⭐"),
+            ("10월", "그동안의 노력에 대한 확실한 보상을 받습니다. 인센티브나 상을 받을 수 있습니다.", "Sure rewards for your efforts. Expect incentives or awards.", "⭐⭐⭐⭐⭐"),
+            ("11월", "상사의 압박이나 업무량이 과도합니다. 지금은 납작 엎드려 때를 기다려야 합니다.", "High pressure from bosses. Stay low and wait for the right time.", "⭐⭐"),
+            ("12월", "일은 힘들지만 명예는 올라갑니다. 사람들이 당신의 능력을 알아주기 시작합니다.", "Hard work leads to honor. People recognize your abilities.", "⭐⭐⭐⭐")
         ],
         "Earth": [
-            ("1월", "직장 변동수. 신중하게 결정하세요.", "Job change possible. Decide carefully."),
-            ("2월", "명예운 상승. 승진이나 스카우트 제의.", "Honor rises. Promotion or scout offers."),
-            ("3월", "능력을 인정받아 감투를 씁니다.", "Recognized at work, get a new title."),
-            ("4월", "친구들과 만나 돈 쓸 일이 많아집니다.", "Spending money with friends increases."),
-            ("5월", "공부하기 딱 좋은 시기. 집중력 최고.", "Perfect for study. Concentration improves."),
-            ("6월", "계약서에 도장 찍을 일. 문서운 대길.", "Signing contracts. Great document luck."),
-            ("7월", "동료와 협력하여 문제를 해결합니다.", "Solve problems with colleagues."),
-            ("8월", "새로운 취미나 창작 활동 시작.", "Start a new hobby or creative activity."),
-            ("9월", "말주변이 좋아져 인기가 많아집니다.", "Eloquence improves, popularity rises."),
-            ("10월", "생각지도 못한 용돈이나 수익.", "Unexpected allowance or profit."),
-            ("11월", "큰 돈이 보이지만 욕심내면 낭패.", "Big money visible, but greed causes failure."),
-            ("12월", "사업 성과가 나타납니다. 수금하세요.", "Business results appear. Collect payments.")
+            ("1월", "이직이나 이사 등 이동수가 있습니다. 섣불리 움직이지 말고 신중하게 결정하세요.", "Possibility of moving or changing jobs. Decide carefully.", "⭐⭐⭐"),
+            ("2월", "명예운이 상승합니다. 남들이 부러워할 만한 감투를 쓰거나 스카우트 제의가 옵니다.", "Honor rises. You might get a prestigious title or scout offer.", "⭐⭐⭐⭐⭐"),
+            ("3월", "능력을 인정받아 승진하거나 중요한 직책을 맡게 됩니다. 리더십을 발휘하세요.", "Promotion or important role awaits. Show your leadership.", "⭐⭐⭐⭐"),
+            ("4월", "오랜만에 친구들을 만나 회포를 풉니다. 지출은 좀 있겠지만 즐거운 한 달입니다.", "Meeting friends brings joy. Expenses rise, but it's happy.", "⭐⭐⭐"),
+            ("5월", "집중력이 최고조에 달합니다. 미뤄뒀던 공부나 연구를 하기에 최적의 시기입니다.", "Concentration peaks. Best time to study or research.", "⭐⭐⭐⭐"),
+            ("6월", "문서운이 대길합니다. 집을 사거나 중요한 계약을 하기에 더할 나위 없습니다.", "Great document luck. Perfect for buying a house.", "⭐⭐⭐⭐⭐"),
+            ("7월", "혼자 끙끙 앓던 문제를 동료와 함께 해결합니다. 팀워크가 빛을 발합니다.", "Solve problems with colleagues. Teamwork shines.", "⭐⭐⭐⭐"),
+            ("8월", "새로운 취미나 예술 활동을 시작해보세요. 의외의 재능을 발견하게 됩니다.", "Start a new hobby. You might discover unexpected talents.", "⭐⭐⭐⭐"),
+            ("9월", "말주변이 좋아져서 어딜 가나 인기가 많습니다. 인맥을 넓히기 좋은 달입니다.", "Eloquence improves. Good month to expand your network.", "⭐⭐⭐⭐"),
+            ("10월", "생각지도 못한 용돈이나 수익이 생깁니다. 작게라도 투자를 해봐도 좋습니다.", "Unexpected profit. Small investments are okay.", "⭐⭐⭐⭐"),
+            ("11월", "눈앞에 큰 돈이 보이지만 욕심내면 낭패를 봅니다. 돌다리도 두들겨 보고 건너세요.", "Big money is visible, but greed causes failure. Be cautious.", "⭐⭐"),
+            ("12월", "사업이나 프로젝트의 결실을 맺습니다. 수금하기 좋고 통장이 두둑해집니다.", "Reap rewards of projects. Good for collecting payments.", "⭐⭐⭐⭐⭐")
         ],
         "Metal": [
-            ("1월", "재물운이 좋습니다. 맛있는 것 드세요.", "Good financial luck. Treat yourself."),
-            ("2월", "노력한 만큼 돈이 쌓입니다. 성실함이 무기.", "Hard work pays off. Diligence is key."),
-            ("3월", "예상치 못한 보너스를 받습니다.", "Unexpected bonus possible."),
-            ("4월", "문서 계약 시 꼼꼼히 확인하세요.", "Check documents carefully."),
-            ("5월", "관재구설 주의. 조용히 지내세요.", "Avoid disputes. Stay low profile."),
-            ("6월", "직장 스트레스 최고조. 멘탈 관리.", "Extreme work stress. Mental care needed."),
-            ("7월", "윗사람의 도움으로 위기를 넘깁니다.", "Help from superiors saves the day."),
-            ("8월", "주관이 뚜렷해지지만 고집으로 보일 수 있음.", "Strong will, but may seem stubborn."),
-            ("9월", "경쟁심이 생겨 성과를 냅니다. 이기는 달.", "Competitive spirit leads to results."),
-            ("10월", "나를 도와주는 귀인이 나타납니다.", "A helpful noble person appears."),
-            ("11월", "재능 발휘로 박수받는 달.", "Solve problems with talent. Applause."),
-            ("12월", "말을 아끼세요. 오해가 생깁니다.", "Save your words. Misunderstandings possible.")
+            ("1월", "먹을 복이 터졌습니다. 재물운도 좋으니 맛있는 것을 먹으며 자신을 대접하세요.", "Good luck with food and money. Treat yourself.", "⭐⭐⭐⭐"),
+            ("2월", "요행을 바라지 마세요. 땀 흘린 만큼 정확하게 통장에 꽂히는 정직한 달입니다.", "Don't expect luck. You earn exactly what you work for.", "⭐⭐⭐"),
+            ("3월", "예상치 못한 보너스나 성과급을 받습니다. 기분 좋은 비명을 지르게 됩니다.", "Unexpected bonus or incentive. Screaming with joy.", "⭐⭐⭐⭐⭐"),
+            ("4월", "문서 계약 시 꼼꼼히 확인하세요. 작은 글씨를 못 봐서 손해 볼 수 있습니다.", "Check documents carefully. Missing fine print causes loss.", "⭐⭐"),
+            ("5월", "관재구설(법적 다툼이나 말썽)이 따를 수 있습니다. 입을 무겁게 하고 조용히 지내세요.", "Legal issues or gossip may arise. Keep quiet.", "⭐⭐"),
+            ("6월", "직장 스트레스가 최고조입니다. '이 또한 지나가리라'는 마음으로 멘탈을 잡으세요.", "Work stress is extreme. Keep your mental balance.", "⭐⭐"),
+            ("7월", "위기 상황에서 윗사람이 구원의 손길을 내밉니다. 자존심 굽히고 도움을 받으세요.", "Superiors help in crisis. Swallow pride and accept help.", "⭐⭐⭐"),
+            ("8월", "주관이 뚜렷해지는 건 좋지만, 남들이 볼 땐 똥고집입니다. 유연함이 필요합니다.", "Strong will is good, but don't be stubborn. Be flexible.", "⭐⭐"),
+            ("9월", "누구와 붙어도 이길 수 있는 에너지가 있습니다. 경쟁이나 입찰에서 승리합니다.", "Energy to win against anyone. Victory in competition.", "⭐⭐⭐⭐⭐"),
+            ("10월", "나를 물심양면으로 도와주는 귀인이 나타납니다. 인복이 터지는 달입니다.", "A noble person appears. Luck with people explodes.", "⭐⭐⭐⭐⭐"),
+            ("11월", "나의 재능을 맘껏 펼치고 박수받습니다. 무대 위 주인공이 되는 시기입니다.", "Show off talents and get applause. You are the star.", "⭐⭐⭐⭐"),
+            ("12월", "연말 모임에서 말실수로 오해를 살 수 있습니다. 술자리에서 특히 조심하세요.", "Slip of the tongue at parties causes misunderstanding.", "⭐⭐")
         ],
         "Water": [
-            ("1월", "창의력이 폭발합니다. 예술 활동 대길.", "Creativity explodes. Great for arts."),
-            ("2월", "새로운 일을 기획하기 좋습니다.", "Great to plan or start new things."),
-            ("3월", "자녀 경사 혹은 아랫사람 덕을 봅니다.", "Good news for children or help from juniors."),
-            ("4월", "승진하거나 책임이 무거워집니다.", "Promotion or heavy responsibility at work."),
-            ("5월", "일확천금 꿈은 위험합니다. 투기 금지.", "Dream of jackpot but risky. No speculation."),
-            ("6월", "재물운 좋지만 지출도 큽니다.", "Good wealth luck but high expenses."),
-            ("7월", "명예가 올라가고 사람들이 찾습니다.", "Honor rises, people seek you out."),
-            ("8월", "공부나 연구에 몰두하면 큰 성과.", "Focus on study/research brings results."),
-            ("9월", "자격증을 따거나 계약하기 좋은 달.", "Good for certifications or contracts."),
-            ("10월", "방해하는 경쟁자가 나타납니다.", "Competitors appear to hinder you."),
-            ("11월", "친구와 돈 문제로 다투지 마세요.", "Don't fight over money with friends."),
-            ("12월", "자존심 때문에 충돌 주의.", "High pride may cause conflicts.")
+            ("1월", "창의력이 화수분처럼 쏟아집니다. 예술이나 기획 분야라면 대박을 터뜨립니다.", "Creativity flows endlessly. Success in arts or planning.", "⭐⭐⭐⭐⭐"),
+            ("2월", "새로운 일을 시작하거나 계획하기 딱 좋습니다. 시작이 반입니다.", "Perfect time to start new things. Well begun is half done.", "⭐⭐⭐⭐"),
+            ("3월", "아랫사람이나 자녀에게 좋은 일이 생깁니다. 덕분에 나까지 웃게 됩니다.", "Good news for subordinates or children. It makes you smile.", "⭐⭐⭐⭐"),
+            ("4월", "직장에서 승진하거나 중요한 책임을 맡습니다. 어깨가 무겁지만 기회입니다.", "Promotion or heavy responsibility. A burden but an opportunity.", "⭐⭐⭐⭐"),
+            ("5월", "일확천금의 유혹이 옵니다. 투기나 도박은 패가망신의 지름길이니 절대 금지.", "Temptation of jackpot. Gambling leads to ruin.", "⭐⭐"),
+            ("6월", "돈은 많이 들어오는데 나갈 구멍도 많습니다. 가계부를 꼼꼼히 써야 합니다.", "Money comes in but leaks out. Keep a strict budget.", "⭐⭐⭐"),
+            ("7월", "명예가 올라가고 여기저기서 나를 찾습니다. 인기 관리를 잘해야 합니다.", "Honor rises and people seek you. Manage popularity.", "⭐⭐⭐⭐"),
+            ("8월", "깊이 있는 공부나 연구에 몰두하면 큰 성과를 냅니다. 전문가로 인정받습니다.", "Focus on study brings results. Recognized as an expert.", "⭐⭐⭐⭐"),
+            ("9월", "국가 자격증이나 학위 취득 등 문서와 관련된 경사가 있습니다.", "Good news regarding certifications or degrees.", "⭐⭐⭐⭐"),
+            ("10월", "사사건건 방해하는 경쟁자가 나타나 스트레스를 줍니다. 무시하는 게 답입니다.", "Annoying competitors cause stress. Ignore them.", "⭐⭐"),
+            ("11월", "친한 친구와 돈 문제로 의 상할 수 있습니다. 밥은 사되 돈은 빌려주지 마세요.", "Money issues with friends. Don't lend cash.", "⭐⭐"),
+            ("12월", "자존심 때문에 사랑하는 사람과 다툴 수 있습니다. 이번 한 번만 져주세요.", "Pride causes fights with loved ones. Just lose this time.", "⭐⭐")
         ]
     }
     
     months = data[element]
     result = []
+    
+    for mon_ko, text_ko, text_en, star_rating in months:
+        msg = text_ko if lang == "ko" else text_en
+        
+        # 월 표시 (영어 변환)
+        month_label = mon_ko
+        if lang != "ko":
+            month_map = {"1월":"Jan", "2월":"Feb", "3월":"Mar", "4월":"Apr", "5월":"May", "6월":"Jun", "7월":"Jul", "8월":"Aug", "9월":"Sep", "10월":"Oct", "11월":"Nov", "12월":"Dec"}
+            month_label = month_map.get(mon_ko, mon_ko)
+            
+        result.append({"Month": month_label, "Luck": star_rating, "Advice": msg})
+        
+    return result
     
     for mon_ko, text_ko, text_en in months:
         msg = text_ko if lang == "ko" else text_en
