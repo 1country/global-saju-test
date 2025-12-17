@@ -335,10 +335,17 @@ You are caring and adaptable, but your mysterious side makes you attractive. You
     if lang == "ko": return traits_ko[element], forecast_ko
     else: return traits_en[element], forecast_en
 
-# --- 4. 월별 정밀 운세 (1월~12월: 별점 수동 매칭 완벽 수정) ---
+# --- 4. 월별 정밀 운세 (최종 완성: 수동 별점 적용 & 기준 명시) ---
 def get_monthly_forecast_unique(element, lang):
-    # 데이터 구조: (월, 한국어 조언, 영어 조언, 별점)
-    # 별점 기준: ⭐⭐(주의), ⭐⭐⭐(보통/노력), ⭐⭐⭐⭐(좋음), ⭐⭐⭐⭐⭐(최고/대박)
+    
+    # [별점 부여 기준 (Criteria)] 
+    # 아래 기준에 맞춰서 모든 데이터를 수동으로 검수하여 입력했습니다.
+    # ⭐⭐ (주의): 조심, 경고, 스트레스, 다툼, 손해
+    # ⭐⭐⭐ (보통): 노력, 과정, 이동, 변동
+    # ⭐⭐⭐⭐ (좋음): 이득, 성과, 해결, 인기, 상승
+    # ⭐⭐⭐⭐⭐ (최고): 횡재, 대박, 귀인, 합격, 승진
+
+    # 데이터 구조: (월, 한국어 조언, 영어 조언, ★별점)
     data = {
         "Wood": [
             ("1월", "지인이나 친구가 금전 부탁을 해옵니다. 냉정하게 거절하지 않으면 돈도 잃고 사람도 잃습니다.", "People may ask for money. Refuse firmly to save both money and friends.", "⭐⭐"),
@@ -412,9 +419,12 @@ def get_monthly_forecast_unique(element, lang):
         ]
     }
     
+    # 1. 입력받은 오행(element)에 해당하는 12개월 데이터를 가져옵니다.
     months = data[element]
     result = []
     
+    # 2. 반복문을 돌면서 언어에 맞게 변환하고 리스트에 담습니다.
+    # ★ 여기서 4개의 값(월, 한글, 영어, 별점)을 정확히 꺼냅니다.
     for mon_ko, text_ko, text_en, star_rating in months:
         msg = text_ko if lang == "ko" else text_en
         
@@ -425,25 +435,9 @@ def get_monthly_forecast_unique(element, lang):
             month_label = month_map.get(mon_ko, mon_ko)
             
         result.append({"Month": month_label, "Luck": star_rating, "Advice": msg})
-        
-    return result
     
-    for mon_ko, text_ko, text_en in months:
-        msg = text_ko if lang == "ko" else text_en
-        score = "⭐⭐⭐"
-        if "주의" in text_ko or "조심" in text_ko or "스트레스" in text_ko: score = "⭐⭐"
-        if "최고" in text_ko or "대길" in text_ko or "폭발" in text_ko or "행운" in text_ko: score = "⭐⭐⭐⭐⭐"
-        if "좋은" in text_ko or "이득" in text_ko: score = "⭐⭐⭐⭐"
-        
-        month_label = mon_ko
-        if lang != "ko":
-            month_map = {"1월":"Jan", "2월":"Feb", "3월":"Mar", "4월":"Apr", "5월":"May", "6월":"Jun", "7월":"Jul", "8월":"Aug", "9월":"Sep", "10월":"Oct", "11월":"Nov", "12월":"Dec"}
-            month_label = month_map.get(mon_ko, mon_ko)
-            
-        result.append({"Month": month_label, "Luck": score, "Advice": msg})
-        
+    # 3. 최종 결과 반환 (여기서 함수가 끝납니다!)
     return result
-
 # --- 5. 메인 실행 (수정판: 체크박스 삭제 & 진짜 인쇄 버튼) ---
 def main():
     # 세션 상태 초기화
