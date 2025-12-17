@@ -10,51 +10,82 @@ UNLOCK_CODE = "2026RICH"
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
 # ----------------------------------------------------------------
-# [인쇄 스타일 설정: 강제 출력 모드]
+# [인쇄 스타일 설정: 1페이지 꽉 채우기 (Page Break 방지)]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
-        /* 화면용 디자인 */
+        /* 1. 화면용 디자인 (평소대로) */
         .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
 
-        /* 🖨️ 인쇄 모드 (Print CSS) */
+        /* 2. 🖨️ 인쇄 모드 (공간 확보 최적화) */
         @media print {
-            /* 1. 방해꾼들(사이드바, 버튼, 헤더) 모두 숨김 */
+            /* (1) 방해꾼 숨기기 */
             [data-testid="stSidebar"], [data-testid="stHeader"], header, footer, .stDeployButton, button, .stButton, iframe {
                 display: none !important;
             }
             
-            /* 2. 전체 페이지 높이 제한 해제 (내용 잘림 방지) */
+            /* (2) 종이 여백 최소화 (공간 넓히기) */
+            @page {
+                margin: 1.5cm; /* 종이 끝 여백 조정 */
+            }
             html, body, .stApp {
-                height: auto !important;
-                overflow: visible !important;
-                background-color: white !important;
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .block-container {
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                max-width: 100% !important;
             }
 
-            /* 3. 글자색 검정 강제 (흰색 글씨 방지) */
+            /* (3) ★핵심★ 제목 사이즈 줄여서 공간 만들기 */
+            .main-header {
+                font-size: 1.8em !important; /* 제목 크기 줄임 */
+                margin-bottom: 5px !important;
+                margin-top: 0 !important;
+            }
+            .sub-header {
+                display: none !important; /* 부제목은 인쇄할 때 숨겨서 공간 확보 */
+            }
+            
+            /* (4) 입력창 주변 여백 삭제 */
+            div[data-testid="stVerticalBlock"] > div {
+                gap: 0.5rem !important; /* 요소 사이 간격 좁힘 */
+            }
+
+            /* (5) ★핵심★ 카드가 다음 장으로 도망가지 않게 설정 */
+            .card {
+                border: 1px solid #000 !important;
+                box-shadow: none !important;
+                margin-bottom: 10px !important; /* 카드 간격 좁힘 */
+                padding: 15px !important; /* 카드 안쪽 여백 줄임 */
+                
+                /* 중요: 내용이 많아도 억지로 다음 장으로 넘기지 않음 */
+                break-inside: auto !important; 
+                page-break-inside: auto !important;
+            }
+            
+            /* (6) 헤더와 내용 사이 거리 좁히기 */
+            h1, h2, h3, h4 {
+                margin-top: 0 !important;
+                margin-bottom: 5px !important;
+                padding-top: 10px !important;
+            }
+            
+            /* (7) 글자색 검정 */
             * {
                 color: black !important;
                 -webkit-print-color-adjust: exact !important;
             }
-            
-            /* 4. 내용물 여백 제거 및 너비 100% */
-            .block-container {
-                padding: 0 !important;
-                max-width: 100% !important;
-            }
-            
-            /* 5. 카드 테두리 그리기 */
-            .card {
-                break-inside: avoid;
-                border: 1px solid #ddd !important;
-                box-shadow: none !important;
-                margin-bottom: 20px !important;
-            }
         }
     </style>
 """, unsafe_allow_html=True)
+
 # --- 2. 만세력 엔진 (일주 계산) ---
 def calculate_day_gan(birth_date):
     base_date = date(1900, 1, 1)
