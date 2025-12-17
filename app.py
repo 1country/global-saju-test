@@ -455,7 +455,18 @@ def main():
         
         st.sidebar.markdown("---")
         st.sidebar.header(coffee_head)
-        st.sidebar.markdown(f'<a href="https://buymeacoffee.com/5codes" target="_blank" style="text-decoration:none;color:#4f46e5;font-weight:bold;">{coffee_msg}</a>', unsafe_allow_html=True)
+        st.sidebar.markdown(f"""
+            <div style="text-align: center;">
+                <a href="https://buymeacoffee.com/5codes" target="_blank">
+                    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+                        alt="Buy Me A Coffee" 
+                        style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
+                </a>
+                <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
+                    {coffee_msg}
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
 
     ui = {
         "ko": {
