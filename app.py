@@ -86,64 +86,252 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 만세력 엔진 (일주 계산) ---
+# --- 2. 만세력 엔진 (일주 계산 - 한영 표현력 강화) ---
 def calculate_day_gan(birth_date):
     base_date = date(1900, 1, 1)
     delta = birth_date - base_date
     if delta.days < 0: return 0
     gan_index = delta.days % 10
     gans = [
-        {"ko": "갑목(甲)", "en": "Yang Wood (Gap)", "element": "Wood"},
-        {"ko": "을목(乙)", "en": "Yin Wood (Eul)", "element": "Wood"},
-        {"ko": "병화(丙)", "en": "Yang Fire (Byeong)", "element": "Fire"},
-        {"ko": "정화(丁)", "en": "Yin Fire (Jeong)", "element": "Fire"},
-        {"ko": "무토(戊)", "en": "Yang Earth (Mu)", "element": "Earth"},
-        {"ko": "기토(己)", "en": "Yin Earth (Gi)", "element": "Earth"},
-        {"ko": "경금(庚)", "en": "Yang Metal (Gyeong)", "element": "Metal"},
-        {"ko": "신금(辛)", "en": "Yin Metal (Sin)", "element": "Metal"},
-        {"ko": "임수(壬)", "en": "Yang Water (Im)", "element": "Water"},
-        {"ko": "계수(癸)", "en": "Yin Water (Gye)", "element": "Water"}
+        # 한국어: [이름(한자) - 상징] / 영어: [발음 (한자) - 상징]
+        {"ko": "갑목(甲) - 곧게 뻗은 거목", "en": "Gap (甲) - The Giant Tree", "element": "Wood"},
+        {"ko": "을목(乙) - 적응력 강한 화초", "en": "Eul (乙) - The Resilient Flower", "element": "Wood"},
+        {"ko": "병화(丙) - 세상을 비추는 태양", "en": "Byeong (丙) - The Blazing Sun", "element": "Fire"},
+        {"ko": "정화(丁) - 온기를 주는 촛불", "en": "Jeong (丁) - The Warm Candle", "element": "Fire"},
+        {"ko": "무토(戊) - 묵직한 태산", "en": "Mu (戊) - The Great Mountain", "element": "Earth"},
+        {"ko": "기토(己) - 생명을 품은 텃밭", "en": "Gi (己) - The Fertile Soil", "element": "Earth"},
+        {"ko": "경금(庚) - 단단한 원석", "en": "Gyeong (庚) - The Iron Ore", "element": "Metal"},
+        {"ko": "신금(辛) - 빛나는 보석", "en": "Sin (辛) - The Shining Jewelry", "element": "Metal"},
+        {"ko": "임수(壬) - 포용하는 바다", "en": "Im (壬) - The Vast Ocean", "element": "Water"},
+        {"ko": "계수(癸) - 스며드는 빗물", "en": "Gye (癸) - The Gentle Rain", "element": "Water"}
     ]
     return gans[gan_index]
+ 
     
-# --- 3. 데이터베이스 (성격 & 운세) ---
+# --- 3. 데이터베이스 (성격 & 운세 - 대폭 보강 버전) ---
 def get_interpretation(element, lang):
-    # 한국어 데이터
+    # 한국어 상세 데이터 (전문가 수준의 깊이 있는 해석)
     traits_ko = {
-        "Wood": """#### 🌲 총론: 곧게 뻗는 성장의 아이콘\n당신은 뚫고 나가는 힘이 강한 '개척자'입니다. 인정이 많고 착하지만, 한번 고집을 피우면 아무도 못 말립니다. 남의 밑에 있기보다 내가 대장이 되어야 직성이 풀리는 스타일입니다.\n\n#### 💰 재물운: 차곡차곡 쌓는 거목\n요행을 바라기보다 자신의 노력으로 정직하게 부를 축적합니다. 처음에는 느려 보여도 시간이 갈수록 뿌리가 깊어져 말년에는 큰 부자가 될 그릇입니다.\n\n#### 💼 직장/사업운: 기획과 교육의 리더\n새로운 일을 기획하거나 사람을 가르치는 일이 천직입니다. (교육, 건축, 디자인, 스타트업). 융통성만 조금 더한다면 조직의 최고 자리에 오를 수 있습니다.\n\n#### ❤️ 연애운: 내 사람은 내가 지킨다\n연애할 때도 리드하는 것을 좋아합니다. 상대방을 책임지려는 마음이 강합니다. 다만 가끔은 상대방의 의견을 굽혀주는 부드러움이 필요합니다.""",
-        "Fire": """#### 🔥 총론: 세상을 밝히는 열정의 태양\n당신은 에너지가 넘치고 솔직한 '비전가'입니다. 예의가 바르고 화끈해서 주변에 사람이 끊이지 않습니다. 비밀이 없고 감정이 얼굴에 다 드러나는 투명한 사람입니다.\n\n#### 💰 재물운: 화려하지만 관리가 필요해\n돈을 버는 능력은 탁월하나, 쓰는 씀씀이도 큽니다. 기분에 따라 한턱내는 것을 좋아해 돈이 모이기 힘들 수 있습니다. 통장 관리를 꼼꼼히 해야 부자가 됩니다.\n\n#### 💼 직장/사업운: 무대 체질, 말로 먹고산다\n자신을 드러내는 일이 맞습니다. (방송, 예술, 영업, 정치, 유튜버). 반복적이고 지루한 사무직보다는 변화가 많은 곳에서 능력을 발휘합니다.\n\n#### ❤️ 연애운: 금방 뜨거워지는 사랑\n첫눈에 반하는 금사빠 기질이 있습니다. 열정적인 사랑을 하지만 빨리 식을 수도 있습니다. 밀당보다는 직설적인 고백이 통하는 스타일입니다.""",
-        "Earth": """#### ⛰️ 총론: 묵직한 신용의 수호자\n당신은 모든 것을 품어주는 넓은 땅입니다. 입이 무겁고 신용을 목숨처럼 아낍니다. 속마음을 잘 드러내지 않아 답답해 보일 수 있지만, 한번 믿은 사람은 끝까지 배신하지 않습니다.\n\n#### 💰 재물운: 부동산이 최고의 파트너\n현금보다는 땅이나 건물 같은 '문서' 형태의 재산이 잘 맞습니다. 묵묵히 저축하고 지키는 능력이 뛰어나 알부자가 많습니다.\n\n#### 💼 직장/사업운: 중간 관리자와 중개자\n사람과 사람 사이를 연결하거나 갈등을 중재하는 능력이 탁월합니다. (부동산, 컨설팅, 농업, 종교). 변화가 적고 안정적인 조직에서 빛을 발합니다.\n\n#### ❤️ 연애운: 은근하고 오래가는 뚝배기\n표현이 서툴러 재미없다는 소리를 들을 수 있지만, 한결같은 해바라기입니다. 화려한 이벤트보다 진심 어린 믿음을 주는 연애를 선호합니다.""",
-        "Metal": """#### ⚔️ 총론: 결단력 있는 정의의 사도\n당신은 맺고 끊음이 확실한 '장군'감입니다. 의리를 중요시하고 불의를 보면 참지 못합니다. 차가워 보이지만 내 사람에게는 확실하게 정을 주는 '츤데레' 매력이 있습니다.\n\n#### 💰 재물운: 확실한 결과와 성과\n일한 만큼 확실하게 보상받아야 직성이 풀립니다. 승부욕이 강해 경쟁을 통해 남보다 더 많은 부를 쟁취해냅니다.\n\n#### 💼 직장/사업운: 권력과 기술의 조화\n원칙이 중요한 분야가 어울립니다. (군인, 경찰, 금융, 엔지니어, 의료). 흐지부지한 것을 싫어해 리더가 되면 카리스마 있게 조직을 이끕니다.\n\n#### ❤️ 연애운: 확실한 내 편 만들기\n좋고 싫음이 분명합니다. 질질 끄는 썸을 싫어하고 확실한 관계 정립을 원합니다. 한번 마음을 주면 변치 않는 의리 있는 사랑을 합니다.""",
-        "Water": """#### 🌊 총론: 유연한 지혜의 전략가\n당신은 어디든 흐르는 물처럼 적응력이 뛰어납니다. 머리가 비상하고 기획력이 좋으며, 겉으로는 부드러워 보이나 속은 깊고 냉철합니다.\n\n#### 💰 재물운: 흐름을 읽는 투자의 귀재\n돈의 흐름을 본능적으로 읽어냅니다. 유통, 무역, 투자 등 돈이 도는 길목을 지키면 큰돈을 만집니다. 해외와 인연이 깊습니다.\n\n#### 💼 직장/사업운: 두뇌 플레이어\n몸을 쓰는 일보다 머리를 쓰는 일이 맞습니다. (기획, 연구, 무역, 심리 상담). 남들이 보지 못하는 틈새시장을 찾아내는 눈이 있습니다.\n\n#### ❤️ 연애운: 매력적인 미스터리\n상대방의 마음을 잘 맞춰주는 배려심이 있습니다. 하지만 자신의 속은 다 보여주지 않아 신비로운 매력을 풍깁니다. 집착보다는 자유로운 연애를 지향합니다."""
-    }
-    # 영어 데이터
-    traits_en = {
-        "Wood": """#### 🌲 General: The Icon of Growth\nYou are a 'Pioneer' with strong drive. You are benevolent but stubborn. You prefer to lead rather than follow.\n\n#### 💰 Wealth: Steady Accumulation\nYou build wealth through honest effort rather than luck. Like a tree, your assets grow larger and deeper over time.\n\n#### 💼 Career: Planner & Educator\nYou excel in planning or teaching. (Education, Design, Startups). You can reach the top if you learn to be a bit more flexible.\n\n#### ❤️ Love: Protective Leader\nYou like to lead in relationships. You have a strong desire to protect your partner. Try to listen more to your partner's opinions.""",
-        "Fire": """#### 🔥 General: Passionate Visionary\nYou are like the sun—energetic and honest. You are polite and transparent; your emotions show clearly on your face.\n\n#### 💰 Wealth: High Flow\nYou are great at making money but also great at spending it. You need to manage your expenses carefully to build true wealth.\n\n#### 💼 Career: Born for the Stage\nYou shine in jobs where you can express yourself. (Arts, Media, Sales, Politics). You thrive in dynamic environments.\n\n#### ❤️ Love: Hot & Fast\nYou fall in love quickly and passionately. You prefer direct confessions over playing hard-to-get.""",
-        "Earth": """#### ⛰️ General: Guardian of Trust\nYou are steady like a mountain. You value trust above all else. You don't reveal your feelings easily, but you never betray a friend.\n\n#### 💰 Wealth: Real Estate Expert\nAssets like land or buildings suit you better than cash. You have a talent for saving and protecting your wealth.\n\n#### 💼 Career: Mediator & Manager\nYou excel at connecting people or resolving conflicts. (Real Estate, Consulting, Religion). You shine in stable organizations.\n\n#### ❤️ Love: Steady Sunflower\nYou might seem quiet, but your love is unchanging. You prefer sincere trust over flashy events.""",
-        "Metal": """#### ⚔️ General: Decisive Warrior\nYou value justice and loyalty. You are decisive and hate ambiguity. You have a 'tough on the outside, soft on the inside' charm.\n\n#### 💰 Wealth: Result-Oriented\nYou want clear rewards for your work. Your competitive spirit helps you earn more than others.\n\n#### 💼 Career: Power & Tech\nYou suit fields where principles matter. (Finance, Engineering, Military, Medicine). You are a charismatic leader.\n\n#### ❤️ Love: Clear Boundaries\nYou dislike ambiguous relationships. Once you commit, you offer a loyal and responsible love.""",
-        "Water": """#### 🌊 General: Wise Strategist\nYou are adaptable like water. You are incredibly smart and a deep thinker. You appear soft, but your mind is sharp.\n\n#### 💰 Wealth: Master of Flow\nYou instinctively read the flow of money. You can succeed in trade, investment, or distribution.\n\n#### 💼 Career: Brain Player\nYou excel in intellectual fields. (Planning, Research, Trade, Psychology). You can find niche markets others miss.\n\n#### ❤️ Love: Mysterious Charisma\nYou are caring and adaptable, but you keep a secret side. This mystery makes you attractive to others."""
+        "Wood": """#### 🌲 본성 (Nature): 뚫고 나가는 봄의 에너지
+당신은 얼어붙은 땅을 뚫고 올라오는 새싹이나 거목처럼 **강력한 상승 욕구**와 **추진력**을 가졌습니다. '인자함(仁)'을 상징하여 마음이 따뜻하고 어린아이 같은 순수함이 있지만, 한번 목표를 정하면 앞만 보고 달리는 기질이 있습니다. 남의 간섭을 극도로 싫어하며, 자신이 주도권을 쥐어야 직성이 풀리는 대장부 스타일입니다.
+
+#### 💰 재물운 (Wealth): 시간을 먹고 자라는 거목
+당신에게 재물은 '나무를 키우는 것'과 같습니다. 요행이나 일확천금보다는, 자신의 능력과 노력으로 정직하게 재산을 불려 나가는 것이 맞습니다. 처음에는 성과가 더디게 보일지라도, 시간이 지날수록 뿌리가 깊어져 중년 이후에는 흔들리지 않는 **탄탄한 부**를 축적하게 됩니다. 부동산, 교육, 창작물 등 '시간이 지날수록 가치가 오르는 자산'에 투자하세요.
+
+#### 💼 직업/적성 (Career): 기획과 교육의 리더
+무언가를 새롭게 시작하고, 기획하고, 사람을 길러내는 일이 천직입니다.
+* **추천 분야:** 교육, 건축/인테리어, 기획, 문학/예술, 패션, 스타트업 창업
+* **직장 생활:** 반복적인 업무보다는 자신이 아이디어를 내고 프로젝트를 주도할 수 있는 곳에서 빛을 발합니다.
+
+#### ❤️ 연애/관계 (Love): 내 사람은 내가 지킨다
+연애할 때도 주도적입니다. 상대방을 이끌고 보호해주려는 '가장' 같은 책임감이 강합니다. 하지만 자신의 방식대로만 하려는 고집 때문에 상대방이 숨 막혀 할 수 있습니다. 가끔은 상대방의 의견을 묵묵히 들어주는 '큰 나무의 그늘' 같은 여유가 필요합니다.""",
+
+        "Fire": """#### 🔥 본성 (Nature): 세상을 밝히는 화려한 열정
+당신은 태양이나 촛불처럼 **자신을 태워 주변을 밝히는 에너지**를 가졌습니다. '예의(禮)'를 중시하여 매너가 좋고, 감정을 숨기지 못하는 솔직하고 투명한 성격 덕분에 어디서나 인기가 많습니다. 직관력이 뛰어나고 행동이 빠르지만, 그만큼 빨리 싫증을 내거나 욱하는 기질도 있어 '냄비 근성'을 조심해야 합니다.
+
+#### 💰 재물운 (Wealth): 흐름이 빠른 화려한 돈
+돈을 버는 능력도 탁월하고, 쓰는 씀씀이도 화끈합니다. 재물이 잘 들어오지만, 기분에 따라 겉치레나 유흥으로 나가는 돈도 많습니다. 당신에게 돈은 '흐르는 에너지'입니다. 현금으로 쥐고 있으면 다 써버리기 쉬우니, 문서나 저작권, 브랜드 가치 등 **'남들에게 보여지는 자산'**으로 묶어두는 것이 부자가 되는 지름길입니다.
+
+#### 💼 직업/적성 (Career): 무대 체질, 말과 표현의 달인
+자신을 드러내고 표현하는 곳에서 능력이 200% 발휘됩니다. 남들의 시선을 즐기는 편입니다.
+* **추천 분야:** 방송/연예, 유튜브/SNS, 마케팅/영업, 정치, 디자인/미용, 강연
+* **직장 생활:** 조용한 사무직은 병이 날 수 있습니다. 사람을 만나고 활동적인 부서, 혹은 화려한 조명을 받는 일이 딱입니다.
+
+#### ❤️ 연애/관계 (Love): 첫눈에 반하는 뜨거운 사랑
+'금사빠(금방 사랑에 빠지는)' 기질이 있습니다. 마음에 들면 앞뒤 재지 않고 직진하는 스타일입니다. 열정적인 사랑을 하지만, 식을 때도 차갑게 식을 수 있습니다. 복잡한 밀당보다는 화끈하고 솔직한 고백이 통하는 타입이며, 외모나 스타일이 좋은 상대에게 끌립니다.""",
+
+        "Earth": """#### ⛰️ 본성 (Nature): 모든 것을 품어주는 신용의 땅
+당신은 묵묵히 자리를 지키는 산이나 밭처럼 **믿음직스럽고 포용력**이 있습니다. '신용(信)'을 목숨처럼 여기기 때문에 주변 사람들의 비밀 상담사가 되어주는 경우가 많습니다. 중립을 잘 지키며, 어떤 쪽에도 치우치지 않습니다. 다만, 속마음을 잘 드러내지 않아 겉으로는 답답해 보이거나 융통성이 없어 보일 수 있습니다.
+
+#### 💰 재물운 (Wealth): 알부자가 많은 부동산의 제왕
+오행 중 재물과 가장 인연이 깊고 실속이 있습니다. 특히 **부동산, 땅, 건물**과 찰떡궁합입니다. 현금 유동성은 약할 수 있으나, 묵혀두면 오르는 자산을 보는 눈이 탁월합니다. 절약 정신이 투철하고 안전 지향적이라, 티끌 모아 태산을 만드는 전형적인 '알부자' 유형이 많습니다.
+
+#### 💼 직업/적성 (Career): 중재자 그리고 관리자
+사람과 사람, 일과 일 사이를 연결하고 조정하는 능력이 뛰어납니다.
+* **추천 분야:** 부동산, 컨설팅, 종교/철학, 농업/조경, 인사/총무 관리, 토목
+* **직장 생활:** 변화가 심하고 불안정한 곳보다는, 안정적이고 시스템이 갖춰진 조직에서 오래 일할수록 빛을 봅니다.
+
+#### ❤️ 연애/관계 (Love): 은근하게 끓어오르는 뚝배기
+표현이 서툴러 재미없는 사람으로 오해받을 수 있지만, 한번 마음을 주면 변치 않는 **해바라기**입니다. 화려한 이벤트보다는 진심 어린 배려와 신뢰를 중요시하며, 결혼 상대로서 최고의 점수를 받습니다. 당신의 묵직함을 알아주는 지혜로운 상대를 만나는 것이 좋습니다.""",
+
+        "Metal": """#### ⚔️ 본성 (Nature): 맺고 끊음이 확실한 결단의 칼
+당신은 원석이나 잘 제련된 칼처럼 **냉철한 이성**과 **강한 의리**를 가졌습니다. '의(義)'를 중시하여 옳고 그름(시비)을 가리는 것을 좋아하고, 한번 결정하면 뒤돌아보지 않는 무시무시한 결단력이 있습니다. 차가워 보이지만 내 사람에게는 확실하게 정을 주는 '츤데레' 매력이 있으며, 완벽주의 성향이 강합니다.
+
+#### 💰 재물운 (Wealth): 확실한 결과와 성과 중심
+일한 만큼, 노력한 만큼 확실한 보상이 주어져야 직성이 풀립니다. 불확실한 투자보다는, 자신의 기술이나 전문성을 통해 벌어들이는 **정재(고정 수입)**가 탄탄합니다. 승부욕이 강해 남들보다 더 높은 성과를 올려 인센티브를 챙기거나, 기술력을 인정받아 고수익을 올리는 능력이 있습니다.
+
+#### 💼 직업/적성 (Career): 원칙과 권력의 조화
+규칙이 분명하고 전문성이 필요한 분야, 혹은 남을 심판하거나 고치는 일이 어울립니다.
+* **추천 분야:** 군인/경찰, 법조계, 금융/회계, 엔지니어, 의료/수술, 금속/기계
+* **직장 생활:** 흐지부지한 것을 못 참습니다. 리더가 되면 카리스마 있게 조직을 장악하고 이끌어갑니다.
+
+#### ❤️ 연애/관계 (Love): 확실한 내 편 만들기
+썸 타는 기간이 길어지거나 애매한 관계를 싫어합니다. "사귀는 거야, 마는 거야?" 확실하게 관계 정립을 원합니다. 상대방에게도 의리와 도리를 요구하며, 한번 맺은 인연은 끝까지 책임지려는 멋진 연인입니다. 다만, 말로 상대방에게 상처를 줄 수 있으니 조금 부드럽게 표현하세요.""",
+
+        "Water": """#### 🌊 본성 (Nature): 어디든 흐르는 유연한 지혜
+당신은 흐르는 물처럼 **어떤 환경에도 적응하는 유연함**과 **깊은 지혜(智)**를 가졌습니다. 두뇌 회전이 빠르고 기획력이 뛰어나며, 겉으로는 부드러워 보이나 속은 냉철한 계산이 서 있습니다. 비밀이 많고 자신의 속마음을 완벽하게 보여주지 않아 신비로운 매력을 풍깁니다. 생각이 꼬리에 꼬리를 무는 타입이라 철학적입니다.
+
+#### 💰 재물운 (Wealth): 흐름을 읽는 투자의 귀재
+돈의 흐름을 본능적으로 읽어냅니다. 한곳에 고정된 자산보다는 주식, 코인, 환율, 무역 등 **유동적인 자산** 투자를 선호하며, 남들이 보지 못하는 틈새시장을 찾아내는 눈이 있습니다. 물이 모이는 곳이 곧 돈이 모이는 곳이니, 유통이나 해외 관련 비즈니스에서 큰돈을 만질 수 있습니다.
+
+#### 💼 직업/적성 (Career): 보이지 않는 곳의 전략가
+몸을 쓰는 일보다는 머리를 쓰고 전략을 짜는 일이 맞습니다.
+* **추천 분야:** 무역/유통, 기획/마케팅, 연구원, 심리 상담, 예술/창작, 요식업/카페
+* **직장 생활:** 9 to 6의 딱딱한 조직보다는 자유로운 분위기나 해외 출장이 잦은 곳, 혹은 밤에 일하는 직업과도 인연이 있습니다.
+
+#### ❤️ 연애/관계 (Love): 알다가도 모를 치명적 매력
+상대방의 기분을 잘 맞춰주는 배려심이 뛰어나지만, 정작 자신의 깊은 속은 다 보여주지 않습니다. 이런 알 수 없는 모호함이 상대방을 애타게 만드는 매력이 됩니다. 구속받는 것을 싫어하며, 육체적인 사랑과 정신적인 교감을 모두 중요하게 생각합니다."""
     }
 
-    # 2026 총평
+    # 영어 상세 데이터 (English - Expert Version)
+    traits_en = {
+        "Wood": """#### 🌲 Nature: The Benevolent Pioneer
+Like a tree stretching towards the sky, you possess a **strong drive** and ambition. You symbolize 'Spring' and 'Growth'. You are creative, benevolent, and a natural planner. However, you can be stubborn and dislike being controlled by others. You prefer to lead rather than follow.
+
+#### 💰 Wealth: Steady Accumulation
+You build wealth through honest effort and solid foundations rather than gambling. Like tree rings, your assets grow larger and deeper over time, leading to great prosperity in later years. Long-term investments in education or real estate suit you well.
+
+#### 💼 Career: Planner & Educator
+You excel in fields involving growth, teaching, or designing.
+* **Best Fits:** Education, Architecture, Startups, Arts, Design.
+* **Work Style:** You thrive in project-based environments where you can initiate new ideas.
+
+#### ❤️ Love: Protective Leader
+You lead relationships with responsibility. You act like a sheltering tree for your partner but need to be careful not to be too controlling. Try to listen more to your partner's opinions.""",
+
+        "Fire": """#### 🔥 Nature: The Passionate Visionary
+You shine like the sun, full of **energy, honesty, and politeness**. You are expressive and popular. You act on intuition and are very transparent; your emotions show clearly on your face. However, your passion can cool down as quickly as it heats up.
+
+#### 💰 Wealth: High Flow & Visibility
+You have great earning potential but also high expenses due to your generous nature. Managing your savings is crucial. Investing in your personal brand, intellectual property, or 'visible assets' is beneficial.
+
+#### 💼 Career: Born for the Stage
+You thrive where you can express yourself and receive attention.
+* **Best Fits:** Media, Sales, Politics, Marketing, Entertainment, YouTube.
+* **Work Style:** Avoid quiet, repetitive office jobs. You need dynamic environments.
+
+#### ❤️ Love: Hot & Fast
+You fall in love quickly and passionately. You prefer direct confessions and dislike playing mind games. You are attracted to stylish and expressive partners.""",
+
+        "Earth": """#### ⛰️ Nature: The Guardian of Trust
+You are steady like a mountain, valuing **trust and consistency** above all. You are a good listener and often act as a counselor for others. You keep your own feelings hidden, which may make you seem stubborn, but you are incredibly reliable.
+
+#### 💰 Wealth: The Real Estate King
+Among the five elements, you have the best luck with **real estate and land**. You are excellent at saving and protecting assets, often becoming wealthy quietly over time. You prefer safety over high risk.
+
+#### 💼 Career: Mediator & Manager
+You excel at connecting people, mediating conflicts, and managing stable systems.
+* **Best Fits:** Real Estate, Consulting, HR, Agriculture, Religion.
+* **Work Style:** You shine in stable, well-structured organizations.
+
+#### ❤️ Love: The Steady Sunflower
+You are not flashy, but your love is unchanging and loyal. You prefer sincere trust over exciting events. You are considered the best partner for a long-term marriage.""",
+
+        "Metal": """#### ⚔️ Nature: The Decisive Warrior
+You are like a sharp blade or a solid rock, valuing **justice, principles, and loyalty**. You are decisive and hate ambiguity. You may seem cold on the outside, but you are warm and loyal to your own people. You strive for perfection.
+
+#### 💰 Wealth: Result-Oriented
+You believe in clear rewards for performance. You build wealth through professional skills and competitive achievements rather than luck. You have a strong desire to win and earn high incentives.
+
+#### 💼 Career: Power & Expertise
+You suit fields requiring precision, principles, and authority.
+* **Best Fits:** Finance, Law, Military, Engineering, Medicine, Technology.
+* **Work Style:** You are a charismatic leader who hates inefficiency.
+
+#### ❤️ Love: Clear Boundaries
+You dislike ambiguous relationships. Once you commit, you are a loyal and responsible partner who values duty. You want a clear definition of the relationship.""",
+
+        "Water": """#### 🌊 Nature: The Wise Strategist
+Like flowing water, you are **adaptable, flexible, and wise**. You are a deep thinker with great planning skills. You are mysterious and keep your true thoughts secret. You have a philosophical side and a quick mind.
+
+#### 💰 Wealth: Master of Flow
+You instinctively understand the flow of money. You can succeed in trade, investments (stocks/crypto), and global business. You can find niche markets that others miss. Money flows to you like water.
+
+#### 💼 Career: The Brain Player
+You excel in intellectual and strategic fields rather than physical labor.
+* **Best Fits:** Trade, Research, Psychology, Planning, Arts, Nightlife business.
+* **Work Style:** You prefer freedom over strict 9-to-5 rules.
+
+#### ❤️ Love: Mysterious Charm
+You are caring and adaptable, but your mysterious side makes you attractive. You dislike being controlled or restricted. You value both mental connection and physical chemistry."""
+    }
+
+    # ----------------------------------------------------------------
+    # 2026년 총평 (Expert Version: 구체적이고 깊이 있는 해석)
+    # ----------------------------------------------------------------
     forecast_ko = {}
     forecast_en = {}
-    if element == "Wood":
-        forecast_ko = {"title": "🔥 재능 폭발의 해 (식상운)", "gen": "나를 태워 세상을 밝히는 형국입니다. 당신의 재능이 꽃을 피우고, 바쁘게 움직일수록 성과가 따릅니다. 다만 건강을 해칠 수 있으니 선택과 집중이 필요합니다.", "money": "수입 증가, 품위 유지비 지출 증가.", "love": "표현력이 좋아져 인기가 많아집니다."}
-        forecast_en = {"title": "🔥 Year of Talent (Output)", "gen": "You burn bright. Your talents bloom. Being busy leads to success, but avoid burnout.", "money": "Income rises, but expenses also rise.", "love": "Popularity increases. Great for romance."}
-    elif element == "Fire":
-        forecast_ko = {"title": "🤝 경쟁과 협력의 해 (비겁운)", "gen": "에너지가 넘칩니다. 자존심이 강해지고 경쟁자가 나타나지만, 동료와 협력할 때 더 큰 성과를 냅니다. 독립 욕구가 강해집니다.", "money": "공동 투자 신중. 돈 거래 금지.", "love": "친구가 연인으로 발전 가능."}
-        forecast_en = {"title": "🤝 Year of Competition", "gen": "Energy is high. Rivals appear. Cooperate to win. Desire for independence grows.", "money": "Caution with joint investments.", "love": "Friends may turn into lovers."}
-    elif element == "Earth":
-        forecast_ko = {"title": "📜 문서와 귀인의 해 (인성운)", "gen": "윗사람의 도움을 받고, 학업이나 계약에서 좋은 성과를 냅니다. 부동산 취득이나 자격증 시험에 아주 유리한 시기입니다.", "money": "부동산, 주식 등 문서 이득.", "love": "사랑받는 시기. 듬직한 인연."}
-        forecast_en = {"title": "📜 Year of Resources", "gen": "Help from superiors. Success in contracts and studies. Good for real estate.", "money": "Gains from assets/documents.", "love": "You will be loved and cared for."}
-    elif element == "Metal":
-        forecast_ko = {"title": "🔨 명예와 승진의 해 (관성운)", "gen": "직장에서 책임감이 커지고 압박이 있지만, 이를 견디면 확실한 승진과 명예가 따릅니다. 조직에서 자리를 잡는 중요한 해입니다.", "money": "고정 수입 증가, 승진 보너스.", "love": "여자는 남자가 들어오는 운."}
-        forecast_en = {"title": "🔨 Year of Honor", "gen": "More responsibility at work. Enduring pressure brings promotion. Crucial career year.", "money": "Stable income increases.", "love": "Women may meet a partner."}
-    elif element == "Water":
-        forecast_ko = {"title": "💰 재물 쟁취의 해 (재성운)", "gen": "큰 돈을 벌 기회가 오지만, 치열하게 싸워야 쟁취할 수 있습니다. 결과가 확실하게 나오는 해입니다.", "money": "사업 확장, 투자 수익 기대.", "love": "남자는 매력적인 이성 만남."}
-        forecast_en = {"title": "💰 Year of Wealth", "gen": "Huge financial opportunities. You must fight to claim them. Clear results.", "money": "Business expansion gains.", "love": "Men will meet attractive partners."}
 
+    if element == "Wood":
+        forecast_ko = {
+            "title": "🔥 재능이 불타오르는 '표현'의 해 (식상운)",
+            "gen": "2026년은 당신의 잠재력이 화산처럼 폭발하는 시기입니다. 가만히 있어도 아이디어가 샘솟고, 나를 표현하고 싶은 욕구가 강해집니다. 당신의 말과 행동이 돈이 되는 해이니, 겸손하게 숨기보다는 과감하게 드러내세요. 다만, 너무 바쁘게 움직이다가 건강을 놓칠 수 있으니 '휴식'도 스케줄에 넣어야 합니다.",
+            "money": "활동하는 만큼 정직하게 통장이 불어납니다. 다만, 보여주기 위한 품위 유지비나 충동구매 지출도 함께 늘어나니 카드값 관리가 필수입니다.",
+            "love": "매력이 넘쳐흘러 가만히 있어도 이성이 꼬입니다. 썸을 타기엔 최고지만, 기혼자는 구설수를 조심하세요."
+        }
+        forecast_en = {
+            "title": "🔥 Year of Expression & Talent (Output)",
+            "gen": "2026 is a year where your hidden potential explodes like a volcano. Your creativity is at its peak. Do not hide your talents; express them boldly, as your words and actions will turn into profit. However, beware of burnout.",
+            "money": "Income grows as much as you move. Be careful of impulse buying for luxury items.",
+            "love": "Your charm is irresistible. Great for singles, but married couples should avoid misunderstandings."
+        }
+
+    elif element == "Fire":
+        forecast_ko = {
+            "title": "🤝 경쟁과 도약의 '자립'의 해 (비겁운)",
+            "gen": "자신감이 하늘을 찌르는 해입니다. '나도 할 수 있다'는 독립심이 강해져 창업이나 프리랜서 선언을 하기 좋습니다. 필연적으로 강력한 경쟁자가 나타나지만, 그 경쟁자가 오히려 나를 성장시키는 자극제가 됩니다. 혼자 다 하려 하지 말고, 적까지도 내 편으로 만드는 리더십이 승패를 가릅니다.",
+            "money": "들어오는 돈은 많지만 나가는 돈도 만만치 않습니다. 특히 친구나 동료와의 금전 거래나 공동 투자는 99% 손해를 보니 절대 금물입니다.",
+            "love": "친구처럼 편안한 사람과 연인으로 발전할 수 있습니다. 이미 연인이 있다면 고집 때문에 다툴 수 있으니 한 발 물러서세요."
+        }
+        forecast_en = {
+            "title": "🤝 Year of Self-Reliance & Competition",
+            "gen": "Your confidence skyrockets. It's a great year to start a business or go independent. Strong rivals will appear, but they will motivate you to grow. The key to success is turning enemies into allies.",
+            "money": "High income, high expenses. Never lend money to friends or make joint investments this year.",
+            "love": "Friends may turn into lovers. If taken, suppress your ego to avoid conflicts."
+        }
+
+    elif element == "Earth":
+        forecast_ko = {
+            "title": "📜 결실을 맺고 인정받는 '문서'의 해 (인성운)",
+            "gen": "지난 몇 년간 고생한 노력의 보상을 받는 해입니다. 윗사람(상사, 부모님, 귀인)의 도움을 받아 승진하거나 좋은 계약을 맺게 됩니다. 몸을 쓰는 일보다는 자격증 공부, 학위 취득, 부동산 계약 등 '머리와 문서'를 쓰는 일에서 대박이 터집니다. 차분하게 내실을 다지기 가장 좋은 시기입니다.",
+            "money": "현금보다는 문서가 좋습니다. 집을 사거나, 주식/청약에 당첨되는 등 자산 가치가 오르는 행운이 따릅니다.",
+            "love": "사랑받고 보호받는 운세입니다. 나를 아껴주는 듬직하고 배울 점이 많은 인연을 만나게 됩니다."
+        }
+        forecast_en = {
+            "title": "📜 Year of Recognition & Resources",
+            "gen": "You will be rewarded for your past efforts. Help from superiors or mentors will lead to promotion or good contracts. Focus on intellectual pursuits like certifications, degrees, or real estate deals.",
+            "money": "Great luck with assets like real estate or stocks. Focus on long-term value.",
+            "love": "You will be loved and cared for. You might meet a mature and reliable partner."
+        }
+
+    elif element == "Metal":
+        forecast_ko = {
+            "title": "🔨 명예와 권력을 쥐는 '승진'의 해 (관성운)",
+            "gen": "어깨가 무거워지지만 그만큼 자리가 높아지는 해입니다. 직장에서 승진하거나 중요한 프로젝트의 책임을 맡게 됩니다. 스트레스와 압박감이 있겠지만, 이를 견뎌내면 사회적 지위와 명예가 확실하게 올라갑니다. '왕관을 쓰려는 자, 그 무게를 견뎌라'라는 말이 딱 맞는 한 해입니다.",
+            "money": "월급이 오르거나 보너스를 받는 등 고정 수입이 늘어납니다. 안정적인 저축을 통해 목돈을 만들기 좋습니다.",
+            "love": "여자는 능력 있고 카리스마 있는 남자를 만날 운이며, 남자는 자녀 운이 있거나 가정에 책임감이 커집니다."
+        }
+        forecast_en = {
+            "title": "🔨 Year of Honor & Authority",
+            "gen": "Heavier responsibilities bring higher status. Expect promotions or leading major projects. It will be stressful, but overcoming it will grant you honor and power. 'Heavy is the head that wears the crown.'",
+            "money": "Stable income increases through salary raises. Good for saving.",
+            "love": "Women may meet capable partners. Men will feel more responsibility towards family."
+        }
+
+    elif element == "Water":
+        forecast_ko = {
+            "title": "💰 결과물을 사냥하는 '재물'의 해 (재성운)",
+            "gen": "눈앞에 사냥감(돈/목표)이 보이는 해입니다. 가만히 있으면 아무것도 얻지 못하니, 사냥꾼처럼 치열하게 움직여서 쟁취해야 합니다. 사업을 확장하거나 투자를 하기에 아주 좋은 타이밍입니다. 과정은 힘들 수 있어도 결과물(통장 잔고)을 보며 웃게 될 것입니다. 현실적인 감각이 최고조에 달합니다.",
+            "money": "재물운이 가장 강력합니다. 다만 하이 리스크 하이 리턴이니, 확실한 곳에 과감하게 투자하세요.",
+            "love": "남자는 매력적인 이성을 만나 연애할 확률이 매우 높습니다. 여자는 현실적인 능력이 좋은 남자를 선호하게 됩니다."
+        }
+        forecast_en = {
+            "title": "💰 Year of Wealth & Achievement",
+            "gen": "The prey (money/goals) is in sight. You must act like a hunter to seize it. It is the perfect time for business expansion or investment. The process may be tough, but the financial results will be rewarding.",
+            "money": "Strongest wealth luck. High risk, high return. Invest boldly where you are certain.",
+            "love": "Men are very likely to meet attractive partners. Women will prefer capable, realistic partners."
+        }
+        
     if lang == "ko": return traits_ko[element], forecast_ko
     else: return traits_en[element], forecast_en
 
