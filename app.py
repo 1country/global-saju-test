@@ -10,65 +10,51 @@ UNLOCK_CODE = "2026RICH"
 st.set_page_config(page_title="The Element: Pro Report", page_icon="🔮", layout="wide")
 
 # ----------------------------------------------------------------
-# [인쇄 문제 해결사: 절대 좌표 강제 설정]
+# [인쇄 스타일 설정: 강제 출력 모드]
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
-        /* 1. 화면용 기본 디자인 */
+        /* 화면용 디자인 */
         .main-header {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 10px;}
         .sub-header {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px;}
 
-        /* 2. 🖨️ 인쇄 모드 (강력한 강제 설정) */
+        /* 🖨️ 인쇄 모드 (Print CSS) */
         @media print {
-            /* (1) 모든 요소 숨기기 (일단 다 숨기고 시작) */
+            /* 1. 방해꾼들(사이드바, 버튼, 헤더) 모두 숨김 */
+            [data-testid="stSidebar"], [data-testid="stHeader"], header, footer, .stDeployButton, button, .stButton, iframe {
+                display: none !important;
+            }
+            
+            /* 2. 전체 페이지 높이 제한 해제 (내용 잘림 방지) */
             html, body, .stApp {
                 height: auto !important;
                 overflow: visible !important;
-                background: white !important;
-            }
-            
-            /* (2) 방해꾼들 영구 삭제 */
-            [data-testid="stSidebar"], 
-            header, 
-            footer, 
-            .stDeployButton, 
-            button, 
-            .stButton {
-                display: none !important;
+                background-color: white !important;
             }
 
-            /* (3) ★핵심★ 내용을 강제로 끄집어내서 종이(0,0)에 고정 */
-            .block-container {
-                position: absolute !important;
-                top: 0 !important;
-                left: 0 !important;
-                max-width: 100% !important;
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow: visible !important;
-                display: block !important;
-                z-index: 999999 !important;
-            }
-
-            /* (4) 글자색 검정 강제 */
+            /* 3. 글자색 검정 강제 (흰색 글씨 방지) */
             * {
                 color: black !important;
                 -webkit-print-color-adjust: exact !important;
             }
             
-            /* (5) 카드 테두리 확실하게 */
+            /* 4. 내용물 여백 제거 및 너비 100% */
+            .block-container {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            
+            /* 5. 카드 테두리 그리기 */
             .card {
-                border: 1px solid #000 !important;
                 break-inside: avoid;
+                border: 1px solid #ddd !important;
                 box-shadow: none !important;
                 margin-bottom: 20px !important;
             }
         }
     </style>
-""", unsafe_allow_html=True) 
-
+""", unsafe_allow_html=True)
 # --- 2. 만세력 엔진 (일주 계산) ---
 def calculate_day_gan(birth_date):
     base_date = date(1900, 1, 1)
@@ -224,11 +210,11 @@ def get_monthly_forecast_unique(element, lang):
         
     return result
 
-# --- 5. 메인 실행 (최종 완성) ---
+# --- 5. 메인 실행 (수정판: 체크박스 삭제 & 진짜 인쇄 버튼) ---
 def main():
+    # 세션 상태 초기화
     if "saved_name" not in st.session_state: st.session_state["saved_name"] = ""
     if "saved_date" not in st.session_state: st.session_state["saved_date"] = date(1990, 1, 1)
-    if "saved_time" not in st.session_state: st.session_state["saved_time"] = None
 
     with st.sidebar:
         st.title("Settings")
@@ -236,182 +222,133 @@ def main():
         lang = "ko" if "한국어" in lang_opt else "en"
         
         # [커피 후원]
-        coffee_head = "☕ 개발자 응원하기"
-        coffee_msg = "운명의 코드를 응원해 주세요! ☕"
-        if lang == 'en':
-            coffee_head = "☕ Support the Developer"
-            coffee_msg = "Fuel the destiny code with a coffee! ☕"
-
+        coffee_head = "☕ 개발자 응원하기" if lang == "ko" else "☕ Support"
+        coffee_msg = "운명의 코드를 응원해 주세요!" if lang == "ko" else "Fuel the code!"
+        
         st.sidebar.markdown("---")
         st.sidebar.header(coffee_head)
-        st.sidebar.markdown(f"""
-            <div style="text-align: center;">
-                <a href="https://buymeacoffee.com/5codes" target="_blank">
-                    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-                        alt="Buy Me A Coffee" 
-                        style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
-                </a>
-                <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
-                    {coffee_msg}
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
+        st.sidebar.markdown(f'<a href="https://buymeacoffee.com/5codes" target="_blank" style="text-decoration:none;color:#4f46e5;font-weight:bold;">{coffee_msg}</a>', unsafe_allow_html=True)
 
     ui = {
         "ko": {
             "title": "디 엘리먼트: 사주 프로", "sub": "당신의 운명 지도와 2026년 정밀 분석", 
             "name": "이름", "btn": "운명 분석하기", 
-            "tab1": "🔮 타고난 기질", "tab2": "📅 2026년 정밀 운세 ($5)",
-            "print": "🖨️ 리포트 인쇄하기",
-            "t_mon": "월 (Month)", "t_sco": "운세 점수 (5점 만점)", "t_adv": "상세 조언",
-            "legend": "※ 별점 기준: ⭐⭐⭐⭐⭐ (최고) ~ ⭐ (주의)",
-            "locked_msg": "🔒 **이 콘텐츠는 유료(Premium)입니다.**",
-            "locked_desc": "2026년 월별 정밀 운세는 **$5(약 6,500원)** 결제 후 확인하실 수 있습니다.\n결제 완료 후 받으신 **'잠금 해제 코드'**를 아래에 입력해주세요.",
-            "code_label": "잠금 해제 코드 입력", "unlock_btn": "확인 (Unlock)",
-            "err_code": "⛔ 코드가 올바르지 않습니다. 다시 확인해주세요.",
-            "plz_unlock": "🔒 먼저 잠금을 해제해야 인쇄할 수 있습니다.",
-            "print_btn_label": "🖨️ 인쇄 창 열기 (Click to Print Report)"
+            "h_trait": "🔮 타고난 기질", "h_fore": "📅 2026년 정밀 운세 ($5)",
+            "locked_msg": "🔒 유료 콘텐츠입니다.", "locked_desc": "결제 후 코드를 입력하세요.",
+            "code_label": "잠금 해제 코드", "unlock_btn": "해제 (Unlock)", "err": "코드가 틀렸습니다.",
+            "print_btn": "🖨️ 결과 인쇄하기 (Print Result)"
         },
         "en": {
             "title": "The Element: Pro", "sub": "Precise Day-Master Analysis", 
             "name": "Name", "btn": "Analyze Destiny", 
-            "tab1": "Personality", "tab2": "2026 Forecast ($5)",
-            "print": "🖨️ Print Report",
-            "t_mon": "Month", "t_sco": "Luck Score (Max 5)", "t_adv": "Detailed Advice",
-            "legend": "※ Scale: ⭐⭐⭐⭐⭐ (Best) ~ ⭐ (Caution)",
-            "locked_msg": "🔒 **Premium Content**",
-            "locked_desc": "The 2026 Monthly Forecast is available for **$5**.\nPlease enter the **'Unlock Code'** provided after payment.",
-            "code_label": "Enter Unlock Code", "unlock_btn": "Unlock",
-            "err_code": "⛔ Invalid Code. Please check again.",
-            "plz_unlock": "🔒 Please unlock the content first to print.",
-            "print_btn_label": "🖨️ Open Print Dialog (Click Here)"
+            "h_trait": "🔮 Personality", "h_fore": "📅 2026 Forecast ($5)",
+            "locked_msg": "🔒 Premium Content", "locked_desc": "Enter code after payment.",
+            "code_label": "Enter Code", "unlock_btn": "Unlock", "err": "Invalid Code.",
+            "print_btn": "🖨️ Print Result"
         }
     }
     txt = ui[lang]
 
-    # 변수 불러오기
-    name = st.session_state["saved_name"]
-    b_date = st.session_state["saved_date"]
-    b_time = st.session_state["saved_time"]
-
-    # ----------------------------------------
-    # [1] 화면 상단: 입력부
-    # ----------------------------------------
+    # 입력창 (항상 표시)
     st.markdown(f"<div class='main-header'>{txt['title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='sub-header'>{txt['sub']}</div>", unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns([1, 1, 1])
+    c1, c2 = st.columns([1, 1])
     with c1: 
         name = st.text_input(txt['name'], value=st.session_state["saved_name"])
         st.session_state["saved_name"] = name
     with c2: 
-        b_date = st.date_input("Date of Birth", min_value=date(1900,1,1), value=st.session_state["saved_date"])
+        b_date = st.date_input("Date", min_value=date(1900,1,1), value=st.session_state["saved_date"])
         st.session_state["saved_date"] = b_date
-    with c3: 
-        b_time = st.time_input("Time of Birth", value=st.session_state["saved_time"])
-        st.session_state["saved_time"] = b_time
 
-    if "analyzed" not in st.session_state:
-        st.session_state["analyzed"] = False
+    if st.button(txt['btn'], type="primary", use_container_width=True):
+        if name: st.session_state["analyzed"] = True
+        else: st.warning("Name required.")
 
-    if st.button(txt['btn'], use_container_width=True, type="primary"):
-        if name:
-            st.session_state["analyzed"] = True
-        else:
-            st.warning("Please enter your name.")
-
-    # ----------------------------------------
-    # [2] 결과 리포트 (탭 제거 -> 리포트 형식)
-    # ----------------------------------------
+    # 결과 화면 (탭 없이 쭉 보여줍니다 -> 그래야 인쇄가 잘 됩니다!)
     if st.session_state.get("analyzed"):
-        st.write("---")
-        day_info = calculate_day_gan(b_date) 
-        element_type = day_info['element']
-        trait, forecast = get_interpretation(element_type, lang)
+        st.divider()
+        # 선생님의 데이터베이스 함수 사용
+        day_info = calculate_day_gan(b_date)
+        e_type = day_info['element']
+        trait, forecast = get_interpretation(e_type, lang)
 
-        # 1. 성격 분석 (항상 보임)
-        st.markdown(f"### 🔮 {txt['tab1']}")
+        # 1. 성격 분석 카드
+        st.subheader(f"{txt['h_trait']}")
         st.markdown(f"""
-        <div class='card' style='border:1px solid #ddd; padding:20px;'>
-            <h3 style='color: #64748b; margin-top:0;'>👋 {name}</h3>
-            <h1 style='color: #4f46e5; margin: 0;'>{day_info[lang]}</h1>
-            <hr>
-            <div style='font-size: 1.0em; line-height: 1.6; color:black;'>{trait}</div>
+        <div class='card'>
+            <h3 style='color:#64748b'>👋 {name}</h3>
+            <h1 style='color:#4f46e5'>{day_info[lang]}</h1>
+            <div style='margin-top:10px;'>{trait}</div>
         </div>
         """, unsafe_allow_html=True)
 
-        # 2. 2026 운세 (잠금/해제)
-        st.markdown(f"### 📅 {txt['tab2']}")
-        
+        # 2. 2026 운세 (잠금 기능)
+        st.subheader(f"{txt['h_fore']}")
         if "is_unlocked" not in st.session_state: st.session_state["is_unlocked"] = False
         
-        # [A] 잠겨있을 때
         if not st.session_state["is_unlocked"]:
-            st.markdown(f"""
-            <div class='lock-screen' style='background-color:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px; padding:40px; text-align:center; color:#475569; margin-bottom:20px;'>
-                <h2 style='margin-bottom:10px;'>{txt['locked_msg']}</h2>
-                <p>{txt['locked_desc']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            c_pay1, c_pay2 = st.columns(2)
-            if lang == "ko":
-                with c_pay1: st.link_button("💛 카카오페이 송금", "https://buymeacoffee.com/5codes")
-                with c_pay2: st.link_button("💙 토스 익명 송금", "https://buymeacoffee.com/5codes")
-            else:
-                with c_pay1: st.link_button("☕ Buy Me a Coffee", "https://buymeacoffee.com/5codes")
-                with c_pay2: st.link_button("🅿️ PayPal", "https://buymeacoffee.com/5codes")
-            
-            st.write("---")
-            user_code = st.text_input(txt['code_label'], type="password", key="pwd_input")
-            if st.button(txt['unlock_btn']):
-                if user_code == UNLOCK_CODE:
-                    st.session_state["is_unlocked"] = True
-                    st.rerun()
-                else:
-                    st.error(txt['err_code'])
-        
-        # [B] 풀렸을 때
+            st.warning(f"{txt['locked_msg']} / {txt['locked_desc']}")
+            c_code, c_btn = st.columns([3, 1])
+            with c_code: user_code = st.text_input(txt['code_label'], type="password", label_visibility="collapsed")
+            with c_btn: 
+                if st.button(txt['unlock_btn']):
+                    if user_code == UNLOCK_CODE:
+                        st.session_state["is_unlocked"] = True
+                        st.rerun()
+                    else:
+                        st.error(txt['err'])
         else:
-            st.success("🔓 Premium Content Unlocked!")
+            # 잠금 해제 내용
+            st.success("🔓 Unlocked!")
             st.markdown(f"""
-            <div class='card' style='border: 1px solid #ec4899; background-color: #fff; padding:20px;'>
-                <h2 style='color: #be185d; margin-top:0;'>👑 {forecast['title']}</h2>
+            <div class='card' style='border:1px solid #ec4899'>
+                <h2 style='color:#be185d'>👑 {forecast['title']}</h2>
                 <p>{forecast['gen']}</p>
-                <ul>
-                    <li><b>Wealth:</b> {forecast['money']}</li>
-                    <li><b>Love:</b> {forecast['love']}</li>
-                </ul>
+                <p><b>💰 Money:</b> {forecast['money']} / <b>❤️ Love:</b> {forecast['love']}</p>
             </div>
             """, unsafe_allow_html=True)
             
-            st.subheader(f"{txt['t_adv']}")
-            raw_data = get_monthly_forecast_unique(element_type, lang)
-            table_data = []
-            for row in raw_data:
-                table_data.append({txt['t_mon']: row['Month'], txt['t_sco']: row['Luck'], txt['t_adv']: row['Advice']})
-            
-            df = pd.DataFrame(table_data)
-            df = df.set_index(txt['t_mon'])
+            # 월별 표
+            monthly_data = get_monthly_forecast_unique(e_type, lang)
+            df = pd.DataFrame(monthly_data)
+            df = df.set_index(list(df.columns)[0]) # 첫번째 컬럼(월)을 인덱스로
             st.table(df)
 
-            # ----------------------------------------------------------------
-            # ★ [마법의 인쇄 버튼] ★ (여기가 핵심입니다!)
-            # ----------------------------------------------------------------
-            st.write("---")
-            # 버튼이 클릭되면 자바스크립트로 인쇄 창을 엽니다.
-            # components.html을 쓰면 버튼 로직 없이도 바로 실행되므로,
-            # 'if st.button' 안에 넣어서 클릭 시에만 실행되게 합니다.
-            if st.button(txt['print_btn_label'], type="primary"):
-                components.html(
-                    """
-                    <script>
-                    window.parent.document.title = "My Destiny Report";
-                    window.print();
-                    </script>
-                    """, 
-                    height=0, width=0
-                )
+            # --------------------------------------------------------
+            # ★ 진짜 인쇄 버튼 (여기가 핵심!)
+            # --------------------------------------------------------
+            st.divider()
+            
+            # 이 코드가 있어야 버튼을 눌렀을 때 '전체 화면'이 인쇄됩니다.
+            # window.parent.print() <-- 이게 해결책입니다.
+            components.html(
+                f"""
+                <script>
+                    function printParent() {{
+                        window.parent.print();
+                    }}
+                </script>
+                <div style="display: flex; justify-content: center;">
+                    <button onclick="printParent()" style="
+                        background-color: #FF4B4B; 
+                        color: white; 
+                        border: none; 
+                        padding: 12px 24px; 
+                        text-align: center; 
+                        font-size: 16px; 
+                        cursor: pointer;
+                        border-radius: 8px;
+                        font-family: sans-serif;
+                        font-weight: bold;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                    ">
+                        {txt['print_btn']}
+                    </button>
+                </div>
+                """,
+                height=100
+            )
 
 if __name__ == "__main__":
     main()
