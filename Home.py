@@ -181,15 +181,24 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
+# --- 카드 그리기 도우미 함수 (수정됨: 이미지 정사각형 확대 적용) ---
 def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=None):
     with st.container(border=True):
-        col_img, col_text, col_btn = st.columns([1, 3.5, 1.5], gap="medium")
+        # 레이아웃 비율 조정 (이미지 공간을 약간 늘림)
+        col_img, col_text, col_btn = st.columns([1.2, 3.3, 1.5], gap="medium")
+        
         with col_img:
-            st.write("") 
-            st.image(img_url, width=90) 
+            # [핵심] object-fit: cover를 사용하여 이미지를 정사각형 영역에 꽉 차게 확대
+            st.write("") # 수직 정렬 공백
+            st.markdown(f"""
+                <img src="{img_url}" 
+                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            """, unsafe_allow_html=True)
+            
         with col_text:
             st.subheader(title)
             st.write(desc)
+            
         with col_btn:
             st.write("") 
             st.write("") 
