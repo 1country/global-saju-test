@@ -241,4 +241,16 @@ if st.session_state["analyzed"]:
     # ----------------------------------------------------------------
     st.divider()
     
-    coffee_msg_bottom = "이 서비스가 도움이 되셨나요? 따뜻한 커피 한 잔은 개발자에게 큰 힘이 됩니다! ☕
+    coffee_msg_bottom = "이 서비스가 도움이 되셨나요? 따뜻한 커피 한 잔은 개발자에게 큰 힘이 됩니다! ☕" if lang == "ko" else "Did you enjoy the service? A coffee would be a great support! ☕"
+    
+    st.markdown(f"""
+        <div style="text-align: center; padding: 30px; background-color: #f1f5f9; border-radius: 15px; margin-top: 20px;">
+            <p style="font-size: 1.1em; color: #475569; margin-bottom: 20px; font-weight: bold; font-family: 'Gowun Batang', serif;">
+                {coffee_msg_bottom}
+            </p>
+            <a href="https://buymeacoffee.com/5codes" target="_blank">
+                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+                    style="width: 200px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 5px; transition: transform 0.2s;">
+            </a>
+        </div>
+    """, unsafe_allow_html=True)
