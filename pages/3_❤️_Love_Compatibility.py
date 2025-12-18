@@ -7,12 +7,12 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 # 1. 페이지 설정
 # ----------------------------------------------------------------
-st.set_page_config(page_title="Specific Day Forecast", page_icon="📅", layout="wide")
+st.set_page_config(page_title="Love Compatibility", page_icon="💘", layout="wide")
 
 # 🔑 [마스터 키 & 검로드 설정]
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "specific_day"
-GUMROAD_LINK = "https://gumroad.com/l/선생님의_상품주소" 
+PRODUCT_PERMALINK = "love_match" 
+GUMROAD_LINK = "https://gumroad.com/l/선생님의_궁합상품_주소"
 
 st.markdown("""
     <style>
@@ -21,39 +21,33 @@ st.markdown("""
             url("https://img.freepik.com/free-vector/hand-drawn-korean-traditional-pattern-background_23-2149474585.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
         }
-        .main-header {font-size: 2.2em; font-weight: bold; color: #1e293b; margin-bottom: 10px; text-align: center;}
+        .main-header {font-size: 2.2em; font-weight: bold; color: #be185d; margin-bottom: 10px; text-align: center;}
         
-        /* 리포트 스타일 고급화 */
+        /* 리포트 컨테이너 스타일 */
         .report-container {
-            background-color: white; padding: 50px; border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;
+            background-color: white; padding: 50px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.15); border: 1px solid #fce7f3;
         }
-        .report-section {
-            margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px dashed #cbd5e1;
+        .section-box {
+            margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px dashed #f9a8d4;
         }
-        .report-section:last-child { border-bottom: none; }
+        .section-box:last-child { border-bottom: none; }
         
-        .section-emoji { font-size: 1.6em; margin-right: 12px; vertical-align: middle; }
-        .section-title { 
-            font-size: 1.4em; font-weight: bold; color: #334155; 
-            display: inline-block; margin-bottom: 15px; border-left: 5px solid #3b82f6; padding-left: 15px;
+        .section-title {
+            font-size: 1.5em; font-weight: bold; color: #9d174d; margin-bottom: 20px; 
+            display: flex; align-items: center; border-left: 5px solid #db2777; padding-left: 15px;
         }
-        .content-text { 
-            font-size: 1.1em; line-height: 1.9; color: #334155; text-align: justify; letter-spacing: -0.02em;
-        }
+        .content-text { font-size: 1.1em; line-height: 1.9; color: #374151; text-align: justify; letter-spacing: -0.02em; }
+        .score-display { text-align: center; font-size: 3.5em; font-weight: bold; color: #be185d; margin: 30px 0; }
         
-        .user-info-box {
-            background-color: #f8fafc; padding: 15px 20px; border-radius: 10px; border: 1px solid #e2e8f0;
-            color: #475569; font-size: 0.95em; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
+        .user-card {
+            background: #fff1f2; padding: 20px; border-radius: 15px; border: 1px solid #fecdd3;
+            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        
-        /* 럭키 아이템 박스 */
-        .lucky-box {
-            background-color: #f0f9ff; padding: 20px; border-radius: 12px; border: 1px solid #bae6fd;
-            margin-top: 10px;
+        .vs-badge {
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 2em; font-weight: bold; color: #db2777; height: 100%;
         }
-        .lucky-item { font-weight: bold; color: #0284c7; margin-right: 15px; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -65,14 +59,12 @@ with st.sidebar:
     lang_opt = st.radio("Language", ["English", "한국어"])
     lang = "ko" if "한국어" in lang_opt else "en"
     st.markdown("---")
-    if st.button("👈 Home" if lang=="en" else "👈 홈으로"):
-        st.switch_page("Home.py")
+    if st.button("👈 Home"): st.switch_page("Home.py")
 
 # ----------------------------------------------------------------
-# 3. [초대형] 리포트 데이터 (Ultra Premium Version)
+# 3. [초대형] 궁합 데이터 (Ultra Premium)
 # ----------------------------------------------------------------
-def get_long_report(user_elem, day_elem, lang, gender):
-    
+def get_love_report(u_elem, p_elem, u_gender, p_gender, lang):
     relations = {
         "Wood": {"Wood": "Same", "Fire": "Output", "Earth": "Wealth", "Metal": "Power", "Water": "Resource"},
         "Fire": {"Fire": "Same", "Earth": "Output", "Metal": "Wealth", "Water": "Power", "Wood": "Resource"},
@@ -80,499 +72,363 @@ def get_long_report(user_elem, day_elem, lang, gender):
         "Metal": {"Metal": "Same", "Water": "Output", "Wood": "Wealth", "Fire": "Power", "Earth": "Resource"},
         "Water": {"Water": "Same", "Wood": "Output", "Fire": "Wealth", "Earth": "Power", "Metal": "Resource"}
     }
+    rel = relations[u_elem][p_elem]
     
-    rel_type = relations.get(user_elem, {}).get(day_elem, "Same")
-    
-    # 🌟 시나리오 데이터 (기존보다 3배 이상 증량)
-    scenarios = {
-        "Same": { # 비견/겁재
+    # 성별 호칭 정의
+    if u_gender == "Male":
+        me = "남자(본인)"
+        partner = "여자(상대)"
+    else:
+        me = "여자(본인)"
+        partner = "남자(상대)"
+
+    # 🌟 시나리오 데이터 (A4 용지 1장 분량으로 증량)
+    reports = {
+        "Same": {
+            "score": 85,
             "ko": {
-                "score": 3,
-                "title": "🤝 거울 속의 나를 만나는 날 (자아와 경쟁)",
-                "general": """
-                오늘은 당신과 똑같은 에너지가 우주에서 쏟아지는 날입니다. 마치 거울을 보는 것처럼 나와 비슷한 사람을 만나거나, 내 내면의 목소리가 확성기를 켠 듯 커지는 하루입니다. 
+                "title": "🤝 거울 속의 연인: 운명적 동질감과 자존심의 대결",
+                "chemistry": f"""
+                두 사람은 처음 만나는 순간부터 **'이 사람, 나랑 진짜 비슷하다'**는 느낌을 강하게 받았을 것입니다. 마치 잃어버린 반쪽을 찾은 것처럼 대화 코드, 웃음 포인트, 심지어 싫어하는 것까지 똑같습니다. 말하지 않아도 서로의 기분을 알아채는 **텔레파시 커플**입니다.
                 
-                평소에는 남의 의견을 잘 듣던 사람도 오늘만큼은 **"내 방식대로 할 거야!"**라는 고집이 생깁니다. 독립심과 주체성이 폭발하여 누구의 도움 없이도 혼자서 일을 처리해내는 능력이 탁월해집니다. 하지만 이 에너지가 과해지면 주변 사람들과 사소한 의견 차이로 부딪힐 수 있습니다. **'내가 맞고 네가 틀리다'**는 생각이 지배하기 쉬운 날이니, 의식적으로 한 발짝 물러서는 여유가 필요합니다.
+                서로가 서로에게 가장 친한 친구이자, 가장 뜨거운 연인이 될 수 있는 완벽한 파트너입니다. 함께 있으면 세상 무서울 것이 없는 든든한 동지가 되며, 데이트를 할 때도 친구처럼 편안하고 즐거운 분위기가 계속됩니다. 지루할 틈이 없는 유쾌한 관계입니다.
                 """,
-                "money": """
-                재물운에서는 **'탈재(奪財)'**, 즉 재물을 빼앗길 수 있는 기운이 감돕니다. 하지만 겁먹지 마세요. 이는 '나눔'을 통해 액땜할 수 있습니다. 
+                "conflict": f"""
+                하지만 **'너무 똑같다'**는 것이 치명적인 단점이 되기도 합니다. 두 사람 모두 자아와 고집이 강해서(비견), 한 번 싸움이 붙으면 절대 물러서지 않습니다. 
                 
-                오늘은 혼자 이익을 독차지하려 하면 오히려 탈이 납니다. 친구가 돈을 빌려달라고 하거나, 예상치 못한 지출이 생길 수 있습니다. 이를 방지하는 최고의 방법은 **먼저 베푸는 것**입니다. 점심 식사 값을 먼저 계산하거나, 커피를 쏘세요. 내가 기분 좋게 쓴 돈은 나쁜 기운을 몰아내고 더 큰 복을 불러옵니다. 주식이나 투자는 경쟁이 치열하여 재미를 보기 힘드니 관망하는 것이 좋습니다.
+                특히 상대방에게서 **'나의 단점'**을 발견했을 때 참을 수 없는 짜증을 느끼게 됩니다. 싸움의 원인은 대부분 사소한 자존심 문제입니다. "네가 먼저 사과해"라며 며칠씩 냉전을 벌이기도 합니다. 둘 다 불같은 성격이라면 끝장을 볼 수도 있으니, 화가 났을 때는 잠시 자리를 피하는 지혜가 필요합니다.
                 """,
-                "love_m": """
-                **[남성의 경우]** 연애 전선에 '경쟁자'의 그림자가 보입니다. 짝사랑 중이라면 강력한 라이벌이 등장해 마음을 졸일 수 있습니다. 연인이 있다면 당신의 자존심이 세지는 날이라, 별것 아닌 일로 자존심 싸움을 하다가 냉전 상태가 될 수 있습니다. 오늘 당신이 해야 할 일은 딱 하나, **'무조건 져주는 척하기'**입니다. 이기려 들면 관계에 금이 갑니다.
+                "intimacy": f"""
+                속궁합은 **100점 만점에 90점**입니다. 친구처럼 장난치듯 시작해서 열정적으로 변하는 타입입니다. 서로의 몸과 마음 상태를 누구보다 잘 알기 때문에, 상대가 무엇을 원하는지 본능적으로 캐치합니다. 권태기가 와도 새로운 시도를 통해 금방 극복할 수 있는 에너지가 있습니다.
                 """,
-                "love_f": """
-                **[여성의 경우]** 친구처럼 편안한 관계는 좋지만, 연인에게는 고집을 부리기 쉽습니다. 남자가 내 뜻대로 움직여주지 않으면 화가 치밀어 오를 수 있습니다. 싱글이라면 친구들과의 모임이나 동호회에서 나와 코드가 딱 맞는 사람을 만날 수 있습니다. 하지만 그 사람이 내 친구와도 썸이 있을 수 있으니 눈치 작전이 필요합니다.
+                "future": f"""
+                결혼을 한다면 **'맞벌이 부부'**나 **'동업자 부부'**가 될 확률이 높습니다. 서로 대등한 위치에서 가정을 꾸려나가며, 친구 같은 부모가 됩니다. 다만, 경제권 문제로 주도권 싸움을 할 수 있으니 통장은 각자 관리하거나 투명하게 공개하는 것이 좋습니다.
                 """,
-                "health": """
-                에너지가 차고 넘쳐서 문제입니다. 가만히 앉아 있으면 좀이 쑤시고, 오히려 몸살이 날 수 있습니다. 오늘은 헬스장을 가거나 등산을 하는 등 **몸을 혹사시키다시피 움직여야** 컨디션이 좋아집니다. 다만, 경쟁심 때문에 무리하게 무게를 치거나 달리기를 하다가 근육이나 관절을 다칠 수 있으니 스트레칭은 필수입니다.
-                """,
-                "action": """
-                1. **오늘의 주문:** "그래, 그럴 수도 있지." (고집 내려놓기)
-                2. **개운 행동:** 친구나 동료에게 밥 사주기 (돈으로 액땜하기)
-                3. **주의사항:** 동업 제안이나 돈 거래는 절대 금물입니다.
-                """,
-                "lucky": "🕶️ **선글라스/거울** (나를 비추는 물건), 👫 **동창회/모임 장소**"
+                "advice": f"""
+                1. **자존심 죽이기:** 상대방을 이기려 들지 마세요. 이겨봤자 남는 건 상처뿐입니다.
+                2. **먼저 사과하기:** "미안해"라는 말이 관계를 구합니다.
+                3. **친구 같은 데이트:** 로맨틱한 분위기보다 활동적인 데이트가 사랑을 키웁니다.
+                """
             },
             "en": {
-                "score": 3,
-                "title": "🤝 Day of the Mirror: Strong Self & Competition",
-                "general": """
-                Today, the universe sends you energy identical to your own. It's like looking into a mirror; you may meet people very similar to you, or your inner voice will become amplified.
-                
-                Even if you are usually compliant, today you will feel a strong urge to do things **"My Way."** Your independence and self-reliance are at their peak, allowing you to handle tasks without help. However, this strong ego can lead to friction. You might strongly feel **"I am right, and you are wrong."** Consciously take a step back to avoid conflicts.
-                """,
-                "money": """
-                There is a risk of **"Wealth Loss"** today. But don't panic; you can prevent this by **"Sharing"** proactively.
-                
-                Trying to keep all profits to yourself will lead to trouble. Unexpected expenses may arise. The best strategy is to **spend money on others first.** Treat your colleagues to lunch or coffee. Money spent happily will ward off bad luck. Avoid high-risk investments as competition is too fierce.
-                """,
-                "love_m": """
-                **[For Men]** A shadow of a **'Rival'** looms. If you have a crush, a competitor might appear. If you are in a relationship, your heightened pride could lead to unnecessary ego battles. Your mission today is simple: **"Pretend to lose."** Trying to win an argument today will damage the relationship.
-                """,
-                "love_f": """
-                **[For Women]** Friendly relationships are great, but you might be stubborn with your partner. You may get annoyed if he doesn't follow your lead. If single, you might meet someone who clicks with you perfectly at a social gathering. However, be aware that he might also be interested in your friend.
-                """,
-                "health": """
-                You have too much energy today. Sitting still might actually make you feel sick. You need to **move your body vigorously**—go to the gym or hike. However, be careful not to overexert yourself out of competitiveness, as this could lead to muscle injuries.
-                """,
-                "action": """
-                1. **Mantra:** "It is what it is." (Let go of ego)
-                2. **Remedy:** Buy a meal for a friend (Spending prevents loss)
-                3. **Warning:** No lending money or joint ventures today.
-                """,
-                "lucky": "🕶️ **Sunglasses/Mirror**, 👫 **Social Gatherings**"
+                "title": "🤝 Mirror Couple: Twin Souls with Ego Clashes",
+                "chemistry": "You felt an instant connection, as if looking into a mirror. You share the same humor, values, and dislikes. A telepathic connection exists between you two. You are best friends and lovers.",
+                "conflict": "Being too similar is the trap. Both have strong egos and refuse to back down in arguments. You might hate seeing your own flaws reflected in your partner.",
+                "intimacy": "Physical chemistry is 90/100. Starts playful, ends passionate. You intuitively know what the other wants.",
+                "future": "Likely to be a dual-income couple or business partners. You will be equal partners in marriage.",
+                "advice": "1. Drop the ego. 2. Apologize first. 3. Active dates work better than romantic ones."
             }
         },
-        "Output": { # 식상
+        "Output": {
+            "score": 92,
             "ko": {
-                "score": 4,
-                "title": "🎨 억눌린 끼가 폭발하는 '표현'의 날",
-                "general": """
-                가슴 속에 담아두었던 말이나 아이디어가 화산처럼 분출되는 날입니다. **'표현하고 싶어 미치겠다'**는 감정이 들 수 있습니다. 머리 회전이 평소보다 2배는 빨라져서, 창의적인 기획이나 문제 해결 능력이 탁월해집니다.
+                "title": "💖 헌신적인 사랑: 아낌없이 주는 나무와 사랑받는 꽃",
+                "chemistry": f"""
+                **{me}**이 **{partner}**를 자식처럼 예뻐하고 챙겨주는 관계입니다. 본인은 상대방을 보기만 해도 귀여워서 어쩔 줄 모르고, 맛있는 것이 있으면 하나라도 더 먹이고 싶어 합니다. 상대방 역시 당신의 무한한 사랑 속에서 안정감을 느끼고, 당신을 전적으로 의지하게 됩니다.
                 
-                평소에 답답했던 상황이 있었다면, 오늘 당신의 재치 있는 말 한마디로 상황을 역전시킬 수 있습니다. 하지만 말이 너무 많아지거나 직설적으로 나갈 수 있어, 본의 아니게 상대방에게 상처를 줄 수도 있습니다. 오늘은 당신이 주인공이 되어 무대를 휘어잡는 날이니, 자신감 있게 나를 드러내세요.
+                세상에서 가장 **이타적이고 희생적인 사랑**을 하는 커플입니다. 주는 사람은 주는 기쁨을, 받는 사람은 받는 행복을 누리니 이보다 더 평화로울 수 없습니다. 주변 사람들이 보기에도 "정말 잉꼬부부다"라고 부러워할 만한 그림입니다.
                 """,
-                "money": """
-                **"재주는 곰이 부리고 돈은 되놈이 번다"**는 속담이 있지만, 오늘은 **재주 부린 곰(=당신)이 돈까지 다 가져갑니다.** 당신의 기술, 말솜씨, 아이디어가 곧바로 수익으로 연결됩니다. 
-                
-                프리랜서, 영업직, 예체능 종사자에게는 대박의 기운이 있습니다. 다만, 기분이 너무 들뜨는 바람에 **'충동구매'**라는 함정에 빠질 수 있습니다. "이건 나를 위한 투자야!"라고 합리화하며 비싼 물건을 긁을 수 있으니 지갑 단속이 필요합니다.
+                "conflict": f"""
+                문제는 **{me}**이 지칠 때 발생합니다. "나는 이만큼 해줬는데, 너는 왜 나한테 그만큼 안 해줘?"라는 보상 심리가 생기는 순간 서운함이 폭발합니다. 또한, **{me}**의 관심이 지나치면 **{partner}**에게는 간섭과 잔소리(통제)로 느껴질 수 있습니다. 엄마와 사춘기 자녀처럼 투닥거릴 수 있는 위험이 있습니다.
                 """,
-                "love_m": """
-                **[남성의 경우]** 당신의 유머 감각과 센스가 폭발하여 여심을 사로잡습니다. 좋아하는 이성에게 적극적으로 대시하거나 이벤트를 해주기에 최고의 날입니다. 다만, 분위기에 취해 지키지 못할 약속을 하거나, 가벼운 언행으로 점수를 깎아먹지 않도록 주의하세요.
+                "intimacy": f"""
+                침대에서도 **{me}**이 분위기를 리드하고 봉사하는 형태입니다. 상대방의 만족을 위해 최선을 다하며, 거기서 기쁨을 느낍니다. 감정적인 교감이 매우 풍부하고 로맨틱한 관계입니다.
                 """,
-                "love_f": """
-                **[여성의 경우]** 모성애가 발동하는 날입니다. 남자친구나 남편을 아이 다루듯 챙겨주려 합니다. 하지만 이것이 지나치면 **'잔소리 폭격'**이 될 수 있습니다. 오늘은 남자를 가르치려 들거나 지적하지 말고, 칭찬으로 조련하는 것이 훨씬 효과적입니다. 자녀가 있다면 자녀와 관련된 기쁜 일이 생깁니다.
+                "future": f"""
+                결혼 인연으로 아주 강력합니다. 특히 자녀가 생기면 관계가 더욱 단단해집니다. **{me}**이 집안의 대소사를 주도하고, **{partner}**는 잘 따르는 안정적인 가정이 됩니다. 다만 **{me}**이 혼자 모든 짐을 짊어지지 않도록 역할 분담이 필요합니다.
                 """,
-                "health": """
-                배터리 소모가 극심한 날입니다. 정신없이 에너지를 쏟아내다 보면 저녁에는 **방전(Burn-out)** 상태가 될 수 있습니다. 특히 소화기관이 예민해지거나, 말을 너무 많이 해서 목이 쉴 수 있습니다. 달콤한 디저트로 당을 충전하고, 저녁에는 따뜻한 차를 마시며 목을 보호하세요.
-                """,
-                "action": """
-                1. **오늘의 주문:** "나는 아티스트다." (창의성 발휘)
-                2. **개운 행동:** 노래방 가기, 일기 쓰기, 블로그 포스팅
-                3. **주의사항:** 실언(말실수) 주의. 세 번 생각하고 말하기.
-                """,
-                "lucky": "🎤 **마이크/노트**, 🍰 **달콤한 디저트**, 🎨 **미술관**"
+                "advice": f"""
+                1. **기대하지 않기:** 내가 해준 만큼 돌아오지 않아도 실망하지 마세요.
+                2. **잔소리 줄이기:** 사랑이라는 이름으로 상대를 통제하지 마세요.
+                3. **표현 요구하기:** 상대방에게 "고맙다"는 말을 자주 해달라고 요청하세요.
+                """
             },
             "en": {
-                "score": 4,
-                "title": "🎨 Day of Expression: Unleash Your Talent",
-                "general": """
-                Ideas and words you've kept inside will erupt like a volcano today. You will feel an intense urge to **"Express Yourself."** Your brain will work twice as fast, enhancing your creativity and problem-solving skills.
-                
-                If you've felt stuck, your wit can turn the situation around today. However, be careful not to talk too much or be too blunt, as you might unintentionally hurt others. Today, you are the main character on stage—show yourself off with confidence.
-                """,
-                "money": """
-                Usually, talent doesn't always equal money, but today **your talent brings cash immediately.** Your skills, speech, and ideas will translate directly into profit.
-                
-                This is a jackpot day for freelancers, sales, and creatives. However, beware of the **"Impulse Buying"** trap. You might rationalize buying expensive items by saying, "This is an investment in myself." Watch your wallet.
-                """,
-                "love_m": """
-                **[For Men]** Your humor and sense of style will captivate women. It's the best day to pursue a crush or plan a surprise event. Just be careful not to make promises you can't keep or appear too lighthearted, which could hurt your reputation.
-                """,
-                "love_f": """
-                **[For Women]** Your maternal instincts kick in. You might want to take care of your partner like a child. However, this can turn into **"Nagging."** Avoid lecturing or correcting him today; instead, use praise to guide him. Good news related to children is likely.
-                """,
-                "health": """
-                High battery consumption day. You might face **"Burn-out"** in the evening after pouring out so much energy. Your digestion might be sensitive, or you might lose your voice from talking too much. Recharge with sweet desserts and protect your throat with warm tea.
-                """,
-                "action": """
-                1. **Mantra:** "I am an Artist."
-                2. **Remedy:** Karaoke, Writing a diary, Posting on social media
-                3. **Warning:** Watch your tongue. Think three times before speaking.
-                """,
-                "lucky": "🎤 **Microphone/Notebook**, 🍰 **Dessert**, 🎨 **Art Gallery**"
+                "title": "💖 Devoted Love: The Giver and The Receiver",
+                "chemistry": f"You ({me}) care for your partner ({partner}) like a parent. Unconditional love flows from you, and your partner feels secure and cherished.",
+                "conflict": "Issues arise when the Giver burns out. Expecting a return on your sacrifice leads to resentment. Also, care can turn into nagging.",
+                "intimacy": "You lead and serve in bed. Highly emotional and romantic connection.",
+                "future": "Strong marriage potential. Children will strengthen the bond. You will lead the household.",
+                "advice": "1. Don't expect equal return. 2. Reduce nagging. 3. Ask for verbal appreciation."
             }
         },
-        "Wealth": { # 재성
+        "Wealth": {
+            "score": 88,
             "ko": {
-                "score": 5,
-                "title": "💰 결과가 눈앞에 보이는 '수확'의 날",
-                "general": """
-                뜬구름 잡는 소리는 그만! 오늘은 철저하게 **'현실적'**이고 **'계산적'**인 하루입니다. 무엇이 나에게 이득이 되고 손해가 되는지 본능적으로 계산기가 두들겨지는 날입니다.
+                "title": "🔥 치명적인 매력: 소유욕과 주도권의 줄다리기",
+                "chemistry": f"""
+                두 사람은 서로에게 **강렬한 성적 매력**을 느낍니다. 특히 **{me}**에게 **{partner}**는 "내 것으로 만들고 싶다"는 정복욕을 자극하는 대상입니다. 첫눈에 반했거나, 만나는 순간부터 스파크가 튀었을 확률이 높습니다.
                 
-                그동안 노력했던 일들에 대한 **확실한 보상**이 주어집니다. 막연했던 목표가 구체적인 성과로 나타나며, 일의 마무리가 깔끔하게 됩니다. 감정보다는 이성이 앞서는 날이므로, 중요한 결정이나 협상을 하기에 더할 나위 없이 좋습니다. 오늘은 과정보다 '결과'가 당신을 증명해 줄 것입니다.
+                남자가 여자를 만난 경우라면(남자의 재성=여자), 남자가 여자를 리드하고 여자가 잘 따르는 **가장 이상적인 궁합** 중 하나입니다. 반대로 여자가 남자를 만난 경우라면, 여자가 남자를 쥐락펴락하는 '여왕님과 머슴' 같은 재미있는 관계가 됩니다.
                 """,
-                "money": """
-                **금전운 최상(Best)!** 하늘에서 돈비가 내리는 형국입니다. 예상치 못한 보너스, 밀린 돈을 받거나, 투자 수익이 발생할 수 있습니다. 
-                
-                단순히 돈이 들어오는 것뿐만 아니라, 돈을 **'잘 쓰는'** 운도 좋습니다. 평소 사고 싶었던 물건을 최저가에 사거나, 가성비 좋은 투자를 할 수 있습니다. 사업가라면 오늘은 매출 기록을 경신할 수 있는 날이니 매장에 집중하세요. 복권을 한 장 사보는 것도 오늘의 재미있는 이벤트가 될 것입니다.
+                "conflict": f"""
+                이 관계의 핵심은 **'통제'**입니다. **{me}**이 상대를 내 뜻대로 조종하려 들면 상대방은 숨이 막혀 도망치고 싶어집니다. 집착과 의심이 싹트기 쉬운 관계이기도 합니다. 또한, 현실적인 문제(돈, 직업)로 인해 계산적인 관계가 될 수도 있으니 순수한 마음을 잃지 않도록 주의해야 합니다.
                 """,
-                "love_m": """
-                **[남성의 경우]** 명리학에서 재성(돈)은 곧 **'여자'**를 의미합니다. 즉, 돈과 여자가 함께 들어오는 날입니다. 평소보다 이성에게 인기가 많아지며, 소개팅을 하면 미모와 능력을 겸비한 여성을 만날 확률이 높습니다. 썸녀가 있다면 오늘이 바로 고백 타이밍입니다.
+                "intimacy": f"""
+                속궁합은 **100점 만점에 200점**입니다. 낮에는 싸우더라도 밤에는 화해하는 커플입니다. 서로에 대한 육체적인 탐닉이 강하며, 권태기가 쉽게 오지 않는 뜨거운 관계입니다.
                 """,
-                "love_f": """
-                **[여성의 경우]** 남자를 볼 때 **'능력'**과 **'현실적인 조건'**을 따지게 됩니다. 감성에 호소하는 남자보다는, 비전이 확실하고 내 삶에 도움이 될 만한 남자에게 끌립니다. 오늘은 데이트할 때 맛집 투어나 쇼핑 등 오감을 만족시키는 코스가 행운을 불러옵니다.
+                "future": f"""
+                결혼을 하면 **재산 증식**에 아주 유리한 커플입니다. 두 사람이 합심하면 부자가 될 수 있는 에너지가 있습니다. 다만, 상대방을 소유물로 생각하지 말고 인격체로 존중해주는 것이 결혼 생활 유지의 핵심입니다.
                 """,
-                "health": """
-                몸이 가볍고 컨디션이 좋습니다. 하지만 지나치게 일이나 결과에 몰두하다 보면 **신경성 두통**이나 눈의 피로가 올 수 있습니다. '돈 세다가 밤새는 줄 모른다'는 말처럼, 과로하기 쉬우니 중간중간 휴식을 챙기세요. 하체 운동을 하면 재물운을 담는 그릇이 더 튼튼해집니다.
-                """,
-                "action": """
-                1. **오늘의 주문:** "나는 부자다." (풍요의 마인드)
-                2. **개운 행동:** 지갑 정리하기, 가계부 쓰기, 복권 구매
-                3. **주의사항:** 돈 자랑 하지 말기. 조용히 챙길 것.
-                """,
-                "lucky": "💳 **지갑/현금**, 🏦 **은행/백화점**, 🍗 **고기/맛집**"
+                "advice": f"""
+                1. **집착 금지:** 상대방의 사생활을 존중해주세요.
+                2. **돈 문제 투명하게:** 금전적인 신뢰가 깨지면 관계도 끝납니다.
+                3. **존중하기:** "내 말대로 해"라는 명령조의 말투를 버리세요.
+                """
             },
             "en": {
-                "score": 5,
-                "title": "💰 Day of Harvest: Results Are in Sight",
-                "general": """
-                No more daydreaming! Today is strictly **"Realistic"** and **"Calculated."** You will instinctively know exactly what benefits you and what doesn't.
-                
-                **Tangible rewards** for your past efforts will appear. Vague goals turn into concrete achievements. Reason rules over emotion today, making it perfect for important decisions or negotiations. Today, the 'Result' proves your worth more than the process.
-                """,
-                "money": """
-                **Financial Luck: Best!** It's raining money. Unexpected bonuses, overdue payments, or investment returns are likely.
-                
-                It's not just about earning; you will also **spend wisely.** You might find a great deal on something you've wanted. Business owners should focus on sales as records could be broken today. Buying a lottery ticket could be a fun little event.
-                """,
-                "love_m": """
-                **[For Men]** In metaphysics, 'Wealth' also represents **'Women.'** Money and romance come together today. You will be more popular than usual. Blind dates are likely to introduce you to beautiful and capable women. If you have a crush, today is the day to confess.
-                """,
-                "love_f": """
-                **[For Women]** You will judge men based on **'Capability'** and **'Conditions.'** Instead of emotional types, you'll be drawn to men with clear visions who can help your life. For dates, sensory experiences like gourmet tours or shopping will bring good luck.
-                """,
-                "health": """
-                Your body feels light. However, obsessing over results can cause **Tension Headaches** or eye strain. Like the saying 'Working too hard to count money,' beware of overwork. Lower body exercises will strengthen your capacity to hold wealth.
-                """,
-                "action": """
-                1. **Mantra:** "I am Abundant."
-                2. **Remedy:** Organize your wallet, Check finances, Buy lottery
-                3. **Warning:** Don't show off your money. Keep it quiet.
-                """,
-                "lucky": "💳 **Wallet/Cash**, 🏦 **Bank/Mall**, 🍗 **Fine Dining**"
+                "title": "🔥 Fatal Attraction: Passion and Control",
+                "chemistry": f"Intense physical attraction. You ({me}) want to possess and conquer your partner ({partner}). If Male-Female, it's a classic ideal match.",
+                "conflict": "Control issues. If you try to manipulate your partner, they will run away. Obsession and jealousy are risks.",
+                "intimacy": "Physical chemistry is 200/100. Fighting by day, making up by night.",
+                "future": "Great for building wealth together. Financial success is likely.",
+                "advice": "1. No obsession. 2. Be transparent about money. 3. Respect boundaries."
             }
         },
-        "Power": { # 관성
+        "Power": {
+            "score": 78,
             "ko": {
-                "score": 2,
-                "title": "⚖️ 왕관의 무게를 견디는 '명예'의 날",
-                "general": """
-                오늘은 공기마저 무겁게 느껴질 수 있습니다. **책임감, 의무, 규칙**이라는 단어가 당신을 둘러쌉니다. 상사의 지시가 내려오거나, 마감 기한을 맞춰야 하는 등 외부의 압박이 들어옵니다.
+                "title": "⚖️ 존경과 긴장 사이: 나를 성장시키는 어려운 연인",
+                "chemistry": f"""
+                **{partner}**가 **{me}**을 리드하고 통제하는 관계입니다. **{me}**은 상대방에게서 묘한 카리스마와 어른스러움을 느끼고 존경심을 갖게 됩니다. 
                 
-                하지만 이것은 나쁜 것이 아닙니다. 다이아몬드가 압력을 받아 만들어지듯, 오늘 당신이 겪는 스트레스는 당신을 **'리더'**로 만들어주는 과정입니다. 힘들어도 도망가지 않고 묵묵히 해냈을 때, 주변의 인정과 명예, 그리고 '감투'가 주어집니다. 오늘은 '나'를 죽이고 '조직'이나 '대의'를 따를 때 빛이 납니다.
+                여자가 남자를 만난 경우라면(여자의 관성=남자), 여자가 남자에게 보호받고 사랑받는 **전통적인 길연(吉緣)**입니다. 남자가 울타리가 되어주니 안정감이 듭니다. 반대로 남자가 여자를 만난 경우라면, 여자의 기가 세서 남자가 꼼짝 못 하는 '공처가' 커플이 될 수 있지만, 여자의 말만 잘 들으면 자다가도 떡이 생기는 궁합입니다.
                 """,
-                "money": """
-                현금이 들어오는 날이라기보다는, **'명함 값'**이 올라가는 날입니다. 승진을 하거나 좋은 부서로 이동하는 운입니다. 
-                
-                오히려 돈은 나갈 수 있습니다. 세금, 공과금, 범칙금, 회비 등 **의무적으로 내야 할 돈**이 생길 수 있습니다. 또한, 체면치레를 하느라 한턱 쏘는 일이 생길 수 있는데, 이는 미래를 위한 투자라고 생각하는 것이 마음 편합니다. 법적인 문제나 서류상의 실수가 없도록 꼼꼼히 체크하세요.
+                "conflict": f"""
+                **{me}**이 느끼기에 **{partner}**는 너무 깐깐하거나 보수적일 수 있습니다. 상대방의 조언이 **'지적질'**이나 **'잔소리'**로 들리기 시작하면 스트레스가 극에 달합니다. "너는 왜 맨날 나를 가르치려 들어?"라는 불만이 터져 나올 수 있습니다.
                 """,
-                "love_m": """
-                **[남성의 경우]** 일에 치여 연인에게 소홀해지기 쉽습니다. 혹은 자녀 문제로 골머리를 앓을 수 있습니다. 밖에서 받은 스트레스를 연인에게 풀지 않도록 각별히 조심해야 합니다. "나 힘드니까 건드리지 마"라는 태도는 싸움을 부릅니다.
+                "intimacy": f"""
+                다소 보수적이거나 일방적일 수 있습니다. 하지만 신뢰가 바탕이 된 관계라 깊고 은근한 매력이 있습니다. 스릴보다는 **안정감**이 돋보이는 속궁합입니다.
                 """,
-                "love_f": """
-                **[여성의 경우]** **남자가 들어오는 날**입니다. 그것도 아주 강력하고 카리스마 있는 남자가 나타납니다. 나를 리드해주고 보호해주는 '상남자' 스타일일 확률이 높습니다. 하지만 연인이 있다면, 상대방이 나를 통제하거나 가르치려 들어 답답함을 느낄 수 있습니다. 오늘은 싸우면 백전백패니 져주는 게 낫습니다.
+                "future": f"""
+                연애보다는 **결혼 상대로 더 좋은 궁합**입니다. 서로의 책임을 다하고 예의를 지키는 모범적인 부부가 됩니다. 다만, 너무 격식을 차리다가 정서적인 교감이 부족해질 수 있으니 가끔은 망가지는 모습도 보여주세요.
                 """,
-                "health": """
-                스트레스 지수가 최고조에 달합니다. 어깨와 뒷목이 뻣뻣하게 굳는 **근육통**이나 편두통을 조심하세요. 긴장감 때문에 소화가 잘 안 될 수 있습니다. 오늘은 격렬한 운동보다는 요가나 명상, 반신욕으로 몸의 긴장을 풀어주는 것이 생명입니다.
-                """,
-                "action": """
-                1. **오늘의 주문:** "이 또한 지나가리라." (인내심)
-                2. **개운 행동:** 넥타이/정장 착용, 시계 차기, 규칙 준수
-                3. **주의사항:** 신호 위반, 지각 금지 (관재수 주의).
-                """,
-                "lucky": "👔 **시계/정장**, 🏛️ **관공서/사무실**, 🧘 **명상**"
+                "advice": f"""
+                1. **자존심 세우지 않기:** 상대방의 말이 쓴약이라고 생각하세요.
+                2. **대화법 바꾸기:** 상대방은 부드럽게 말하고, 본인은 솔직하게 표현하세요.
+                3. **규칙 정하기:** 서로 간섭하지 말아야 할 선을 정하세요.
+                """
             },
             "en": {
-                "score": 2,
-                "title": "⚖️ Day of Honor: Bearing the Weight of the Crown",
-                "general": """
-                The air might feel heavy today. Words like **Responsibility, Duty, and Rules** surround you. External pressures, such as boss's orders or deadlines, will weigh on you.
-                
-                But this isn't bad. Like a diamond formed under pressure, today's stress is forging you into a **Leader.** If you endure without running away, recognition and honor await. Today, shine by putting the 'Organization' or 'Greater Good' above 'Self.'
-                """,
-                "money": """
-                It's not a day for cash flow, but for raising your **'Reputation Value.'** Promotion or moving to a better position is likely.
-                
-                Money might actually leave your pocket. Mandatory expenses like taxes, bills, fines, or dues may arise. You might spend money to save face; treat it as an investment for the future. Check legal matters and documents carefully to avoid mistakes.
-                """,
-                "love_m": """
-                **[For Men]** You might neglect your partner due to work overload. Issues with children could also cause headaches. Be extremely careful not to vent your work stress on your partner. Saying "I'm tired, leave me alone" will invite a fight.
-                """,
-                "love_f": """
-                **[For Women]** **Men are entering your life.** A powerful, charismatic man is likely to appear—someone who can protect and lead you. However, if you have a partner, he might try to control or lecture you, causing frustration. Fighting back today guarantees defeat; just let him win.
-                """,
-                "health": """
-                Stress levels peak. Beware of **stiff neck/shoulders** or migraines. Tension might cause indigestion. Instead of intense exercise, focus on relaxing your body with yoga, meditation, or a warm bath.
-                """,
-                "action": """
-                1. **Mantra:** "This too shall pass." (Patience)
-                2. **Remedy:** Wear a watch/suit, Follow rules strictly
-                3. **Warning:** No traffic violations or lateness (Avoid legal trouble).
-                """,
-                "lucky": "👔 **Watch/Suit**, 🏛️ **Government Office**, 🧘 **Meditation**"
+                "title": "⚖️ Respect & Tension: The Growth Couple",
+                "chemistry": f"Your partner ({partner}) leads you. You feel respect and charisma from them. If Female-Male, it's a traditional protective match.",
+                "conflict": "You might feel stressed by their strictness or 'lecturing'. You might feel judged.",
+                "intimacy": "Stable and trusting rather than wild. Deep emotional bond.",
+                "future": "Better for marriage than dating. A model couple with responsibilities.",
+                "advice": "1. Listen to advice. 2. Communicate softly. 3. Set boundaries."
             }
         },
-        "Resource": { # 인성
+        "Resource": {
+            "score": 96,
             "ko": {
-                "score": 4,
-                "title": "📚 사랑과 지혜가 충전되는 '힐링'의 날",
-                "general": """
-                마치 엄마 품에 안긴 듯 편안하고 안정적인 하루입니다. 내가 굳이 애쓰고 뛰어다니지 않아도, 가만히 있으면 주변에서 알아서 챙겨주고 도와줍니다. **'인복(人福)'**이 터지는 날입니다.
+                "title": "🍼 무한한 사랑: 엄마 품 같은 힐링 커플",
+                "chemistry": f"""
+                **{partner}**가 **{me}**을 헌신적으로 뒷바라지해주는 관계입니다. **{me}**은 가만히 있어도 상대방이 알아서 챙겨주고, 이해해주고, 용서해줍니다. 마치 엄마 품에 있는 것처럼 세상에서 가장 편안한 안식처를 만난 셈입니다.
                 
-                활동적인 에너지보다는 **정적인 에너지**가 강합니다. 새로운 일을 벌이기보다는 기존의 것을 점검하고, 공부하고, 계획을 세우기에 최적입니다. 직감과 영감이 발달하여 꿈자리가 사납거나 기막힌 아이디어가 떠오를 수도 있습니다. 오늘은 '속도'보다는 '방향'을 고민하는 시간입니다.
+                정서적인 결속력이 매우 강해서, 말하지 않아도 서로의 아픔을 치유해주는 **'힐링 커플'**입니다. 밖에서 힘들었던 일도 이 사람만 만나면 눈 녹듯 사라지는 마법 같은 관계입니다.
                 """,
-                "money": """
-                당장 현금이 도는 운은 아니지만, **'문서운'**이 대길합니다. 부동산 계약, 전세 계약, 중요한 결재, 라이센스 취득 등 서류상의 이득이 따릅니다.
-                
-                지금 당장은 돈이 묶이는 것처럼 보여도, 훗날 큰 자산이 되어 돌아올 문서를 잡는 날입니다. 자기 계발을 위해 책을 사거나 강의를 듣는 비용은 아끼지 마세요. 부모님이나 윗사람으로부터 용돈이나 선물을 받을 수도 있습니다.
+                "conflict": f"""
+                너무 편안하다 보니 **권태기**가 빨리 올 수 있습니다. **{me}**이 게을러지거나 상대방을 당연하게 여기는 순간 위기가 옵니다. 또한, 상대방의 사랑이 과해지면 **'집착'**이나 **'과잉보호'**로 느껴져 답답해질 수 있습니다. "나를 어린애 취급 하지 마"라고 반항할 수 있습니다.
                 """,
-                "love_m": """
-                **[남성의 경우]** 연인에게 기대고 싶고 위로받고 싶은 마음이 커집니다. 모성애가 강한 여성을 만나거나, 연인이 나를 엄마처럼 살뜰히 챙겨줍니다. 오늘은 데이트 코스를 짜느라 머리 쓰지 말고, 상대방이 하자는 대로 따라가는 게 편합니다.
+                "intimacy": f"""
+                자극적인 쾌락보다는 **정서적인 포만감**이 큰 관계입니다. 서로를 안고만 있어도 좋은, 부드럽고 따뜻한 스킨십이 주를 이룹니다.
                 """,
-                "love_f": """
-                **[여성의 경우]** 사랑받는 날입니다. 공주님 대접을 받을 수 있습니다. 상대방이 나의 기분을 세심하게 살피고 배려해줍니다. 소개팅을 한다면 예의 바르고 학식이 깊은, 배울 점이 많은 남자가 나옵니다.
+                "future": f"""
+                헤어지려야 헤어질 수 없는 **질긴 인연**입니다. 결혼을 하면 서로에게 없어서는 안 될 공기 같은 존재가 됩니다. 어려움이 닥쳐도 서로 의지하며 끝까지 함께할 동반자입니다.
                 """,
-                "health": """
-                몸이 물 먹은 솜처럼 처지고 나른해질 수 있습니다. 이는 병이 아니라 **'쉬어가라'**는 신호입니다. 억지로 운동을 하려 하지 말고, 오늘은 낮잠을 자거나 마사지를 받으며 푹 쉬는 것이 최고의 보약입니다. 소화 기능이 느려질 수 있으니 과식은 피하세요.
-                """,
-                "action": """
-                1. **오늘의 주문:** "나는 사랑받기 위해 태어났다."
-                2. **개운 행동:** 독서, 명상, 부모님께 안부 전화
-                3. **주의사항:** 게으름 주의. 생각만 하다가 실행 못 할 수 있음.
-                """,
-                "lucky": "📚 **책/도서관**, ☕ **따뜻한 차**, 🛌 **침대/휴식**"
+                "advice": f"""
+                1. **감사 표현하기:** 받는 것에 익숙해지지 마세요.
+                2. **긴장감 유지:** 가끔은 색다른 데이트로 설렘을 주세요.
+                3. **독립심 키우기:** 상대방에게 너무 의존하지 마세요.
+                """
             },
             "en": {
-                "score": 4,
-                "title": "📚 Day of Healing: Recharge with Love & Wisdom",
-                "general": """
-                A day as comfortable as being in a mother's arms. Even if you don't strive hard, people around you will take care of you. **"People Luck"** is at its best.
-                
-                **Static energy** dominates over active energy. It's optimal for reviewing, studying, and planning rather than starting new things. Your intuition is heightened; pay attention to your dreams or sudden inspirations. Focus on 'Direction' rather than 'Speed' today.
-                """,
-                "money": """
-                Cash might not flow immediately, but **"Document Luck"** is excellent. Great for real estate contracts, signing papers, or acquiring licenses.
-                
-                It's a day to grab documents that will become valuable assets later. Don't hesitate to spend on books or courses for self-improvement. You might also receive allowance or gifts from parents or elders.
-                """,
-                "love_m": """
-                **[For Men]** You'll want to lean on your partner for comfort. You might meet a nurturing woman, or your partner will take care of you like a mother. Don't stress over planning dates; just follow her lead today.
-                """,
-                "love_f": """
-                **[For Women]** You are loved. Expect to be treated like a princess. Your partner will be attentive to your feelings. If you have a blind date, expect a polite, educated man with much to offer.
-                """,
-                "health": """
-                Your body might feel heavy and lethargic. This isn't sickness but a signal to **"Rest."** Don't force exercise; a nap or massage is the best medicine today. Avoid overeating as digestion might be slow.
-                """,
-                "action": """
-                1. **Mantra:** "I am born to be loved."
-                2. **Remedy:** Reading, Meditation, Call parents
-                3. **Warning:** Beware of laziness. Too much thinking, no action.
-                """,
-                "lucky": "📚 **Book/Library**, ☕ **Warm Tea**, 🛌 **Bed/Rest**"
+                "title": "🍼 Unconditional Love: Healing Soulmates",
+                "chemistry": f"Your partner ({partner}) supports you unconditionally. You feel safe and healed, like being in a mother's arms.",
+                "conflict": "Comfort can lead to boredom or laziness. Care might feel like smothering.",
+                "intimacy": "Emotional satisfaction is high. Gentle and warm connection.",
+                "future": "Inseparable bond. Destiny partners who support each other through life.",
+                "advice": "1. Express gratitude. 2. Keep the spark alive. 3. Don't be too dependent."
             }
         }
     }
     
-    # 🌟 데이터 추출 및 매핑
-    data = scenarios[rel_type][lang]
-    
-    # 성별에 따른 사랑 운세 선택 (핵심)
-    final_love = data["love_m"] if gender == "Male" else data["love_f"]
+    base_data = reports[rel]
+    data = base_data[lang]
     
     return {
-        "title": data["title"],
-        "score": data["score"],
-        "general": data["general"],
-        "money": data["money"],
-        "love": final_love,
-        "health": data["health"],
-        "action": data["action"],
-        "lucky": data["lucky"] # 럭키 아이템 추가
+        "score": base_data["score"],
+        "title": data['title'],
+        "chemistry": data['chemistry'],
+        "conflict": data['conflict'],
+        "intimacy": data['intimacy'],
+        "future": data.get("future", "안정적인 미래가 기대됩니다."),
+        "advice": data['advice']
     }
 
 # ----------------------------------------------------------------
-# 4. 메인 화면 UI
+# 4. 메인 화면 로직
 # ----------------------------------------------------------------
 if "user_name" not in st.session_state or "birth_date" not in st.session_state:
-    st.warning("⚠️ 홈 화면에서 먼저 정보를 입력해주세요.")
-    if st.button("홈으로 이동"): st.switch_page("Home.py")
+    st.warning("Please enter your info at Home first." if lang == "en" else "⚠️ 홈 화면에서 본인 정보를 먼저 입력해주세요.")
+    if st.button("Go Home" if lang == "en" else "홈으로 이동"): st.switch_page("Home.py")
     st.stop()
 
-user_name = st.session_state["user_name"]
-birth_date = st.session_state["birth_date"]
-user_gender = st.session_state.get("gender", "Male") 
+u_name = st.session_state["user_name"]
+u_dob = st.session_state["birth_date"]
+u_gender = st.session_state.get("gender", "Male")
 
 ui = {
     "ko": {
-        "title": "📅 특정일 운세 정밀 분석",
-        "sub": "심리학과 명리학이 만난 프리미엄 심층 리포트 (A4 1장 분량)",
-        "user_info": f"👤 **분석 대상:** {user_name}님 ({user_gender} / {birth_date})",
-        "lock_msg": "🔒 프리미엄 리포트 잠금 ($10)",
-        "label": "구매 후 받은 라이센스 키 입력",
-        "btn_unlock": "리포트 잠금 해제",
-        "btn_buy": "💳 프리미엄 리포트 구매 ($10)",
-        "target_date": "분석하고 싶은 날짜 (D-Day)",
-        "btn_analyze": "상세 운세 확인하기",
-        "print": "🖨️ 리포트 인쇄하기"
+        "title": "💘 프리미엄 궁합 분석",
+        "sub": "두 사람의 영혼, 성격, 그리고 미래까지 꿰뚫어보는 심층 리포트",
+        "p_info_title": "상대방 정보 입력",
+        "p_name": "상대방 이름",
+        "p_dob": "상대방 생년월일",
+        "p_gender": "상대방 성별",
+        "lock_title": "🔒 궁합 리포트 잠금 ($10)",
+        "lock_desc": "결제 후 발급받은 라이센스 키를 입력하세요.",
+        "lock_warn": "⚠️ 주의: 이 라이센스 키는 최대 3회까지만 조회 가능합니다.",
+        "btn_buy": "💳 이용권 구매하기 ($10)",
+        "btn_unlock": "결과 확인하기",
+        "btn_print": "🖨️ 리포트 인쇄하기",
+        "sec_chem": "🔮 성격과 케미 (Chemistry)",
+        "sec_conf": "⚔️ 갈등 포인트 (Conflict)",
+        "sec_inti": "💋 속궁합 & 애정 (Intimacy)",
+        "sec_fut": "💍 미래 & 결혼 (Future)",
+        "sec_adv": "🚀 관계를 위한 조언 (Advice)",
+        "score_label": "궁합 점수"
     },
     "en": {
-        "title": "📅 Specific Day: Deep Report",
-        "sub": "Premium In-depth Report combining Psychology & Metaphysics.",
-        "user_info": f"👤 **User:** {user_name} ({user_gender} / {birth_date})",
-        "lock_msg": "🔒 Premium Report Locked ($10)",
-        "label": "Enter License Key",
+        "title": "💘 Premium Love Compatibility",
+        "sub": "Deep analysis of souls, personalities, and future.",
+        "p_info_title": "Partner Information",
+        "p_name": "Partner Name",
+        "p_dob": "Partner DOB",
+        "p_gender": "Partner Gender",
+        "lock_title": "🔒 Report Locked ($10)",
+        "lock_desc": "Enter the license key after purchase.",
+        "lock_warn": "⚠️ Warning: This key can be used up to 3 times only.",
+        "btn_buy": "💳 Buy Access ($10)",
         "btn_unlock": "Unlock Report",
-        "btn_buy": "💳 Buy Premium Report ($10)",
-        "target_date": "Target Date (D-Day)",
-        "btn_analyze": "Analyze Detail",
-        "print": "🖨️ Print Report"
+        "btn_print": "🖨️ Print Report",
+        "sec_chem": "🔮 Chemistry & Personality",
+        "sec_conf": "⚔️ Conflict Points",
+        "sec_inti": "💋 Intimacy & Love",
+        "sec_fut": "💍 Future & Marriage",
+        "sec_adv": "🚀 Advice for Relationship",
+        "score_label": "Compatibility Score"
     }
 }
 t = ui[lang]
 
-section_titles = {
-    "ko": {
-        "gen": "심리 & 총평 (Psychology & Flow)",
-        "mon": "재물 & 커리어 (Money & Career)",
-        "lov": "사랑 & 인간관계 (Love & Relationship)",
-        "hea": "건강 & 컨디션 (Health & Condition)",
-        "act": "행동 지침 & 개운법 (Action Plan)",
-        "luc": "오늘의 행운 (Lucky Items)"
-    },
-    "en": {
-        "gen": "Psychology & General Flow",
-        "mon": "Wealth & Career",
-        "lov": "Love & Relationships",
-        "hea": "Health & Condition",
-        "act": "Action Plan",
-        "luc": "Lucky Items"
-    }
-}
-st_t = section_titles[lang]
-
 st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=True)
+st.info(f"{t['sub']} (User: {u_name})")
 
-# 🔒 [잠금 로직]
-if "unlocked_specific" not in st.session_state: st.session_state["unlocked_specific"] = False
+# 5. 상대방 정보 입력
+with st.container(border=True):
+    st.subheader(t['p_info_title'])
+    c1, c2 = st.columns(2)
+    with c1:
+        p_name = st.text_input(t['p_name'])
+        p_dob = st.date_input(t['p_dob'], min_value=date(1900,1,1), value=date(1990,1,1))
+    with c2:
+        default_idx = 1 if u_gender == "Male" else 0
+        p_gender = st.selectbox(t['p_gender'], ["Male", "Female"], index=default_idx)
 
-if not st.session_state["unlocked_specific"]:
+# 6. 잠금 및 결제
+if "unlocked_love" not in st.session_state: st.session_state["unlocked_love"] = False
+
+if not st.session_state["unlocked_love"]:
+    st.divider()
     with st.container(border=True):
-        st.info(t['sub'])
-        st.markdown(f"<div class='user-info-box'>{t['user_info']}</div>", unsafe_allow_html=True)
-        st.write(f"### {t['lock_msg']}")
+        st.markdown(f"### {t['lock_title']}")
+        st.write(t['lock_desc'])
+        st.warning(t['lock_warn'], icon="⚠️") 
         st.link_button(t['btn_buy'], GUMROAD_LINK)
-        st.markdown("---")
-        key = st.text_input(t['label'], type="password")
         
-        if st.button(t['btn_unlock']):
-            if key == UNLOCK_CODE:
-                st.session_state["unlocked_specific"] = True
-                st.success("Master Key Accepted!")
-                st.rerun()
-            try:
-                response = requests.post(
-                    "https://api.gumroad.com/v2/licenses/verify",
-                    data={"product_permalink": PRODUCT_PERMALINK, "license_key": key}
-                )
-                data = response.json()
-                if data.get("success"):
-                    if data.get("uses", 0) > 3:
-                        st.error("🚫 Limit exceeded (Max 3 uses).")
+        key = st.text_input("License Key", type="password")
+        if st.button(t['btn_unlock'], type="primary"):
+            if not p_name:
+                st.error("Please enter partner's name." if lang=="en" else "상대방 이름을 입력해주세요.")
+            else:
+                if key == UNLOCK_CODE:
+                    st.session_state["unlocked_love"] = True
+                    st.success("Developer Access Granted!")
+                    st.rerun()
+                try:
+                    response = requests.post(
+                        "https://api.gumroad.com/v2/licenses/verify",
+                        data={"product_permalink": PRODUCT_PERMALINK, "license_key": key}
+                    )
+                    data = response.json()
+                    if data.get("success"):
+                        uses = data.get("uses", 0)
+                        if uses > 3:
+                            st.error(f"🚫 Limit Exceeded ({uses}/3)" if lang=="en" else f"🚫 횟수 초과! ({uses}/3)")
+                        else:
+                            st.session_state["unlocked_love"] = True
+                            st.success("Success!")
+                            st.rerun()
                     else:
-                        st.session_state["unlocked_specific"] = True
-                        st.success("Success!")
-                        st.rerun()
-                else:
-                    st.error("🚫 Invalid Key.")
-            except:
-                st.error("Connection Error.")
+                        st.error("Invalid Key")
+                except:
+                    st.error("Connection Error")
     st.stop()
 
-# 🔓 [메인 리포트 화면]
-with st.container():
-    st.markdown(f"<div class='user-info-box'>{t['user_info']}</div>", unsafe_allow_html=True)
-    col_center, _ = st.columns([1, 2])
-    with col_center:
-        target_date = st.date_input(t['target_date'], value=date.today(), min_value=date.today())
+# 7. 결과 리포트
+if st.session_state["unlocked_love"]:
+    st.divider()
+    u_info = calculate_day_gan(u_dob)
+    p_info = calculate_day_gan(p_dob)
+    report = get_love_report(u_info['element'], p_info['element'], u_gender, p_gender, lang)
+    
+    # 대결 구도
+    c1, c2, c3 = st.columns([1, 0.5, 1])
+    with c1:
+        st.markdown(f"""<div class='user-card'><div style='color:#6b7280;'>ME ({u_gender})</div><div style='font-size:1.5em; font-weight:bold; color:#1f2937;'>{u_name}</div><div style='font-size:1.2em; color:#db2777;'>{u_info[lang]} ({u_info['element']})</div></div>""", unsafe_allow_html=True)
+    with c2:
+        st.markdown("<div class='vs-badge'>❤️</div>", unsafe_allow_html=True)
+    with c3:
+        st.markdown(f"""<div class='user-card'><div style='color:#6b7280;'>PARTNER ({p_gender})</div><div style='font-size:1.5em; font-weight:bold; color:#1f2937;'>{p_name}</div><div style='font-size:1.2em; color:#db2777;'>{p_info[lang]} ({p_info['element']})</div></div>""", unsafe_allow_html=True)
 
-    if st.button(t['btn_analyze'], type="primary"):
-        user_info = calculate_day_gan(birth_date)
-        target_info = calculate_day_gan(target_date)
-        
-        # 👇 거대해진 리포트 데이터 가져오기
-        report = get_long_report(user_info['element'], target_info['element'], lang, user_gender)
-        
-        st.divider()
-        st.markdown(f"<h2 style='text-align:center; color:#334155;'>📅 {target_date.strftime('%Y-%m-%d')} Analysis Report</h2>", unsafe_allow_html=True)
-        
-        c1, c2, c3 = st.columns([1, 0.5, 1])
-        with c1: 
-            st.markdown(f"<div style='text-align:center; padding:15px; background:#f8fafc; border-radius:15px; border:1px solid #e2e8f0;'><b>ME</b><br><span style='font-size:1.8em;'>{user_info[lang]}</span><br>({user_info['element']})</div>", unsafe_allow_html=True)
-        with c2:
-            st.markdown("<div style='text-align:center; font-size:2em; padding-top:25px; color:#cbd5e1;'>VS</div>", unsafe_allow_html=True)
-        with c3:
-            st.markdown(f"<div style='text-align:center; padding:15px; background:#f8fafc; border-radius:15px; border:1px solid #e2e8f0;'><b>DAY</b><br><span style='font-size:1.8em;'>{target_info[lang]}</span><br>({target_info['element']})</div>", unsafe_allow_html=True)
-
-        st.write("") 
-        
-        score = report['score']
-        stars = "⭐" * score + "🌑" * (5 - score)
-        
-        # 👇 HTML 들여쓰기 완전 제거 (화면 깨짐 방지)
-        html_content = f"""
+    # 메인 리포트
+    html_content = f"""
 <div class='report-container'>
-<div style='text-align:center; margin-bottom:40px;'>
-<div style='font-size:2em; color:#f59e0b; letter-spacing: 5px;'>{stars}</div>
-<h1 style='color:#1e293b; margin-top: 15px; font-size: 2em; line-height: 1.3;'>{report['title']}</h1>
+<div class='score-display'>
+{t['score_label']}: {report['score']}
 </div>
-<div class='report-section'>
-<div class='section-title'><span class='section-emoji'>🔮</span>{st_t['gen']}</div>
-<div class='content-text'>{report['general']}</div>
+<h2 style='text-align:center; color:#831843; margin-bottom:40px;'>{report['title']}</h2>
+<div class='section-box'>
+<div class='section-title'>{t['sec_chem']}</div>
+<div class='content-text'>{report['chemistry']}</div>
 </div>
-<div class='report-section'>
-<div class='section-title'><span class='section-emoji'>💰</span>{st_t['mon']}</div>
-<div class='content-text'>{report['money']}</div>
+<div class='section-box'>
+<div class='section-title'>{t['sec_conf']}</div>
+<div class='content-text'>{report['conflict']}</div>
 </div>
-<div class='report-section'>
-<div class='section-title'><span class='section-emoji'>❤️</span>{st_t['lov']}</div>
-<div class='content-text'>{report['love']}</div>
+<div class='section-box'>
+<div class='section-title'>{t['sec_inti']}</div>
+<div class='content-text'>{report['intimacy']}</div>
 </div>
-<div class='report-section'>
-<div class='section-title'><span class='section-emoji'>💪</span>{st_t['hea']}</div>
-<div class='content-text'>{report['health']}</div>
+<div class='section-box'>
+<div class='section-title'>{t['sec_fut']}</div>
+<div class='content-text'>{report['future']}</div>
 </div>
-<div class='report-section'>
-<div class='section-title'><span class='section-emoji'>🚀</span>{st_t['act']}</div>
-<div class='content-text' style='white-space: pre-line; font-weight:bold; color:#0f172a;'>{report['action']}</div>
-<div class='lucky-box'>
-<div class='section-title' style='font-size:1.1em; border:none; margin-bottom:5px;'>🍀 {st_t['luc']}</div>
-<div class='content-text'>{report['lucky']}</div>
-</div>
+<div class='section-box' style='background-color: #fdf2f8; border: 1px solid #fbcfe8;'>
+<div class='section-title'>{t['sec_adv']}</div>
+<div class='content-text' style='font-weight:bold; color:#be185d;'>{report['advice']}</div>
 </div>
 </div>
 """
-        st.markdown(html_content, unsafe_allow_html=True)
-
-        st.write("")
-        components.html(
-            f"""<script>function printParent() {{ window.parent.print(); }}</script>
-            <div style="text-align:center;">
-                <button onclick="printParent()" style="background-color:#475569; color:white; border:none; padding:15px 30px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                {t['print']}
-                </button>
-            </div>""", height=100
-        )
+    st.markdown(html_content, unsafe_allow_html=True)
+    
+    st.write("")
+    components.html(
+        f"""<script>function printParent() {{ window.parent.print(); }}</script>
+        <div style="text-align:center;">
+            <button onclick="printParent()" style="background-color:#be185d; color:white; border:none; padding:15px 30px; border-radius:30px; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(190, 24, 93, 0.3);">
+            {t['btn_print']}
+            </button>
+        </div>""", height=100
+    )
