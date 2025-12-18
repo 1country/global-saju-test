@@ -11,8 +11,8 @@ st.set_page_config(page_title="Love Compatibility", page_icon="💘", layout="wi
 
 # 🔑 [마스터 키 & 검로드 설정] - 선생님이 수정할 곳!
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "love_match"  # 검로드 주소 맨 끝 단어
-GUMROAD_LINK = "https://gumroad.com/l/선생님의_궁합상품_주소"
+PRODUCT_PERMALINK = "love_compatibility"  # 검로드 주소 맨 끝 단어
+GUMROAD_LINK = "https://gumroad.com/l/love_compatibility"
 
 st.markdown("""
     <style>
