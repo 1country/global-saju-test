@@ -49,7 +49,8 @@ st.markdown("""
             font-family: 'Gowun Batang', serif;
         }
         
-        .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem;}
+        /* 버튼 스타일 강화 */
+        .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem; transition: all 0.3s;}
         .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
     </style>
 """, unsafe_allow_html=True)
@@ -76,7 +77,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-# 4. 텍스트 데이터 (5번 메뉴 추가됨!)
+# 4. 텍스트 데이터 (사랑 궁합으로 수정됨)
 txt = {
     "ko": {
         "title": "🧭 운명의 나침반",
@@ -93,9 +94,11 @@ txt = {
         
         "s1_t": "🔮 2026 신년 운세", "s1_d": "2026년의 재물, 연애, 직장운을 미리 봅니다. 다가올 미래를 준비하세요.",
         "s2_t": "📅 그날의 운세", "s2_d": "면접, 데이트, 계약일 등 중요한 날의 기운을 미리 확인하세요.",
-        "s3_t": "❤️ 궁합 (Chemistry)", "s3_d": "그 사람과 나는 잘 맞을까? 속마음과 인연을 분석합니다.",
+        
+        # [수정 완료] 사랑 궁합
+        "s3_t": "❤️ 사랑 궁합 (Love Match)", "s3_d": "그 사람과 나는 천생연분일까? 속마음과 연애 성향 분석.",
+        
         "s4_t": "📆 택일 (좋은 날짜)", "s4_d": "결혼, 이사, 개업! 인생의 중요한 시작, 최고의 날짜를 잡아드립니다.",
-        # [NEW] 비즈니스 궁합 추가
         "s5_t": "🤝 비즈니스 파트너 궁합", "s5_d": "상사, 동업자, 직원과의 관계 분석. 성공적인 파트너십을 위한 처세술.",
         "s6_t": "👑 프리패스 (VIP)", "s6_d": "고민하지 마세요. 모든 유료 서비스를 한 번에 소장하세요! (할인)"
     },
@@ -114,23 +117,31 @@ txt = {
         
         "s1_t": "🔮 2026 Forecast", "s1_d": "Prepare for 2026. Detailed analysis of Wealth, Love, and Career.",
         "s2_t": "📅 Specific Day Forecast", "s2_d": "Interview? Date? Check your luck for any specific day.",
-        "s3_t": "❤️ Compatibility", "s3_d": "Are we a match? Analyze the chemistry with your partner.",
+        
+        # [Updated] Love Compatibility
+        "s3_t": "❤️ Love Compatibility", "s3_d": "Are we a match? Analyze romantic chemistry with your partner.",
+        
         "s4_t": "📆 Date Selection", "s4_d": "Wedding, Moving, Opening! Find the most auspicious dates.",
-        # [NEW] Business Compatibility Added
         "s5_t": "🤝 Business Compatibility", "s5_d": "Boss? Co-founder? Analyze professional synergy and teamwork.",
         "s6_t": "👑 All-Access Pass", "s6_d": "Unlock EVERYTHING at once. Best value for VIPs."
     }
 }
 t = txt[lang]
 
+# [NEW] 3D 입체 캐릭터 이미지 (사람 느낌 물씬!)
 imgs = {
+    # 2026: 수정 구슬을 든 신비로운 점술가 (사람)
     "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", 
+    # 특정일: 달력을 들고 고민하는 사람
     "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", 
-    "s3": "https://cdn-icons-png.flaticon.com/512/4057/4057784.png", 
-    "s4": "https://cdn-icons-png.flaticon.com/512/2693/2693507.png", 
-    # [NEW] 비즈니스용 악수 이미지
-    "s5": "https://cdn-icons-png.flaticon.com/512/2618/2618466.png", 
-    "s6": "https://cdn-icons-png.flaticon.com/512/2583/2583166.png" 
+    # 사랑궁합: 서로 마주보는 남녀 커플 (3D 스타일)
+    "s3": "https://cdn-icons-png.flaticon.com/512/9496/9496030.png",
+    # 택일: 결혼식 예복을 입은 커플 (중요한 날 상징)
+    "s4": "https://cdn-icons-png.flaticon.com/512/1057/1057240.png", 
+    # 비즈니스: 정장 입고 악수하는 두 사람
+    "s5": "https://cdn-icons-png.flaticon.com/512/950/950575.png", 
+    # 프리패스: 왕관을 쓴 VIP 인물
+    "s6": "https://cdn-icons-png.flaticon.com/512/6941/6941697.png" 
 }
 
 # 5. 메인 화면 구성
@@ -181,7 +192,7 @@ def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=
         col_img, col_text, col_btn = st.columns([1, 3.5, 1.5], gap="medium")
         with col_img:
             st.write("") 
-            st.image(img_url, width=80) 
+            st.image(img_url, width=90) # 이미지가 잘 보이게 크기 약간 키움
         with col_text:
             st.subheader(title)
             st.write(desc)
@@ -199,7 +210,6 @@ if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
     
-    # 언어에 맞는 설명
     description = day_info['desc'] if lang == 'ko' else day_info['desc_en']
     detail_text = get_interpretation(day_info['element'], lang)
     
@@ -218,17 +228,13 @@ if st.session_state["analyzed"]:
         
     st.markdown("<br>", unsafe_allow_html=True) 
 
-    # [프리미엄 스토어 목록] - 5번째 비즈니스 추가됨
+    # 프리미엄 스토어 (업데이트된 이미지와 텍스트)
     st.subheader(t['menu_h'])
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_Forecast.py")
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day_Forecast.py")
     draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_❤️_Love_Compatibility.py")
     draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_📆_Date_Selection.py")
-    
-    # [NEW] 5번 비즈니스 궁합 카드
     draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_🤝_Business_Compatibility.py")
-    
-    # [VIP] 프리패스
     draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://gum.co/demo_product")
 
     st.divider()
