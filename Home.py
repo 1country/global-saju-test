@@ -130,7 +130,7 @@ imgs = {
     "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", 
     "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", 
     # ★★★ [여기!] 방금 만드신 실사 사진의 주소를 아래에 따옴표 안에 넣으세요! ★★★
-    "s3": "YOUR_IMAGE_URL_HERE", 
+    "s3": "https://github.com/1country/global-saju-test/blob/main/unnamed.jpg", 
     "s4": "https://cdn-icons-png.flaticon.com/512/1057/1057240.png", 
     "s5": "https://cdn-icons-png.flaticon.com/512/950/950575.png", 
     "s6": "https://cdn-icons-png.flaticon.com/512/6941/6941697.png" 
