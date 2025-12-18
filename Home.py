@@ -1,13 +1,15 @@
 import streamlit as st
 from datetime import date, time
+# utils.py가 같은 폴더에 있어야 합니다.
 from utils import calculate_day_gan 
 
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
 
-# 2. 스타일 및 배경
+# 2. 스타일 및 배경 설정
 st.markdown("""
     <style>
+        /* 배경 설정 */
         .stApp {
             background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
@@ -15,20 +17,34 @@ st.markdown("""
         }
         .main-title {font-size: 2.5em; color: #1e293b; text-align: center; font-weight: 800; margin-bottom: 5px;}
         .sub-desc {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
-        .card {background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
-        /* 버튼 스타일 통일 */
-        .stButton button {width: 100%; border-radius: 8px; font-weight: bold;}
+        
+        /* 결과 카드 스타일 */
+        .card {background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center;}
+        
+        /* 🌟 프리미엄 스토어 버튼 스타일 강화 🌟 */
+        /* 버튼 내 줄바꿈 시 간격 조정 */
+        .stButton button p {
+            margin-bottom: 5px; 
+        }
+        /* 버튼 호버 효과 강화 */
+        .stButton button:hover {
+            border-color: #4f46e5 !important;
+            color: #4f46e5 !important;
+            background-color: #eef2ff !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 사이드바 (군더더기 제거됨)
+# 3. 사이드바 설정
 with st.sidebar:
     st.header("Settings")
-    lang_opt = st.radio("Language", ["한국어", "English"])
+    # [수정] English를 맨 위로 올림
+    lang_opt = st.radio("Language", ["English", "한국어"])
     lang = "ko" if "한국어" in lang_opt else "en"
     
     st.markdown("---")
     
+    # 커피 후원 배너
     coffee_title = "☕ 개발자 응원하기" if lang == "ko" else "☕ Buy me a coffee"
     coffee_msg = "운명의 코드를 응원해 주세요!" if lang == "ko" else "Support the developer!"
     
@@ -43,7 +59,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-# 4. 텍스트 사전 (가격 $10로 수정완료!)
+# 4. 텍스트 사전 (버튼 하나에 다 넣기 위해 텍스트를 합쳤습니다)
 txt = {
     "ko": {
         "title": "🧭 운명의 나침반",
@@ -56,13 +72,13 @@ txt = {
         "res_msg": "당신은 **'{e_name}'**의 기운을 타고났습니다.",
         "menu_h": "💎 프리미엄 운세 스토어",
         
-        # [수정됨] 메뉴 텍스트 (가격 $10 통일 / 프리패스 $30)
-        "m1_t": "🔮 2026 신년 운세 ($10)", "m1_d": "내년의 재물, 연애, 직장운을 정밀하게 분석합니다.", 
-        "m2_t": "📅 그날의 운세 ($10)", "m2_d": "면접, 데이트, 계약 등 특정 날짜의 운세를 미리 확인하세요.",
-        "m3_t": "❤️ 궁합 서비스 ($10)", "m3_d": "그 사람과 나의 케미스트리(속궁합/겉궁합) 분석.",
-        "m4_t": "📆 택일 서비스 ($10)", "m4_d": "결혼, 이사, 개업 등 중요한 행사를 위한 최고의 날짜 추천.",
-        "m5_t": "👑 프리패스 VIP ($30)", "m5_d": "모든 유료 서비스를 제한 없이 한 번에 이용하세요!",
-        "btn_common": "확인하기", "btn_buy": "구매하기"
+        # [수정] 버튼 라벨 통합 (제목+가격+설명)
+        # \n\n 을 사용하여 줄바꿈을 넣습니다.
+        "btn1": "### 🔮 2026 신년 운세 ($10)\n내년의 재물, 연애, 직장운을 정밀하게 분석합니다.", 
+        "btn2": "### 📅 그날의 운세 ($10)\n면접, 데이트 등 특정 날짜의 운세를 미리 확인하세요.",
+        "btn3": "### ❤️ 궁합 서비스 ($10)\n그 사람과 나의 케미스트리(속궁합/겉궁합) 분석.",
+        "btn4": "### 📆 택일 서비스 ($10)\n결혼, 이사 등 중요한 행사를 위한 최고의 날짜 추천.",
+        "btn5": "### 👑 프리패스 VIP ($30)\n모든 유료 서비스를 제한 없이 한 번에 이용하세요!"
     },
     "en": {
         "title": "🧭 The Element: Destiny Map",
@@ -75,18 +91,17 @@ txt = {
         "res_msg": "You are born with the energy of **'{e_name}'**.",
         "menu_h": "💎 Premium Store",
         
-        # [Updated] Menu Texts ($10 unified / Pass $30)
-        "m1_t": "🔮 2026 Forecast ($10)", "m1_d": "Detailed analysis of wealth, love, and career for 2026.",
-        "m2_t": "📅 Daily Forecast ($10)", "m2_d": "Check your luck for a specific date (Interview, Date, etc).",
-        "m3_t": "❤️ Compatibility ($10)", "m3_d": "Check chemistry and relationship potential with your partner.",
-        "m4_t": "📆 Date Selection ($10)", "m4_d": "Find the most auspicious dates for Wedding, Moving, etc.",
-        "m5_t": "👑 All-Access Pass ($30)", "m5_d": "Unlock ALL premium services at once!",
-        "btn_common": "Check Now", "btn_buy": "Buy Pass"
+        # [Updated] Combined Button Labels
+        "btn1": "### 🔮 2026 Forecast ($10)\nDetailed analysis of wealth, love, and career for 2026.", 
+        "btn2": "### 📅 Daily Forecast ($10)\nCheck your luck for a specific date (Interview, Date, etc).",
+        "btn3": "### ❤️ Compatibility ($10)\nCheck chemistry and potential with your partner.",
+        "btn4": "### 📆 Date Selection ($10)\nFind the most auspicious dates for Wedding, Moving, etc.",
+        "btn5": "### 👑 All-Access Pass ($30)\nUnlock ALL premium services at once!"
     }
 }
 t = txt[lang]
 
-# 5. 화면 구성
+# 5. 메인 화면 구성
 st.markdown(f"<div class='main-title'>{t['title']}</div>", unsafe_allow_html=True)
 st.markdown(f"<div class='sub-desc'>{t['sub']}</div>", unsafe_allow_html=True)
 
@@ -129,49 +144,44 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
-# 6. 결과 및 메뉴판
+# 6. 결과 및 프리미엄 스토어 (통합된 버튼 디자인)
 if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
     
+    # 무료 결과 카드
     st.markdown(f"""
-    <div class='card' style='text-align:center;'>
-        <h3 style='color:#475569;'>{t['res_hello']} <b>{st.session_state['user_name']}</b>!</h3>
-        <p style='font-size:1.2em; margin-top:10px;'>
+    <div class='card'>
+        <h3 style='color:#475569; margin:0;'>{t['res_hello']} <b>{st.session_state['user_name']}</b>!</h3>
+        <p style='font-size:1.3em; margin-top:15px; color:#1e293b;'>
             {t['res_msg'].format(e_name=day_info[lang])}
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    # 💎 유료 메뉴판
+    # 💎 유료 메뉴판 (박스형 버튼 도입)
     st.subheader(t['menu_h'])
     
-    # 1열
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.info(f"**{t['m1_t']}**") # 2026 운세
-        if st.button(t['btn_common'], key="btn1", help=t['m1_d'], use_container_width=True): 
-            st.switch_page("pages/1_🔮_2026_새해운세.py")
+    # 2열 그리드 레이아웃
+    c1, c2 = st.columns(2)
     
-    with col_b:
-        st.success(f"**{t['m2_t']}**") # 그날의 운세
-        if st.button(t['btn_common'], key="btn2", help=t['m2_d'], use_container_width=True): 
-            st.switch_page("pages/2_📅_그날의_운세.py")
-
-    # 2열
-    col_c, col_d = st.columns(2)
-    with col_c:
-        st.error(f"**{t['m3_t']}**") # 궁합
-        if st.button(t['btn_common'], key="btn3", help=t['m3_d'], use_container_width=True): 
+    # [수정] st.info 박스 대신, 마크다운이 포함된 큰 버튼을 사용합니다.
+    with c1:
+        # 2026 운세 버튼
+        if st.button(t['btn1'], use_container_width=True):
+            st.switch_page("pages/1_🔮_2026_새해운세.py")
+        # 궁합 버튼
+        if st.button(t['btn3'], use_container_width=True):
             st.switch_page("pages/3_❤️_궁합_서비스.py")
-            
-    with col_d:
-        st.warning(f"**{t['m4_t']}**") # 택일
-        if st.button(t['btn_common'], key="btn4", help=t['m4_d'], use_container_width=True): 
+
+    with c2:
+        # 그날의 운세 버튼
+        if st.button(t['btn2'], use_container_width=True):
+            st.switch_page("pages/2_📅_그날의_운세.py")
+        # 택일 버튼
+        if st.button(t['btn4'], use_container_width=True):
             st.switch_page("pages/4_📆_택일_서비스.py")
 
-    # 3열: 프리패스
+    # 프리패스 버튼 (가장 크게 하단 배치)
     st.markdown("---")
-    st.info(f"👑 **{t['m5_t']}**")
-    # Gumroad 링크는 나중에 선생님의 실제 '프리패스 상품 링크'로 바꾸셔야 합니다!
-    st.link_button(t['btn_buy'], "https://gum.co/demo_product", help=t['m5_d'], use_container_width=True)
+    st.link_button(t['btn5'], "https://gum.co/demo_product", type="primary", use_container_width=True)
