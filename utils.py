@@ -9,16 +9,16 @@ def calculate_day_gan(birth_date):
     if delta.days < 0: return 0
     gan_index = delta.days % 10
     gans = [
-        {"ko": "갑목(甲)", "desc": "곧게 뻗은 거목", "desc_en": "Straight and tall tree", "element": "Wood", "en": "Gap (Wood)"},
-        {"ko": "을목(乙)", "desc": "적응력 강한 화초", "desc_en": "Adaptable and resilient flower", "element": "Wood", "en": "Eul (Wood)"},
-        {"ko": "병화(丙)", "desc": "태양 같은 열정", "desc_en": "Passion like the blazing sun", "element": "Fire", "en": "Byeong (Fire)"},
-        {"ko": "정화(丁)", "desc": "촛불 같은 온기", "desc_en": "Warmth of a gentle candle", "element": "Fire", "en": "Jeong (Fire)"},
-        {"ko": "무토(戊)", "desc": "묵직한 태산", "desc_en": "Heavy and majestic mountain", "element": "Earth", "en": "Mu (Earth)"},
-        {"ko": "기토(己)", "desc": "생명을 품은 텃밭", "desc_en": "Fertile soil embracing life", "element": "Earth", "en": "Gi (Earth)"},
-        {"ko": "경금(庚)", "desc": "단단한 원석", "desc_en": "Solid and unrefined iron ore", "element": "Metal", "en": "Gyeong (Metal)"},
-        {"ko": "신금(辛)", "desc": "빛나는 보석", "desc_en": "Shining and precious gemstone", "element": "Metal", "en": "Sin (Metal)"},
-        {"ko": "임수(壬)", "desc": "포용하는 바다", "desc_en": "Vast and embracing ocean", "element": "Water", "en": "Im (Water)"},
-        {"ko": "계수(癸)", "desc": "스며드는 빗물", "desc_en": "Gentle and permeating rain", "element": "Water", "en": "Gye (Water)"}
+        {"ko": "갑목(甲)", "desc": "곧게 뻗은 거목", "desc_en": "Straight and tall tree", "element": "Wood", "en": "Wood"},
+        {"ko": "을목(乙)", "desc": "적응력 강한 화초", "desc_en": "Adaptable and resilient flower", "element": "Wood", "en": "Wood"},
+        {"ko": "병화(丙)", "desc": "태양 같은 열정", "desc_en": "Passion like the blazing sun", "element": "Fire", "en": "Fire"},
+        {"ko": "정화(丁)", "desc": "촛불 같은 온기", "desc_en": "Warmth of a gentle candle", "element": "Fire", "en": "Fire"},
+        {"ko": "무토(戊)", "desc": "묵직한 태산", "desc_en": "Heavy and majestic mountain", "element": "Earth", "en": "Earth"},
+        {"ko": "기토(己)", "desc": "생명을 품은 텃밭", "desc_en": "Fertile soil embracing life", "element": "Earth", "en": "Earth"},
+        {"ko": "경금(庚)", "desc": "단단한 원석", "desc_en": "Solid and unrefined iron ore", "element": "Metal", "en": "Metal"},
+        {"ko": "신금(辛)", "desc": "빛나는 보석", "desc_en": "Shining and precious gemstone", "element": "Metal", "en": "Metal"},
+        {"ko": "임수(壬)", "desc": "포용하는 바다", "desc_en": "Vast and embracing ocean", "element": "Water", "en": "Water"},
+        {"ko": "계수(癸)", "desc": "스며드는 빗물", "desc_en": "Gentle and permeating rain", "element": "Water", "en": "Water"}
     ]
     return gans[gan_index]
 
