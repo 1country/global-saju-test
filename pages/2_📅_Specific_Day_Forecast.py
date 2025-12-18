@@ -85,7 +85,7 @@ ui = {
     "ko": {
         "title": "📅 특정일 운세 (Specific Day)",
         "sub": "궁금한 날짜를 선택하면, 그날의 기운이 나에게 맞는지 알려드립니다.",
-        "lock_msg": "🔒 유료 기능입니다 ($3)",
+        "lock_msg": "🔒 유료 기능입니다 ($10)",
         "label": "라이센스 키 입력",
         "btn_unlock": "확인 (Unlock)",
         "btn_buy": "💳 구매하러 가기",
@@ -98,7 +98,7 @@ ui = {
     "en": {
         "title": "📅 Specific Day Forecast",
         "sub": "Check the energy compatibility of a specific date.",
-        "lock_msg": "🔒 Premium Feature ($3)",
+        "lock_msg": "🔒 Premium Feature ($10)",
         "label": "Enter License Key",
         "btn_unlock": "Unlock",
         "btn_buy": "💳 Buy Access",
