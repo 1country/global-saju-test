@@ -214,6 +214,25 @@ ui = {
 }
 t = ui[lang]
 
+# 👇 [수정됨] 섹션 제목도 언어에 따라 바뀌도록 분리했습니다.
+section_titles = {
+    "ko": {
+        "gen": "General Flow (총평)",
+        "mon": "Wealth & Career (재물/사업)",
+        "lov": "Love & Relationships (인간관계)",
+        "hea": "Health & Condition (건강)",
+        "act": "Action Plan (행동 지침)"
+    },
+    "en": {
+        "gen": "General Flow",
+        "mon": "Wealth & Career",
+        "lov": "Love & Relationships",
+        "hea": "Health & Condition",
+        "act": "Action Plan"
+    }
+}
+st_t = section_titles[lang] # 현재 언어에 맞는 제목 가져오기
+
 st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=True)
 
 # 🔒 [잠금 로직]
@@ -280,7 +299,7 @@ with st.container():
         score = report['score']
         stars = "⭐" * score + "🌑" * (5 - score)
         
-        # 👇 [수정됨] HTML 들여쓰기를 완전히 제거하여 코드 블록으로 인식되지 않도록 함
+        # 👇 [수정됨] 이제 제목(General Flow 등)도 언어 변수(st_t)를 사용합니다.
         html_content = f"""
 <div class='report-container'>
 <div style='text-align:center; margin-bottom:30px;'>
@@ -288,23 +307,23 @@ with st.container():
 <h1 style='color:#1e293b; margin-top: 10px; font-size: 1.8em;'>{report['title']}</h1>
 </div>
 <div class='report-section'>
-<div class='section-title'><span class='section-emoji'>🔮</span>General Flow (총평)</div>
+<div class='section-title'><span class='section-emoji'>🔮</span>{st_t['gen']}</div>
 <div class='content-text'>{report['general']}</div>
 </div>
 <div class='report-section'>
-<div class='section-title'><span class='section-emoji'>💰</span>Wealth & Career (재물/사업)</div>
+<div class='section-title'><span class='section-emoji'>💰</span>{st_t['mon']}</div>
 <div class='content-text'>{report['money']}</div>
 </div>
 <div class='report-section'>
-<div class='section-title'><span class='section-emoji'>❤️</span>Love & Relationships (인간관계)</div>
+<div class='section-title'><span class='section-emoji'>❤️</span>{st_t['lov']}</div>
 <div class='content-text'>{report['love']}</div>
 </div>
 <div class='report-section'>
-<div class='section-title'><span class='section-emoji'>💪</span>Health & Condition (건강)</div>
+<div class='section-title'><span class='section-emoji'>💪</span>{st_t['hea']}</div>
 <div class='content-text'>{report['health']}</div>
 </div>
 <div class='report-section' style='background-color:#f0f9ff; padding:20px; border-radius:10px; border:none;'>
-<div class='section-title' style='color:#0369a1;'><span class='section-emoji'>🚀</span>Action Plan (행동 지침)</div>
+<div class='section-title' style='color:#0369a1;'><span class='section-emoji'>🚀</span>{st_t['act']}</div>
 <div class='content-text' style='white-space: pre-line; font-weight:bold; color:#0c4a6e;'>{report['action']}</div>
 </div>
 </div>
