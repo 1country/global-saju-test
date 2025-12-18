@@ -1,174 +1,237 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import requests
 from datetime import date
-from utils import calculate_day_gan, verify_license_flexible
+from utils import calculate_day_gan
 
+# ----------------------------------------------------------------
 # 1. 페이지 설정
+# ----------------------------------------------------------------
 st.set_page_config(page_title="Specific Day Forecast", page_icon="📅", layout="wide")
 
-# 🔑 [추가됨] 마스터 비밀번호 설정
+# 🔑 [마스터 키] (개발자용 프리패스)
 UNLOCK_CODE = "MASTER2026"
 
-# 배경 설정
+# 🛒 [검로드 설정]
+# 주소 맨 뒤에 있는 단어 (예: https://.../specific_day 라면 specific_day)
+PRODUCT_PERMALINK = "specific_day" 
+# 구매 페이지 주소
+GUMROAD_LINK = "https://gumroad.com/l/선생님의_상품주소"
+
 st.markdown("""
     <style>
         .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
-            url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+            url("https://img.freepik.com/free-vector/hand-drawn-korean-traditional-pattern-background_23-2149474585.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
+        }
+        .main-header {font-size: 1.8em; font-weight: bold; color: #334155; margin-bottom: 10px;}
+        .card {
+            background-color: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #e2e8f0;
+        }
+        .score-box {
+            font-size: 2em; font-weight: bold; text-align: center; margin: 10px 0;
         }
     </style>
 """, unsafe_allow_html=True)
 
+# ----------------------------------------------------------------
 # 2. 사이드바
+# ----------------------------------------------------------------
 with st.sidebar:
-    st.header("Settings")
+    st.title("Settings")
     lang_opt = st.radio("Language", ["English", "한국어"])
     lang = "ko" if "한국어" in lang_opt else "en"
+    
     st.markdown("---")
-    st.info("👈 Home" if lang=="en" else "👈 홈으로 돌아가기")
+    if st.button("👈 Home" if lang=="en" else "👈 홈으로"):
+        st.switch_page("Home.py")
 
-# 3. 홈 정보 확인
-if "user_name" not in st.session_state or not st.session_state["user_name"]:
-    st.warning("Please go Home first.")
-    if st.button("Go Home"): st.switch_page("Home.py")
-    st.stop()
+# ----------------------------------------------------------------
+# 3. 로직 함수
+# ----------------------------------------------------------------
+def analyze_specific_day(user_element, target_element, lang):
+    relations = {
+        "Wood": {"Water": 5, "Wood": 4, "Fire": 4, "Earth": 3, "Metal": 2},
+        "Fire": {"Wood": 5, "Fire": 4, "Earth": 4, "Metal": 3, "Water": 2},
+        "Earth": {"Fire": 5, "Earth": 4, "Metal": 4, "Water": 3, "Wood": 2},
+        "Metal": {"Earth": 5, "Metal": 4, "Water": 4, "Wood": 3, "Fire": 2},
+        "Water": {"Metal": 5, "Water": 4, "Wood": 4, "Fire": 3, "Earth": 2}
+    }
+    score = relations.get(user_element, {}).get(target_element, 3)
+    
+    result_ko = {
+        5: "🌟 **최상의 날 (Excellent)**\n기운이 나를 도와주는 날입니다.",
+        4: "✨ **좋은 날 (Good)**\n순조롭고 편안한 하루입니다.",
+        3: "😐 **보통의 날 (Normal)**\n무난한 하루입니다.",
+        2: "⚠️ **주의하는 날 (Caution)**\n기운이 조금 부딪힐 수 있습니다.",
+        1: "🚫 **쉬어가는 날 (Rest)**\n중요한 결정은 미루고 휴식하세요."
+    }
+    result_en = {
+        5: "🌟 **Excellent Day**\nEnergy supports you perfectly.",
+        4: "✨ **Good Day**\nSmooth and comfortable.",
+        3: "😐 **Normal Day**\nA standard day.",
+        2: "⚠️ **Cautionary Day**\nEnergies might clash slightly.",
+        1: "🚫 **Rest Day**\nDelay major decisions."
+    }
+    msg = result_ko[score] if lang == "ko" else result_en[score]
+    return score, msg
 
-# 상품 ID
-CURRENT_PRODUCT_ID = "specific_day_forecast"
-ALL_ACCESS_ID = "all_access_pass"
-
-# 텍스트 데이터
-txt = {
+# ----------------------------------------------------------------
+# 4. UI 텍스트
+# ----------------------------------------------------------------
+ui = {
     "ko": {
-        "title": "📅 그날의 운세 (특정일 분석)",
-        "intro": "중요한 약속이 있는 날, 면접일, 혹은 그냥 내일의 운세가 궁금하신가요?",
-        "label": "궁금한 날짜를 선택하세요",
-        "lock": "🔒 유료 서비스입니다 ($10)",
-        "res": "의 그날 운세 분석",
-        "my_energy": "나의 기운",
-        "day_energy": "그날의 기운",
-        "advice": "💡 그날의 조언"
+        "title": "📅 특정일 운세 (Specific Day)",
+        "sub": "궁금한 날짜를 선택하면, 그날의 기운이 나에게 맞는지 알려드립니다.",
+        "lock_msg": "🔒 유료 기능입니다 ($3)",
+        "label": "라이센스 키 입력",
+        "btn_unlock": "확인 (Unlock)",
+        "btn_buy": "💳 구매하러 가기",
+        "user_date": "나의 생년월일",
+        "target_date": "확인하고 싶은 날짜",
+        "btn_analyze": "운세 확인하기",
+        "result": "분석 결과",
+        "print": "🖨️ 결과 인쇄하기"
     },
     "en": {
         "title": "📅 Specific Day Forecast",
-        "intro": "Check your luck for a specific date (Interview, Date, or Tomorrow).",
-        "label": "Select a Date",
-        "lock": "🔒 Premium Service ($10)",
-        "res": "'s Forecast",
-        "my_energy": "My Energy",
-        "day_energy": "Day's Energy",
-        "advice": "💡 Advice"
+        "sub": "Check the energy compatibility of a specific date.",
+        "lock_msg": "🔒 Premium Feature ($3)",
+        "label": "Enter License Key",
+        "btn_unlock": "Unlock",
+        "btn_buy": "💳 Buy Access",
+        "user_date": "Your Birth Date",
+        "target_date": "Date to Check",
+        "btn_analyze": "Check Forecast",
+        "result": "Analysis Result",
+        "print": "🖨️ Print Result"
     }
 }
-t = txt[lang]
+t = ui[lang]
 
-# 메인 화면
-st.title(t['title'])
-st.write(t['intro'])
+st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=True)
 
-# 날짜 선택기
-target_date = st.date_input(t['label'], min_value=date.today())
+# ----------------------------------------------------------------
+# 5. 잠금 장치 (검로드 연동 + 3회 제한 경찰 로직)
+# ----------------------------------------------------------------
+if "unlocked_specific" not in st.session_state: 
+    st.session_state["unlocked_specific"] = False
 
-# ---------------------------------------------------------------------------
-# 4. [수정됨] 잠금 로직 (마스터키 기능 추가)
-# ---------------------------------------------------------------------------
-if "unlocked_specific_day" not in st.session_state: 
-    st.session_state["unlocked_specific_day"] = False
-
-if not st.session_state["unlocked_specific_day"]:
-    st.divider()
+if not st.session_state["unlocked_specific"]:
     with st.container(border=True):
-        st.info(t['lock'])
-        # 입력창
-        input_key = st.text_input("License Key or Password", type="password")
+        st.info(t['sub'])
+        st.write(f"### {t['lock_msg']}")
         
-        if st.button("Unlock"):
-            # 1. 마스터 비밀번호 확인 (우선 순위)
-            if input_key == UNLOCK_CODE:
-                st.session_state["unlocked_specific_day"] = True
+        # 구매 링크 버튼
+        st.link_button(t['btn_buy'], GUMROAD_LINK)
+        
+        st.markdown("---")
+        key = st.text_input(t['label'], type="password")
+        
+        if st.button(t['btn_unlock']):
+            # 1. 마스터키 (개발자용)
+            if key == UNLOCK_CODE:
+                st.session_state["unlocked_specific"] = True
+                st.success("Master Key Accepted!")
                 st.rerun()
-                
-            # 2. 정품 라이센스 확인
-            is_valid, msg = verify_license_flexible(input_key, CURRENT_PRODUCT_ID, ALL_ACCESS_ID)
-            if is_valid:
-                st.session_state["unlocked_specific_day"] = True
-                st.rerun()
-            else:
-                st.error(msg)
-    st.stop() # 잠겨있으면 여기서 멈춤
+            
+            # 2. 검로드 API 호출 (선생님이 원하시는 로직!)
+            try:
+                response = requests.post(
+                    "https://api.gumroad.com/v2/licenses/verify",
+                    data={
+                        "product_permalink": PRODUCT_PERMALINK,
+                        "license_key": key
+                    }
+                )
+                data = response.json()
 
-# ---------------------------------------------------------------------------
-# 5. 분석 결과 (기존 코드 유지)
-# ---------------------------------------------------------------------------
-st.success("✅ Unlocked!")
-st.divider()
-
-name = st.session_state["user_name"]
-
-# 1) 내 정보 & 그날 정보 계산
-my_info = calculate_day_gan(st.session_state["birth_date"])
-day_info = calculate_day_gan(target_date)
-
-my_elem = my_info['element'] # Wood, Fire...
-day_elem = day_info['element']
-
-st.subheader(f"{target_date} {t['res']}")
-
-c1, c2, c3 = st.columns(3)
-with c1:
-    st.markdown(f"**{t['my_energy']}**")
-    st.info(f"{my_info[lang]}")
-with c2:
-    st.markdown(f"**VS**")
-with c3:
-    st.markdown(f"**{t['day_energy']}**")
-    st.warning(f"{day_info[lang]}")
+                # 👇 [여기가 바로 선생님이 말씀하신 '내 사이트에서 막는' 부분입니다]
+                if data.get("success"):
+                    # (1) 사용 횟수 확인
+                    current_uses = data.get("uses", 0)
+                    
+                    # (2) 3회 초과 시 강제 차단 (검로드 설정 무시)
+                    if current_uses > 3:
+                        st.error("🚫 사용 한도(3회)를 초과했습니다. (License limit exceeded)")
+                    else:
+                        st.session_state["unlocked_specific"] = True
+                        st.success(f"인증 성공! (현재 사용 횟수: {current_uses}회)")
+                        st.rerun()
+                else:
+                    st.error("🚫 유효하지 않은 키입니다. (Invalid Key)")
+            
+            except Exception as e:
+                st.error("인터넷 연결 오류 (Connection Error)")
     
-st.markdown("---")
+    st.stop() # 잠겨있으면 아래 코드 실행 안 함
 
-# 2) 간단한 상생상극 로직 (선생님이 작성하신 방대한 데이터)
-relations = {
-    ("Wood", "Wood"): "친구를 만난 듯 편안하지만 경쟁이 있을 수 있습니다.",
-    ("Wood", "Fire"): "당신의 능력을 마음껏 펼칠 수 있는 날입니다! (표현/활동)",
-    ("Wood", "Earth"): "노력한 만큼 재물이 들어오는 날입니다. (결실)",
-    ("Wood", "Metal"): "스트레스나 압박이 있을 수 있으니 언행을 조심하세요. (관제)",
-    ("Wood", "Water"): "도움을 받고 아이디어가 샘솟는 날입니다. (충전)",
+# ----------------------------------------------------------------
+# 6. 메인 기능 (잠금 해제 후)
+# ----------------------------------------------------------------
+with st.container(border=True):
+    col1, col2 = st.columns(2)
     
-    ("Fire", "Wood"): "귀인의 도움을 받아 일이 술술 풀립니다.",
-    ("Fire", "Fire"): "열정이 넘치지만 다툼을 조심해야 합니다.",
-    ("Fire", "Earth"): "재능을 발휘하고 인정받는 날입니다.",
-    ("Fire", "Metal"): "뜻밖의 금전운이 따르는 날입니다.",
-    ("Fire", "Water"): "예상치 못한 변화나 스트레스가 있으니 차분하세요.",
-    
-    ("Earth", "Wood"): "주변의 간섭이나 압박이 있을 수 있습니다.",
-    ("Earth", "Fire"): "문서운이 좋고 윗사람의 덕을 봅니다.",
-    ("Earth", "Earth"): "믿음직한 친구와 함께하는 느낌입니다.",
-    ("Earth", "Metal"): "나의 주장을 펼치기 좋은 날입니다.",
-    ("Earth", "Water"): "확실한 이득이나 돈이 생길 수 있습니다.",
-    
-    ("Metal", "Wood"): "목표를 달성하고 성과를 쟁취하는 날입니다.",
-    ("Metal", "Fire"): "나를 단련시키는 시련이 있지만 성장합니다.",
-    ("Metal", "Earth"): "마음이 편안하고 안정되는 날입니다.",
-    ("Metal", "Metal"): "고집이 세질 수 있으니 유연하게 대처하세요.",
-    ("Metal", "Water"): "재치와 센스가 넘쳐 인기가 많아집니다.",
-    
-    ("Water", "Wood"): "창의력이 발휘되고 타인을 도울 일이 생깁니다.",
-    ("Water", "Fire"): "큰 재물을 다룰 기회가 옵니다.",
-    ("Water", "Earth"): "책임감이 커지고 명예가 따르는 날입니다.",
-    ("Water", "Metal"): "생각지 못한 도움이나 후원을 받습니다.",
-    ("Water", "Water"): "경쟁자가 있거나 지출이 생길 수 있습니다."
-}
+    with col1:
+        if "saved_date" not in st.session_state:
+            st.session_state["saved_date"] = date(1990, 1, 1)
+        birth_date = st.date_input(t['user_date'], value=st.session_state["saved_date"], min_value=date(1900,1,1))
+        st.session_state["saved_date"] = birth_date
+        
+    with col2:
+        target_date = st.date_input(t['target_date'], value=date.today(), min_value=date.today())
 
-# 기본값
-advice_msg = "평범하고 무난한 하루입니다. 흐름에 몸을 맡기세요."
-if (my_elem, day_elem) in relations:
-    advice_msg = relations[(my_elem, day_elem)]
-
-st.markdown(f"### {t['advice']}")
-st.success(advice_msg)
-
-# 인쇄 버튼
-st.markdown("---")
-components.html("""<script>function printParent(){window.parent.print();}</script>
-<button onclick="printParent()" style='padding:10px; cursor:pointer;'>🖨️ Print Result</button>""", height=50)
+    if st.button(t['btn_analyze'], type="primary", use_container_width=True):
+        st.divider()
+        
+        user_info = calculate_day_gan(birth_date)
+        target_info = calculate_day_gan(target_date)
+        
+        u_elem = user_info['element']
+        t_elem = target_info['element']
+        
+        score, msg = analyze_specific_day(u_elem, t_elem, lang)
+        
+        st.subheader(t['result'])
+        
+        color_map = {5: "#22c55e", 4: "#3b82f6", 3: "#64748b", 2: "#f59e0b", 1: "#ef4444"}
+        res_color = color_map[score]
+        
+        st.markdown(f"""
+        <div class='card' style='border-top: 5px solid {res_color}; text-align: center;'>
+            <h3 style='color: #64748b; margin-bottom: 20px;'>{target_date.strftime('%Y-%m-%d')}</h3>
+            <div style='display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;'>
+                <div>
+                    <div style='font-size:0.9em; color:#999;'>ME</div>
+                    <div style='font-size:1.5em; font-weight:bold; color:#333;'>{user_info[lang]}</div>
+                    <div style='font-size:0.8em; color:#666;'>({u_elem})</div>
+                </div>
+                <div style='font-size:1.2em; color:#ccc;'>vs</div>
+                <div>
+                    <div style='font-size:0.9em; color:#999;'>DAY</div>
+                    <div style='font-size:1.5em; font-weight:bold; color:#333;'>{target_info[lang]}</div>
+                    <div style='font-size:0.8em; color:#666;'>({t_elem})</div>
+                </div>
+            </div>
+            <hr style='margin: 20px 0;'>
+            <div class='score-box' style='color: {res_color}; white-space: pre-line;'>{msg}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # 인쇄 버튼
+        st.divider()
+        components.html(
+            f"""
+            <script>function printParent() {{ window.parent.print(); }}</script>
+            <div style="display: flex; justify-content: center;">
+                <button onclick="printParent()" style="
+                    background-color: #64748b; color: white; border: none; padding: 12px 24px; 
+                    text-align: center; font-size: 16px; cursor: pointer; border-radius: 8px; font-weight: bold;
+                ">
+                    {t['print']}
+                </button>
+            </div>
+            """, height=100
+        )
