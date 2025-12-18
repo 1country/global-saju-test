@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import date, time
-from utils import calculate_day_gan 
+# [수정 1] get_interpretation 함수를 가져오도록 추가했습니다!
+from utils import calculate_day_gan, get_interpretation 
 
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
@@ -195,8 +196,11 @@ if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
     
-    # [수정된 부분] 언어에 맞는 설명 선택
+    # 언어에 맞는 설명 (Fire 수정됨)
     description = day_info['desc'] if lang == 'ko' else day_info['desc_en']
+    
+    # [수정 2] utils에서 상세 해석 텍스트를 가져옵니다!
+    detail_text = get_interpretation(day_info['element'], lang)
     
     st.markdown(f"""
     <div class='card'>
@@ -208,6 +212,13 @@ if st.session_state["analyzed"]:
     </div>
     """, unsafe_allow_html=True)
 
+    # [수정 3] 상세 해석 내용을 보여주는 섹션 추가 (여기에 표시됩니다!)
+    with st.container(border=True):
+        st.markdown(detail_text) # 여기에 상세 내용이 쫙 나옵니다.
+        
+    st.markdown("<br>", unsafe_allow_html=True) # 여백 추가
+
+    # 프리미엄 스토어 시작
     st.subheader(t['menu_h'])
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_새해운세.py")
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_그날의_운세.py")
