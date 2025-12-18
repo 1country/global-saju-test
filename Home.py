@@ -124,23 +124,34 @@ if st.session_state["analyzed"]:
     </div>
     """, unsafe_allow_html=True)
 
-    # 💎 4단 그리드 메뉴판
+    # 💎 유료 메뉴판 (업데이트됨)
     st.subheader(t['menu_h'])
-    m1, m2, m3, m4 = st.columns(4) # 4개의 기둥
     
-    with m1: # 2026 운세
-        st.info(f"**{t['m1_t']}**\n\n{t['m1_d']}")
-        if st.button(t['m1_b']): st.switch_page("pages/1_🔮_2026_새해운세.py")
+    # 1열: 주요 운세 (2026, 그날의 운세)
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.info(f"🔮 **{t['m1_t']}**\n\n{t['m1_d']}") # 2026
+        if st.button(t['m1_b'], use_container_width=True): st.switch_page("pages/1_🔮_2026_새해운세.py")
     
-    with m2: # 택일
-        st.success(f"**{t['m2_t']}**\n\n{t['m2_d']}")
-        if st.button(t['m2_b']): st.switch_page("pages/2_📆_택일_서비스.py")
-            
-    with m3: # 궁합 (새로 추가됨!)
-        st.error(f"**{t['m3_t']}**\n\n{t['m3_d']}")
-        if st.button(t['m3_b']): st.switch_page("pages/3_❤️_궁합_서비스.py")
+    with col_b:
+        st.success(f"📅 **{'Specific Day Forecast' if lang=='en' else '그날의 운세 (NEW)'}**\n\n{'Check your luck for tomorrow or any specific date.' if lang=='en' else '내일, 면접일, 데이트 날 등 특정일의 운세를 미리 보세요.'}")
+        # 새로 만든 2번 파일로 이동
+        if st.button(f"{'Check' if lang=='en' else '확인하기 ($5)'}", use_container_width=True): st.switch_page("pages/2_📅_그날의_운세.py")
 
-    with m4: # 프리패스
-        st.warning(f"**{t['m4_t']}**\n\n{t['m4_d']}")
-        # 프리패스는 페이지 이동 대신 결제 링크로 바로 보냅니다
-        st.link_button(t['m4_b'], "https://gum.co/demo_product")
+    # 2열: 관계 및 택일
+    col_c, col_d = st.columns(2)
+    with col_c:
+        st.error(f"❤️ **{t['m3_t']}**\n\n{t['m3_d']}") # 궁합
+        if st.button(t['m3_b'], use_container_width=True): st.switch_page("pages/3_❤️_궁합_서비스.py")
+            
+    with col_d:
+        st.warning(f"📆 **{t['m2_t']}**\n\n{t['m2_d']}") # 택일 (이제 4번 파일로 이동)
+        # 파일명을 4번으로 바꿨으므로 여기도 바꿔줍니다
+        if st.button(t['m2_b'], use_container_width=True): st.switch_page("pages/4_📆_택일_서비스.py")
+
+    # 3열: 프리패스 (배너처럼 길게)
+    st.markdown("---")
+    st.info(f"👑 **{t['m4_t']}** : {t['m4_d']}")
+    st.link_button(t['m4_b'], "https://gum.co/demo_product", use_container_width=True)
+
+    st.sidebar.success("✅ Analysis Complete!")
