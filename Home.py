@@ -5,44 +5,41 @@ from utils import calculate_day_gan
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
 
-# 2. 스타일 및 배경 설정 (폰트 및 사이즈 업그레이드)
+# 2. 스타일 및 배경 설정
 st.markdown("""
     <style>
-        /* 1. 구글 폰트 불러오기 (우아한 명조체: Gowun Batang) */
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
-        /* 2. 배경 설정 */
         .stApp {
             background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
         }
 
-        /* 3. 메인 타이틀 & 서브 타이틀 크기 확대 */
         .main-title {
             font-size: 3.0em; 
             color: #1e293b; 
             text-align: center; 
             font-weight: 800; 
             margin-bottom: 10px;
-            font-family: 'Gowun Batang', serif; /* 타이틀에도 명조체 적용 */
+            font-family: 'Gowun Batang', serif;
         }
         .sub-desc {
-            font-size: 1.3em; /* 글자 크기 키움 */
+            font-size: 1.3em;
             color: #475569; 
             text-align: center; 
             margin-bottom: 40px;
             font-weight: 500;
         }
 
-        /* 4. 입력창 라벨(이름, 생년월일 등) 크기 확대 */
+        /* 입력창 라벨 */
         .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p {
-            font-size: 1.1rem !important; /* 라벨 크기 키움 */
+            font-size: 1.1rem !important;
             font-weight: 600 !important;
             color: #334155 !important;
         }
 
-        /* 5. 결과 카드 스타일 (폰트 변경으로 고급스럽게) */
+        /* 카드 스타일 */
         .card {
             background: rgba(255, 255, 255, 0.95); 
             padding: 30px; 
@@ -51,10 +48,9 @@ st.markdown("""
             margin-bottom: 20px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
             text-align: center;
-            font-family: 'Gowun Batang', serif; /* ★ 핵심: 폰트 적용 ★ */
+            font-family: 'Gowun Batang', serif;
         }
         
-        /* 6. 버튼 스타일 */
         .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem;}
         .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
     </style>
@@ -125,13 +121,12 @@ txt = {
 }
 t = txt[lang]
 
-# 이미지 소스 (사람/캐릭터 느낌이 강한 3D 스타일 아이콘으로 교체)
 imgs = {
-    "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", # 점성술사 (사람)
-    "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", # 달력을 든 사람
-    "s3": "https://cdn-icons-png.flaticon.com/512/4057/4057731.png", # 커플 (사랑)
-    "s4": "https://cdn-icons-png.flaticon.com/512/2693/2693507.png", # 날짜를 고르는 손/사람
-    "s5": "https://cdn-icons-png.flaticon.com/512/2583/2583166.png"  # 왕/왕관 쓴 사람
+    "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", 
+    "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", 
+    "s3": "https://cdn-icons-png.flaticon.com/512/4057/4057731.png", 
+    "s4": "https://cdn-icons-png.flaticon.com/512/2693/2693507.png", 
+    "s5": "https://cdn-icons-png.flaticon.com/512/2583/2583166.png" 
 }
 
 # 5. 메인 화면 구성
@@ -146,7 +141,7 @@ if "time_unknown" not in st.session_state: st.session_state["time_unknown"] = Fa
 if "gender" not in st.session_state: st.session_state["gender"] = "Male"
 if "analyzed" not in st.session_state: st.session_state["analyzed"] = False
 
-# 입력창 (라벨 폰트 커짐!)
+# 입력창
 st.markdown(f"### {t['input_h']}")
 with st.container(border=True):
     c1, c2 = st.columns(2)
@@ -177,23 +172,17 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
-# --- 카드 그리기 도우미 함수 ---
 def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=None):
     with st.container(border=True):
-        # 레이아웃: [이미지(1) | 텍스트(3.5) | 버튼(1.5)]
         col_img, col_text, col_btn = st.columns([1, 3.5, 1.5], gap="medium")
-        
         with col_img:
-            # 이미지 수직 중앙 정렬 느낌
             st.write("") 
             st.image(img_url, width=80) 
-            
         with col_text:
             st.subheader(title)
             st.write(desc)
-            
         with col_btn:
-            st.write("") # 버튼 수직 정렬 공백
+            st.write("") 
             st.write("") 
             if click_page:
                 if st.button(btn_text, key=title, use_container_width=True):
@@ -201,46 +190,32 @@ def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=
             elif link_url:
                 st.link_button(btn_text, link_url, type="primary", use_container_width=True)
 
-
 # 6. 결과 및 프리미엄 스토어
 if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
     
-    # 무료 결과 카드 (새로운 폰트 적용됨)
+    # [수정된 부분] 언어에 맞는 설명 선택
+    description = day_info['desc'] if lang == 'ko' else day_info['desc_en']
+    
     st.markdown(f"""
     <div class='card'>
         <h3 style='color:#475569; margin:0;'>{t['res_hello']} <b>{st.session_state['user_name']}</b>!</h3>
         <p style='font-size:1.6em; margin-top:15px; color:#1e293b; line-height: 1.6;'>
             {t['res_msg'].format(e_name=day_info[lang])}
         </p>
-        <p style='font-size:1em; color:#64748b; margin-top:5px;'>({day_info['desc']})</p>
+        <p style='font-size:1em; color:#64748b; margin-top:5px;'>({description})</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # 💎 프리미엄 운세 스토어 (리스트형 디자인)
     st.subheader(t['menu_h'])
-    
-    # 1. 2026 운세
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_새해운세.py")
-    
-    # 2. 그날의 운세
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_그날의_운세.py")
-    
-    # 3. 궁합
     draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_❤️_궁합_서비스.py")
-    
-    # 4. 택일
     draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_📆_택일_서비스.py")
-    
-    # 5. 프리패스 (VIP)
     draw_premium_card(t['s5_t'], t['s5_d'], t['btn_buy'], imgs['s5'], link_url="https://gum.co/demo_product")
 
-    # ----------------------------------------------------------------
-    # [하단] 커피 후원 배너 (메인 페이지 추가)
-    # ----------------------------------------------------------------
     st.divider()
-    
     coffee_msg_bottom = "이 서비스가 도움이 되셨나요? 따뜻한 커피 한 잔은 개발자에게 큰 힘이 됩니다! ☕" if lang == "ko" else "Did you enjoy the service? A coffee would be a great support! ☕"
     
     st.markdown(f"""
