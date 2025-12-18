@@ -17,20 +17,33 @@ st.markdown("""
         .sub-desc {font-size: 1.1em; color: #64748b; text-align: center; margin-bottom: 30px;}
         .card {background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
         /* 버튼 스타일 통일 */
-        .stButton button {width: 100%; border-radius: 8px;}
+        .stButton button {width: 100%; border-radius: 8px; font-weight: bold;}
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 사이드바
+# 3. 사이드바 (군더더기 제거됨)
 with st.sidebar:
     st.header("Settings")
     lang_opt = st.radio("Language", ["한국어", "English"])
     lang = "ko" if "한국어" in lang_opt else "en"
     
     st.markdown("---")
-    st.info("👈 Use the menu to navigate" if lang=="en" else "👈 왼쪽 메뉴를 눌러 이동하세요")
+    
+    coffee_title = "☕ 개발자 응원하기" if lang == "ko" else "☕ Buy me a coffee"
+    coffee_msg = "운명의 코드를 응원해 주세요!" if lang == "ko" else "Support the developer!"
+    
+    st.header(coffee_title)
+    st.markdown(f"""
+        <div style="text-align: center;">
+            <a href="https://buymeacoffee.com/5codes" target="_blank">
+                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+                    style="width: 180px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
+            </a>
+            <p style="font-size: 14px; color: #555; margin-top: 10px;">{coffee_msg}</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-# 4. 텍스트 사전 (궁합 추가됨!)
+# 4. 텍스트 사전 (가격 $10로 수정완료!)
 txt = {
     "ko": {
         "title": "🧭 운명의 나침반",
@@ -42,11 +55,14 @@ txt = {
         "res_hello": "반갑습니다,",
         "res_msg": "당신은 **'{e_name}'**의 기운을 타고났습니다.",
         "menu_h": "💎 프리미엄 운세 스토어",
-        # 메뉴 텍스트
-        "m1_t": "🔮 2026 신년 운세", "m1_d": "재물, 연애, 직장운 정밀 분석", "m1_b": "보기 ($10)",
-        "m2_t": "📆 택일 (좋은 날짜)", "m2_d": "결혼, 이사, 계약 날짜 잡기", "m2_b": "받기 ($5)",
-        "m3_t": "❤️ 궁합 (케미스트리)", "m3_d": "그 사람과 나의 인연 분석", "m3_b": "확인 ($10)",
-        "m4_t": "👑 프리패스 (VIP)", "m4_d": "모든 유료 서비스를 한 번에!", "m4_b": "구매 ($20)"
+        
+        # [수정됨] 메뉴 텍스트 (가격 $10 통일 / 프리패스 $30)
+        "m1_t": "🔮 2026 신년 운세 ($10)", "m1_d": "내년의 재물, 연애, 직장운을 정밀하게 분석합니다.", 
+        "m2_t": "📅 그날의 운세 ($10)", "m2_d": "면접, 데이트, 계약 등 특정 날짜의 운세를 미리 확인하세요.",
+        "m3_t": "❤️ 궁합 서비스 ($10)", "m3_d": "그 사람과 나의 케미스트리(속궁합/겉궁합) 분석.",
+        "m4_t": "📆 택일 서비스 ($10)", "m4_d": "결혼, 이사, 개업 등 중요한 행사를 위한 최고의 날짜 추천.",
+        "m5_t": "👑 프리패스 VIP ($30)", "m5_d": "모든 유료 서비스를 제한 없이 한 번에 이용하세요!",
+        "btn_common": "확인하기", "btn_buy": "구매하기"
     },
     "en": {
         "title": "🧭 The Element: Destiny Map",
@@ -58,11 +74,14 @@ txt = {
         "res_hello": "Hello,",
         "res_msg": "You are born with the energy of **'{e_name}'**.",
         "menu_h": "💎 Premium Store",
-        # Menu Texts
-        "m1_t": "🔮 2026 Forecast", "m1_d": "Wealth, Love, Career Analysis", "m1_b": "View ($10)",
-        "m2_t": "📆 Date Selection", "m2_d": "Best dates for big events", "m2_b": "Get ($5)",
-        "m3_t": "❤️ Compatibility", "m3_d": "Check chemistry with partner", "m3_b": "Check ($10)",
-        "m4_t": "👑 All-Access Pass", "m4_d": "Unlock ALL services at once!", "m4_b": "Buy ($20)"
+        
+        # [Updated] Menu Texts ($10 unified / Pass $30)
+        "m1_t": "🔮 2026 Forecast ($10)", "m1_d": "Detailed analysis of wealth, love, and career for 2026.",
+        "m2_t": "📅 Daily Forecast ($10)", "m2_d": "Check your luck for a specific date (Interview, Date, etc).",
+        "m3_t": "❤️ Compatibility ($10)", "m3_d": "Check chemistry and relationship potential with your partner.",
+        "m4_t": "📆 Date Selection ($10)", "m4_d": "Find the most auspicious dates for Wedding, Moving, etc.",
+        "m5_t": "👑 All-Access Pass ($30)", "m5_d": "Unlock ALL premium services at once!",
+        "btn_common": "Check Now", "btn_buy": "Buy Pass"
     }
 }
 t = txt[lang]
@@ -110,7 +129,7 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
-# 6. 결과 및 메뉴판 (4단 구성!)
+# 6. 결과 및 메뉴판
 if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
@@ -124,34 +143,35 @@ if st.session_state["analyzed"]:
     </div>
     """, unsafe_allow_html=True)
 
-    # 💎 유료 메뉴판 (업데이트됨)
+    # 💎 유료 메뉴판
     st.subheader(t['menu_h'])
     
-    # 1열: 주요 운세 (2026, 그날의 운세)
+    # 1열
     col_a, col_b = st.columns(2)
     with col_a:
-        st.info(f"🔮 **{t['m1_t']}**\n\n{t['m1_d']}") # 2026
-        if st.button(t['m1_b'], use_container_width=True): st.switch_page("pages/1_🔮_2026_새해운세.py")
+        st.info(f"**{t['m1_t']}**") # 2026 운세
+        if st.button(t['btn_common'], key="btn1", help=t['m1_d'], use_container_width=True): 
+            st.switch_page("pages/1_🔮_2026_새해운세.py")
     
     with col_b:
-        st.success(f"📅 **{'Specific Day Forecast' if lang=='en' else '그날의 운세 (NEW)'}**\n\n{'Check your luck for tomorrow or any specific date.' if lang=='en' else '내일, 면접일, 데이트 날 등 특정일의 운세를 미리 보세요.'}")
-        # 새로 만든 2번 파일로 이동
-        if st.button(f"{'Check' if lang=='en' else '확인하기 ($5)'}", use_container_width=True): st.switch_page("pages/2_📅_그날의_운세.py")
+        st.success(f"**{t['m2_t']}**") # 그날의 운세
+        if st.button(t['btn_common'], key="btn2", help=t['m2_d'], use_container_width=True): 
+            st.switch_page("pages/2_📅_그날의_운세.py")
 
-    # 2열: 관계 및 택일
+    # 2열
     col_c, col_d = st.columns(2)
     with col_c:
-        st.error(f"❤️ **{t['m3_t']}**\n\n{t['m3_d']}") # 궁합
-        if st.button(t['m3_b'], use_container_width=True): st.switch_page("pages/3_❤️_궁합_서비스.py")
+        st.error(f"**{t['m3_t']}**") # 궁합
+        if st.button(t['btn_common'], key="btn3", help=t['m3_d'], use_container_width=True): 
+            st.switch_page("pages/3_❤️_궁합_서비스.py")
             
     with col_d:
-        st.warning(f"📆 **{t['m2_t']}**\n\n{t['m2_d']}") # 택일 (이제 4번 파일로 이동)
-        # 파일명을 4번으로 바꿨으므로 여기도 바꿔줍니다
-        if st.button(t['m2_b'], use_container_width=True): st.switch_page("pages/4_📆_택일_서비스.py")
+        st.warning(f"**{t['m4_t']}**") # 택일
+        if st.button(t['btn_common'], key="btn4", help=t['m4_d'], use_container_width=True): 
+            st.switch_page("pages/4_📆_택일_서비스.py")
 
-    # 3열: 프리패스 (배너처럼 길게)
+    # 3열: 프리패스
     st.markdown("---")
-    st.info(f"👑 **{t['m4_t']}** : {t['m4_d']}")
-    st.link_button(t['m4_b'], "https://gum.co/demo_product", use_container_width=True)
-
-    st.sidebar.success("✅ Analysis Complete!")
+    st.info(f"👑 **{t['m5_t']}**")
+    # Gumroad 링크는 나중에 선생님의 실제 '프리패스 상품 링크'로 바꾸셔야 합니다!
+    st.link_button(t['btn_buy'], "https://gum.co/demo_product", help=t['m5_d'], use_container_width=True)
