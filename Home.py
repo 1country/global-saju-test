@@ -1,6 +1,5 @@
 import streamlit as st
 from datetime import date, time
-# [수정 1] get_interpretation 함수를 가져오도록 추가했습니다!
 from utils import calculate_day_gan, get_interpretation 
 
 # 1. 페이지 설정
@@ -33,14 +32,12 @@ st.markdown("""
             font-weight: 500;
         }
 
-        /* 입력창 라벨 */
         .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p {
             font-size: 1.1rem !important;
             font-weight: 600 !important;
             color: #334155 !important;
         }
 
-        /* 카드 스타일 */
         .card {
             background: rgba(255, 255, 255, 0.95); 
             padding: 30px; 
@@ -79,7 +76,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-# 4. 텍스트 데이터
+# 4. 텍스트 데이터 (5번 메뉴 추가됨!)
 txt = {
     "ko": {
         "title": "🧭 운명의 나침반",
@@ -98,7 +95,9 @@ txt = {
         "s2_t": "📅 그날의 운세", "s2_d": "면접, 데이트, 계약일 등 중요한 날의 기운을 미리 확인하세요.",
         "s3_t": "❤️ 궁합 (Chemistry)", "s3_d": "그 사람과 나는 잘 맞을까? 속마음과 인연을 분석합니다.",
         "s4_t": "📆 택일 (좋은 날짜)", "s4_d": "결혼, 이사, 개업! 인생의 중요한 시작, 최고의 날짜를 잡아드립니다.",
-        "s5_t": "👑 프리패스 (VIP)", "s5_d": "고민하지 마세요. 모든 유료 서비스를 한 번에 소장하세요! (할인)"
+        # [NEW] 비즈니스 궁합 추가
+        "s5_t": "🤝 비즈니스 파트너 궁합", "s5_d": "상사, 동업자, 직원과의 관계 분석. 성공적인 파트너십을 위한 처세술.",
+        "s6_t": "👑 프리패스 (VIP)", "s6_d": "고민하지 마세요. 모든 유료 서비스를 한 번에 소장하세요! (할인)"
     },
     "en": {
         "title": "🧭 The Element: Destiny Map",
@@ -114,10 +113,12 @@ txt = {
         "btn_buy": "Buy Pass ($30)",
         
         "s1_t": "🔮 2026 Forecast", "s1_d": "Prepare for 2026. Detailed analysis of Wealth, Love, and Career.",
-        "s2_t": "📅 Daily Forecast", "s2_d": "Interview? Date? Check your luck for any specific day.",
+        "s2_t": "📅 Specific Day Forecast", "s2_d": "Interview? Date? Check your luck for any specific day.",
         "s3_t": "❤️ Compatibility", "s3_d": "Are we a match? Analyze the chemistry with your partner.",
         "s4_t": "📆 Date Selection", "s4_d": "Wedding, Moving, Opening! Find the most auspicious dates.",
-        "s5_t": "👑 All-Access Pass", "s5_d": "Unlock EVERYTHING at once. Best value for VIPs."
+        # [NEW] Business Compatibility Added
+        "s5_t": "🤝 Business Compatibility", "s5_d": "Boss? Co-founder? Analyze professional synergy and teamwork.",
+        "s6_t": "👑 All-Access Pass", "s6_d": "Unlock EVERYTHING at once. Best value for VIPs."
     }
 }
 t = txt[lang]
@@ -125,9 +126,11 @@ t = txt[lang]
 imgs = {
     "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", 
     "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", 
-    "s3": "https://cdn-icons-png.flaticon.com/512/4057/4057731.png", 
+    "s3": "https://cdn-icons-png.flaticon.com/512/4057/4057784.png", 
     "s4": "https://cdn-icons-png.flaticon.com/512/2693/2693507.png", 
-    "s5": "https://cdn-icons-png.flaticon.com/512/2583/2583166.png" 
+    # [NEW] 비즈니스용 악수 이미지
+    "s5": "https://cdn-icons-png.flaticon.com/512/2618/2618466.png", 
+    "s6": "https://cdn-icons-png.flaticon.com/512/2583/2583166.png" 
 }
 
 # 5. 메인 화면 구성
@@ -196,10 +199,8 @@ if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
     
-    # 언어에 맞는 설명 (Fire 수정됨)
+    # 언어에 맞는 설명
     description = day_info['desc'] if lang == 'ko' else day_info['desc_en']
-    
-    # [수정 2] utils에서 상세 해석 텍스트를 가져옵니다!
     detail_text = get_interpretation(day_info['element'], lang)
     
     st.markdown(f"""
@@ -212,19 +213,23 @@ if st.session_state["analyzed"]:
     </div>
     """, unsafe_allow_html=True)
 
-    # [수정 3] 상세 해석 내용을 보여주는 섹션 추가 (여기에 표시됩니다!)
     with st.container(border=True):
-        st.markdown(detail_text) # 여기에 상세 내용이 쫙 나옵니다.
+        st.markdown(detail_text) 
         
-    st.markdown("<br>", unsafe_allow_html=True) # 여백 추가
+    st.markdown("<br>", unsafe_allow_html=True) 
 
-    # 프리미엄 스토어 시작
+    # [프리미엄 스토어 목록] - 5번째 비즈니스 추가됨
     st.subheader(t['menu_h'])
-    draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_새해운세.py")
-    draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_그날의_운세.py")
-    draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_❤️_궁합_서비스.py")
-    draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_📆_택일_서비스.py")
-    draw_premium_card(t['s5_t'], t['s5_d'], t['btn_buy'], imgs['s5'], link_url="https://gum.co/demo_product")
+    draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_Forecast.py")
+    draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day_Forecast.py")
+    draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_❤️_Compatibility.py")
+    draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_📆_Date_Selection.py")
+    
+    # [NEW] 5번 비즈니스 궁합 카드
+    draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_🤝_Business_Compatibility.py")
+    
+    # [VIP] 프리패스
+    draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://gum.co/demo_product")
 
     st.divider()
     coffee_msg_bottom = "이 서비스가 도움이 되셨나요? 따뜻한 커피 한 잔은 개발자에게 큰 힘이 됩니다! ☕" if lang == "ko" else "Did you enjoy the service? A coffee would be a great support! ☕"
