@@ -2,14 +2,14 @@ import requests
 import streamlit as st
 from datetime import date
 
-# 1. 만세력 엔진 (일주 계산기 - 영문 수정 완료)
+# 1. 만세력 엔진 (일주 계산기 - Fire 수정됨)
 def calculate_day_gan(birth_date):
     base_date = date(1900, 1, 1)
     delta = birth_date - base_date
     if delta.days < 0: return 0
     gan_index = delta.days % 10
     
-    # gans 리스트 (한글/영어 완벽 대응)
+    # gans 리스트 (영어 표기 간소화: Wood, Fire...)
     gans = [
         {"ko": "갑목(甲)", "desc": "곧게 뻗은 거목", "desc_en": "Straight and tall tree", "element": "Wood", "en": "Wood"},
         {"ko": "을목(乙)", "desc": "적응력 강한 화초", "desc_en": "Adaptable and resilient flower", "element": "Wood", "en": "Wood"},
@@ -24,7 +24,7 @@ def calculate_day_gan(birth_date):
     ]
     return gans[gan_index]
 
-# 2. 라이센스 검증기 (마스터키 지원)
+# 2. 라이센스 검증기
 def verify_license_flexible(key, current_product_id, all_access_id="all_access_pass"):
     if key == "test": return True, "테스트 통과 (개발자 모드)"
     
@@ -36,7 +36,6 @@ def verify_license_flexible(key, current_product_id, all_access_id="all_access_p
         
     return False, "🚫 유효하지 않은 키입니다."
 
-# (내부용) 실제 검로드 통신 함수
 def _check_gumroad(key, permalink):
     try:
         response = requests.post(
