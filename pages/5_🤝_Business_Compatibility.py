@@ -1,4 +1,4 @@
-import streamlit as st
+.import streamlit as st
 import streamlit.components.v1 as components
 import requests
 from datetime import date
@@ -12,7 +12,7 @@ st.set_page_config(page_title="Business Compatibility", page_icon="💼", layout
 # 🔑 [마스터 키 & 검로드 설정] - 선생님이 설정한 URL로 수정됨!
 UNLOCK_CODE = "MASTER2026"
 PRODUCT_PERMALINK = "business_compatibility" 
-GUMROAD_LINK = "https://gumroad.com/l/business_compatibility" 
+GUMROAD_LINK = "https://5codes.gumroad.com/l/business_compatibility" 
 
 st.markdown("""
     <style>
