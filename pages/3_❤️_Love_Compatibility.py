@@ -9,10 +9,17 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="Love Compatibility", page_icon="💘", layout="wide")
 
-# 🔑 [마스터 키 & 검로드 설정]
+# 🔑 [키 설정]
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "love_compatibility" 
-GUMROAD_LINK = "https://5codes.gumroad.com/l/love_compatibility"
+
+# (1) 이 페이지 전용 상품 (3회 제한)
+PRODUCT_PERMALINK_SPECIFIC = "love_compatibility"
+# (2) 만능 패스 상품 (10회 제한)
+PRODUCT_PERMALINK_ALL = "all-access_pass"
+
+# 구매 링크
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/love_compatibility"
+GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 st.markdown("""
     <style>
@@ -76,7 +83,7 @@ def get_love_report(u_elem, p_elem, u_gender, p_gender, lang):
     
     # 🌟 호칭 설정 (언어별)
     if lang == "ko":
-        me_str = "당신"  # "남자(본인)" 꼬리표 대신 자연스러운 호칭 사용
+        me_str = "당신"
         pt_str = "상대방"
     else:
         me_str = "You"
@@ -174,9 +181,9 @@ def get_love_report(u_elem, p_elem, u_gender, p_gender, lang):
                 "title": "🍼 Unconditional Love: Healing Soulmates",
                 "chemistry": f"Your partner supports you devotedly. You feel safe, understood, and forgiven, as if in a mother's arms. It is a healing relationship with a strong emotional bond.",
                 "conflict": "Comfort can lead to boredom or laziness. You might take their love for granted. Also, their care might feel like smothering or over-protection at times.",
-                "intimacy": "Emotional satisfaction is high. It's more about gentle, warm connection and cuddling than wild passion.",
-                "future": "Inseparable bond. You are destiny partners who will support each other through life's hardships. Marriage will be very stable.",
-                "advice": "1. **Express Gratitude:** Don't take it for granted.\n2. **Spice it Up:** Try new things to avoid boredom.\n3. **Be Independent:** Don't rely on them for everything."
+                "intimacy": "Emotional satisfaction is high. Gentle and warm connection.",
+                "future": "Inseparable bond. Destiny partners who support each other through life.",
+                "advice": "1. Express gratitude. 2. Keep the spark alive. 3. Don't be too dependent."
             }
         }
     }
@@ -214,18 +221,20 @@ ui = {
         "p_name": "상대방 이름",
         "p_dob": "상대방 생년월일",
         "p_gender": "상대방 성별",
-        "lock_title": "🔒 궁합 리포트 잠금 ($10)",
-        "lock_desc": "결제 후 발급받은 라이센스 키를 입력하세요.",
-        "lock_warn": "⚠️ 주의: 이 라이센스 키는 최대 3회까지만 조회 가능합니다.",
-        "btn_buy": "💳 이용권 구매하기 ($10)",
-        "btn_unlock": "결과 확인하기",
+        "lock_title": "🔒 궁합 리포트 잠금",
+        "lock_desc": "결제 후 받은 라이센스 키를 입력하세요.",
+        "lock_warn": "⚠️ 주의: 라이센스 키 사용 횟수가 차감됩니다.",
+        "label": "구매 후 받은 라이센스 키 입력",
+        "btn_unlock": "리포트 잠금 해제",
+        "btn_buy_sp": "💳 단품 구매 ($10 / 3회)",
+        "btn_buy_all": "🎟️ All-Access 패스 구매 ($30 / 10회)",
+        "score_label": "궁합 점수",
         "btn_print": "🖨️ 리포트 인쇄하기",
         "sec_chem": "🔮 성격과 케미 (Chemistry)",
         "sec_conf": "⚔️ 갈등 포인트 (Conflict)",
         "sec_inti": "💋 속궁합 & 애정 (Intimacy)",
         "sec_fut": "💍 미래 & 결혼 (Future)",
-        "sec_adv": "🚀 관계를 위한 조언 (Advice)",
-        "score_label": "궁합 점수"
+        "sec_adv": "🚀 관계를 위한 조언 (Advice)"
     },
     "en": {
         "title": "💘 Premium Love Compatibility",
@@ -234,18 +243,20 @@ ui = {
         "p_name": "Partner Name",
         "p_dob": "Partner DOB",
         "p_gender": "Partner Gender",
-        "lock_title": "🔒 Report Locked ($10)",
+        "lock_title": "🔒 Report Locked",
         "lock_desc": "Enter the license key after purchase.",
-        "lock_warn": "⚠️ Warning: This key can be used up to 3 times only.",
-        "btn_buy": "💳 Buy Access ($10)",
+        "lock_warn": "⚠️ Warning: This will consume 1 usage credit.",
+        "label": "Enter License Key",
         "btn_unlock": "Unlock Report",
+        "btn_buy_sp": "💳 Buy Single ($10 / 3 Uses)",
+        "btn_buy_all": "🎟️ Buy All-Access ($30 / 10 Uses)",
+        "score_label": "Compatibility Score",
         "btn_print": "🖨️ Print Report",
         "sec_chem": "🔮 Chemistry & Personality",
         "sec_conf": "⚔️ Conflict Points",
         "sec_inti": "💋 Intimacy & Love",
         "sec_fut": "💍 Future & Marriage",
-        "sec_adv": "🚀 Advice for Relationship",
-        "score_label": "Compatibility Score"
+        "sec_adv": "🚀 Advice for Relationship"
     }
 }
 t = ui[lang]
@@ -267,15 +278,30 @@ with st.container(border=True):
 # 6. 잠금 및 결제
 if "unlocked_love" not in st.session_state: st.session_state["unlocked_love"] = False
 
+# 🌟 팝업창(Dialog) 함수
+@st.dialog("⚠️ Usage Limit Warning")
+def show_limit_warning():
+    st.warning(t['lock_warn'], icon="⚠️")
+    st.write("Checking this result will deduct 1 credit from your license.")
+    if st.button("I Understand & Proceed", type="primary"):
+        st.rerun()
+
 if not st.session_state["unlocked_love"]:
-    st.divider()
     with st.container(border=True):
         st.markdown(f"### {t['lock_title']}")
         st.write(t['lock_desc'])
-        st.warning(t['lock_warn'], icon="⚠️") 
-        st.link_button(t['btn_buy'], GUMROAD_LINK)
         
-        key = st.text_input("License Key", type="password")
+        # 3회 제한 팝업 버튼
+        if st.button("⚠️ Check Limit Info", type="secondary"):
+            show_limit_warning()
+            
+        c1, c2 = st.columns(2)
+        with c1: st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC)
+        with c2: st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL)
+        
+        st.markdown("---")
+        key = st.text_input(t['label'], type="password")
+        
         if st.button(t['btn_unlock'], type="primary"):
             if not p_name:
                 st.error("Please enter partner's name." if lang=="en" else "상대방 이름을 입력해주세요.")
@@ -285,23 +311,39 @@ if not st.session_state["unlocked_love"]:
                     st.success("Developer Access Granted!")
                     st.rerun()
                 try:
-                    response = requests.post(
+                    # (A) 단품 상품 확인
+                    response_specific = requests.post(
                         "https://api.gumroad.com/v2/licenses/verify",
-                        data={"product_permalink": PRODUCT_PERMALINK, "license_key": key}
+                        data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}
                     )
-                    data = response.json()
-                    if data.get("success"):
-                        uses = data.get("uses", 0)
-                        if uses > 3:
-                            st.error(f"🚫 Limit Exceeded ({uses}/3)" if lang=="en" else f"🚫 횟수 초과! ({uses}/3)")
+                    data_specific = response_specific.json()
+
+                    if data_specific.get("success"):
+                        if data_specific.get("uses", 0) > 3:
+                            st.error(f"🚫 Limit exceeded (Max 3 uses).")
                         else:
                             st.session_state["unlocked_love"] = True
                             st.success("Success!")
                             st.rerun()
                     else:
-                        st.error("Invalid Key")
+                        # (B) All-Access 패스 확인
+                        response_all = requests.post(
+                            "https://api.gumroad.com/v2/licenses/verify",
+                            data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}
+                        )
+                        data_all = response_all.json()
+                        
+                        if data_all.get("success"):
+                            if data_all.get("uses", 0) > 10:
+                                st.error(f"🚫 All-Access Pass Limit Exceeded ({data_all.get('uses')}/10)")
+                            else:
+                                st.session_state["unlocked_love"] = True
+                                st.success("All-Access Pass Accepted!")
+                                st.rerun()
+                        else:
+                            st.error("🚫 Invalid Key.")
                 except:
-                    st.error("Connection Error")
+                    st.error("Connection Error.")
     st.stop()
 
 # 7. 결과 리포트
