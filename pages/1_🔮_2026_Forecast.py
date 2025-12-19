@@ -10,6 +10,11 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="2026 Forecast", page_icon="🔮", layout="wide")
 
+# 🔑 [마스터 키 & 검로드 설정]
+UNLOCK_CODE = "MASTER2026"
+PRODUCT_PERMALINK = "2026_forecast"
+GUMROAD_LINK = "https://5codes.gumroad.com/l/2026_forecast" 
+
 st.markdown("""
     <style>
         .stApp {
@@ -26,9 +31,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 🔑 마스터 키 (개발자용)
-UNLOCK_CODE = "MASTER2026"
-
 # ----------------------------------------------------------------
 # 2. 사이드바 설정 (언어 + 커피 후원)
 # ----------------------------------------------------------------
@@ -40,25 +42,6 @@ with st.sidebar:
     st.markdown("---")
     if st.button("👈 Home" if lang=="en" else "👈 홈으로"):
         st.switch_page("Home.py")
-
-    # [커피 후원]
-    coffee_head = "☕ 개발자 응원하기" if lang == "ko" else "☕ Support"
-    coffee_msg = "운명의 코드를 응원해 주세요!" if lang == "ko" else "Fuel the code!"
-    
-    st.markdown("---")
-    st.header(coffee_head)
-    st.markdown(f"""
-        <div style="text-align: center;">
-            <a href="https://buymeacoffee.com/5codes" target="_blank">
-                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-                    alt="Buy Me A Coffee" 
-                    style="height: 50px !important; width: 180px !important; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
-            </a>
-            <p style="font-size: 14px; color: #666; margin-top: 10px; font-family: sans-serif;">
-                {coffee_msg}
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
 # 3. 데이터 및 함수 정의 (2026 총평 & 월별 운세)
@@ -256,7 +239,7 @@ ui = {
         "lock": "🔒 유료 서비스 ($10)",
         "label": "이메일로 받은 라이센스 키 입력",
         "btn": "확인 (Unlock)",
-        "err": "코드가 틀렸습니다.",
+        "lock_warn": "⚠️ 주의: 이 키는 3회까지만 사용할 수 있습니다.",
         "welcome": f"환영합니다, {st.session_state['user_name']}님!",
         "h_trait": "🔮 타고난 기질",
         "h_fore": "📅 2026년 운세 분석",
@@ -267,7 +250,7 @@ ui = {
         "lock": "🔒 Premium Service ($10)",
         "label": "Enter License Key from Email",
         "btn": "Unlock",
-        "err": "Invalid Code.",
+        "lock_warn": "⚠️ Warning: This key can be used up to 3 times only.",
         "welcome": f"Welcome, {st.session_state['user_name']}!",
         "h_trait": "🔮 Personality",
         "h_fore": "📅 2026 Forecast",
@@ -283,49 +266,56 @@ st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=Tr
 # ----------------------------------------------------------------
 if "unlocked_2026" not in st.session_state: st.session_state["unlocked_2026"] = False
 
+# 🌟 팝업창(Dialog) 함수
+@st.dialog("⚠️ Usage Limit Warning")
+def show_limit_warning():
+    st.warning(t['lock_warn'], icon="⚠️")
+    st.write("Checking this result will deduct 1 credit from your license.")
+    if st.button("I Understand & Proceed", type="primary"):
+        st.rerun()
+
 if not st.session_state["unlocked_2026"]:
     with st.container(border=True):
         st.write(t['lock'])
-        # 👇 검로드 구매 버튼
-        st.link_button("💳 구매하고 키 받기 (Buy Now)", "https://5codes.gumroad.com/l/2026_forecast")
+        
+        # 3회 제한 팝업 버튼
+        if st.button("⚠️ Check Limit Info", type="secondary"):
+            show_limit_warning()
+            
+        st.link_button("💳 Buy Now ($10)", GUMROAD_LINK)
         
         st.markdown("---")
         key = st.text_input(t['label'], type="password")
         
         if st.button(t['btn']):
-            # 1. 마스터키 체크
             if key == UNLOCK_CODE:
                 st.session_state["unlocked_2026"] = True
                 st.success("Master Key Accepted!")
                 st.rerun()
             
-            # 2. 검로드 라이센스 직접 체크 (3회 제한 강제 적용)
             try:
                 response = requests.post(
                     "https://api.gumroad.com/v2/licenses/verify",
                     data={
-                        "product_permalink": "2026_forecast", # Gumroad 상품 주소 뒷부분 확인
+                        "product_permalink": PRODUCT_PERMALINK,
                         "license_key": key
                     }
                 )
                 data = response.json()
 
                 if data.get("success"):
-                    # ✅ 성공했다면, 사용 횟수를 검사합니다.
                     current_uses = data.get("uses", 0)
-                    
-                    # 🚨 [여기가 핵심] 코드로 3회 제한을 걸어버립니다.
                     if current_uses > 3:
-                        st.error("🚫 사용 한도(3회)를 초과한 라이센스입니다. (Limit exceeded: Used > 3 times)")
+                        st.error("🚫 Limit exceeded (Max 3 uses).")
                     else:
                         st.session_state["unlocked_2026"] = True
-                        st.success("인증 성공! (Success)")
+                        st.success("Success!")
                         st.rerun()
                 else:
-                    st.error("🚫 유효하지 않은 라이센스 키입니다. (Invalid License Key)")
+                    st.error("🚫 Invalid License Key.")
             
             except Exception as e:
-                st.error("인터넷 연결을 확인해주세요. (Connection Error)")
+                st.error("Connection Error.")
     st.stop()
 
 # ----------------------------------------------------------------
@@ -333,12 +323,11 @@ if not st.session_state["unlocked_2026"]:
 # ----------------------------------------------------------------
 st.divider()
 
-# 운세 계산
 day_info = calculate_day_gan(st.session_state["birth_date"])
 e_type = day_info['element']
 trait, forecast = get_interpretation(e_type, lang)
 
-# 1. 성격 분석 카드
+# 1. 성격 분석
 st.subheader(f"{t['h_trait']}")
 st.markdown(f"""
 <div class='card'>
@@ -348,7 +337,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 2. 2026 운세 (Expert Version)
+# 2. 2026 운세
 st.subheader(f"{t['h_fore']}")
 st.markdown(f"""
 <div class='card' style='border:1px solid #ec4899'>
@@ -361,10 +350,10 @@ st.markdown(f"""
 # 3. 월별 표
 monthly_data = get_monthly_forecast_unique(e_type, lang)
 df = pd.DataFrame(monthly_data)
-df = df.set_index(list(df.columns)[0]) # 첫번째 컬럼(월)을 인덱스로
+df = df.set_index(list(df.columns)[0]) 
 st.table(df)
 
-# 4. 진짜 인쇄 버튼
+# 4. 인쇄 버튼
 st.divider()
 components.html(
     f"""
