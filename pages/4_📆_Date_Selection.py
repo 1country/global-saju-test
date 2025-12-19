@@ -10,10 +10,17 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="Date Selection", page_icon="🗓️", layout="wide")
 
-# 🔑 [마스터 키 & 검로드 설정]
+# 🔑 [키 설정]
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "date_selection" 
-GUMROAD_LINK = "https://5codes.gumroad.com/l/date_selection" 
+
+# (1) 이 페이지 전용 상품 (3회 제한)
+PRODUCT_PERMALINK_SPECIFIC = "date_selection"
+# (2) 만능 패스 상품 (10회 제한)
+PRODUCT_PERMALINK_ALL = "all-access_pass"
+
+# 구매 링크
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
+GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 st.markdown("""
     <style>
@@ -60,13 +67,9 @@ with st.sidebar:
     if st.button("👈 Home"): st.switch_page("Home.py")
 
 # ----------------------------------------------------------------
-# 3. 택일 분석 로직 (Top 3 추천)
+# 3. 택일 분석 로직
 # ----------------------------------------------------------------
 def get_auspicious_dates(user_elem, target_date, event_type, lang):
-    # 실제로는 만세력 알고리즘이 필요하지만, 여기서는 로직을 시뮬레이션합니다.
-    # 기준일(Target Date)로부터 1달 이내의 가장 좋은 날 3개를 뽑는 로직입니다.
-    
-    # 이벤트별 키워드
     event_keywords = {
         "Wedding": {"ko": "결혼/약혼", "en": "Wedding/Engagement"},
         "Moving": {"ko": "이사/이전", "en": "Moving"},
@@ -76,8 +79,7 @@ def get_auspicious_dates(user_elem, target_date, event_type, lang):
     }
     evt_name = event_keywords[event_type][lang]
     
-    # 추천 날짜 생성 (시뮬레이션: 기준일 + N일)
-    # 실제 앱에서는 user_elem(오행)과 상생하는 날짜를 계산해야 합니다.
+    # 추천 날짜 생성 (시뮬레이션)
     results = [
         {
             "rank": 1,
@@ -112,7 +114,6 @@ def get_auspicious_dates(user_elem, target_date, event_type, lang):
 # ----------------------------------------------------------------
 # 4. 메인 화면 UI
 # ----------------------------------------------------------------
-# (1) 사용자 정보 체크
 if "user_name" not in st.session_state or "birth_date" not in st.session_state:
     st.warning("Please enter your info at Home first." if lang == "en" else "⚠️ 홈 화면에서 본인 정보를 먼저 입력해주세요.")
     if st.button("Go Home"): st.switch_page("Home.py")
@@ -129,11 +130,13 @@ ui = {
         "input_label": "어떤 행사를 계획 중이신가요?",
         "date_label": "언제쯤(기준일)으로 알아볼까요?",
         "btn_check": "최고의 날짜 확인하기",
-        "lock_title": "🔒 택일 리포트 잠금 ($10)",
+        "lock_title": "🔒 택일 리포트 잠금",
         "lock_desc": "결제 후 받은 라이센스 키를 입력하세요.",
-        "lock_warn": "⚠️ 주의: 이 키는 3회까지만 조회 가능합니다.",
-        "btn_buy": "💳 이용권 구매하기 ($10)",
+        "lock_warn": "⚠️ 주의: 라이센스 키 사용 횟수가 차감됩니다.",
+        "label": "구매 후 받은 라이센스 키 입력",
         "btn_unlock": "잠금 해제",
+        "btn_buy_sp": "💳 단품 구매 ($10 / 3회)",
+        "btn_buy_all": "🎟️ All-Access 패스 구매 ($30 / 10회)",
         "print": "🖨️ 리포트 인쇄하기"
     },
     "en": {
@@ -142,11 +145,13 @@ ui = {
         "input_label": "What is the event?",
         "date_label": "Target Reference Date (Search around...)",
         "btn_check": "Find Best Dates",
-        "lock_title": "🔒 Report Locked ($10)",
+        "lock_title": "🔒 Report Locked",
         "lock_desc": "Enter your license key.",
-        "lock_warn": "⚠️ Warning: Limit 3 uses per key.",
-        "btn_buy": "💳 Buy Access ($10)",
+        "lock_warn": "⚠️ Warning: This will consume 1 usage credit.",
+        "label": "Enter License Key",
         "btn_unlock": "Unlock",
+        "btn_buy_sp": "💳 Buy Single ($10 / 3 Uses)",
+        "btn_buy_all": "🎟️ Buy All-Access ($30 / 10 Uses)",
         "print": "🖨️ Print Report"
     }
 }
@@ -165,20 +170,17 @@ with st.container(border=True):
             ["Wedding", "Moving", "Business", "Travel", "Surgery"]
         )
     with col2:
-        # 기준일 선택 (Target Month -> Reference Date)
         ref_date = st.date_input(t['date_label'], value=date.today(), min_value=date.today())
 
 # (3) 잠금 및 3회 제한 로직
 if "unlocked_date" not in st.session_state: st.session_state["unlocked_date"] = False
 
 # 🌟 팝업창(Dialog) 함수 정의
-@st.dialog("⚠️ Check Usage Limit")
+@st.dialog("⚠️ Usage Limit Warning")
 def show_limit_warning():
     st.warning(t['lock_warn'], icon="⚠️")
-    st.write("You are about to use 1 credit. (Total 3 uses available)")
-    st.write("Are you sure?")
-    if st.button("Yes, Proceed", type="primary"):
-        st.session_state["user_confirmed_date"] = True
+    st.write("Checking this result will deduct 1 credit from your license.")
+    if st.button("I Understand & Proceed", type="primary"):
         st.rerun()
 
 if not st.session_state["unlocked_date"]:
@@ -191,9 +193,12 @@ if not st.session_state["unlocked_date"]:
         if st.button("⚠️ Check Limit Info", type="secondary"):
             show_limit_warning()
             
-        st.link_button(t['btn_buy'], GUMROAD_LINK)
+        c1, c2 = st.columns(2)
+        with c1: st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC)
+        with c2: st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL)
         
-        key = st.text_input("License Key", type="password")
+        st.markdown("---")
+        key = st.text_input(t['label'], type="password")
         
         if st.button(t['btn_unlock'], type="primary"):
             if key == UNLOCK_CODE:
@@ -201,21 +206,37 @@ if not st.session_state["unlocked_date"]:
                 st.success("Developer Access Granted!")
                 st.rerun()
             try:
-                response = requests.post(
+                # (A) 단품 상품 확인
+                response_specific = requests.post(
                     "https://api.gumroad.com/v2/licenses/verify",
-                    data={"product_permalink": PRODUCT_PERMALINK, "license_key": key}
+                    data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}
                 )
-                data = response.json()
-                if data.get("success"):
-                    uses = data.get("uses", 0)
-                    if uses > 3:
-                        st.error(f"🚫 Limit Exceeded ({uses}/3)")
+                data_specific = response_specific.json()
+
+                if data_specific.get("success"):
+                    if data_specific.get("uses", 0) > 3:
+                        st.error(f"🚫 Limit exceeded (Max 3 uses).")
                     else:
                         st.session_state["unlocked_date"] = True
                         st.success("Success!")
                         st.rerun()
                 else:
-                    st.error("Invalid Key")
+                    # (B) All-Access 패스 확인
+                    response_all = requests.post(
+                        "https://api.gumroad.com/v2/licenses/verify",
+                        data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}
+                    )
+                    data_all = response_all.json()
+                    
+                    if data_all.get("success"):
+                        if data_all.get("uses", 0) > 10:
+                            st.error(f"🚫 All-Access Pass Limit Exceeded ({data_all.get('uses')}/10)")
+                        else:
+                            st.session_state["unlocked_date"] = True
+                            st.success("All-Access Pass Accepted!")
+                            st.rerun()
+                    else:
+                        st.error("🚫 Invalid Key.")
             except:
                 st.error("Connection Error")
     st.stop()
