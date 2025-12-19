@@ -7,53 +7,80 @@ from utils import calculate_day_gan, get_interpretation
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
 
-# --- ⭐ [핵심] 언어 설정 자동화 ⭐ ---
-# 기본값은 'en'(영어)
-# 설정 가능한 값: 'ko', 'en', 'fr', 'es', 'ja', 'zh'
+# 언어 설정 (기본값 en)
 lang = os.environ.get('LANGUAGE', 'en')
 
-# 2. 스타일 및 배경 설정 (기존과 동일)
+# 2. 스타일 및 배경 설정 (CSS 대폭 수정)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
+        /* 메인 배경 설정 */
         .stApp {
             background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #e2e8f0;
         }
+
+        /* ⭐ [핵심 수정] 사이드바 디자인 변경 ⭐ */
+        section[data-testid="stSidebar"] {
+            background-color: #0f172a !important; /* 아주 어두운 네이비색 배경 */
+            border-right: 1px solid #334155;       /* 경계선 추가 */
+        }
+        
+        /* 사이드바 내의 모든 텍스트 색상을 밝은 흰색으로 강제 고정 */
+        section[data-testid="stSidebar"] h1, 
+        section[data-testid="stSidebar"] h2, 
+        section[data-testid="stSidebar"] h3, 
+        section[data-testid="stSidebar"] p, 
+        section[data-testid="stSidebar"] span, 
+        section[data-testid="stSidebar"] div,
+        section[data-testid="stSidebar"] label {
+            color: #f8fafc !important; /* 밝은 흰색 */
+        }
+
+        /* 사이드바 메뉴 링크 스타일 */
         [data-testid="stSidebarNav"] span {
-            font-size: 1.2rem !important; font-weight: 700 !important; color: #f8fafc !important;
+            font-size: 1.1rem !important; 
+            font-weight: 600 !important; 
+            color: #e2e8f0 !important;
             padding-top: 5px; padding-bottom: 5px;
         }
-        [data-testid="stSidebar"] p, [data-testid="stSidebar"] span { color: #e2e8f0 !important; }
+
+        /* 메인 타이틀 */
         .main-title {
             font-size: 3.0em; color: #f8fafc; font-weight: 800; margin-bottom: 10px; font-family: 'Gowun Batang', serif;
         }
         .sub-desc {
             font-size: 1.3em; color: #cbd5e1; margin-bottom: 40px; font-weight: 500;
         }
+        
+        /* 입력창 라벨 스타일 */
         .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p, .stCheckbox label p {
             font-size: 1.1rem !important; font-weight: 600 !important; color: #e2e8f0 !important;
         }
+        
+        /* 카드 스타일 */
         .card {
             background: rgba(30, 41, 59, 0.95); padding: 30px; border-radius: 15px; border: 1px solid #334155; 
             margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center;
             font-family: 'Gowun Batang', serif; color: #f1f5f9;
         }
+        
+        /* 버튼 스타일 */
         .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem; transition: all 0.3s; background-color: #3b82f6; color: white; border: none;}
         .stButton button:hover {background-color: #2563eb;}
         .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem; background-color: #8b5cf6; color: white;}
+        
         h1, h2, h3, h4, p { color: #e2e8f0; } 
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 사이드바 설정 (다국어 표시 로직 추가)
+# 3. 사이드바 설정
 with st.sidebar:
     st.header("Settings")
     
-    # 언어 코드에 따른 표시 이름 매핑
     lang_map = {
         "ko": "한국어 (Korean)",
         "en": "English",
@@ -62,14 +89,13 @@ with st.sidebar:
         "ja": "日本語 (Japanese)",
         "zh": "中文 (Chinese)"
     }
-    # 매핑에 없으면 English 표시
     current_lang_display = lang_map.get(lang, "English")
     
+    # 정보창 스타일도 어둡게
     st.info(f"Current Mode: **{current_lang_display}**")
     
     st.markdown("---")
     
-    # 커피 문구 번역 처리
     coffee_msg_dict = {
         "ko": "운명의 코드를 응원해 주세요!",
         "en": "Support the developer!",
@@ -90,11 +116,11 @@ with st.sidebar:
                 <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
                     style="width: 180px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
             </a>
-            <p style="font-size: 15px; margin-top: 10px;">{coffee_html}</p>
+            <p style="font-size: 14px; margin-top: 10px; color: #cbd5e1;">{coffee_html}</p>
         </div>
     """, unsafe_allow_html=True)
 
-# 4. 텍스트 데이터 (6개 국어 확장)
+# 4. 텍스트 데이터 (6개 국어)
 txt = {
     "ko": {
         "title": "🧭 운명의 나침반", "sub": "당신의 태어난 순간이 말해주는 운명의 지도를 펼쳐보세요.", "input_h": "👤 사주 정보 입력 (필수)",
@@ -152,9 +178,7 @@ txt = {
     }
 }
 
-# 언어 설정이 딕셔너리에 없으면 영어로 fallback
-if lang not in txt:
-    lang = "en"
+if lang not in txt: lang = "en"
 t = txt[lang]
 
 # 깃허브 기본 주소
@@ -211,8 +235,6 @@ with st.container(border=True):
         elif lang == "zh": g_opts = ["男性", "女性"]
 
         gender_val = st.radio(t['gender'], g_opts, horizontal=True)
-        
-        # 성별 값 통일 (내부 로직용)
         gender = "Male"
         if gender_val in ["여성", "Female", "Femme", "Mujer", "女性"]:
             gender = "Female"
@@ -311,15 +333,10 @@ if st.session_state["analyzed"]:
     st.divider()
     day_info = calculate_day_gan(st.session_state["birth_date"])
     
-    # ⚠️ [주의] utils.py가 모든 언어를 지원하지 않을 수 있음
-    # utils.py에 해당 언어가 없으면 'en' 결과를 가져오도록 fallback 처리해야 함
-    # (여기서는 Home.py 로직만 처리함)
     description = day_info.get('desc_' + lang, day_info.get('desc_en', ''))
     if lang == 'ko': description = day_info['desc']
     
     detail_text = get_interpretation(day_info['element'], lang)
-    
-    # 오행 이름 번역 (간단 예시 - 필요시 utils.py에서 처리 권장)
     element_name = day_info.get(lang, day_info['en'])
 
     st.markdown(f"""
