@@ -135,11 +135,36 @@ imgs = {
     "s6": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s6.png" 
 }
 
-# 5. 메인 화면 구성
-st.markdown(f"<div class='main-title'>{t['title']}</div>", unsafe_allow_html=True)
-st.markdown(f"<div class='sub-desc'>{t['sub']}</div>", unsafe_allow_html=True)
+# ... (위쪽 코드는 그대로 유지) ...
 
-# 세션 초기화
+# 5. 메인 화면 구성 (Hero Section 업그레이드)
+# 제목과 설명을 단순히 나열하지 않고, 이미지와 함께 배치하여 '대문' 느낌을 줍니다.
+with st.container():
+    col1, col2 = st.columns([1, 2.5]) # 왼쪽: 이미지, 오른쪽: 텍스트
+    
+    with col1:
+        # 브랜드 로고/메인 이미지 (All-Access Pass 이미지를 활용해 통일감 부여)
+        st.image("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s6.png", use_container_width=True)
+        
+    with col2:
+        st.markdown(f"<div style='text-align: left; margin-top: 20px;'>", unsafe_allow_html=True)
+        st.markdown(f"<div class='main-title' style='text-align: left;'>{t['title']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='sub-desc' style='text-align: left; margin-bottom: 20px;'>{t['sub']}</div>", unsafe_allow_html=True)
+        
+        # 작은 뱃지들로 신뢰감 형성
+        st.markdown(f"""
+            <div style='display: flex; gap: 15px;'>
+                <span style='background:#f1f5f9; padding:5px 10px; border-radius:15px; font-size:0.85em; color:#475569;'>✨ AI Based Analysis</span>
+                <span style='background:#f1f5f9; padding:5px 10px; border-radius:15px; font-size:0.85em; color:#475569;'>📜 Asian Wisdom</span>
+                <span style='background:#f1f5f9; padding:5px 10px; border-radius:15px; font-size:0.85em; color:#475569;'>🔒 Privacy Protected</span>
+            </div>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+st.write("") # 여백
+st.write("") 
+
+# 세션 초기화 (기존 코드 유지)
 if "user_name" not in st.session_state: st.session_state["user_name"] = ""
 if "birth_date" not in st.session_state: st.session_state["birth_date"] = date(1990, 1, 1)
 if "birth_time" not in st.session_state: st.session_state["birth_time"] = time(12, 00)
@@ -147,12 +172,14 @@ if "time_unknown" not in st.session_state: st.session_state["time_unknown"] = Fa
 if "gender" not in st.session_state: st.session_state["gender"] = "Male"
 if "analyzed" not in st.session_state: st.session_state["analyzed"] = False
 
-# 입력창
+# 입력창 디자인 업그레이드
 st.markdown(f"### {t['input_h']}")
+
+# 카드 형태로 입력창 감싸기
 with st.container(border=True):
     c1, c2 = st.columns(2)
     with c1:
-        name = st.text_input(t['name'], value=st.session_state["user_name"])
+        name = st.text_input(t['name'], value=st.session_state["user_name"], placeholder="Enter your full name")
         g_opts = ["Male", "Female"] if lang == "en" else ["남성", "여성"]
         gender_val = st.radio(t['gender'], g_opts, horizontal=True)
         gender = "Male" if gender_val in ["Male", "남성"] else "Female"
@@ -165,19 +192,63 @@ with st.container(border=True):
             is_unknown = st.checkbox(t['unknown'], value=st.session_state["time_unknown"])
         with tc1:
             b_time = st.time_input(t['time'], value=st.session_state["birth_time"], disabled=is_unknown)
-
+    
+    st.write("") # 버튼 위 여백
+    
+    # [애니메이션 효과 추가] 버튼 클릭 시 로딩 연출
     if st.button(t['btn'], type="primary", use_container_width=True):
         if name:
-            st.session_state["user_name"] = name
-            st.session_state["birth_date"] = b_date
-            st.session_state["gender"] = gender
-            st.session_state["time_unknown"] = is_unknown
-            st.session_state["birth_time"] = None if is_unknown else b_time
-            st.session_state["analyzed"] = True
-            st.rerun()
+            # 로딩 효과 (사용자에게 분석 중이라는 느낌을 줌)
+            with st.spinner('Connecting to the stars... (운명의 지도를 펼치는 중입니다...)'):
+                import time as tm
+                tm.sleep(1.5) # 1.5초 딜레이 연출
+                
+                st.session_state["user_name"] = name
+                st.session_state["birth_date"] = b_date
+                st.session_state["gender"] = gender
+                st.session_state["time_unknown"] = is_unknown
+                st.session_state["birth_time"] = None if is_unknown else b_time
+                st.session_state["analyzed"] = True
+                st.rerun()
         else:
             st.warning(t['warn_name'])
 
+# [신뢰감 형성 섹션] 입력창 아래에 아이콘 3개 추가 (결과 나오기 전 화면 채우기용)
+if not st.session_state["analyzed"]:
+    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # 3단 컬럼으로 서비스 특징 소개
+    col_f1, col_f2, col_f3 = st.columns(3)
+    
+    with col_f1:
+        st.markdown("""
+            <div style="text-align: center;">
+                <h1 style="font-size: 3em; margin-bottom: 0;">🔮</h1>
+                <h4 style="margin-top: 5px;">Ancient Wisdom</h4>
+                <p style="color: #64748b; font-size: 0.9em;">Based on deep Asian metaphysical studies.</p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+    with col_f2:
+        st.markdown("""
+            <div style="text-align: center;">
+                <h1 style="font-size: 3em; margin-bottom: 0;">⚡</h1>
+                <h4 style="margin-top: 5px;">Modern Insight</h4>
+                <p style="color: #64748b; font-size: 0.9em;">Reinterpreted for today's lifestyle and success.</p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+    with col_f3:
+        st.markdown("""
+            <div style="text-align: center;">
+                <h1 style="font-size: 3em; margin-bottom: 0;">🗝️</h1>
+                <h4 style="margin-top: 5px;">Premium Keys</h4>
+                <p style="color: #64748b; font-size: 0.9em;">Unlock detailed maps of Wealth, Love, and Time.</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+# ... (이 아래 'draw_premium_card' 함수부터는 기존 코드 유지) ...
 # --- 카드 그리기 도우미 함수 ---
 def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=None):
     with st.container(border=True):
