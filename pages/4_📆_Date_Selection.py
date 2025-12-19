@@ -12,8 +12,8 @@ st.set_page_config(page_title="Date Selection", page_icon="🗓️", layout="wid
 
 # 🔑 [마스터 키 & 검로드 설정]
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "Date Selection" 
-GUMROAD_LINK = "https://gumroad.com/l/Date Selection" 
+PRODUCT_PERMALINK = "Date_Selection" 
+GUMROAD_LINK = "https://gumroad.com/l/Date_Selection" 
 
 st.markdown("""
     <style>
