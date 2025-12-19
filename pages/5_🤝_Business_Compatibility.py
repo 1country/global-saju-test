@@ -9,10 +9,10 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="Business Compatibility", page_icon="💼", layout="wide")
 
-# 🔑 [마스터 키 & 검로드 설정]
+# 🔑 [마스터 키 & 검로드 설정] - 선생님이 설정한 URL로 수정됨!
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "biz_match" 
-GUMROAD_LINK = "https://gumroad.com/l/선생님의_사업궁합_주소" 
+PRODUCT_PERMALINK = "business_compatibility" 
+GUMROAD_LINK = "https://gumroad.com/l/business_compatibility" 
 
 st.markdown("""
     <style>
