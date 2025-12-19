@@ -124,14 +124,15 @@ txt = {
 }
 t = txt[lang]
 
-# 이미지 주소 설정
+# 🖼️ [수정 완료] 깃허브 Raw 이미지 주소 적용
 imgs = {
-    "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", 
-    "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", 
-    "s3": "https://raw.githubusercontent.com/1country/global-saju-test/main/unnamed.jpg", 
-    "s4": "https://cdn-icons-png.flaticon.com/512/1057/1057240.png", 
-    "s5": "https://cdn-icons-png.flaticon.com/512/950/950575.png", 
-    "s6": "https://cdn-icons-png.flaticon.com/512/6941/6941697.png" 
+    # blob -> raw.githubusercontent.com 으로 변환했습니다.
+    "s1": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s1.png", 
+    "s2": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s2.png", 
+    "s3": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s3.png", 
+    "s4": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s4.png", 
+    "s5": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s5.png", 
+    "s6": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s6.png" 
 }
 
 # 5. 메인 화면 구성
@@ -197,11 +198,9 @@ def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=
             st.write("") 
             st.write("") 
             if click_page:
-                # [수정됨] 페이지 이동 버튼
                 if st.button(btn_text, key=title, use_container_width=True):
                     st.switch_page(click_page)
             elif link_url:
-                # [수정됨] 외부 링크 버튼 (All-Access Pass용)
                 st.link_button(btn_text, link_url, type="primary", use_container_width=True)
 
 # 6. 결과 및 프리미엄 스토어
@@ -229,22 +228,14 @@ if st.session_state["analyzed"]:
 
     st.subheader(t['menu_h'])
 
-    # [수정 완료] VIP 프리패스: 구매 링크로 바로 이동 (실제 주소 적용)
+    # VIP 프리패스 (검로드 링크 확인 필요)
     draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://5codes.gumroad.com/l/all-access_pass")
     
-    # [수정 완료] 각 페이지 파일명 및 이모지를 실제 파일과 100% 일치시킴
+    # 각 서비스별 페이지 연결
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_Forecast.py")
-    
-    # 2번 페이지 이름 수정 (Specific_Day.py)
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day.py")
-    
-    # 3번 페이지 이름 및 이모지 수정 (💘)
     draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_💘_Love_Compatibility.py")
-    
-    # 4번 페이지 이름 및 이모지 수정 (🗓️)
     draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_🗓️_Date_Selection.py")
-    
-    # 5번 페이지 이름 및 이모지 수정 (💼)
     draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_💼_Business_Compatibility.py")
     
 
