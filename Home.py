@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import date, time
+import time as tm # 로딩 애니메이션을 위해 필요
 from utils import calculate_day_gan, get_interpretation 
 
 # 1. 페이지 설정
@@ -11,49 +12,60 @@ st.markdown("""
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
         .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+            /* 배경 이미지: 어두운 밤하늘 느낌으로 교체 (아이콘과 어울리게) */
+            background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
+            color: #e2e8f0; /* 전체 텍스트 색상 밝게 변경 */
         }
 
         .main-title {
             font-size: 3.0em; 
-            color: #1e293b; 
-            text-align: center; 
+            color: #f8fafc; /* 제목 밝은색 */
             font-weight: 800; 
             margin-bottom: 10px;
             font-family: 'Gowun Batang', serif;
         }
         .sub-desc {
             font-size: 1.3em;
-            color: #475569; 
-            text-align: center; 
+            color: #cbd5e1; /* 부제목 밝은 회색 */
             margin-bottom: 40px;
             font-weight: 500;
         }
 
         /* 입력창 라벨 */
-        .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p {
+        .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p, .stCheckbox label p {
             font-size: 1.1rem !important;
             font-weight: 600 !important;
-            color: #334155 !important;
+            color: #e2e8f0 !important; /* 라벨 밝은색 */
         }
 
-        /* 카드 스타일 */
+        /* 카드 스타일 (어두운 배경에 맞춤) */
         .card {
-            background: rgba(255, 255, 255, 0.95); 
+            background: rgba(30, 41, 59, 0.95); /* 어두운 카드 배경 */
             padding: 30px; 
             border-radius: 15px; 
-            border: 1px solid #e2e8f0; 
+            border: 1px solid #334155; 
             margin-bottom: 20px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3); 
             text-align: center;
             font-family: 'Gowun Batang', serif;
+            color: #f1f5f9;
         }
         
+        /* 컨테이너 스타일 */
+        [data-testid="stVerticalBlockBorderWrapper"] > div {
+             background: rgba(30, 41, 59, 0.8); /* 입력창 등 컨테이너 배경 */
+             border: 1px solid #475569;
+        }
+
         /* 버튼 스타일 강화 */
-        .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem; transition: all 0.3s;}
-        .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
+        .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem; transition: all 0.3s; background-color: #3b82f6; color: white; border: none;}
+        .stButton button:hover {background-color: #2563eb;}
+        .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem; background-color: #8b5cf6; color: white;}
+        
+        h1, h2, h3, h4, p { color: #e2e8f0; } /* 기본 텍스트 밝게 */
+        .stRadio div[role="radiogroup"] label { color: #e2e8f0 !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -75,7 +87,7 @@ with st.sidebar:
                 <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
                     style="width: 180px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
             </a>
-            <p style="font-size: 14px; color: #555; margin-top: 10px;">{coffee_msg}</p>
+            <p style="font-size: 14px; color: #cbd5e1; margin-top: 10px;">{coffee_msg}</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -89,7 +101,7 @@ txt = {
         "btn": "✨ 내 운명 확인하기 (Free)",
         "warn_name": "이름을 입력해주세요.",
         "res_hello": "반갑습니다,",
-        "res_msg": "당신은 <span style='color:#4f46e5; font-weight:bold;'>'{e_name}'</span>의 기운을 타고났습니다.",
+        "res_msg": "당신은 <span style='color:#93c5fd; font-weight:bold;'>'{e_name}'</span>의 기운을 타고났습니다.",
         "menu_h": "💎 프리미엄 운세 스토어",
         "btn_check": "확인하기 ($10)",
         "btn_buy": "구매하기 ($30)",
@@ -109,7 +121,7 @@ txt = {
         "btn": "✨ Analyze My Destiny (Free)",
         "warn_name": "Please enter your name.",
         "res_hello": "Hello,",
-        "res_msg": "You are born with the energy of <span style='color:#4f46e5; font-weight:bold;'>'{e_name}'</span>.",
+        "res_msg": "You are born with the energy of <span style='color:#93c5fd; font-weight:bold;'>'{e_name}'</span>.",
         "menu_h": "💎 Premium Store",
         "btn_check": "Check ($10)",
         "btn_buy": "Buy Pass ($30)",
@@ -124,47 +136,45 @@ txt = {
 }
 t = txt[lang]
 
-# 🖼️ [수정 완료] 깃허브 Raw 이미지 주소 적용
+# 깃허브 기본 주소 (선생님 저장소 기준)
+base_url = "https://raw.githubusercontent.com/1country/global-saju-test/main/images"
+
 imgs = {
-    # blob -> raw.githubusercontent.com 으로 변환했습니다.
-    "s1": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s1.png", 
-    "s2": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s2.png", 
-    "s3": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s3.png", 
-    "s4": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s4.png", 
-    "s5": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s5.png", 
-    "s6": "https://raw.githubusercontent.com/1country/global-saju-test/main/images/s6.png" 
+    "s1": f"{base_url}/s1.png", 
+    "s2": f"{base_url}/s2.png", 
+    "s3": f"{base_url}/s3.png", 
+    "s4": f"{base_url}/s4.png", 
+    "s5": f"{base_url}/s5.png", 
+    "s6": f"{base_url}/s6.png" 
 }
 
-# ... (위쪽 코드는 그대로 유지) ...
-
-# 5. 메인 화면 구성 (Hero Section 업그레이드)
-# 제목과 설명을 단순히 나열하지 않고, 이미지와 함께 배치하여 '대문' 느낌을 줍니다.
+# 5. 메인 화면 구성 (Hero Section - 상단 디자인 강화)
 with st.container():
     col1, col2 = st.columns([1, 2.5]) # 왼쪽: 이미지, 오른쪽: 텍스트
     
     with col1:
-        # 브랜드 로고/메인 이미지 (All-Access Pass 이미지를 활용해 통일감 부여)
-        st.image("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s6.png", use_container_width=True)
+        # 브랜드 메인 이미지 (All-Access Pass 이미지 활용)
+        st.image(imgs['s6'], use_container_width=True)
         
     with col2:
         st.markdown(f"<div style='text-align: left; margin-top: 20px;'>", unsafe_allow_html=True)
         st.markdown(f"<div class='main-title' style='text-align: left;'>{t['title']}</div>", unsafe_allow_html=True)
         st.markdown(f"<div class='sub-desc' style='text-align: left; margin-bottom: 20px;'>{t['sub']}</div>", unsafe_allow_html=True)
         
-        # 작은 뱃지들로 신뢰감 형성
+        # 신뢰감 뱃지
         st.markdown(f"""
             <div style='display: flex; gap: 15px;'>
-                <span style='background:#f1f5f9; padding:5px 10px; border-radius:15px; font-size:0.85em; color:#475569;'>✨ AI Based Analysis</span>
-                <span style='background:#f1f5f9; padding:5px 10px; border-radius:15px; font-size:0.85em; color:#475569;'>📜 Asian Wisdom</span>
-                <span style='background:#f1f5f9; padding:5px 10px; border-radius:15px; font-size:0.85em; color:#475569;'>🔒 Privacy Protected</span>
+                <span style='background:rgba(255,255,255,0.1); padding:5px 10px; border-radius:15px; font-size:0.85em; color:#cbd5e1;'>✨ AI Based Analysis</span>
+                <span style='background:rgba(255,255,255,0.1); padding:5px 10px; border-radius:15px; font-size:0.85em; color:#cbd5e1;'>📜 Asian Wisdom</span>
+                <span style='background:rgba(255,255,255,0.1); padding:5px 10px; border-radius:15px; font-size:0.85em; color:#cbd5e1;'>🔒 Privacy Protected</span>
             </div>
         """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-st.write("") # 여백
+st.write("") 
 st.write("") 
 
-# 세션 초기화 (기존 코드 유지)
+# 세션 초기화
 if "user_name" not in st.session_state: st.session_state["user_name"] = ""
 if "birth_date" not in st.session_state: st.session_state["birth_date"] = date(1990, 1, 1)
 if "birth_time" not in st.session_state: st.session_state["birth_time"] = time(12, 00)
@@ -172,14 +182,12 @@ if "time_unknown" not in st.session_state: st.session_state["time_unknown"] = Fa
 if "gender" not in st.session_state: st.session_state["gender"] = "Male"
 if "analyzed" not in st.session_state: st.session_state["analyzed"] = False
 
-# 입력창 디자인 업그레이드
+# 입력창
 st.markdown(f"### {t['input_h']}")
-
-# 카드 형태로 입력창 감싸기
 with st.container(border=True):
     c1, c2 = st.columns(2)
     with c1:
-        name = st.text_input(t['name'], value=st.session_state["user_name"], placeholder="Enter your full name")
+        name = st.text_input(t['name'], value=st.session_state["user_name"])
         g_opts = ["Male", "Female"] if lang == "en" else ["남성", "여성"]
         gender_val = st.radio(t['gender'], g_opts, horizontal=True)
         gender = "Male" if gender_val in ["Male", "남성"] else "Female"
@@ -192,16 +200,15 @@ with st.container(border=True):
             is_unknown = st.checkbox(t['unknown'], value=st.session_state["time_unknown"])
         with tc1:
             b_time = st.time_input(t['time'], value=st.session_state["birth_time"], disabled=is_unknown)
-    
-    st.write("") # 버튼 위 여백
-    
-    # [애니메이션 효과 추가] 버튼 클릭 시 로딩 연출
+
+    st.write("")
+    # [애니메이션 효과] 버튼 클릭 시 로딩 연출
     if st.button(t['btn'], type="primary", use_container_width=True):
         if name:
-            # 로딩 효과 (사용자에게 분석 중이라는 느낌을 줌)
-            with st.spinner('Connecting to the stars... (운명의 지도를 펼치는 중입니다...)'):
-                import time as tm
-                tm.sleep(1.5) # 1.5초 딜레이 연출
+            # 로딩 메시지와 함께 스피너 표시
+            loading_msg = '운명의 지도를 펼치는 중입니다...' if lang == 'ko' else 'Unfolding your destiny map...'
+            with st.spinner(loading_msg):
+                tm.sleep(2.0) # 2초간 딜레이를 주어 분석하는 느낌 연출
                 
                 st.session_state["user_name"] = name
                 st.session_state["birth_date"] = b_date
@@ -213,42 +220,60 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
-# [신뢰감 형성 섹션] 입력창 아래에 아이콘 3개 추가 (결과 나오기 전 화면 채우기용)
+# [신뢰감 형성 섹션] 입력창 아래 아이콘 (결과 나오기 전)
 if not st.session_state["analyzed"]:
     st.markdown("---")
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 3단 컬럼으로 서비스 특징 소개
+    # 아이콘 주소
+    icon_url_1 = f"{base_url}/icon1.png"
+    icon_url_2 = f"{base_url}/icon2.png"
+    icon_url_3 = f"{base_url}/icon3.png"
+    
+    # ⭐ [핵심] 아이콘 스타일: 부드럽게 녹아드는 원형 마스크 효과 ⭐
+    # mask-image를 사용하여 중심부는 선명하고(black), 가장자리는 투명하게(transparent) 만듭니다.
+    icon_style = """
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 50%; /* 기본 원형 */
+        margin-bottom: 15px;
+        /* 크롬, 사파리용 마스크 */
+        -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+        /* 표준 마스크 */
+        mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+    """
+    
     col_f1, col_f2, col_f3 = st.columns(3)
     
     with col_f1:
-        st.markdown("""
+        st.markdown(f"""
             <div style="text-align: center;">
-                <h1 style="font-size: 3em; margin-bottom: 0;">🔮</h1>
-                <h4 style="margin-top: 5px;">Ancient Wisdom</h4>
-                <p style="color: #64748b; font-size: 0.9em;">Based on deep Asian metaphysical studies.</p>
+                <img src="{icon_url_1}" style="{icon_style}">
+                <h4 style="margin-top: 0; color: #f8fafc;">Ancient Wisdom</h4>
+                <p style="color: #cbd5e1; font-size: 0.9em;">동양의 깊은 명리학적 지혜</p>
             </div>
         """, unsafe_allow_html=True)
         
     with col_f2:
-        st.markdown("""
+        st.markdown(f"""
             <div style="text-align: center;">
-                <h1 style="font-size: 3em; margin-bottom: 0;">⚡</h1>
-                <h4 style="margin-top: 5px;">Modern Insight</h4>
-                <p style="color: #64748b; font-size: 0.9em;">Reinterpreted for today's lifestyle and success.</p>
+                <img src="{icon_url_2}" style="{icon_style}">
+                <h4 style="margin-top: 0; color: #f8fafc;">Modern Insight</h4>
+                <p style="color: #cbd5e1; font-size: 0.9em;">AI 기술을 결합한 정밀 분석</p>
             </div>
         """, unsafe_allow_html=True)
         
     with col_f3:
-        st.markdown("""
+        st.markdown(f"""
             <div style="text-align: center;">
-                <h1 style="font-size: 3em; margin-bottom: 0;">🗝️</h1>
-                <h4 style="margin-top: 5px;">Premium Keys</h4>
-                <p style="color: #64748b; font-size: 0.9em;">Unlock detailed maps of Wealth, Love, and Time.</p>
+                <img src="{icon_url_3}" style="{icon_style}">
+                <h4 style="margin-top: 0; color: #f8fafc;">Premium Keys</h4>
+                <p style="color: #cbd5e1; font-size: 0.9em;">인생의 해답을 여는 마스터 키</p>
             </div>
         """, unsafe_allow_html=True)
 
-# ... (이 아래 'draw_premium_card' 함수부터는 기존 코드 유지) ...
+
 # --- 카드 그리기 도우미 함수 ---
 def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=None):
     with st.container(border=True):
@@ -258,7 +283,7 @@ def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=
             st.write("") 
             st.markdown(f"""
                 <img src="{img_url}" 
-                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
             """, unsafe_allow_html=True)
             
         with col_text:
@@ -284,11 +309,11 @@ if st.session_state["analyzed"]:
     
     st.markdown(f"""
     <div class='card'>
-        <h3 style='color:#475569; margin:0;'>{t['res_hello']} <b>{st.session_state['user_name']}</b>!</h3>
-        <p style='font-size:1.6em; margin-top:15px; color:#1e293b; line-height: 1.6;'>
+        <h3 style='color:#cbd5e1; margin:0;'>{t['res_hello']} <b>{st.session_state['user_name']}</b>!</h3>
+        <p style='font-size:1.6em; margin-top:15px; color:#f8fafc; line-height: 1.6;'>
             {t['res_msg'].format(e_name=day_info[lang])}
         </p>
-        <p style='font-size:1em; color:#64748b; margin-top:5px;'>({description})</p>
+        <p style='font-size:1em; color:#94a3b8; margin-top:5px;'>({description})</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -299,7 +324,7 @@ if st.session_state["analyzed"]:
 
     st.subheader(t['menu_h'])
 
-    # VIP 프리패스 (검로드 링크 확인 필요)
+    # VIP 프리패스
     draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://5codes.gumroad.com/l/all-access_pass")
     
     # 각 서비스별 페이지 연결
@@ -314,8 +339,8 @@ if st.session_state["analyzed"]:
     coffee_msg_bottom = "이 서비스가 도움이 되셨나요? 따뜻한 커피 한 잔은 개발자에게 큰 힘이 됩니다! ☕" if lang == "ko" else "Did you enjoy the service? A coffee would be a great support! ☕"
     
     st.markdown(f"""
-        <div style="text-align: center; padding: 30px; background-color: #f1f5f9; border-radius: 15px; margin-top: 20px;">
-            <p style="font-size: 1.1em; color: #475569; margin-bottom: 20px; font-weight: bold; font-family: 'Gowun Batang', serif;">
+        <div style="text-align: center; padding: 30px; background: rgba(30, 41, 59, 0.8); border-radius: 15px; margin-top: 20px; border: 1px solid #475569;">
+            <p style="font-size: 1.1em; color: #cbd5e1; margin-bottom: 20px; font-weight: bold; font-family: 'Gowun Batang', serif;">
                 {coffee_msg_bottom}
             </p>
             <a href="https://buymeacoffee.com/5codes" target="_blank">
