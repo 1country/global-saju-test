@@ -284,7 +284,7 @@ if not st.session_state["unlocked_2026"]:
         # 3회 제한 팝업 버튼
         if st.button("⚠️ Check Limit Info", type="secondary"):
             show_limit_warning()
-            
+        c1, c2 = st.columns(2)    
         with c1: st.link_button("💳 Buy Now ($10)", GUMROAD_LINK)
         with c2: st.link_button("🎟️ All-Access ($30)", GUMROAD_LINK_ALL)
         st.markdown("---")
