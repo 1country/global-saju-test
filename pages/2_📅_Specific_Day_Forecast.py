@@ -12,7 +12,7 @@ st.set_page_config(page_title="Specific Day Forecast", page_icon="📅", layout=
 # 🔑 [마스터 키 & 검로드 설정]
 UNLOCK_CODE = "MASTER2026"
 PRODUCT_PERMALINK = "specific_day"
-GUMROAD_LINK = "5codes.gumroad.com/l/specific_day" 
+GUMROAD_LINK = "https://5codes.gumroad.com/l/specific_day" 
 
 st.markdown("""
     <style>
