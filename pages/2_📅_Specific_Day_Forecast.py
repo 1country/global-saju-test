@@ -9,10 +9,17 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="Specific Day Forecast", page_icon="📅", layout="wide")
 
-# 🔑 [마스터 키 & 검로드 설정]
+# 🔑 [키 설정]
 UNLOCK_CODE = "MASTER2026"
-PRODUCT_PERMALINK = "specific_day"
-GUMROAD_LINK = "https://5codes.gumroad.com/l/specific_day" 
+
+# (1) 이 페이지 전용 상품 (3회 제한)
+PRODUCT_PERMALINK_SPECIFIC = "specific_day"
+# (2) 만능 패스 상품 (10회 제한)
+PRODUCT_PERMALINK_ALL = "all-access_pass"
+
+# 구매 링크
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/specific_day"
+GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 st.markdown("""
     <style>
@@ -68,7 +75,7 @@ with st.sidebar:
         st.switch_page("Home.py")
 
 # ----------------------------------------------------------------
-# 3. [초대형] 리포트 데이터 (꼬리표 제거 완료)
+# 3. [초대형] 리포트 데이터
 # ----------------------------------------------------------------
 def get_long_report(user_elem, day_elem, lang, gender):
     
@@ -82,7 +89,7 @@ def get_long_report(user_elem, day_elem, lang, gender):
     
     rel_type = relations.get(user_elem, {}).get(day_elem, "Same")
     
-    # 🌟 시나리오 데이터 ("남성의 경우" 같은 꼬리표 삭제됨)
+    # 🌟 시나리오 데이터
     scenarios = {
         "Same": { # 비견/겁재
             "ko": {
@@ -238,10 +245,13 @@ ui = {
         "title": "📅 특정일 운세 정밀 분석",
         "sub": "심리학과 명리학이 만난 프리미엄 심층 리포트 (A4 1장 분량)",
         "user_info": f"👤 **분석 대상:** {user_name}님 ({user_gender} / {birth_date})",
-        "lock_msg": "🔒 프리미엄 리포트 잠금 ($10)",
+        "lock_msg": "🔒 프리미엄 리포트 잠금",
+        "lock_desc": "결제 후 받은 라이센스 키를 입력하세요.",
+        "lock_warn": "⚠️ 주의: 라이센스 키 사용 횟수가 차감됩니다.",
         "label": "구매 후 받은 라이센스 키 입력",
         "btn_unlock": "리포트 잠금 해제",
-        "btn_buy": "💳 프리미엄 리포트 구매 ($10)",
+        "btn_buy_sp": "💳 단품 구매 ($10 / 3회)",
+        "btn_buy_all": "🎟️ All-Access 패스 구매 ($30 / 10회)",
         "target_date": "분석하고 싶은 날짜 (D-Day)",
         "btn_analyze": "상세 운세 확인하기",
         "print": "🖨️ 리포트 인쇄하기"
@@ -250,10 +260,13 @@ ui = {
         "title": "📅 Specific Day: Deep Report",
         "sub": "Premium In-depth Report combining Psychology & Metaphysics.",
         "user_info": f"👤 **User:** {user_name} ({user_gender} / {birth_date})",
-        "lock_msg": "🔒 Premium Report Locked ($10)",
+        "lock_msg": "🔒 Premium Report Locked",
+        "lock_desc": "Enter the license key after purchase.",
+        "lock_warn": "⚠️ Warning: This will consume 1 usage credit.",
         "label": "Enter License Key",
         "btn_unlock": "Unlock Report",
-        "btn_buy": "💳 Buy Premium Report ($10)",
+        "btn_buy_sp": "💳 Buy Single ($10 / 3 Uses)",
+        "btn_buy_all": "🎟️ Buy All-Access ($30 / 10 Uses)",
         "target_date": "Target Date (D-Day)",
         "btn_analyze": "Analyze Detail",
         "print": "🖨️ Print Report"
@@ -286,12 +299,28 @@ st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=Tr
 # 🔒 [잠금 로직]
 if "unlocked_specific" not in st.session_state: st.session_state["unlocked_specific"] = False
 
+# 🌟 팝업창(Dialog) 함수
+@st.dialog("⚠️ Usage Limit Warning")
+def show_limit_warning():
+    st.warning(t['lock_warn'], icon="⚠️")
+    st.write("Checking this result will deduct 1 credit from your license.")
+    if st.button("I Understand & Proceed", type="primary"):
+        st.rerun()
+
 if not st.session_state["unlocked_specific"]:
     with st.container(border=True):
         st.info(t['sub'])
         st.markdown(f"<div class='user-info-box'>{t['user_info']}</div>", unsafe_allow_html=True)
         st.write(f"### {t['lock_msg']}")
-        st.link_button(t['btn_buy'], GUMROAD_LINK)
+        
+        # 3회 제한 팝업 버튼
+        if st.button("⚠️ Check Limit Info", type="secondary"):
+            show_limit_warning()
+            
+        c1, c2 = st.columns(2)
+        with c1: st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC)
+        with c2: st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL)
+        
         st.markdown("---")
         key = st.text_input(t['label'], type="password")
         
@@ -301,20 +330,37 @@ if not st.session_state["unlocked_specific"]:
                 st.success("Master Key Accepted!")
                 st.rerun()
             try:
-                response = requests.post(
+                # (A) 단품 상품 확인
+                response_specific = requests.post(
                     "https://api.gumroad.com/v2/licenses/verify",
-                    data={"product_permalink": PRODUCT_PERMALINK, "license_key": key}
+                    data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}
                 )
-                data = response.json()
-                if data.get("success"):
-                    if data.get("uses", 0) > 3:
-                        st.error("🚫 Limit exceeded (Max 3 uses).")
+                data_specific = response_specific.json()
+
+                if data_specific.get("success"):
+                    if data_specific.get("uses", 0) > 3:
+                        st.error(f"🚫 Limit exceeded (Max 3 uses).")
                     else:
                         st.session_state["unlocked_specific"] = True
                         st.success("Success!")
                         st.rerun()
                 else:
-                    st.error("🚫 Invalid Key.")
+                    # (B) All-Access 패스 확인
+                    response_all = requests.post(
+                        "https://api.gumroad.com/v2/licenses/verify",
+                        data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}
+                    )
+                    data_all = response_all.json()
+                    
+                    if data_all.get("success"):
+                        if data_all.get("uses", 0) > 10:
+                            st.error(f"🚫 All-Access Pass Limit Exceeded ({data_all.get('uses')}/10)")
+                        else:
+                            st.session_state["unlocked_specific"] = True
+                            st.success("All-Access Pass Accepted!")
+                            st.rerun()
+                    else:
+                        st.error("🚫 Invalid Key.")
             except:
                 st.error("Connection Error.")
     st.stop()
@@ -329,6 +375,8 @@ with st.container():
     if st.button(t['btn_analyze'], type="primary"):
         user_info = calculate_day_gan(birth_date)
         target_info = calculate_day_gan(target_date)
+        
+        # 👇 거대해진 리포트 데이터 가져오기
         report = get_long_report(user_info['element'], target_info['element'], lang, user_gender)
         
         st.divider()
