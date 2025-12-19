@@ -1,6 +1,5 @@
 import streamlit as st
 from datetime import date, time
-# utils에서 함수 가져오기
 from utils import calculate_day_gan, get_interpretation 
 
 # 1. 페이지 설정
@@ -125,14 +124,11 @@ txt = {
 }
 t = txt[lang]
 
-# [중요] 이미지 주소 설정
+# 이미지 주소 설정
 imgs = {
     "s1": "https://cdn-icons-png.flaticon.com/512/4333/4333609.png", 
     "s2": "https://cdn-icons-png.flaticon.com/512/9322/9322127.png", 
-    
-    # [수정됨] 이제 사진이 완벽하게 나올 겁니다!
     "s3": "https://raw.githubusercontent.com/1country/global-saju-test/main/unnamed.jpg", 
-    
     "s4": "https://cdn-icons-png.flaticon.com/512/1057/1057240.png", 
     "s5": "https://cdn-icons-png.flaticon.com/512/950/950575.png", 
     "s6": "https://cdn-icons-png.flaticon.com/512/6941/6941697.png" 
@@ -181,15 +177,13 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
-# --- 카드 그리기 도우미 함수 (수정됨: 이미지 정사각형 확대 적용) ---
+# --- 카드 그리기 도우미 함수 ---
 def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=None):
     with st.container(border=True):
-        # 레이아웃 비율 조정 (이미지 공간을 약간 늘림)
         col_img, col_text, col_btn = st.columns([1.2, 3.3, 1.5], gap="medium")
         
         with col_img:
-            # [핵심] object-fit: cover를 사용하여 이미지를 정사각형 영역에 꽉 차게 확대
-            st.write("") # 수직 정렬 공백
+            st.write("") 
             st.markdown(f"""
                 <img src="{img_url}" 
                      style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -203,9 +197,11 @@ def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=
             st.write("") 
             st.write("") 
             if click_page:
+                # [수정됨] 페이지 이동 버튼
                 if st.button(btn_text, key=title, use_container_width=True):
                     st.switch_page(click_page)
             elif link_url:
+                # [수정됨] 외부 링크 버튼 (All-Access Pass용)
                 st.link_button(btn_text, link_url, type="primary", use_container_width=True)
 
 # 6. 결과 및 프리미엄 스토어
@@ -233,15 +229,23 @@ if st.session_state["analyzed"]:
 
     st.subheader(t['menu_h'])
 
-    # [순서 변경] VIP 프리패스를 가장 위로!
-    draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://gum.co/demo_product")
+    # [수정 완료] VIP 프리패스: 구매 링크로 바로 이동 (실제 주소 적용)
+    draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://5codes.gumroad.com/l/all-access_pass")
     
-    # 나머지는 순서대로
+    # [수정 완료] 각 페이지 파일명 및 이모지를 실제 파일과 100% 일치시킴
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_Forecast.py")
-    draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day_Forecast.py")
-    draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_❤️_Love_Compatibility.py")
-    draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_📆_Date_Selection.py")
-    draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_🤝_Business_Compatibility.py")
+    
+    # 2번 페이지 이름 수정 (Specific_Day.py)
+    draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day.py")
+    
+    # 3번 페이지 이름 및 이모지 수정 (💘)
+    draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_💘_Love_Compatibility.py")
+    
+    # 4번 페이지 이름 및 이모지 수정 (🗓️)
+    draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_🗓️_Date_Selection.py")
+    
+    # 5번 페이지 이름 및 이모지 수정 (💼)
+    draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_💼_Business_Compatibility.py")
     
 
     st.divider()
