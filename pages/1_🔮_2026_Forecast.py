@@ -13,7 +13,10 @@ st.set_page_config(page_title="2026 Forecast", page_icon="🔮", layout="wide")
 # 🔑 [마스터 키 & 검로드 설정]
 UNLOCK_CODE = "MASTER2026"
 PRODUCT_PERMALINK = "2026_forecast"
+# (2) 만능 패스 상품 (10회 제한) - 하이픈/언더바 주의 (Gumroad와 일치시킬 것)
+PRODUCT_PERMALINK_ALL = "all-access_pass" 
 GUMROAD_LINK = "https://5codes.gumroad.com/l/2026_forecast" 
+GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 st.markdown("""
     <style>
@@ -282,40 +285,57 @@ if not st.session_state["unlocked_2026"]:
         if st.button("⚠️ Check Limit Info", type="secondary"):
             show_limit_warning()
             
-        st.link_button("💳 Buy Now ($10)", GUMROAD_LINK)
-        
+        with c1: st.link_button("💳 Buy Now ($10)", GUMROAD_LINK)
+        with c2: st.link_button("🎟️ All-Access ($30)", GUMROAD_LINK_ALL)
         st.markdown("---")
         key = st.text_input(t['label'], type="password")
         
-        if st.button(t['btn']):
+        if st.button(t['btn_unlock'], type="primary"):
+            # (입력값 확인 등 기존 로직 유지...)
+            
+            # 1. 마스터키 확인
             if key == UNLOCK_CODE:
-                st.session_state["unlocked_2026"] = True
-                st.success("Master Key Accepted!")
+                # 페이지별 세션 키 이름 주의! (예: unlocked_love, unlocked_date 등)
+                st.session_state["unlocked_2026"] = True 
+                st.success("Developer Access Granted!")
                 st.rerun()
             
+            # 2. 검로드 API 확인 (Two-Step Verification)
             try:
-                response = requests.post(
+                # (A) 먼저 '단품 상품'인지 확인
+                response_specific = requests.post(
                     "https://api.gumroad.com/v2/licenses/verify",
-                    data={
-                        "product_permalink": PRODUCT_PERMALINK,
-                        "license_key": key
-                    }
+                    data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}
                 )
-                data = response.json()
-
-                if data.get("success"):
-                    current_uses = data.get("uses", 0)
-                    if current_uses > 3:
-                        st.error("🚫 Limit exceeded (Max 3 uses).")
+                data_specific = response_specific.json()
+                
+                if data_specific.get("success"):
+                    if data_specific.get("uses", 0) > 3:
+                        st.error(f"🚫 Single License Limit Exceeded ({data_specific.get('uses')}/3)")
                     else:
-                        st.session_state["unlocked_2026"] = True
-                        st.success("Success!")
+                        st.session_state["unlocked_2026"] = True # 페이지별 키 이름 수정!
+                        st.success("Single License Accepted!")
                         st.rerun()
                 else:
-                    st.error("🚫 Invalid License Key.")
-            
-            except Exception as e:
-                st.error("Connection Error.")
+                    # (B) 실패했다면, 'All-Access 패스'인지 확인
+                    response_all = requests.post(
+                        "https://api.gumroad.com/v2/licenses/verify",
+                        data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}
+                    )
+                    data_all = response_all.json()
+                    
+                    if data_all.get("success"):
+                        if data_all.get("uses", 0) > 10:
+                            st.error(f"🚫 All-Access Pass Limit Exceeded ({data_all.get('uses')}/10)")
+                        else:
+                            st.session_state["unlocked_2026"] = True # 페이지별 키 이름 수정!
+                            st.success("All-Access Pass Accepted!")
+                            st.rerun()
+                    else:
+                        st.error("🚫 Invalid License Key")
+                        
+            except:
+                st.error("Connection Error")
     st.stop()
 
 # ----------------------------------------------------------------
