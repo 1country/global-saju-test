@@ -10,7 +10,7 @@ st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layo
 # 언어 설정 (기본값 en)
 lang = os.environ.get('LANGUAGE', 'en')
 
-# 2. 스타일 및 배경 설정 (CSS 대폭 수정)
+# 2. 스타일 및 배경 설정 (CSS 수정: 사이드바 톤 조절)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
@@ -23,13 +23,14 @@ st.markdown("""
             color: #e2e8f0;
         }
 
-        /* ⭐ [핵심 수정] 사이드바 디자인 변경 ⭐ */
+        /* ⭐ [핵심 수정] 사이드바 색상 완화 (너무 진하지 않게) ⭐ */
         section[data-testid="stSidebar"] {
-            background-color: #0f172a !important; /* 아주 어두운 네이비색 배경 */
-            border-right: 1px solid #334155;       /* 경계선 추가 */
+            /* 기존 #0f172a (거의 검정) -> #1e293b (부드러운 짙은 회남색) */
+            background-color: #1e293b !important; 
+            border-right: 1px solid #334155;       
         }
         
-        /* 사이드바 내의 모든 텍스트 색상을 밝은 흰색으로 강제 고정 */
+        /* 텍스트 색상 완화 (완전 흰색 -> 은은한 밝은 회색) */
         section[data-testid="stSidebar"] h1, 
         section[data-testid="stSidebar"] h2, 
         section[data-testid="stSidebar"] h3, 
@@ -37,14 +38,14 @@ st.markdown("""
         section[data-testid="stSidebar"] span, 
         section[data-testid="stSidebar"] div,
         section[data-testid="stSidebar"] label {
-            color: #f8fafc !important; /* 밝은 흰색 */
+            color: #cbd5e1 !important; /* #f8fafc(흰색) -> #cbd5e1(부드러운 실버) */
         }
 
         /* 사이드바 메뉴 링크 스타일 */
         [data-testid="stSidebarNav"] span {
             font-size: 1.1rem !important; 
             font-weight: 600 !important; 
-            color: #e2e8f0 !important;
+            color: #e2e8f0 !important; /* 메뉴명은 조금 더 밝게 유지 */
             padding-top: 5px; padding-bottom: 5px;
         }
 
@@ -91,7 +92,6 @@ with st.sidebar:
     }
     current_lang_display = lang_map.get(lang, "English")
     
-    # 정보창 스타일도 어둡게
     st.info(f"Current Mode: **{current_lang_display}**")
     
     st.markdown("---")
@@ -107,7 +107,8 @@ with st.sidebar:
     coffee_text = coffee_msg_dict.get(lang, "Support the developer!")
     
     coffee_title = "☕ 개발자 응원하기" if lang == "ko" else "☕ Buy me a coffee"
-    coffee_html = f"<span style='color: #ffffff; font-weight: bold;'>{coffee_text}</span>"
+    # 문구 색상을 부드러운 회색으로 변경
+    coffee_html = f"<span style='color: #cbd5e1; font-weight: bold;'>{coffee_text}</span>"
     
     st.header(coffee_title)
     st.markdown(f"""
@@ -116,7 +117,7 @@ with st.sidebar:
                 <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
                     style="width: 180px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
             </a>
-            <p style="font-size: 14px; margin-top: 10px; color: #cbd5e1;">{coffee_html}</p>
+            <p style="font-size: 14px; margin-top: 10px; color: #94a3b8;">{coffee_html}</p>
         </div>
     """, unsafe_allow_html=True)
 
