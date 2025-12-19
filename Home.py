@@ -1,34 +1,54 @@
 import streamlit as st
 from datetime import date, time
-import time as tm # 로딩 애니메이션을 위해 필요
+import time as tm
 from utils import calculate_day_gan, get_interpretation 
 
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
 
-# 2. 스타일 및 배경 설정
+# 2. 스타일 및 배경 설정 (CSS 대폭 수정)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
+        /* 배경 설정 */
         .stApp {
-            /* 배경 이미지: 어두운 밤하늘 느낌으로 교체 (아이콘과 어울리게) */
             background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
-            color: #e2e8f0; /* 전체 텍스트 색상 밝게 변경 */
+            color: #e2e8f0;
         }
 
+        /* 1. 사이드바 메뉴 폰트 크기 및 볼드 처리 */
+        [data-testid="stSidebarNav"] span {
+            font-size: 1.2rem !important; /* 글자 크기 키움 */
+            font-weight: 700 !important;   /* 굵게 */
+            color: #f8fafc !important;     /* 아주 밝은 색 */
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        /* 2. 사이드바 라디오 버튼(언어) 및 텍스트 가독성 개선 */
+        .stRadio label p {
+            font-size: 1.1rem !important;
+            color: #ffffff !important; /* 완전 흰색 */
+            font-weight: 600 !important;
+        }
+        [data-testid="stSidebar"] p, [data-testid="stSidebar"] span {
+            color: #e2e8f0 !important; /* 사이드바 내 모든 텍스트 밝게 */
+        }
+
+        /* 메인 타이틀 */
         .main-title {
             font-size: 3.0em; 
-            color: #f8fafc; /* 제목 밝은색 */
+            color: #f8fafc; 
             font-weight: 800; 
             margin-bottom: 10px;
             font-family: 'Gowun Batang', serif;
         }
         .sub-desc {
             font-size: 1.3em;
-            color: #cbd5e1; /* 부제목 밝은 회색 */
+            color: #cbd5e1; 
             margin-bottom: 40px;
             font-weight: 500;
         }
@@ -37,12 +57,12 @@ st.markdown("""
         .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p, .stCheckbox label p {
             font-size: 1.1rem !important;
             font-weight: 600 !important;
-            color: #e2e8f0 !important; /* 라벨 밝은색 */
+            color: #e2e8f0 !important;
         }
 
-        /* 카드 스타일 (어두운 배경에 맞춤) */
+        /* 카드 스타일 */
         .card {
-            background: rgba(30, 41, 59, 0.95); /* 어두운 카드 배경 */
+            background: rgba(30, 41, 59, 0.95); 
             padding: 30px; 
             border-radius: 15px; 
             border: 1px solid #334155; 
@@ -53,19 +73,12 @@ st.markdown("""
             color: #f1f5f9;
         }
         
-        /* 컨테이너 스타일 */
-        [data-testid="stVerticalBlockBorderWrapper"] > div {
-             background: rgba(30, 41, 59, 0.8); /* 입력창 등 컨테이너 배경 */
-             border: 1px solid #475569;
-        }
-
-        /* 버튼 스타일 강화 */
+        /* 버튼 스타일 */
         .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem; transition: all 0.3s; background-color: #3b82f6; color: white; border: none;}
         .stButton button:hover {background-color: #2563eb;}
         .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem; background-color: #8b5cf6; color: white;}
         
-        h1, h2, h3, h4, p { color: #e2e8f0; } /* 기본 텍스트 밝게 */
-        .stRadio div[role="radiogroup"] label { color: #e2e8f0 !important; }
+        h1, h2, h3, h4, p { color: #e2e8f0; } 
     </style>
 """, unsafe_allow_html=True)
 
@@ -78,7 +91,8 @@ with st.sidebar:
     st.markdown("---")
     
     coffee_title = "☕ 개발자 응원하기" if lang == "ko" else "☕ Buy me a coffee"
-    coffee_msg = "운명의 코드를 응원해 주세요!" if lang == "ko" else "Support the developer!"
+    # 글자 색상을 강제로 흰색으로 지정하는 HTML 태그 사용
+    coffee_msg = f"<span style='color: #ffffff; font-weight: bold;'>{'운명의 코드를 응원해 주세요!' if lang == 'ko' else 'Support the developer!'}</span>"
     
     st.header(coffee_title)
     st.markdown(f"""
@@ -87,7 +101,7 @@ with st.sidebar:
                 <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
                     style="width: 180px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 5px;">
             </a>
-            <p style="font-size: 14px; color: #cbd5e1; margin-top: 10px;">{coffee_msg}</p>
+            <p style="font-size: 15px; margin-top: 10px;">{coffee_msg}</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -136,7 +150,7 @@ txt = {
 }
 t = txt[lang]
 
-# 깃허브 기본 주소 (선생님 저장소 기준)
+# 깃허브 기본 주소
 base_url = "https://raw.githubusercontent.com/1country/global-saju-test/main/images"
 
 imgs = {
@@ -148,12 +162,11 @@ imgs = {
     "s6": f"{base_url}/s6.png" 
 }
 
-# 5. 메인 화면 구성 (Hero Section - 상단 디자인 강화)
+# 5. 메인 화면 구성
 with st.container():
-    col1, col2 = st.columns([1, 2.5]) # 왼쪽: 이미지, 오른쪽: 텍스트
+    col1, col2 = st.columns([1, 2.5]) 
     
     with col1:
-        # 브랜드 메인 이미지 (All-Access Pass 이미지 활용)
         st.image(imgs['s6'], use_container_width=True)
         
     with col2:
@@ -161,7 +174,6 @@ with st.container():
         st.markdown(f"<div class='main-title' style='text-align: left;'>{t['title']}</div>", unsafe_allow_html=True)
         st.markdown(f"<div class='sub-desc' style='text-align: left; margin-bottom: 20px;'>{t['sub']}</div>", unsafe_allow_html=True)
         
-        # 신뢰감 뱃지
         st.markdown(f"""
             <div style='display: flex; gap: 15px;'>
                 <span style='background:rgba(255,255,255,0.1); padding:5px 10px; border-radius:15px; font-size:0.85em; color:#cbd5e1;'>✨ AI Based Analysis</span>
@@ -202,13 +214,11 @@ with st.container(border=True):
             b_time = st.time_input(t['time'], value=st.session_state["birth_time"], disabled=is_unknown)
 
     st.write("")
-    # [애니메이션 효과] 버튼 클릭 시 로딩 연출
     if st.button(t['btn'], type="primary", use_container_width=True):
         if name:
-            # 로딩 메시지와 함께 스피너 표시
             loading_msg = '운명의 지도를 펼치는 중입니다...' if lang == 'ko' else 'Unfolding your destiny map...'
             with st.spinner(loading_msg):
-                tm.sleep(2.0) # 2초간 딜레이를 주어 분석하는 느낌 연출
+                tm.sleep(2.0) 
                 
                 st.session_state["user_name"] = name
                 st.session_state["birth_date"] = b_date
@@ -220,38 +230,40 @@ with st.container(border=True):
         else:
             st.warning(t['warn_name'])
 
-# [신뢰감 형성 섹션] 입력창 아래 아이콘 (결과 나오기 전)
+# [하단 디자인 업그레이드] 아이콘 섹션
 if not st.session_state["analyzed"]:
     st.markdown("---")
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 아이콘 주소
     icon_url_1 = f"{base_url}/icon1.png"
     icon_url_2 = f"{base_url}/icon2.png"
     icon_url_3 = f"{base_url}/icon3.png"
     
-    # ⭐ [핵심] 아이콘 스타일: 부드럽게 녹아드는 원형 마스크 효과 ⭐
-    # mask-image를 사용하여 중심부는 선명하고(black), 가장자리는 투명하게(transparent) 만듭니다.
+    # ⭐ [핵심 수정] 페이딩 효과 강화 ⭐
+    # radial-gradient의 투명해지는 구간을 30% -> 80%로 당겨서 더 부드럽고 확실하게 사라지게 함
     icon_style = """
-        width: 110px;
-        height: 110px;
+        width: 120px;
+        height: 120px;
         object-fit: cover;
-        border-radius: 50%; /* 기본 원형 */
-        margin-bottom: 15px;
-        /* 크롬, 사파리용 마스크 */
-        -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
-        /* 표준 마스크 */
-        mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+        border-radius: 50%;
+        margin-bottom: 20px;
+        -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); /* 살짝 금빛 광채 추가 */
     """
     
     col_f1, col_f2, col_f3 = st.columns(3)
     
+    # 글자 크기를 0.9em에서 1.1em으로 키우고 색상도 더 밝게 조정
+    text_style_h4 = "margin-top: 0; color: #f8fafc; font-size: 1.2em; font-weight: bold;"
+    text_style_p = "color: #e2e8f0; font-size: 1.1em; line-height: 1.5;"
+
     with col_f1:
         st.markdown(f"""
             <div style="text-align: center;">
                 <img src="{icon_url_1}" style="{icon_style}">
-                <h4 style="margin-top: 0; color: #f8fafc;">Ancient Wisdom</h4>
-                <p style="color: #cbd5e1; font-size: 0.9em;">동양의 깊은 명리학적 지혜</p>
+                <h4 style="{text_style_h4}">Ancient Wisdom</h4>
+                <p style="{text_style_p}">동양의 깊은 명리학적 지혜</p>
             </div>
         """, unsafe_allow_html=True)
         
@@ -259,8 +271,8 @@ if not st.session_state["analyzed"]:
         st.markdown(f"""
             <div style="text-align: center;">
                 <img src="{icon_url_2}" style="{icon_style}">
-                <h4 style="margin-top: 0; color: #f8fafc;">Modern Insight</h4>
-                <p style="color: #cbd5e1; font-size: 0.9em;">AI 기술을 결합한 정밀 분석</p>
+                <h4 style="{text_style_h4}">Modern Insight</h4>
+                <p style="{text_style_p}">AI 기술을 결합한 정밀 분석</p>
             </div>
         """, unsafe_allow_html=True)
         
@@ -268,8 +280,8 @@ if not st.session_state["analyzed"]:
         st.markdown(f"""
             <div style="text-align: center;">
                 <img src="{icon_url_3}" style="{icon_style}">
-                <h4 style="margin-top: 0; color: #f8fafc;">Premium Keys</h4>
-                <p style="color: #cbd5e1; font-size: 0.9em;">인생의 해답을 여는 마스터 키</p>
+                <h4 style="{text_style_h4}">Premium Keys</h4>
+                <p style="{text_style_p}">인생의 해답을 여는 마스터 키</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -324,10 +336,8 @@ if st.session_state["analyzed"]:
 
     st.subheader(t['menu_h'])
 
-    # VIP 프리패스
     draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://5codes.gumroad.com/l/all-access_pass")
     
-    # 각 서비스별 페이지 연결
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_Forecast.py")
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day.py")
     draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_💘_Love_Compatibility.py")
