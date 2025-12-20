@@ -27,7 +27,15 @@ GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
-        
+        /* 탭 스타일 변경 */
+        button[data-baseweb="tab"] {
+            color: #cbd5e1 !important; /* 기본 탭 글자색 (밝은 회색) */
+            font-weight: 600 !important;
+        }
+        button[data-baseweb="tab"][aria-selected="true"] {
+            color: #f472b6 !important; /* 선택된 탭 글자색 (핑크) */
+            background-color: rgba(244, 114, 182, 0.1) !important; /* 선택된 탭 배경 */
+        }
         .stApp {
             background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
@@ -638,6 +646,7 @@ if check_clicked or st.session_state.get('day_analyzed'):
             """, unsafe_allow_html=True)
             
         with tab2:
+            # 🌟 Health & Action Plan 탭 내용 추가
             st.markdown(f"""
                 <div class='premium-box'>
                     <h3 style='color:#34d399;'>{t['h_health']}</h3>
@@ -650,10 +659,11 @@ if check_clicked or st.session_state.get('day_analyzed'):
             """, unsafe_allow_html=True)
             
         with tab3:
+            # 🌟 Lucky Items 탭 내용 추가
             st.markdown(f"""
                 <div class='card' style='text-align:center;'>
-                    <h1 style='font-size:3em;'>{res['lucky']}</h1>
-                    <p style='color:#cbd5e1;'>{t['h_lucky']}</p>
+                    <h3 style='color:#cbd5e1; margin-bottom:10px;'>{t['h_lucky']}</h3>
+                    <h1 style='font-size:2.5em;'>{res['lucky']}</h1>
                 </div>
             """, unsafe_allow_html=True)
             
