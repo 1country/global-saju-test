@@ -20,21 +20,26 @@ GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/2026_forecast"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (네이비 테마)
+# 2. 스타일 설정 (이 부분만 교체하세요!)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
+        /* 메인 배경 */
         .stApp {
             background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #e2e8f0;
         }
+        
+        /* 사이드바 스타일 */
         section[data-testid="stSidebar"] { background-color: #1e293b !important; border-right: 1px solid #334155; }
         section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
         [data-testid="stSidebarNav"] span { font-size: 1.1rem !important; font-weight: 600 !important; color: #e2e8f0 !important; }
+        
+        /* 제목 및 카드 스타일 */
         .year-title {
             font-size: 2.5em; font-weight: 800; color: #fbbf24; text-align: center; margin-bottom: 10px;
             font-family: 'Gowun Batang', serif; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
@@ -43,10 +48,32 @@ st.markdown("""
             background: rgba(30, 41, 59, 0.8); border: 1px solid #475569; padding: 25px;
             border-radius: 15px; margin-bottom: 20px; color: #e2e8f0;
         }
-        .highlight { color: #93c5fd; font-weight: bold; }
+        
+        /* ⭐ [핵심 수정] 표(Table) 가독성 해결 코드 추가 ⭐ */
+        div[data-testid="stTable"] {
+            background-color: rgba(30, 41, 59, 0.6) !important; /* 표 배경을 반투명 검정으로 */
+            border-radius: 10px;
+            padding: 10px;
+            overflow: hidden;
+        }
+        div[data-testid="stTable"] table {
+            color: #ffffff !important; /* 글씨를 무조건 흰색으로 */
+        }
+        div[data-testid="stTable"] th {
+            color: #93c5fd !important; /* 헤더는 밝은 파란색 */
+            font-size: 1.1em !important;
+            border-bottom: 1px solid #475569 !important;
+        }
+        div[data-testid="stTable"] td {
+            color: #e2e8f0 !important; /* 내용은 밝은 회색 */
+            font-size: 1.0em !important;
+        }
+        
+        /* 잠금 화면 스타일 */
         .lock-overlay {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.8); padding: 20px; border-radius: 10px; text-align: center; width: 80%; z-index: 99;
+            background: rgba(0,0,0,0.85); padding: 30px; border-radius: 15px; 
+            text-align: center; width: 90%; z-index: 99; border: 1px solid #fbbf24;
         }
     </style>
 """, unsafe_allow_html=True)
