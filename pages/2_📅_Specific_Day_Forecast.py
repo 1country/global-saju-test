@@ -309,6 +309,42 @@ ui = {
         "btn_buy": "Unlock Details ($5)", "btn_unlock": "Unlock", "key_label": "License Key",
         "h_money": "💰 Wealth Guide", "h_love": "❤️ Love Guide", "h_health": "💪 Health", 
         "h_action": "🚀 Action Plan", "h_lucky": "🍀 Lucky Items"
+    },
+    "fr": {
+        "title": "📅 Prévisions du Jour", "sub": "Vérifiez l'énergie d'un jour important.",
+        "date_label": "Date", "btn_anal": "Analyser",
+        "res_free": "✨ Prévisions de Base (Gratuit)", "res_paid": "🔒 Détails Premium (VIP)",
+        "lock_msg": "Débloquez les détails sur la richesse, l'amour et la santé.",
+        "btn_buy": "Débloquer (5$)", "btn_unlock": "Déverrouiller", "key_label": "Clé de licence",
+        "h_money": "💰 Richesse", "h_love": "❤️ Amour", "h_health": "💪 Santé", 
+        "h_action": "🚀 Plan d'Action", "h_lucky": "🍀 Porte-bonheur"
+    },
+    "es": {
+        "title": "📅 Pronóstico del Día", "sub": "Revisa la energía de un día importante.",
+        "date_label": "Fecha", "btn_anal": "Analizar",
+        "res_free": "✨ Pronóstico Básico (Gratis)", "res_paid": "🔒 Detalle Premium (VIP)",
+        "lock_msg": "Desbloquea detalles sobre riqueza, amor y salud.",
+        "btn_buy": "Desbloquear ($5)", "btn_unlock": "Desbloquear", "key_label": "Clave",
+        "h_money": "💰 Riqueza", "h_love": "❤️ Amor", "h_health": "💪 Salud", 
+        "h_action": "🚀 Plan de Acción", "h_lucky": "🍀 Suerte"
+    },
+    "ja": {
+        "title": "📅 その日の運勢", "sub": "大切な日の運気をチェックしましょう。",
+        "date_label": "日付選択", "btn_anal": "分析する",
+        "res_free": "✨ 今日の核心運勢 (無料)", "res_paid": "🔒 プレミアム詳細 (VIP)",
+        "lock_msg": "財運、恋愛、健康、行動指針などの詳細を確認できます。",
+        "btn_buy": "詳細を解除 ($5)", "btn_unlock": "解除", "key_label": "ライセンスキー",
+        "h_money": "💰 財運ガイド", "h_love": "❤️ 恋愛ガイド", "h_health": "💪 健康管理", 
+        "h_action": "🚀 行動指針", "h_lucky": "🍀 ラッキーアイテム"
+    },
+    "zh": {
+        "title": "📅 特定日运势", "sub": "查看重要日子的气场。",
+        "date_label": "选择日期", "btn_anal": "分析",
+        "res_free": "✨ 今日核心运势 (免费)", "res_paid": "🔒 高级详细运势 (VIP)",
+        "lock_msg": "解锁财运、恋爱、健康及行动指南。",
+        "btn_buy": "解锁详情 ($5)", "btn_unlock": "解锁", "key_label": "密钥",
+        "h_money": "💰 财运指南", "h_love": "❤️ 恋爱指南", "h_health": "💪 健康管理", 
+        "h_action": "🚀 行动指南", "h_lucky": "🍀 幸运物"
     }
 }
 if lang not in ui: t = ui['en']
@@ -327,37 +363,34 @@ with st.container(border=True):
         st.write("")
         check_clicked = st.button(t['btn_anal'], type="primary", use_container_width=True)
 
-# 2. 분석 결과 표시
+# 2. 분석
 if check_clicked or st.session_state.get('day_analyzed'):
     st.session_state['day_analyzed'] = True
     
-    # 1. 내 생년월일로 일간 계산
+    # 일간 계산
     my_info = calculate_day_gan(st.session_state["birth_date"])
-    
-    # 2. 선택한 날짜로 일진 계산
     target_info = calculate_day_gan(target_date)
     
-    # 3. 한자(甲, 乙..)를 오행 영어(Wood, Fire..)로 변환하는 함수
     def map_elem(hanja):
         m = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'}
-        # 한자가 딕셔너리에 없으면 그대로 반환하거나 기본값 Wood 사용
         return m.get(hanja, 'Wood')
-        
+    
     my_elem = map_elem(my_info['element'])
     tgt_elem = map_elem(target_info['element'])
     
-    # 4. 데이터 가져오기 (수정된 함수 호출)
+    # ✅ [중요] 데이터를 'res' 변수에 저장했습니다.
     res = get_relationship_data(my_elem, tgt_elem, lang)
     
     st.divider()
     
     # [무료] 총운
     st.subheader(t['res_free'])
+    # ✅ [수정] data['t'] -> res['t'] 로 변경 (이제 에러가 안 날 겁니다!)
     st.markdown(f"""
         <div class='card' style='border:1px solid #f472b6;'>
-            <h2 style='color:#f472b6; margin-top:0;'>{data['t']}</h2>
-            <h1 style='text-align:center; font-size:3em;'>{data['star']}</h1>
-            <p style='font-size:1.2em; line-height:1.6; text-align:center;'>{data['d']}</p>
+            <h2 style='color:#f472b6; margin-top:0;'>{res['t']}</h2>
+            <h1 style='text-align:center; font-size:3em;'>{res['star']}</h1>
+            <p style='font-size:1.2em; line-height:1.6; text-align:center;'>{res['d']}</p>
         </div>
     """, unsafe_allow_html=True)
     
@@ -402,7 +435,6 @@ if check_clicked or st.session_state.get('day_analyzed'):
                         st.success("Unlocked!")
                         st.rerun()
                     else:
-                        # 실제 검로드 연동
                         try:
                             r = requests.post("https://api.gumroad.com/v2/licenses/verify", 
                                               data={"product_permalink": "specific_day", "license_key": k_in}).json()
@@ -422,18 +454,18 @@ if check_clicked or st.session_state.get('day_analyzed'):
         # 🔓 [잠금 해제됨] 진짜 프리미엄 콘텐츠 표시
         st.success("🔓 VIP Content Unlocked!")
         
-        # 탭으로 깔끔하게 정리
         tab1, tab2, tab3 = st.tabs([t['h_money'] + " & " + t['h_love'], t['h_health'] + " & " + t['h_action'], t['h_lucky']])
         
+        # ✅ [수정] 여기서도 data['money'] -> res['money'] 로 모두 변경
         with tab1:
             st.markdown(f"""
                 <div class='premium-box'>
                     <h3 style='color:#fbbf24;'>{t['h_money']}</h3>
-                    <p>{data['money']}</p>
+                    <p>{res['money']}</p>
                 </div>
                 <div class='premium-box'>
                     <h3 style='color:#f472b6;'>{t['h_love']}</h3>
-                    <p>{data.get('love', data.get('love_m', ''))}</p> 
+                    <p>{res.get('love', res.get('love_m', ''))}</p> 
                 </div>
             """, unsafe_allow_html=True)
             
@@ -441,18 +473,18 @@ if check_clicked or st.session_state.get('day_analyzed'):
             st.markdown(f"""
                 <div class='premium-box'>
                     <h3 style='color:#34d399;'>{t['h_health']}</h3>
-                    <p>{data['health']}</p>
+                    <p>{res['health']}</p>
                 </div>
                 <div class='premium-box'>
                     <h3 style='color:#60a5fa;'>{t['h_action']}</h3>
-                    <p style='white-space: pre-line;'>{data['action']}</p>
+                    <p style='white-space: pre-line;'>{res['action']}</p>
                 </div>
             """, unsafe_allow_html=True)
             
         with tab3:
             st.markdown(f"""
                 <div class='card' style='text-align:center;'>
-                    <h1 style='font-size:3em;'>{data['lucky']}</h1>
+                    <h1 style='font-size:3em;'>{res['lucky']}</h1>
                     <p style='color:#cbd5e1;'>{t['h_lucky']}</p>
                 </div>
             """, unsafe_allow_html=True)
