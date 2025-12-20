@@ -620,7 +620,7 @@ if check_clicked or st.session_state.get('day_analyzed'):
         # 🔓 [잠금 해제됨] 진짜 결과 전체 표시
         st.success("🔓 VIP Content Unlocked!")
         
-        # 1. 총운 (원래 Free였던 것)
+        # 1. 총운 표시
         st.markdown(f"""
             <div class='card' style='border:1px solid #f472b6; text-align:center;'>
                 <h2 style='color:#f472b6; margin-top:0;'>{res['t']}</h2>
@@ -629,42 +629,40 @@ if check_clicked or st.session_state.get('day_analyzed'):
             </div>
         """, unsafe_allow_html=True)
         
-        # 2. 상세 (탭)
+        # 2. 상세 정보 (탭 제거 -> 한꺼번에 나열)
         st.write("")
-        tab1, tab2, tab3 = st.tabs([t['h_money'] + " & " + t['h_love'], t['h_health'] + " & " + t['h_action'], t['h_lucky']])
         
-        with tab1:
-            st.markdown(f"""
-                <div class='premium-box'>
-                    <h3 style='color:#fbbf24;'>{t['h_money']}</h3>
-                    <p>{res['money']}</p>
-                </div>
-                <div class='premium-box'>
-                    <h3 style='color:#f472b6;'>{t['h_love']}</h3>
-                    <p>{res.get('love', res.get('love_m', ''))}</p> 
-                </div>
-            """, unsafe_allow_html=True)
+        # [재물 & 연애]
+        st.markdown(f"""
+            <div class='premium-box'>
+                <h3 style='color:#fbbf24;'>{t['h_money']}</h3>
+                <p>{res['money']}</p>
+            </div>
+            <div class='premium-box'>
+                <h3 style='color:#f472b6;'>{t['h_love']}</h3>
+                <p>{res.get('love', res.get('love_m', ''))}</p> 
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # [건강 & 행동 지침]
+        st.markdown(f"""
+            <div class='premium-box'>
+                <h3 style='color:#34d399;'>{t['h_health']}</h3>
+                <p>{res['health']}</p>
+            </div>
+            <div class='premium-box'>
+                <h3 style='color:#60a5fa;'>{t['h_action']}</h3>
+                <p style='white-space: pre-line;'>{res['action']}</p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # [행운의 아이템]
+        st.markdown(f"""
+            <div class='card' style='text-align:center; margin-top: 20px;'>
+                <h3 style='color:#cbd5e1; margin-bottom:10px;'>{t['h_lucky']}</h3>
+                <h1 style='font-size:2.5em;'>{res['lucky']}</h1>
+            </div>
+        """, unsafe_allow_html=True)
             
-        with tab2:
-            # 🌟 Health & Action Plan 탭 내용 추가
-            st.markdown(f"""
-                <div class='premium-box'>
-                    <h3 style='color:#34d399;'>{t['h_health']}</h3>
-                    <p>{res['health']}</p>
-                </div>
-                <div class='premium-box'>
-                    <h3 style='color:#60a5fa;'>{t['h_action']}</h3>
-                    <p style='white-space: pre-line;'>{res['action']}</p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-        with tab3:
-            # 🌟 Lucky Items 탭 내용 추가
-            st.markdown(f"""
-                <div class='card' style='text-align:center;'>
-                    <h3 style='color:#cbd5e1; margin-bottom:10px;'>{t['h_lucky']}</h3>
-                    <h1 style='font-size:2.5em;'>{res['lucky']}</h1>
-                </div>
-            """, unsafe_allow_html=True)
-            
+        # 인쇄 버튼
         components.html("""<script>function p(){window.parent.print();}</script><div style='display:flex;justify-content:center;margin-top:20px;'><button onclick='p()' style='background:#ec4899;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;'>🖨️ Save Report</button></div>""", height=80)
