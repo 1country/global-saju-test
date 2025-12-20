@@ -473,9 +473,15 @@ if check_clicked or st.session_state.get('day_analyzed'):
     my_info = calculate_day_gan(st.session_state["birth_date"])
     target_info = calculate_day_gan(target_date)
     
-    def map_elem(hanja):
+    def map_elem(input_val):
+        # 1. 이미 영어(Fire, Water 등)라면 그대로 반환 (이게 빠져서 오류가 났었습니다)
+        valid_english = ["Wood", "Fire", "Earth", "Metal", "Water"]
+        if input_val in valid_english:
+            return input_val
+            
+        # 2. 한자(甲, 乙...)라면 영어로 변환
         m = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'}
-        return m.get(hanja, 'Wood')
+        return m.get(input_val, 'Wood') # 한자도, 영어도 아니면 기본값 Wood
     
     my_elem = map_elem(my_info['element'])
     tgt_elem = map_elem(target_info['element'])
