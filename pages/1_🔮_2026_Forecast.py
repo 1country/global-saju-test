@@ -7,18 +7,22 @@ from datetime import date
 from utils import calculate_day_gan
 
 # ----------------------------------------------------------------
-# 1. 환경 및 상품 설정 (Master Key 복구!)
+# 1. 페이지 및 환경 설정
 # ----------------------------------------------------------------
 st.set_page_config(page_title="2026 Forecast | The Element", page_icon="🔮", layout="wide")
 
-# 언어 설정
-lang = os.environ.get('LANGUAGE', 'en')
+# [핵심 변경] 언어 설정 로직 개선
+# 1. 세션 상태에 'lang'이 없으면 -> 환경변수(기본값)를 가져옴
+# 2. 세션 상태에 'lang'이 있으면 -> 사용자가 선택한 언어를 유지함
+if 'lang' not in st.session_state:
+    st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
 
-# 🔑 [설정 관리]
-UNLOCK_CODE = "MASTER2026"  # 마스터 키 (이걸 입력하면 열립니다)
+lang = st.session_state['lang'] # 이제 코드 전체에서 이 변수를 사용
+
+# 🔑 [마스터 키 & 구매 링크 설정]
+UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/2026_forecast"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
-
 # ----------------------------------------------------------------
 # 2. 스타일 설정 (이 부분만 교체하세요!)
 # ----------------------------------------------------------------
@@ -774,7 +778,55 @@ def get_monthly_forecast_unique(element, lang):
         })
     
     return result
+# ----------------------------------------------------------------
+# 4. 사이드바 구성 (언어 변경 기능 추가!)
+# ----------------------------------------------------------------
+with st.sidebar:
+    st.header("Settings")
     
+    # 현재 언어 표시
+    lang_map = {"ko": "한국어", "en": "English", "fr": "Français", "es": "Español", "ja": "日本語", "zh": "中文"}
+    st.info(f"Current Mode: **{lang_map.get(lang, 'English')}**")
+    
+    # ⭐ [언어 변경 버튼] ⭐
+    st.write("Change Language:")
+    col_l1, col_l2, col_l3 = st.columns(3)
+    with col_l1:
+        if st.button("🇺🇸 EN", use_container_width=True):
+            st.session_state['lang'] = 'en'
+            st.rerun()
+    with col_l2:
+        if st.button("🇰🇷 KO", use_container_width=True):
+            st.session_state['lang'] = 'ko'
+            st.rerun()
+    with col_l3:
+        if st.button("🇫🇷 FR", use_container_width=True):
+            st.session_state['lang'] = 'fr'
+            st.rerun()
+            
+    col_l4, col_l5, col_l6 = st.columns(3)
+    with col_l4:
+        if st.button("🇪🇸 ES", use_container_width=True):
+            st.session_state['lang'] = 'es'
+            st.rerun()
+    with col_l5:
+        if st.button("🇯🇵 JA", use_container_width=True):
+            st.session_state['lang'] = 'ja'
+            st.rerun()
+    with col_l6:
+        if st.button("🇨🇳 ZH", use_container_width=True):
+            st.session_state['lang'] = 'zh'
+            st.rerun()
+
+    st.markdown("---")
+    
+    # 홈으로 가기 버튼 (다국어 지원)
+    btn_labels = {
+        "ko": "🏠 홈으로", "en": "🏠 Go Home", "fr": "🏠 Accueil", 
+        "es": "🏠 Inicio", "ja": "🏠 ホーム", "zh": "🏠 首页"
+    }
+    if st.button(btn_labels.get(lang, "Go Home"), use_container_width=True):
+        st.switch_page("Home.py")    
 # ----------------------------------------------------------------
 # 4. 메인 로직 시작 (UI 및 검증)
 # ----------------------------------------------------------------
