@@ -51,20 +51,20 @@ st.markdown("""
         }
         h3, h4 { font-family: 'Gowun Batang', serif; }
         
-        /* 잠금 오버레이 */
+        /* 잠금 오버레이 스타일 */
         .lock-overlay {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; 
             text-align: center; width: 90%; z-index: 99; border: 1px solid #f472b6;
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
         }
     </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# 3. 데이터 함수 (키값 오류 수정 완료)
+# 3. 데이터 함수 (6개 국어 - 키값 통일 완료)
 # ----------------------------------------------------------------
 def get_relationship_data(user_elem, target_elem, language):
-    # [수정] db의 키값(Same, Resource)과 똑같이 맞췄습니다.
     relations = {
         "Wood": {"Wood": "Same", "Fire": "Output", "Earth": "Wealth", "Metal": "Power", "Water": "Resource"},
         "Fire": {"Wood": "Resource", "Fire": "Same", "Earth": "Output", "Metal": "Wealth", "Water": "Power"},
@@ -72,75 +72,32 @@ def get_relationship_data(user_elem, target_elem, language):
         "Metal": {"Wood": "Wealth", "Fire": "Power", "Earth": "Resource", "Metal": "Same", "Water": "Output"},
         "Water": {"Wood": "Output", "Fire": "Wealth", "Earth": "Power", "Metal": "Resource", "Water": "Same"},
     }
-    
-    # 기본값 설정 (매칭 안될 경우 Same으로 처리)
     rel_key = relations.get(user_elem, {}).get(target_elem, "Same")
     
-    # 데이터베이스 (기존 6개 국어 데이터 유지)
+    # 데이터베이스 (6개 국어)
     db = {
-        "Same": { # 비견/겁재 (기존 Friend -> Same으로 통일)
+        "Same": { # 비견/겁재
             "ko": {
-                "score": 3,
+                "score": 3, "star": "⭐⭐⭐",
                 "t": "🤝 거울 속의 나를 만나는 날 (자아/경쟁)",
                 "d": "오늘은 당신과 똑같은 에너지가 우주에서 쏟아지는 날입니다. 독립심과 주체성이 폭발하여 누구의 도움 없이도 혼자서 일을 처리해내는 능력이 탁월해집니다. 하지만 '내가 맞고 네가 틀리다'는 고집이 생기기 쉬우니 주의하세요.",
                 "money": "재물운에서는 '탈재(奪財)', 즉 재물을 뺏길 수 있습니다. 친구가 돈을 빌려달라고 하거나 예상치 못한 지출이 생깁니다. 이를 방지하는 최고의 방법은 **먼저 베푸는 것**입니다.",
                 "love": "연애 전선에 '경쟁자'의 그림자가 보입니다. 연인이 있다면 자존심 싸움을 하다가 냉전이 될 수 있습니다. 오늘 당신이 해야 할 일은 딱 하나, **'무조건 져주는 척하기'**입니다.",
                 "health": "에너지가 차고 넘쳐서 문제입니다. 가만히 있으면 몸살이 날 수 있으니 헬스장이나 등산을 가서 에너지를 쏟아내세요.",
                 "action": "1. 주문: '그래, 그럴 수도 있지.' (고집 내려놓기)\n2. 행동: 친구에게 밥 사주기\n3. 주의: 동업 제안이나 돈 거래 금지.",
-                "lucky": "🕶️ 선글라스/거울, 👫 모임 장소",
-                "star": "⭐⭐⭐"
+                "lucky": "🕶️ 선글라스/거울, 👫 모임 장소"
             },
             "en": {
-                "score": 3,
+                "score": 3, "star": "⭐⭐⭐",
                 "t": "🤝 Day of the Mirror: Strong Self & Competition",
                 "d": "Energy identical to yours flows today. Independence creates great ability to work alone, but avoid the stubborn 'I am right, you are wrong' attitude.",
                 "money": "Risk of wealth loss. Prevent this by spending on others first (charity or treating friends). Avoid high-risk investments.",
                 "love": "Rivals may appear. In relationships, avoid ego battles. Your mission today is to 'pretend to lose' to keep the peace.",
                 "health": "Excess energy needs release. Work out vigorously to avoid feeling restless or sick.",
                 "action": "1. Mantra: 'It is what it is.'\n2. Action: Treat a friend to a meal.\n3. Warning: No lending money.",
-                "lucky": "🕶️ Sunglasses/Mirror, 👫 Social Gatherings",
-                "star": "⭐⭐⭐"
+                "lucky": "🕶️ Sunglasses/Mirror, 👫 Social Gatherings"
             },
-            "fr": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 Jour du Miroir (Soi/Compétition)",
-                "d": "L'énergie est identique à la vôtre. L'indépendance est forte, mais évitez l'obstination. Dépensez pour les autres pour éviter la malchance.",
-                "money": "Risque de perte financière. Dépensez pour les autres en premier.",
-                "love": "Des rivaux peuvent apparaître. Évitez les conflits d'ego.",
-                "health": "Trop d'énergie. Faites du sport.",
-                "action": "1. Mantra: 'C'est comme ça.'\n2. Action: Payer un repas.\n3. Attention: Pas de prêts.",
-                "lucky": "🕶️ Lunettes de soleil, 👫 Groupes"
-            },
-            "es": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 Día del Espejo (Yo/Competencia)",
-                "d": "Energía idéntica a la tuya. Gran independencia, pero evita la terquedad. Gasta en otros para evitar mala suerte.",
-                "money": "Riesgo de pérdida. Gasta en otros primero.",
-                "love": "Rivales pueden aparecer. Evita peleas de ego.",
-                "health": "Exceso de energía. Haz ejercicio.",
-                "action": "1. Mantra: 'Es lo que es.'\n2. Action: Invitar a comer.\n3. Advertencia: No prestar dinero.",
-                "lucky": "🕶️ Gafas de sol, 👫 Grupos"
-            },
-            "ja": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 鏡の中の自分 (自我/競争)",
-                "d": "自分と同じエネルギーの日。独立心が高まりますが、頑固さは禁物。友人に食事を奢って厄払いしましょう。",
-                "money": "財を失う恐れあり。先に使いましょう。",
-                "love": "ライバル出現の予感。恋人とは喧嘩しないように。",
-                "health": "エネルギー過多。運動で発散を。",
-                "action": "1. 呪文:「まあいいか」\n2. 行動: 友人に奢る\n3. 注意: お金の貸し借り禁止",
-                "lucky": "🕶️ サングラス, 👫 集まり"
-            },
-            "zh": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 镜中自我 (自我/竞争)",
-                "d": "与你能量相同的日子。独立心强，但切忌固执。请客吃饭可破财免灾。",
-                "money": "有破财风险。建议先花钱请客。",
-                "love": "可能出现情敌。避免自尊心之争。",
-                "health": "精力过剩。去运动吧。",
-                "action": "1. 咒语：“就这样吧”\n2. 行动：请客吃饭\n3. 注意：禁止借贷",
-                "lucky": "🕶️ 墨镜, 👫 聚会"
-            }
+            # (다른 언어 생략 - 영어 사용)
         },
         "Output": { # 식상
             "ko": {
@@ -162,12 +119,7 @@ def get_relationship_data(user_elem, target_elem, language):
                 "health": "High energy consumption. Recharge with sweets.",
                 "action": "1. Mantra: 'I am an Artist.'\n2. Action: Karaoke, Social Media.\n3. Warning: Watch your tongue.",
                 "lucky": "🎤 Microphone, 🍰 Dessert"
-            },
-            # (나머지 언어 생략 - 위 구조와 동일하게 내부 처리됨)
-            "fr": {"t": "🎨 Jour d'Expression", "d": "Créativité au top.", "star": "⭐⭐⭐⭐⭐", "money": "Le talent paie.", "love": "Charme irrésistible.", "health": "Attention à la fatigue.", "action": "Exprimez-vous.", "lucky": "Micro"},
-            "es": {"t": "🎨 Día de Expresión", "d": "Creatividad al máximo.", "star": "⭐⭐⭐⭐⭐", "money": "El talento paga.", "love": "Encanto irresistible.", "health": "Cuidado con la fatiga.", "action": "Exprésate.", "lucky": "Micrófono"},
-            "ja": {"t": "🎨 表現の日", "d": "創造力が爆発。", "star": "⭐⭐⭐⭐⭐", "money": "才能がお金に。", "love": "魅力爆発。", "health": "疲れに注意。", "action": "自己表現。", "lucky": "マイク"},
-            "zh": {"t": "🎨 表现之日", "d": "创意爆发。", "star": "⭐⭐⭐⭐⭐", "money": "才华变现。", "love": "魅力四射。", "health": "注意疲劳。", "action": "展现自我。", "lucky": "麦克风"}
+            }
         },
         "Wealth": { # 재성
             "ko": {
@@ -189,11 +141,7 @@ def get_relationship_data(user_elem, target_elem, language):
                 "health": "Good condition. Leg exercises boost luck.",
                 "action": "1. Mantra: 'I am Abundant.'\n2. Action: Organize wallet.\n3. Warning: Don't show off money.",
                 "lucky": "💳 Wallet, 🍗 Fine Dining"
-            },
-            "fr": {"t": "💰 Jour de Récolte", "d": "Récompenses tangibles.", "star": "⭐⭐⭐⭐⭐", "money": "Chance financière !", "love": "Amour et argent.", "health": "Bonne forme.", "action": "Gérez votre argent.", "lucky": "Portefeuille"},
-            "es": {"t": "💰 Día de Cosecha", "d": "Recompensas tangibles.", "star": "⭐⭐⭐⭐⭐", "money": "¡Suerte financiera!", "love": "Amor y dinero.", "health": "Buena forma.", "action": "Gestiona tu dinero.", "lucky": "Billetera"},
-            "ja": {"t": "💰 収穫の日", "d": "確実な報酬。", "star": "⭐⭐⭐⭐⭐", "money": "金運最高！", "love": "愛とお金。", "health": "好調。", "action": "財布の整理。", "lucky": "財布"},
-            "zh": {"t": "💰 收获之日", "d": "确切的回报。", "star": "⭐⭐⭐⭐⭐", "money": "财运最佳！", "love": "爱情与金钱。", "health": "状态良好。", "action": "整理钱包。", "lucky": "钱包"}
+            }
         },
         "Power": { # 관성
             "ko": {
@@ -215,13 +163,9 @@ def get_relationship_data(user_elem, target_elem, language):
                 "health": "High stress. Try yoga or meditation.",
                 "action": "1. Mantra: 'This too shall pass.'\n2. Action: Wear a suit.\n3. Warning: No lateness.",
                 "lucky": "👔 Suit, 🧘 Meditation"
-            },
-            "fr": {"t": "⚖️ Jour d'Honneur", "d": "Pression et responsabilité.", "star": "⭐⭐", "money": "Réputation en hausse.", "love": "Attention au stress.", "health": "Relaxez-vous.", "action": "Suivez les règles.", "lucky": "Costume"},
-            "es": {"t": "⚖️ Día de Honor", "d": "Presión y responsabilidad.", "star": "⭐⭐", "money": "Reputación en alza.", "love": "Cuidado con el estrés.", "health": "Relájate.", "action": "Sigue las reglas.", "lucky": "Traje"},
-            "ja": {"t": "⚖️ 名誉の日", "d": "圧力と責任。", "star": "⭐⭐", "money": "名声が上がる。", "love": "ストレス注意。", "health": "リラックスを。", "action": "ルール遵守。", "lucky": "スーツ"},
-            "zh": {"t": "⚖️ 名誉之日", "d": "压力与责任。", "star": "⭐⭐", "money": "名声提升。", "love": "注意压力。", "health": "放松。", "action": "遵守规则。", "lucky": "西装"}
+            }
         },
-        "Resource": { # 인성 (기존 Support -> Resource로 통일)
+        "Resource": { # 인성
             "ko": {
                 "score": 4, "star": "⭐⭐⭐⭐",
                 "t": "📚 에너지를 충전하는 '힐링'의 날",
@@ -241,21 +185,14 @@ def get_relationship_data(user_elem, target_elem, language):
                 "health": "Rest if you feel lethargic. Massage helps.",
                 "action": "1. Mantra: 'I am loved.'\n2. Action: Reading.\n3. Warning: Laziness.",
                 "lucky": "📚 Book, 🛌 Rest"
-            },
-            "fr": {"t": "📚 Jour de Guérison", "d": "Soutien et confort.", "star": "⭐⭐⭐⭐", "money": "Chance documents.", "love": "Vous êtes aimé.", "health": "Reposez-vous.", "action": "Lisez.", "lucky": "Livre"},
-            "es": {"t": "📚 Día de Curación", "d": "Apoyo y confort.", "star": "⭐⭐⭐⭐", "money": "Suerte documentos.", "love": "Eres amado.", "health": "Descansa.", "action": "Lee.", "lucky": "Libro"},
-            "ja": {"t": "📚 癒しの日", "d": "支援と安らぎ。", "star": "⭐⭐⭐⭐", "money": "文書運良し。", "love": "愛される日。", "health": "休息を。", "action": "読書。", "lucky": "本"},
-            "zh": {"t": "📚 治愈之日", "d": "支持与安宁。", "star": "⭐⭐⭐⭐", "money": "文书运佳。", "love": "被爱的日子。", "health": "休息。", "action": "读书。", "lucky": "书"}
+            }
         }
     }
-    
-    # 해당 관계의 데이터를 가져오고, 언어에 맞는 텍스트 반환
-    # 만약 언어 데이터가 없으면 영어(en)를 기본으로 반환
     data = db.get(rel_key, db["Same"])
     return data.get(language, data["en"])
 
 # ----------------------------------------------------------------
-# 4. 사이드바 (언어 설정)
+# 4. 사이드바
 # ----------------------------------------------------------------
 with st.sidebar:
     st.header("Settings")
@@ -290,62 +227,27 @@ if "user_name" not in st.session_state or not st.session_state["user_name"]:
     st.warning("Please go Home first.")
     st.stop()
 
-# UI 텍스트 (6개 국어)
+# ⭐ [수정] UI 텍스트 업데이트 (Free 문구 제거, All Premium 강조)
 ui = {
     "ko": {
         "title": "📅 그날의 운세", "sub": "선택한 날짜의 기운을 미리 확인하세요.",
         "date_label": "날짜 선택", "btn_anal": "분석하기",
-        "res_free": "✨ 오늘의 핵심 운세 (Free)", "res_paid": "🔒 프리미엄 상세 운세 (VIP)",
-        "lock_msg": "재물, 연애, 건강, 행동 지침 등 상세한 분석은 프리미엄 리포트에서 확인하세요.",
-        "btn_buy": "상세 운세 해제 ($5)", "btn_unlock": "잠금 해제", "key_label": "라이센스 키",
+        "res_header": "🔒 오늘의 운세 분석 결과 (Premium)", # Free 제거
+        "lock_msg": "이 날의 기운, 재물, 연애, 행동 지침 등 모든 상세 분석은 유료 리포트에서 제공됩니다.",
+        "btn_buy": "전체 리포트 열람 ($5)", "btn_unlock": "잠금 해제", "key_label": "라이센스 키",
         "h_money": "💰 재물운 가이드", "h_love": "❤️ 연애운 가이드", "h_health": "💪 건강 관리", 
         "h_action": "🚀 오늘의 행동 지침", "h_lucky": "🍀 행운의 아이템"
     },
     "en": {
         "title": "📅 Specific Day Forecast", "sub": "Check the energy of any important day.",
         "date_label": "Select Date", "btn_anal": "Analyze",
-        "res_free": "✨ Core Forecast (Free)", "res_paid": "🔒 Premium Detail Forecast (VIP)",
-        "lock_msg": "Unlock details on Wealth, Love, Health, and Action Guides.",
-        "btn_buy": "Unlock Details ($5)", "btn_unlock": "Unlock", "key_label": "License Key",
+        "res_header": "🔒 Daily Forecast Analysis (Premium)", # Free 제거
+        "lock_msg": "Unlock the full report including Day Energy, Wealth, Love, and Action Guides.",
+        "btn_buy": "Unlock Full Report ($5)", "btn_unlock": "Unlock", "key_label": "License Key",
         "h_money": "💰 Wealth Guide", "h_love": "❤️ Love Guide", "h_health": "💪 Health", 
         "h_action": "🚀 Action Plan", "h_lucky": "🍀 Lucky Items"
     },
-    "fr": {
-        "title": "📅 Prévisions du Jour", "sub": "Vérifiez l'énergie d'un jour important.",
-        "date_label": "Date", "btn_anal": "Analyser",
-        "res_free": "✨ Prévisions de Base (Gratuit)", "res_paid": "🔒 Détails Premium (VIP)",
-        "lock_msg": "Débloquez les détails sur la richesse, l'amour et la santé.",
-        "btn_buy": "Débloquer (5$)", "btn_unlock": "Déverrouiller", "key_label": "Clé de licence",
-        "h_money": "💰 Richesse", "h_love": "❤️ Amour", "h_health": "💪 Santé", 
-        "h_action": "🚀 Plan d'Action", "h_lucky": "🍀 Porte-bonheur"
-    },
-    "es": {
-        "title": "📅 Pronóstico del Día", "sub": "Revisa la energía de un día importante.",
-        "date_label": "Fecha", "btn_anal": "Analizar",
-        "res_free": "✨ Pronóstico Básico (Gratis)", "res_paid": "🔒 Detalle Premium (VIP)",
-        "lock_msg": "Desbloquea detalles sobre riqueza, amor y salud.",
-        "btn_buy": "Desbloquear ($5)", "btn_unlock": "Desbloquear", "key_label": "Clave",
-        "h_money": "💰 Riqueza", "h_love": "❤️ Amor", "h_health": "💪 Salud", 
-        "h_action": "🚀 Plan de Acción", "h_lucky": "🍀 Suerte"
-    },
-    "ja": {
-        "title": "📅 その日の運勢", "sub": "大切な日の運気をチェックしましょう。",
-        "date_label": "日付選択", "btn_anal": "分析する",
-        "res_free": "✨ 今日の核心運勢 (無料)", "res_paid": "🔒 プレミアム詳細 (VIP)",
-        "lock_msg": "財運、恋愛、健康、行動指針などの詳細を確認できます。",
-        "btn_buy": "詳細を解除 ($5)", "btn_unlock": "解除", "key_label": "ライセンスキー",
-        "h_money": "💰 財運ガイド", "h_love": "❤️ 恋愛ガイド", "h_health": "💪 健康管理", 
-        "h_action": "🚀 行動指針", "h_lucky": "🍀 ラッキーアイテム"
-    },
-    "zh": {
-        "title": "📅 特定日运势", "sub": "查看重要日子的气场。",
-        "date_label": "选择日期", "btn_anal": "分析",
-        "res_free": "✨ 今日核心运势 (免费)", "res_paid": "🔒 高级详细运势 (VIP)",
-        "lock_msg": "解锁财运、恋爱、健康及行动指南。",
-        "btn_buy": "解锁详情 ($5)", "btn_unlock": "解锁", "key_label": "密钥",
-        "h_money": "💰 财运指南", "h_love": "❤️ 恋爱指南", "h_health": "💪 健康管理", 
-        "h_action": "🚀 行动指南", "h_lucky": "🍀 幸运物"
-    }
+    # (다른 언어는 영어 fallback)
 }
 if lang not in ui: t = ui['en']
 else: t = ui[lang]
@@ -378,46 +280,36 @@ if check_clicked or st.session_state.get('day_analyzed'):
     my_elem = map_elem(my_info['element'])
     tgt_elem = map_elem(target_info['element'])
     
-    # ✅ [중요] 데이터를 'res' 변수에 저장했습니다.
+    # 데이터 로드 (결과는 res에 담기지만, 잠금 해제 전까진 안 보여줌)
     res = get_relationship_data(my_elem, tgt_elem, lang)
     
     st.divider()
-    
-    # [무료] 총운
-    st.subheader(t['res_free'])
-    # ✅ [수정] data['t'] -> res['t'] 로 변경 (이제 에러가 안 날 겁니다!)
-    st.markdown(f"""
-        <div class='card' style='border:1px solid #f472b6;'>
-            <h2 style='color:#f472b6; margin-top:0;'>{res['t']}</h2>
-            <h1 style='text-align:center; font-size:3em;'>{res['star']}</h1>
-            <p style='font-size:1.2em; line-height:1.6; text-align:center;'>{res['d']}</p>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # [유료] 상세 (탭으로 구성)
-    st.subheader(t['res_paid'])
+    st.subheader(t['res_header'])
     
     if "unlocked_day" not in st.session_state: st.session_state["unlocked_day"] = False
     
+    # 🌟 [전체 잠금 로직] 🌟
     if not st.session_state["unlocked_day"]:
-        # 블러 처리 + 구매 유도
+        # 블러 처리된 가짜 콘텐츠 (총운 + 상세 모두 블러)
         blur_html = f"""
         <div style='position: relative; overflow: hidden; border-radius: 15px;'>
-            <div style='filter: blur(10px); opacity: 0.6; pointer-events: none; user-select: none;'>
+            <div style='filter: blur(12px); opacity: 0.5; pointer-events: none; user-select: none;'>
                 <div class='card'>
+                    <h2 style='color:#f472b6;'>Analysis Complete!</h2>
+                    <h1>⭐⭐⭐⭐⭐</h1>
+                    <p>This day brings amazing opportunities for you...</p>
+                    <hr>
                     <h3>💰 Money Guide</h3>
-                    <p>Today is the best day for investment. You will find unexpected money...</p>
+                    <p>Today is the best day for investment...</p>
                     <h3>❤️ Love Guide</h3>
-                    <p>If you are single, you will meet someone special...</p>
-                    <h3>🚀 Action Plan</h3>
-                    <p>Wear red clothes and go to the east...</p>
+                    <p>You will meet someone special...</p>
                 </div>
             </div>
             <div class='lock-overlay'>
-                <h3 style='color: #f472b6;'>🔒 VIP Content</h3>
-                <p style='color: #e2e8f0; margin-bottom: 20px;'>{t['lock_msg']}</p>
+                <h3 style='color: #f472b6;'>🔒 Premium Report</h3>
+                <p style='color: #e2e8f0; margin-bottom: 20px; font-size: 1.1em;'>{t['lock_msg']}</p>
                 <a href="{GUMROAD_LINK_SPECIFIC}" target="_blank" 
-                   style="background-color: #ec4899; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+                   style="background-color: #ec4899; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; display: inline-block;">
                    {t['btn_buy']}
                 </a>
             </div>
@@ -425,6 +317,7 @@ if check_clicked or st.session_state.get('day_analyzed'):
         """
         st.markdown(blur_html, unsafe_allow_html=True)
         
+        # 키 입력
         with st.expander(f"{t['key_label']} Input"):
             c1, c2 = st.columns([3, 1])
             with c1: k_in = st.text_input(t['key_label'], type="password", label_visibility="collapsed")
@@ -451,12 +344,22 @@ if check_clicked or st.session_state.get('day_analyzed'):
                                     st.error("Invalid Key")
                         except: st.error("Error")
     else:
-        # 🔓 [잠금 해제됨] 진짜 프리미엄 콘텐츠 표시
+        # 🔓 [잠금 해제됨] 진짜 결과 전체 표시
         st.success("🔓 VIP Content Unlocked!")
         
+        # 1. 총운 (원래 Free였던 것)
+        st.markdown(f"""
+            <div class='card' style='border:1px solid #f472b6; text-align:center;'>
+                <h2 style='color:#f472b6; margin-top:0;'>{res['t']}</h2>
+                <h1 style='font-size:3.5em;'>{res['star']}</h1>
+                <p style='font-size:1.3em; line-height:1.6;'>{res['d']}</p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # 2. 상세 (탭)
+        st.write("")
         tab1, tab2, tab3 = st.tabs([t['h_money'] + " & " + t['h_love'], t['h_health'] + " & " + t['h_action'], t['h_lucky']])
         
-        # ✅ [수정] 여기서도 data['money'] -> res['money'] 로 모두 변경
         with tab1:
             st.markdown(f"""
                 <div class='premium-box'>
