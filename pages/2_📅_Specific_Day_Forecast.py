@@ -427,27 +427,86 @@ if "user_name" not in st.session_state or not st.session_state["user_name"]:
     st.warning("Please go Home first.")
     st.stop()
 
-# ⭐ [수정] UI 텍스트 업데이트 (Free 문구 제거, All Premium 강조)
+# ⭐ [수정] UI 텍스트 업데이트 (6개 국어 완벽 지원)
 ui = {
     "ko": {
-        "title": "📅 그날의 운세", "sub": "선택한 날짜의 기운을 미리 확인하세요.",
-        "date_label": "날짜 선택", "btn_anal": "분석하기",
-        "res_header": "🔒 오늘의 운세 분석 결과 (Premium)", # Free 제거
+        "title": "📅 그날의 운세", 
+        "sub": "선택한 날짜의 기운을 미리 확인하세요.",
+        "date_label": "날짜 선택", 
+        "btn_anal": "분석하기",
+        "res_header": "🔒 오늘의 운세 분석 결과 (Premium)", 
         "lock_msg": "이 날의 기운, 재물, 연애, 행동 지침 등 모든 상세 분석은 유료 리포트에서 제공됩니다.",
-        "btn_buy": "전체 리포트 열람 ($5)", "btn_unlock": "잠금 해제", "key_label": "라이센스 키",
+        "btn_buy": "전체 리포트 열람 ($5)", 
+        "btn_unlock": "잠금 해제", 
+        "key_label": "라이센스 키",
         "h_money": "💰 재물운 가이드", "h_love": "❤️ 연애운 가이드", "h_health": "💪 건강 관리", 
         "h_action": "🚀 오늘의 행동 지침", "h_lucky": "🍀 행운의 아이템"
     },
     "en": {
-        "title": "📅 Specific Day Forecast", "sub": "Check the energy of any important day.",
-        "date_label": "Select Date", "btn_anal": "Analyze",
-        "res_header": "🔒 Daily Forecast Analysis (Premium)", # Free 제거
+        "title": "📅 Specific Day Forecast", 
+        "sub": "Check the energy of any important day.",
+        "date_label": "Select Date", 
+        "btn_anal": "Analyze",
+        "res_header": "🔒 Daily Forecast Analysis (Premium)", 
         "lock_msg": "Unlock the full report including Day Energy, Wealth, Love, and Action Guides.",
-        "btn_buy": "Unlock Full Report ($5)", "btn_unlock": "Unlock", "key_label": "License Key",
+        "btn_buy": "Unlock Full Report ($5)", 
+        "btn_unlock": "Unlock", 
+        "key_label": "License Key",
         "h_money": "💰 Wealth Guide", "h_love": "❤️ Love Guide", "h_health": "💪 Health", 
         "h_action": "🚀 Action Plan", "h_lucky": "🍀 Lucky Items"
     },
-    # (다른 언어는 영어 fallback)
+    "fr": {
+        "title": "📅 Prévisions du Jour", 
+        "sub": "Vérifiez l'énergie d'un jour important.",
+        "date_label": "Sélectionner une date", 
+        "btn_anal": "Analyser",
+        "res_header": "🔒 Analyse des Prévisions (Premium)", 
+        "lock_msg": "Débloquez le rapport complet incluant l'énergie du jour, la richesse, l'amour et les conseils.",
+        "btn_buy": "Rapport Complet ($5)", 
+        "btn_unlock": "Déverrouiller", 
+        "key_label": "Clé de Licence",
+        "h_money": "💰 Guide Financier", "h_love": "❤️ Guide Amoureux", "h_health": "💪 Santé", 
+        "h_action": "🚀 Plan d'Action", "h_lucky": "🍀 Porte-bonheur"
+    },
+    "es": {
+        "title": "📅 Pronóstico del Día", 
+        "sub": "Revisa la energía de cualquier día importante.",
+        "date_label": "Seleccionar Fecha", 
+        "btn_anal": "Analizar",
+        "res_header": "🔒 Análisis del Pronóstico Diario (Premium)", 
+        "lock_msg": "Desbloquea el informe completo incluyendo energía del día, riqueza, amor y guías de acción.",
+        "btn_buy": "Informe Completo ($5)", 
+        "btn_unlock": "Desbloquear", 
+        "key_label": "Clave de Licencia",
+        "h_money": "💰 Guía de Riqueza", "h_love": "❤️ Guía de Amor", "h_health": "💪 Salud", 
+        "h_action": "🚀 Plan de Acción", "h_lucky": "🍀 Ítems de la Suerte"
+    },
+    "ja": {
+        "title": "📅 その日の運勢", 
+        "sub": "大切な日の運気を事前にチェックしましょう。",
+        "date_label": "日付を選択", 
+        "btn_anal": "分析する",
+        "res_header": "🔒 今日の運勢分析結果 (Premium)", 
+        "lock_msg": "その日の運気、財運、恋愛、行動指針など、すべての詳細分析は有料レポートで提供されます。",
+        "btn_buy": "完全版レポート解除 ($5)", 
+        "btn_unlock": "ロック解除", 
+        "key_label": "ライセンスキー",
+        "h_money": "💰 財運ガイド", "h_love": "❤️ 恋愛ガイド", "h_health": "💪 健康管理", 
+        "h_action": "🚀 行動指針", "h_lucky": "🍀 ラッキーアイテム"
+    },
+    "zh": {
+        "title": "📅 特定日运势", 
+        "sub": "提前查看重要日子的气场。",
+        "date_label": "选择日期", 
+        "btn_anal": "开始分析",
+        "res_header": "🔒 今日运势分析结果 (Premium)", 
+        "lock_msg": "解锁完整报告，包括当日气场、财运、爱情及行动指南。",
+        "btn_buy": "解锁完整报告 ($5)", 
+        "btn_unlock": "解锁", 
+        "key_label": "许可证密钥",
+        "h_money": "💰 财运指南", "h_love": "❤️ 恋爱指南", "h_health": "💪 健康管理", 
+        "h_action": "🚀 行动指南", "h_lucky": "🍀 幸运物"
+    }
 }
 if lang not in ui: t = ui['en']
 else: t = ui[lang]
