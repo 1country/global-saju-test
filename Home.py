@@ -7,15 +7,22 @@ from utils import calculate_day_gan, get_interpretation
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
 
-# 언어 설정 (기본값 en)
-lang = os.environ.get('LANGUAGE', 'en')
+# ----------------------------------------------------------------
+# ⭐ [핵심] 언어 설정 로직 (Session State 사용)
+# ----------------------------------------------------------------
+# 1. 처음 접속했다면(세션에 lang이 없으면) -> 서버 환경변수 or 기본값 'en' 사용
+# 2. 언어를 바꾼 적이 있다면 -> 그 값을 유지
+if 'lang' not in st.session_state:
+    st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
 
-# 2. 스타일 및 배경 설정 (CSS 수정: 사이드바 톤 조절)
+lang = st.session_state['lang'] # 이제 이 변수가 전체 언어를 결정합니다.
+
+# 2. 스타일 및 배경 설정 (Navy 사이드바 & 가독성 CSS)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* 메인 배경 설정 */
+        /* 배경 설정 */
         .stApp {
             background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
@@ -23,14 +30,13 @@ st.markdown("""
             color: #e2e8f0;
         }
 
-        /* ⭐ [핵심 수정] 사이드바 색상 완화 (너무 진하지 않게) ⭐ */
+        /* 사이드바 스타일 (Navy & Soft Text) */
         section[data-testid="stSidebar"] {
-            /* 기존 #0f172a (거의 검정) -> #1e293b (부드러운 짙은 회남색) */
             background-color: #1e293b !important; 
             border-right: 1px solid #334155;       
         }
         
-        /* 텍스트 색상 완화 (완전 흰색 -> 은은한 밝은 회색) */
+        /* 사이드바 텍스트 색상 */
         section[data-testid="stSidebar"] h1, 
         section[data-testid="stSidebar"] h2, 
         section[data-testid="stSidebar"] h3, 
@@ -38,14 +44,14 @@ st.markdown("""
         section[data-testid="stSidebar"] span, 
         section[data-testid="stSidebar"] div,
         section[data-testid="stSidebar"] label {
-            color: #cbd5e1 !important; /* #f8fafc(흰색) -> #cbd5e1(부드러운 실버) */
+            color: #cbd5e1 !important; 
         }
 
         /* 사이드바 메뉴 링크 스타일 */
         [data-testid="stSidebarNav"] span {
             font-size: 1.1rem !important; 
             font-weight: 600 !important; 
-            color: #e2e8f0 !important; /* 메뉴명은 조금 더 밝게 유지 */
+            color: #e2e8f0 !important;
             padding-top: 5px; padding-bottom: 5px;
         }
 
@@ -78,36 +84,59 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 사이드바 설정
+# 3. 사이드바 설정 (언어 변경 기능 추가)
 with st.sidebar:
     st.header("Settings")
     
+    # 현재 언어 표시
     lang_map = {
-        "ko": "한국어 (Korean)",
-        "en": "English",
-        "fr": "Français (French)",
-        "es": "Español (Spanish)",
-        "ja": "日本語 (Japanese)",
-        "zh": "中文 (Chinese)"
+        "ko": "한국어 (Korean)", "en": "English", "fr": "Français (French)",
+        "es": "Español (Spanish)", "ja": "日本語 (Japanese)", "zh": "中文 (Chinese)"
     }
     current_lang_display = lang_map.get(lang, "English")
-    
     st.info(f"Current Mode: **{current_lang_display}**")
+    
+    # ⭐ 6개 국어 변경 버튼 ⭐
+    st.write("Change Language:")
+    col_l1, col_l2, col_l3 = st.columns(3)
+    with col_l1:
+        if st.button("🇺🇸 EN", use_container_width=True):
+            st.session_state['lang'] = 'en'
+            st.rerun()
+    with col_l2:
+        if st.button("🇰🇷 KO", use_container_width=True):
+            st.session_state['lang'] = 'ko'
+            st.rerun()
+    with col_l3:
+        if st.button("🇫🇷 FR", use_container_width=True):
+            st.session_state['lang'] = 'fr'
+            st.rerun()
+            
+    col_l4, col_l5, col_l6 = st.columns(3)
+    with col_l4:
+        if st.button("🇪🇸 ES", use_container_width=True):
+            st.session_state['lang'] = 'es'
+            st.rerun()
+    with col_l5:
+        if st.button("🇯🇵 JA", use_container_width=True):
+            st.session_state['lang'] = 'ja'
+            st.rerun()
+    with col_l6:
+        if st.button("🇨🇳 ZH", use_container_width=True):
+            st.session_state['lang'] = 'zh'
+            st.rerun()
     
     st.markdown("---")
     
+    # 커피 문구 번역
     coffee_msg_dict = {
-        "ko": "운명의 코드를 응원해 주세요!",
-        "en": "Support the developer!",
-        "fr": "Soutenez le développeur !",
-        "es": "¡Apoya al desarrollador!",
-        "ja": "開発者を応援してください！",
-        "zh": "支持开发者！"
+        "ko": "운명의 코드를 응원해 주세요!", "en": "Support the developer!",
+        "fr": "Soutenez le développeur !", "es": "¡Apoya al desarrollador!",
+        "ja": "開発者を応援してください！", "zh": "支持开发者！"
     }
     coffee_text = coffee_msg_dict.get(lang, "Support the developer!")
     
     coffee_title = "☕ 개발자 응원하기" if lang == "ko" else "☕ Buy me a coffee"
-    # 문구 색상을 부드러운 회색으로 변경
     coffee_html = f"<span style='color: #cbd5e1; font-weight: bold;'>{coffee_text}</span>"
     
     st.header(coffee_title)
