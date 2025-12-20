@@ -224,7 +224,19 @@ with st.container():
     col1, col2 = st.columns([1, 2.5]) 
     
     with col1:
-        st.image(imgs['s6'], use_container_width=True)
+        # ⭐ [수정] 이미지를 클릭하면 Gumroad 구매 링크로 이동하도록 변경 ⭐
+        # (마우스를 올리면 살짝 커지는 애니메이션 효과 포함)
+        gumroad_link = "https://5codes.gumroad.com/l/all-access_pass"
+        
+        st.markdown(f"""
+            <a href="{gumroad_link}" target="_blank">
+                <img src="{imgs['s6']}" 
+                     style="width: 100%; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+                            transition: transform 0.3s ease-in-out; cursor: pointer;"
+                     onmouseover="this.style.transform='scale(1.03)'" 
+                     onmouseout="this.style.transform='scale(1)'">
+            </a>
+        """, unsafe_allow_html=True)
         
     with col2:
         st.markdown(f"<div style='text-align: left; margin-top: 20px;'>", unsafe_allow_html=True)
