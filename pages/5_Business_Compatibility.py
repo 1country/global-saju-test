@@ -484,26 +484,47 @@ if not st.session_state["unlocked_biz"]:
         st.markdown("---")
         key = st.text_input("License Key", type="password")
         
-        if st.button(t['btn_unlock'], type="primary"):
+        if st.button(t['btn_unlock'], type="primary", use_container_width=True):
             if not p_name:
                 st.error("Please enter partner name.")
             else:
+                # 1. 마스터 키 (무제한) 확인
                 if key == UNLOCK_CODE:
                     st.session_state["unlocked_biz"] = True
+                    st.success("Master Unlocked!")
                     st.rerun()
-                # (API 검증 로직은 동일)
+                
+                # 2. 검로드 라이센스 확인
                 try:
+                    # (A) 단품(Business Compatibility) 키 확인 (3회 제한)
                     r1 = requests.post("https://api.gumroad.com/v2/licenses/verify",
-                                      data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}).json()
+                                      data={
+                                          "product_permalink": PRODUCT_PERMALINK_SPECIFIC, 
+                                          "license_key": key,
+                                          "increment_uses_count": "true" # 👈 카운트 증가 활성화
+                                      }).json()
+                    
                     if r1.get("success"):
-                         st.session_state["unlocked_biz"] = True
-                         st.rerun()
-                    else:
-                        r2 = requests.post("https://api.gumroad.com/v2/licenses/verify",
-                                          data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}).json()
-                        if r2.get("success"):
+                        if r1.get("uses", 0) > 3: # 🚨 3회 제한 로직
+                            st.error(f"🚫 Usage limit exceeded (Max 3)")
+                        else:
                             st.session_state["unlocked_biz"] = True
                             st.rerun()
+                    else:
+                        # (B) 올패스(All-Access) 키 확인 (합산 10회 제한)
+                        r2 = requests.post("https://api.gumroad.com/v2/licenses/verify",
+                                          data={
+                                              "product_permalink": PRODUCT_PERMALINK_ALL, 
+                                              "license_key": key,
+                                              "increment_uses_count": "true" # 👈 카운트 증가 활성화
+                                          }).json()
+                        
+                        if r2.get("success"):
+                            if r2.get("uses", 0) > 10: # 🚨 합산 10회 제한 로직
+                                st.error(f"🚫 Usage limit exceeded (Max 10)")
+                            else:
+                                st.session_state["unlocked_biz"] = True
+                                st.rerun()
                         else:
                             st.error("Invalid License Key")
                 except:
