@@ -1,7 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
-import calendar
 from datetime import date, timedelta
 from utils import calculate_day_gan
 
@@ -10,18 +9,16 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="Date Selection | The Element", page_icon="📆", layout="wide")
 
-# 언어 설정
 if 'lang' not in st.session_state:
     st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
 lang = st.session_state['lang']
 
-# 🔑 [마스터 키 & 구매 링크]
 UNLOCK_CODE = "MASTER2026"
-GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection" # (가상의 링크, 필요시 수정)
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (다크 테마 + 프린트 최적화)
+# 2. 스타일 설정
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
@@ -41,16 +38,27 @@ st.markdown("""
             font-family: 'Gowun Batang', serif; text-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
         }
         
-        /* 캘린더 카드 스타일 */
-        .date-card {
-            background: rgba(30, 41, 59, 0.95); border: 1px solid #475569; padding: 20px;
-            border-radius: 12px; margin-bottom: 15px;
+        /* 추천 카드 스타일 */
+        .rec-card {
+            background: rgba(30, 41, 59, 0.95); border: 1px solid #f472b6; padding: 25px;
+            border-radius: 15px; margin-bottom: 20px; text-align: center;
+            box-shadow: 0 4px 15px rgba(244, 114, 182, 0.15);
         }
-        .date-badge {
-            display: inline-block; padding: 5px 12px; border-radius: 20px; 
-            font-weight: bold; font-size: 0.9em; margin-bottom: 5px; color: white;
+        .rec-date {
+            font-size: 1.8em; font-weight: bold; color: #f8fafc; margin-bottom: 5px;
+        }
+        .rec-star {
+            font-size: 1.5em; margin-bottom: 15px; text-shadow: 0 0 5px #fbbf24;
+        }
+        .rec-desc {
+            font-size: 1.1em; color: #e2e8f0; line-height: 1.6;
         }
         
+        /* 입력 라벨 밝게 */
+        .stSelectbox label p, .stDateInput label p {
+            color: #e2e8f0 !important; font-weight: 600 !important; font-size: 1.1rem !important;
+        }
+
         /* 잠금 오버레이 */
         .lock-overlay {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -58,25 +66,18 @@ st.markdown("""
             text-align: center; width: 90%; z-index: 99; border: 1px solid #f472b6;
             box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
         }
-
-        /* 🖨️ 프린트 설정 */
+        
         @media print {
             section[data-testid="stSidebar"], header, footer { display: none !important; }
             .stApp { background: white !important; color: black !important; }
-            .date-card { background: white !important; border: 1px solid #ccc !important; color: black !important; }
-            h1, h2, h3, p, div { color: black !important; text-shadow: none !important; }
-        }
-        /* 입력 필드 라벨 (Year, Month) 색상 변경 */
-        .stSelectbox label p {
-            color: #e2e8f0 !important;
-            font-weight: 600 !important;
-            font-size: 1.1rem !important;
+            .rec-card { border: 1px solid #ccc !important; color: black !important; background: white !important; }
+            h1, h2, h3, p, span { color: black !important; }
         }
     </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# 3. 데이터 및 로직 (오행 관계 계산)
+# 3. 로직 및 데이터
 # ----------------------------------------------------------------
 def get_relationship(user_elem, day_elem):
     relations = {
@@ -88,57 +89,76 @@ def get_relationship(user_elem, day_elem):
     }
     return relations.get(user_elem, {}).get(day_elem, "Same")
 
-# 6개 국어 해석 데이터
-meanings = {
+# 목적 선택 옵션 (6개 국어)
+goals = {
     "Wealth": {
-        "bg": "#059669", # Green
-        "ko": {"t": "💰 재물운 (결과/수확)", "d": "돈이 들어오거나, 쇼핑, 투자, 중요한 결과를 맺기 좋은 날입니다."},
-        "en": {"t": "💰 Wealth Day", "d": "Best for income, shopping, investments, and getting results."},
-        "fr": {"t": "💰 Jour de Richesse", "d": "Idéal pour les revenus, le shopping et les investissements."},
-        "es": {"t": "💰 Día de Riqueza", "d": "Mejor para ingresos, compras e inversiones."},
-        "ja": {"t": "💰 財運の日", "d": "収入、買い物、投資、結果を出すのに最適な日です。"},
-        "zh": {"t": "💰 财运日", "d": "适合收入、购物、投资和取得成果的日子。"}
-    },
-    "Power": {
-        "bg": "#2563eb", # Blue
-        "ko": {"t": "⚖️ 명예운 (관운/승진)", "d": "면접, 승진 시험, 관공서 업무, 리더십을 발휘하기 좋은 날입니다."},
-        "en": {"t": "⚖️ Power/Career Day", "d": "Best for interviews, promotions, official tasks, and leadership."},
-        "fr": {"t": "⚖️ Jour de Pouvoir", "d": "Idéal pour les entretiens, promotions et tâches officielles."},
-        "es": {"t": "⚖️ Día de Poder", "d": "Mejor para entrevistas, ascensos y asuntos oficiales."},
-        "ja": {"t": "⚖️ 名誉の日", "d": "面接、昇進、役所の仕事、リーダーシップを発揮するのに良い日です。"},
-        "zh": {"t": "⚖️ 官运日", "d": "适合面试、晋升、公务处理和发挥领导力的日子。"}
+        "ko": "💰 재물/투자/쇼핑 (Wealth)", "en": "💰 Wealth & Investment", "fr": "💰 Richesse", 
+        "es": "💰 Riqueza", "ja": "💰 財運・投資", "zh": "💰 财运/投资"
     },
     "Output": {
-        "bg": "#db2777", # Pink
-        "ko": {"t": "🎨 표현운 (매력/연애)", "d": "데이트, 고백, 발표, 창의적인 활동을 하기에 최고의 날입니다."},
-        "en": {"t": "🎨 Output/Creativity Day", "d": "Best for dating, confessions, presentations, and creativity."},
-        "fr": {"t": "🎨 Jour d'Expression", "d": "Idéal pour les rendez-vous, l'art et les présentations."},
-        "es": {"t": "🎨 Día de Expresión", "d": "Mejor para citas, arte y presentaciones."},
-        "ja": {"t": "🎨 表現の日", "d": "デート、告白、発表、創造的な活動に最高の日です。"},
-        "zh": {"t": "🎨 表现日", "d": "最适合约会、表白、演讲和创意活动的日子。"}
+        "ko": "🎨 연애/고백/창작 (Love/Creativity)", "en": "🎨 Love & Creativity", "fr": "🎨 Amour", 
+        "es": "🎨 Amor", "ja": "🎨 恋愛・告白", "zh": "🎨 恋爱/创作"
     },
     "Resource": {
-        "bg": "#d97706", # Amber
-        "ko": {"t": "📚 문서운 (계약/공부)", "d": "계약서 작성, 공부, 힐링, 윗사람의 도움을 받기 좋은 날입니다."},
-        "en": {"t": "📚 Resource/Study Day", "d": "Best for contracts, studying, healing, and getting help."},
-        "fr": {"t": "📚 Jour de Ressources", "d": "Idéal pour les contrats, l'étude et le repos."},
-        "es": {"t": "📚 Día de Recursos", "d": "Mejor para contratos, estudios y descanso."},
-        "ja": {"t": "📚 知恵の日", "d": "契約、勉強、癒し、目上の人の助けを得るのに良い日です。"},
-        "zh": {"t": "📚 印星日", "d": "适合签合同、学习、疗愈和获得长辈帮助的日子。"}
+        "ko": "📚 계약/이사/공부 (Contract/Study)", "en": "📚 Contract & Study", "fr": "📚 Contrat", 
+        "es": "📚 Contrato", "ja": "📚 契約・引越し", "zh": "📚 合同/搬家"
+    },
+    "Power": {
+        "ko": "⚖️ 승진/면접/관운 (Career/Promotion)", "en": "⚖️ Career & Promotion", "fr": "⚖️ Carrière", 
+        "es": "⚖️ Carrera", "ja": "⚖️ 昇進・面接", "zh": "⚖️ 事业/晋升"
     },
     "Same": {
-        "bg": "#475569", # Slate
-        "ko": {"t": "🤝 사람운 (친구/경쟁)", "d": "친구를 만나거나 협업하기 좋지만, 돈 거래는 피해야 하는 날입니다."},
-        "en": {"t": "🤝 Social Day", "d": "Good for networking and friends, but avoid lending money."},
-        "fr": {"t": "🤝 Jour Social", "d": "Bon pour le réseautage, évitez de prêter de l'argent."},
-        "es": {"t": "🤝 Día Social", "d": "Bueno para networking, evita prestar dinero."},
-        "ja": {"t": "🤝 社交の日", "d": "友人との会合や協力には良いですが、お金の貸し借りは避けましょう。"},
-        "zh": {"t": "🤝 社交日", "d": "适合聚会和合作，但要避免借钱。"}
+        "ko": "🤝 친목/모임/협업 (Social/Meeting)", "en": "🤝 Social & Networking", "fr": "🤝 Social", 
+        "es": "🤝 Social", "ja": "🤝 親睦・集まり", "zh": "🤝 社交/聚会"
+    }
+}
+
+# 결과 멘트 (6개 국어)
+advice_msg = {
+    "Wealth": {
+        "ko": "금전운이 강하게 들어오는 날입니다. 투자를 하거나, 중요한 물건을 사거나, 결과를 내기에 최적의 타이밍입니다.",
+        "en": "Strong financial energy. Best day for investments, major purchases, or finalizing deals.",
+        "fr": "Excellente énergie financière. Idéal pour investir.",
+        "es": "Gran energía financiera. Ideal para invertir.",
+        "ja": "金運が強い日です。投資や買い物に最適です。",
+        "zh": "财运很强。适合投资或购物。"
+    },
+    "Output": {
+        "ko": "당신의 매력과 표현력이 빛나는 날입니다. 데이트를 하거나, 고백을 하거나, 창의적인 일을 하기에 완벽합니다.",
+        "en": "Your charm shines today. Perfect for dating, confessing love, or creative work.",
+        "fr": "Votre charme opère. Parfait pour les rendez-vous.",
+        "es": "Tu encanto brilla. Perfecto para citas.",
+        "ja": "魅力が輝く日です。デートや告白に最適です。",
+        "zh": "魅力四射的一天。适合约会或表白。"
+    },
+    "Resource": {
+        "ko": "안정적인 기운이 돕는 날입니다. 계약서에 도장을 찍거나, 이사를 가거나, 차분히 공부하기에 가장 좋습니다.",
+        "en": "Stable energy supports you. Best for signing contracts, moving, or studying.",
+        "fr": "Énergie stable. Idéal pour les contrats.",
+        "es": "Energía estable. Ideal para contratos.",
+        "ja": "安定した運気です。契約や勉強に良い日です。",
+        "zh": "气场稳定。适合签约或学习。"
+    },
+    "Power": {
+        "ko": "명예와 권위가 따르는 날입니다. 면접을 보거나, 승진 시험을 치거나, 중요한 책임을 맡기에 유리합니다.",
+        "en": "Day of honor and authority. Great for interviews, exams, or taking responsibility.",
+        "fr": "Jour d'honneur. Bon pour les entretiens.",
+        "es": "Día de honor. Bueno para entrevistas.",
+        "ja": "名誉の日です。面接や昇進試験に有利です。",
+        "zh": "名誉之日。适合面试或晋升。"
+    },
+    "Same": {
+        "ko": "사람들과의 유대가 강해지는 날입니다. 파티를 열거나, 친구를 만나거나, 동업자와 회의하기 좋습니다.",
+        "en": "Strong social bonds. Good for parties, meeting friends, or networking.",
+        "fr": "Liens sociaux forts. Bon pour les fêtes.",
+        "es": "Lazos sociales fuertes. Bueno para fiestas.",
+        "ja": "絆が深まる日です。友人との集まりに最適。",
+        "zh": "社交运强。适合聚会或见朋友。"
     }
 }
 
 # ----------------------------------------------------------------
-# 4. 사이드바 (언어 설정 - 통일)
+# 4. 사이드바
 # ----------------------------------------------------------------
 with st.sidebar:
     st.header("Settings")
@@ -166,58 +186,58 @@ with st.sidebar:
         st.switch_page("Home.py")
 
 # ----------------------------------------------------------------
-# 5. 메인 로직
+# 5. 메인 UI
 # ----------------------------------------------------------------
 if "user_name" not in st.session_state or not st.session_state["user_name"]:
     st.warning("Please go Home first.")
     st.stop()
 
-# UI 텍스트 (6개 국어)
+# UI 텍스트
 ui = {
     "ko": {
-        "title": "📆 길일 택일 (Date Selection)", "sub": "결혼, 이사, 계약 등 중요한 일정을 잡기에 가장 좋은 날을 찾아드립니다.",
-        "sel_date": "원하는 시기 선택 (년/월)", "btn_anal": "캘린더 생성하기",
-        "lock_title": "🔒 택일 리포트 잠금 (VIP)", "lock_msg": "이번 달의 재물운, 연애운, 계약운 날짜를 모두 확인하세요.",
-        "btn_buy": "전체 리포트 해제 ($10)", "btn_unlock": "잠금 해제", "key_label": "라이센스 키",
-        "legend": "범례 (Legend)"
+        "title": "📆 길일 택일 (Best Dates)", "sub": "가장 중요한 일을 하기에 완벽한 날짜 3개를 찾아드립니다.",
+        "q1": "1. 어떤 날을 찾으시나요?", "q2": "2. 언제쯤으로 원하시나요?",
+        "btn": "🏆 최고의 날짜 3개 찾기", "res_h": "당신을 위한 최고의 길일 Top 3",
+        "lock_t": "🔒 택일 리포트 잠금 (VIP)", "lock_m": "당신의 사주에 딱 맞는 길일 3개를 확인하세요.",
+        "btn_buy": "잠금 해제 ($10)", "key_label": "라이센스 키"
     },
     "en": {
-        "title": "📆 Date Selection", "sub": "Find the most auspicious dates for marriage, moving, signing contracts, etc.",
-        "sel_date": "Select Month (Year/Month)", "btn_anal": "Generate Calendar",
-        "lock_title": "🔒 Calendar Locked (VIP)", "lock_msg": "Unlock full calendar with Wealth, Love, and Career dates.",
-        "btn_buy": "Unlock Report ($10)", "btn_unlock": "Unlock", "key_label": "License Key",
-        "legend": "Legend"
+        "title": "📆 Find Best Dates", "sub": "We recommend the Top 3 perfect dates for your important events.",
+        "q1": "1. What is your goal?", "q2": "2. Around which date?",
+        "btn": "🏆 Find Top 3 Dates", "res_h": "Top 3 Auspicious Dates for You",
+        "lock_t": "🔒 Report Locked", "lock_m": "Unlock the best dates tailored to your destiny.",
+        "btn_buy": "Unlock ($10)", "key_label": "License Key"
     },
-    "fr": {"title": "📆 Sélection de Date", "sub": "Trouvez les meilleurs jours.", "sel_date": "Sélectionner Mois", "btn_anal": "Générer", "lock_title": "🔒 Calendrier VIP", "lock_msg": "Débloquez tout.", "btn_buy": "Débloquer ($10)", "btn_unlock": "Déverrouiller", "key_label": "Clé", "legend": "Légende"},
-    "es": {"title": "📆 Selección de Fechas", "sub": "Encuentra los mejores días.", "sel_date": "Seleccionar Mes", "btn_anal": "Generar", "lock_title": "🔒 Calendario VIP", "lock_msg": "Desbloquear todo.", "btn_buy": "Desbloquear ($10)", "btn_unlock": "Desbloquear", "key_label": "Clave", "legend": "Leyenda"},
-    "ja": {"title": "📆 択日 (吉日選び)", "sub": "結婚、引っ越し、契約に最適な日を見つけます。", "sel_date": "年月を選択", "btn_anal": "カレンダー作成", "lock_title": "🔒 VIPカレンダー", "lock_msg": "全ての吉日を解除。", "btn_buy": "解除 ($10)", "btn_unlock": "解除", "key_label": "キー", "legend": "凡例"},
-    "zh": {"title": "📆 择吉日", "sub": "寻找结婚、搬家、签约的最佳日期。", "sel_date": "选择年月", "btn_anal": "生成日历", "lock_title": "🔒 VIP日历", "lock_msg": "解锁所有吉日。", "btn_buy": "解锁 ($10)", "btn_unlock": "解锁", "key_label": "密钥", "legend": "图例"}
+    # (다른 언어 생략 - 영어 fallback)
 }
 if lang not in ui: t = ui['en']
 else: t = ui[lang]
 
 st.markdown(f"<div class='main-title'>{t['title']}</div>", unsafe_allow_html=True)
-st.markdown(f"<div style='text-align:center; color:#cbd5e1; margin-bottom:30px;'>{t['sub']}</div>", unsafe_allow_html=True)
+st.markdown(f"<div style='text-align:center; color:#cbd5e1; margin-bottom:40px;'>{t['sub']}</div>", unsafe_allow_html=True)
 
-# 1. 월 선택
+# 1. 입력 섹션
 with st.container(border=True):
-    st.subheader(t['sel_date'])
-    c1, c2 = st.columns(2)
-    with c1:
-        target_year = st.selectbox("Year", range(2024, 2031), index=1) # 2025 default
-    with c2:
-        target_month = st.selectbox("Month", range(1, 13), index=date.today().month - 1)
-        
-    analyze_btn = st.button(t['btn_anal'], type="primary", use_container_width=True)
+    # 목적 선택
+    goal_options = list(goals.keys()) # Wealth, Output...
+    # 보여지는 텍스트 매핑
+    format_func = lambda x: goals[x][lang]
+    
+    selected_goal_key = st.selectbox(t['q1'], goal_options, format_func=format_func)
+    
+    # 기준 날짜 선택
+    target_date = st.date_input(t['q2'], min_value=date.today())
+    
+    st.write("")
+    analyze_btn = st.button(t['btn'], type="primary", use_container_width=True)
 
 # 2. 분석 및 결과
-if analyze_btn or st.session_state.get('date_analyzed'):
-    st.session_state['date_analyzed'] = True
+if analyze_btn or st.session_state.get('date_analyzed_2'):
+    st.session_state['date_analyzed_2'] = True
     
-    # 내 사주 정보
+    # 내 사주
     my_info = calculate_day_gan(st.session_state["birth_date"])
     
-    # 오행 변환 함수
     def map_elem(input_val):
         valid_english = ["Wood", "Fire", "Earth", "Metal", "Water"]
         if input_val in valid_english: return input_val
@@ -228,21 +248,27 @@ if analyze_btn or st.session_state.get('date_analyzed'):
     
     st.divider()
     
-    # 🔒 잠금 상태 확인
-    if "unlocked_date" not in st.session_state: st.session_state["unlocked_date"] = False
+    # 🔒 잠금 확인
+    if "unlocked_date_2" not in st.session_state: st.session_state["unlocked_date_2"] = False
     
-    if not st.session_state["unlocked_date"]:
+    if not st.session_state["unlocked_date_2"]:
         # 블러 처리된 가짜 결과
         blur_html = f"""
         <div style='position: relative; overflow: hidden; border-radius: 15px;'>
-            <div style='filter: blur(10px); opacity: 0.6; pointer-events: none;'>
-                <div class='date-card'><h3>💰 Wealth Day: 2025-05-01</h3><p>Excellent day for investment.</p></div>
-                <div class='date-card'><h3>❤️ Love Day: 2025-05-05</h3><p>Perfect for a date.</p></div>
-                <div class='date-card'><h3>📚 Study Day: 2025-05-10</h3><p>Focus on your exams.</p></div>
+            <div style='filter: blur(12px); opacity: 0.6; pointer-events: none;'>
+                <div class='rec-card'>
+                    <div class='rec-date'>2025-05-01 (Friday)</div>
+                    <div class='rec-star'>⭐⭐⭐⭐⭐</div>
+                    <p>This is the perfect day for your goal...</p>
+                </div>
+                <div class='rec-card'>
+                    <div class='rec-date'>2025-05-05 (Monday)</div>
+                    <div class='rec-star'>⭐⭐⭐⭐</div>
+                </div>
             </div>
             <div class='lock-overlay'>
-                <h3 style='color: #f472b6;'>{t['lock_title']}</h3>
-                <p style='color: #e2e8f0; margin-bottom: 20px; font-size: 1.1em;'>{t['lock_msg']}</p>
+                <h3 style='color: #f472b6;'>{t['lock_t']}</h3>
+                <p style='color: #e2e8f0; margin-bottom: 20px; font-size: 1.1em;'>{t['lock_m']}</p>
                 <a href="{GUMROAD_LINK_SPECIFIC}" target="_blank" 
                    style="background-color: #ec4899; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; display: inline-block;">
                    {t['btn_buy']}
@@ -256,118 +282,82 @@ if analyze_btn or st.session_state.get('date_analyzed'):
             c1, c2 = st.columns([3, 1])
             with c1: k_in = st.text_input(t['key_label'], type="password", label_visibility="collapsed")
             with c2: 
-                if st.button(t['btn_unlock']):
+                if st.button("Unlock"):
                     if k_in == UNLOCK_CODE:
-                        st.session_state["unlocked_date"] = True
+                        st.session_state["unlocked_date_2"] = True
                         st.success("Unlocked!")
                         st.rerun()
                     else:
                         try:
-                            # 1. 단품 확인
                             r = requests.post("https://api.gumroad.com/v2/licenses/verify", 
                                               data={"product_permalink": "date_selection", "license_key": k_in}).json()
                             if r.get("success"):
-                                st.session_state["unlocked_date"] = True
+                                st.session_state["unlocked_date_2"] = True
                                 st.rerun()
                             else:
-                                # 2. 올패스 확인
                                 r2 = requests.post("https://api.gumroad.com/v2/licenses/verify", 
                                                    data={"product_permalink": "all-access_pass", "license_key": k_in}).json()
                                 if r2.get("success"):
-                                    st.session_state["unlocked_date"] = True
+                                    st.session_state["unlocked_date_2"] = True
                                     st.rerun()
                                 else:
                                     st.error("Invalid Key")
                         except: st.error("Error")
     else:
-        # 🔓 해제됨: 진짜 캘린더 생성
-        st.success("🔓 VIP Calendar Unlocked!")
+        # 🔓 해제됨: 진짜 추천 로직
+        st.success("🔓 Top 3 Dates Found!")
+        st.subheader(t['res_h'])
         
-        # 월별 날짜 순회
-        _, last_day = calendar.monthrange(target_year, target_month)
+        # 날짜 탐색 (기준일 전후 15일 = 총 30일 탐색)
+        start_date = target_date - timedelta(days=10)
+        end_date = target_date + timedelta(days=20)
         
-        # 결과를 저장할 딕셔너리
-        categorized_days = {"Wealth": [], "Power": [], "Output": [], "Resource": [], "Same": []}
+        found_dates = []
         
-        for day in range(1, last_day + 1):
-            curr_date = date(target_year, target_month, day)
-            day_info = calculate_day_gan(curr_date)
+        # 30일간 순회하며 조건 맞는 날 찾기
+        curr = start_date
+        while curr <= end_date:
+            day_info = calculate_day_gan(curr)
             day_elem = map_elem(day_info['element'])
-            
             rel = get_relationship(my_elem, day_elem)
-            categorized_days[rel].append(curr_date)
-
-        # 결과 출력 (탭으로 구성)
-        tabs = st.tabs([
-            meanings["Wealth"][lang]["t"], 
-            meanings["Output"][lang]["t"], 
-            meanings["Power"][lang]["t"], 
-            meanings["Resource"][lang]["t"]
-        ])
+            
+            # 목적과 관계가 일치하면 후보에 추가
+            if rel == selected_goal_key:
+                # 점수 계산 (기준일과 가까울수록 가산점)
+                dist = abs((curr - target_date).days)
+                # 별점 로직: 거리가 가까우면 5점, 멀면 4점
+                stars = "⭐⭐⭐⭐⭐" if dist <= 7 else "⭐⭐⭐⭐"
+                found_dates.append({
+                    "date": curr,
+                    "star": stars,
+                    "dist": dist
+                })
+            curr += timedelta(days=1)
+            
+        # 거리순 정렬 후 상위 3개 추출
+        found_dates.sort(key=lambda x: x['dist'])
+        top_3 = found_dates[:3]
         
-        # 1. 재물운 탭
-        with tabs[0]:
-            info = meanings["Wealth"][lang]
-            st.info(info["d"])
-            if not categorized_days["Wealth"]:
-                st.write("No specific dates found this month.")
-            for d in categorized_days["Wealth"]:
+        if not top_3:
+            st.warning("No matching dates found in this range. Try changing the target date.")
+        else:
+            # 카드 출력
+            for idx, item in enumerate(top_3):
+                d_str = item['date'].strftime('%Y-%m-%d')
+                weekday = item['date'].strftime('%A')
+                desc = advice_msg[selected_goal_key].get(lang, advice_msg[selected_goal_key]['en'])
+                
+                # 1등은 금색 테두리 효과 (CSS 클래스 활용) or 아이콘
+                medal = "🥇" if idx == 0 else ("🥈" if idx == 1 else "🥉")
+                
                 st.markdown(f"""
-                    <div class='date-card'>
-                        <span class='date-badge' style='background:{meanings['Wealth']['bg']}'>Wealth</span>
-                        <span style='font-size:1.2em; font-weight:bold; color:#f8fafc; margin-left:10px;'>
-                            {d.strftime('%Y-%m-%d')} ({d.strftime('%A')})
-                        </span>
-                    </div>
-                """, unsafe_allow_html=True)
-
-        # 2. 표현/연애운 탭
-        with tabs[1]:
-            info = meanings["Output"][lang]
-            st.info(info["d"])
-            if not categorized_days["Output"]:
-                st.write("No specific dates found this month.")
-            for d in categorized_days["Output"]:
-                st.markdown(f"""
-                    <div class='date-card'>
-                        <span class='date-badge' style='background:{meanings['Output']['bg']}'>Love & Creativity</span>
-                        <span style='font-size:1.2em; font-weight:bold; color:#f8fafc; margin-left:10px;'>
-                            {d.strftime('%Y-%m-%d')} ({d.strftime('%A')})
-                        </span>
-                    </div>
-                """, unsafe_allow_html=True)
-
-        # 3. 명예/직장운 탭
-        with tabs[2]:
-            info = meanings["Power"][lang]
-            st.info(info["d"])
-            if not categorized_days["Power"]:
-                st.write("No specific dates found this month.")
-            for d in categorized_days["Power"]:
-                st.markdown(f"""
-                    <div class='date-card'>
-                        <span class='date-badge' style='background:{meanings['Power']['bg']}'>Career & Honor</span>
-                        <span style='font-size:1.2em; font-weight:bold; color:#f8fafc; margin-left:10px;'>
-                            {d.strftime('%Y-%m-%d')} ({d.strftime('%A')})
-                        </span>
-                    </div>
-                """, unsafe_allow_html=True)
-
-        # 4. 문서/공부운 탭
-        with tabs[3]:
-            info = meanings["Resource"][lang]
-            st.info(info["d"])
-            if not categorized_days["Resource"]:
-                st.write("No specific dates found this month.")
-            for d in categorized_days["Resource"]:
-                st.markdown(f"""
-                    <div class='date-card'>
-                        <span class='date-badge' style='background:{meanings['Resource']['bg']}'>Study & Contract</span>
-                        <span style='font-size:1.2em; font-weight:bold; color:#f8fafc; margin-left:10px;'>
-                            {d.strftime('%Y-%m-%d')} ({d.strftime('%A')})
-                        </span>
+                    <div class='rec-card'>
+                        <div style='font-size:1.2em; color:#f472b6; margin-bottom:5px;'>{medal} Recommendation</div>
+                        <div class='rec-date'>{d_str} <span style='font-size:0.7em; color:#cbd5e1;'>({weekday})</span></div>
+                        <div class='rec-star'>{item['star']}</div>
+                        <div class='rec-desc'>{desc}</div>
                     </div>
                 """, unsafe_allow_html=True)
         
         st.write("")
-        components.html("""<script>function p(){window.parent.print();}</script><div style='display:flex;justify-content:center;margin-top:30px;'><button onclick='p()' style='background:#ec4899;color:white;border:none;padding:12px 25px;border-radius:30px;cursor:pointer;font-weight:bold;'>🖨️ Save Calendar</button></div>""", height=80)
+        components.html("""<script>function p(){window.parent.print();}</script><div style='display:flex;justify-content:center;margin-top:30px;'><button onclick='p()' style='background:#ec4899;color:white;border:none;padding:12px 25px;border-radius:30px;cursor:pointer;font-weight:bold;'>🖨️ Print Top 3</button></div>""", height=80)
