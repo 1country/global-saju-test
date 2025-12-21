@@ -75,10 +75,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# 3. 데이터 함수 (점수 누락 수정 완료)
+# 3. 데이터 함수 (He/She 성별 적용 완료)
 # ----------------------------------------------------------------
-def get_love_report(u_elem, p_elem, lang):
-    # 관계 로직
+# ⭐ [수정] 인자에 p_gender 추가
+def get_love_report(u_elem, p_elem, lang, p_gender):
     relations = {
         "Wood": {"Wood": "Same", "Fire": "Output", "Earth": "Wealth", "Metal": "Power", "Water": "Resource"},
         "Fire": {"Wood": "Resource", "Fire": "Same", "Earth": "Output", "Metal": "Wealth", "Water": "Power"},
@@ -88,10 +88,16 @@ def get_love_report(u_elem, p_elem, lang):
     }
     rel_key = relations.get(u_elem, {}).get(p_elem, "Same")
     
-    # 🌟 데이터베이스 (점수 score 필드 추가 완료)
+    # ⭐ [수정] 성별에 따른 대명사 설정
+    if p_gender == "Male":
+        S, s, O, P = "He", "he", "him", "his" # 주어(대), 주어(소), 목적어, 소유격
+    else:
+        S, s, O, P = "She", "she", "her", "her"
+
+    # 🌟 6개 국어 상세 데이터베이스 (영어 부분에 변수 적용)
     reports = {
         "Same": { 
-            "score": 85, # ✅ 점수 있음
+            "score": 85,
             "ko": {
                 "t": "🤝 거울 속의 연인: 운명적 동질감",
                 "c": "마치 잃어버린 반쪽을 찾은 듯 대화 코드와 웃음 포인트가 똑같습니다. 가장 친한 친구이자 뜨거운 연인이 될 수 있는 완벽한 파트너입니다.",
@@ -101,8 +107,8 @@ def get_love_report(u_elem, p_elem, lang):
             },
             "en": {
                 "t": "🤝 Mirror Couple: Twin Souls",
-                "c": "You feel an instant connection like finding a lost twin. You share the same humor and values. Best friends and passionate lovers.",
-                "f": "Both have strong egos. Arguments can turn into cold wars because neither wants to apologize first. You might dislike seeing your own flaws in them.",
+                "c": f"You feel an instant connection like finding a lost twin. You share the same humor and values. Best friends and passionate lovers.",
+                "f": f"Both have strong egos. Arguments can turn into cold wars because neither wants to apologize first. You might dislike seeing your own flaws in {O}.",
                 "i": "Intimacy Score: 90. Starts playful, ends passionate. You intuitively know each other's needs.",
                 "a": "Drop the ego. Apologize first. Winning an argument only hurts the relationship."
             },
@@ -112,7 +118,7 @@ def get_love_report(u_elem, p_elem, lang):
             "zh": {"t": "🤝 镜中恋人", "c": "灵魂伴侣，既是挚友又是恋人。", "f": "注意自尊心的冲突。", "i": "亲密度90分。", "a": "放下自尊，先道歉。"}
         },
         "Output": { 
-            "score": 92, # ✅ 점수 추가 (이게 없어서 에러가 났었습니다)
+            "score": 92,
             "ko": {
                 "t": "💖 헌신적인 사랑: 아낌없이 주는 나무",
                 "c": "당신이 상대방을 자식처럼 예뻐하고 챙겨주는 관계입니다. 상대방은 당신의 사랑 속에서 안정감을 느끼고 전적으로 의지합니다.",
@@ -122,8 +128,8 @@ def get_love_report(u_elem, p_elem, lang):
             },
             "en": {
                 "t": "💖 Devoted Love: The Giver & Receiver",
-                "c": "You care for them like a parent. You give unconditional love, and they feel secure and cherished.",
-                "f": "Resentment arises if you expect equal return. Also, your care might feel like nagging to them.",
+                "c": f"You care for {O} like a parent. You give unconditional love, and {s} feels secure and cherished.",
+                "f": f"Resentment arises if you expect equal return. Also, your care might feel like nagging to {O}.",
                 "i": "You lead and serve. You derive pleasure from satisfying your partner.",
                 "a": "Give without strings attached. Don't try to control them."
             },
@@ -132,8 +138,8 @@ def get_love_report(u_elem, p_elem, lang):
             "ja": {"t": "💖 献身的な愛", "c": "惜しみなく与える関係。", "f": "見返りを求めると辛くなります。", "i": "相手を満足させることに喜びを感じます。", "a": "愛という名で束縛しないでください。"},
             "zh": {"t": "💖 奉献之爱", "c": "无私给予的关系。", "f": "不要期待回报，否则会失望。", "i": "乐于取悦对方。", "a": "不要以爱之名进行控制。"}
         },
-        "Wealth": { 
-            "score": 88, # ✅ 점수 추가
+        "Wealth": {
+            "score": 88,
             "ko": {
                 "t": "🔥 치명적인 매력: 소유욕과 열정",
                 "c": "강렬한 성적 매력을 느낍니다. '내 것으로 만들고 싶다'는 정복욕이 사랑의 원동력이 됩니다. 남자가 여자를 만난 경우 최고의 궁합 중 하나입니다.",
@@ -143,18 +149,18 @@ def get_love_report(u_elem, p_elem, lang):
             },
             "en": {
                 "t": "🔥 Fatal Attraction: Passion & Control",
-                "c": "Intense physical attraction. You want to conquer and possess them. Driven by desire.",
+                "c": f"Intense physical attraction. You want to conquer and possess {O}. Driven by desire.",
                 "f": "Control is the issue. Manipulation leads to suffocation. Beware of jealousy.",
                 "i": "Score: 200/100. Fight by day, make up by night. Extremely hot connection.",
-                "a": "Respect their privacy. Be transparent about money."
+                "a": f"Respect {P} privacy. Be transparent about money."
             },
             "fr": {"t": "🔥 Attraction Fatale", "c": "Passion intense.", "f": "Jalousie et contrôle.", "i": "Score 200/100 !", "a": "Respectez leur liberté."},
             "es": {"t": "🔥 Atracción Fatal", "c": "Pasión intensa.", "f": "Celos y control.", "i": "¡Puntuación 200/100!", "a": "Respeta su libertad."},
             "ja": {"t": "🔥 致命的な魅力", "c": "所有欲と情熱。", "f": "束縛は禁物。", "i": "相性200点！激しい関係。", "a": "相手を尊重し、執着を捨ててください。"},
             "zh": {"t": "🔥 致命吸引力", "c": "强烈的占有欲。", "f": "控制欲会导致窒息。", "i": "200分！白天吵架晚上和好。", "a": "尊重对方，不要执着。"}
         },
-        "Power": { 
-            "score": 78, # ✅ 점수 추가
+        "Power": {
+            "score": 78,
             "ko": {
                 "t": "⚖️ 존경과 긴장: 나를 성장시키는 연인",
                 "c": "상대방이 나를 리드하고 통제합니다. 묘한 카리스마와 어른스러움에 존경심을 느낍니다. 서로 부족함을 채워주는 '스승과 제자' 같습니다.",
@@ -164,10 +170,10 @@ def get_love_report(u_elem, p_elem, lang):
             },
             "en": {
                 "t": "⚖️ Respect & Tension: The Mentor",
-                "c": "They lead you. You feel respect for their charisma. Like a 'Teacher-Student' bond where you grow.",
-                "f": "They might be too strict. Their advice can feel like criticism or nagging.",
+                "c": f"{S} leads you. You feel respect for {P} charisma. Like a 'Teacher-Student' bond where you grow.",
+                "f": f"{S} might be too strict. {P} advice can feel like criticism or nagging.",
                 "i": "Stable and trusting. Deep emotional security rather than wild thrill.",
-                "a": "Don't be defensive. Listen to their advice. Set boundaries."
+                "a": f"Don't be defensive. Listen to {P} advice. Set boundaries."
             },
             "fr": {"t": "⚖️ Respect et Tension", "c": "Relation Mentor-Élève.", "f": "Critiques possibles.", "i": "Stable et profond.", "a": "Écoutez les conseils."},
             "es": {"t": "⚖️ Respeto y Tensión", "c": "Relación Mentor-Estudiante.", "f": "Posibles críticas.", "i": "Estable y profundo.", "a": "Escucha los consejos."},
@@ -175,7 +181,7 @@ def get_love_report(u_elem, p_elem, lang):
             "zh": {"t": "⚖️ 尊敬与紧张", "c": "让我成长的恋人。", "f": "对方可能太严厉。", "i": "稳定且信任。", "a": "虚心听取建议。"}
         },
         "Resource": { 
-            "score": 96, # ✅ 점수 추가
+            "score": 96,
             "ko": {
                 "t": "🍼 무한한 사랑: 힐링 소울메이트",
                 "c": "상대방이 당신을 헌신적으로 뒷바라지해줍니다. 엄마 품처럼 편안하고, 나를 이해하고 용서해주는 안식처 같은 관계입니다.",
@@ -185,8 +191,8 @@ def get_love_report(u_elem, p_elem, lang):
             },
             "en": {
                 "t": "🍼 Unconditional Love: Healing Soulmate",
-                "c": "They support you devotedly. Safe, understanding, and forgiving like a mother's embrace.",
-                "f": "Comfort can lead to boredom. Don't take their love for granted or feel smothered.",
+                "c": f"{S} supports you devotedly. Safe, understanding, and forgiving like a mother's embrace.",
+                "f": f"Comfort can lead to boredom. Don't take {P} love for granted or feel smothered.",
                 "i": "Emotional satisfaction > Physical thrill. Warm and gentle connection.",
                 "a": "Express gratitude. Don't be too dependent."
             },
@@ -197,7 +203,6 @@ def get_love_report(u_elem, p_elem, lang):
         }
     }
     
-    # 데이터 매핑
     base_data = reports.get(rel_key, reports["Same"])
     data = base_data.get(lang, base_data["en"])
     
@@ -209,7 +214,7 @@ def get_love_report(u_elem, p_elem, lang):
         "intimacy": data['i'],
         "advice": data['a']
     }
-
+    
 # ----------------------------------------------------------------
 # 4. 사이드바 (언어 설정 - 통일 완료!)
 # ----------------------------------------------------------------
