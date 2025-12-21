@@ -154,48 +154,47 @@ intent_list = [
 
 # 결과 조언 멘트 (상단에 한 번만 출력됨)
 advice_msg = {
-    "Wealth": {
-        "ko": "💰 <b>재물운이 아주 강한 날입니다!</b><br>투자를 결정하거나, 복권을 사거나, 큰 쇼핑을 하기에 최적의 타이밍입니다.",
-        "en": "💰 <b>Strong financial energy!</b><br>Best days for investments, lottery tickets, or major purchases.",
-        "fr": "💰 <b>Forte énergie financière !</b><br>Idéal pour investir ou acheter.",
-        "es": "💰 <b>¡Fuerte energía financiera!</b><br>Ideal para invertir o comprar.",
-        "ja": "💰 <b>金運がとても強い日です！</b><br>投資や買い物、宝くじに最適です。",
-        "zh": "💰 <b>财运亨通的一天！</b><br>非常适合投资、买彩票或购物。"
+    "Wealth": { # 재성 (재물과 수확의 에너지)
+        "ko": "💰 <b>황금빛 풍요의 기운이 가득한 날입니다!</b><br>재물운이 정점에 달해 있으니 중요한 투자 결정을 내리거나 복권을 구매하기에 최적입니다. 평소 망설였던 큰 규모의 쇼핑이나 자산 운용을 시작해 보세요. 당신의 선택이 곧 수익으로 돌아올 것입니다.",
+        "en": "💰 <b>A golden day of financial abundance!</b><br>Your financial energy is peaking, making it the ultimate timing for major investment decisions or purchasing a lottery ticket. Don't hesitate to proceed with significant purchases or wealth management plans today; your intuition will lead to tangible rewards.",
+        "fr": "💰 <b>Une journée dorée d'abondance financière !</b><br>Votre énergie de richesse est à son apogée. C'est le moment idéal pour prendre des décisions d'investissement majeures ou tenter votre chance à la loterie. Ne tardez pas à concrétiser vos projets d'achat ou de gestion de patrimoine.",
+        "es": "💰 <b>¡Un día dorado de abundancia financiera!</b><br>Tu energía de riqueza está en su punto máximo, lo que lo convierte en el momento ideal para decisiones de inversión importantes o comprar lotería. No dudes en realizar compras significativas; tu intuición te guiará hacia el éxito.",
+        "ja": "💰 <b>黄金の輝きに満ちた金運最高の日です！</b><br>財운が絶頂に達しており、重要な投資判断や宝くじの購入にこれ以上ないタイミングです。欲しかった高額商品の購入や資産運用の開始も吉。今日の選択が将来の大きな利益に繋がるでしょう。",
+        "zh": "💰 <b>黄金般的财富丰收之日！</b><br>您的财运正处于巅峰状态，是非常适合进行重大投资决策或购买彩票的绝佳时机。对于一直犹豫的大宗购物或资产管理计划，今天可以果断行动，您的眼光将转化为实际收益。"
     },
-    "Output": {
-        "ko": "💘 <b>당신의 매력이 빛나는 날입니다.</b><br>데이트를 하거나, 고백을 하거나, 창의적인 영감을 펼치세요.",
-        "en": "💘 <b>Your charm shines today.</b><br>Perfect for dating, confessing love, or creative activities.",
-        "fr": "💘 <b>Votre charme opère.</b><br>Parfait pour les rendez-vous ou la création.",
-        "es": "💘 <b>Tu encanto brilla.</b><br>Perfecto para citas o creatividad.",
-        "ja": "💘 <b>あなたの魅力が輝く日です。</b><br>デートや告白、創作活動に最適です。",
-        "zh": "💘 <b>你的魅力四射。</b><br>非常适合约会、表白或发挥创意。"
+    "Output": { # 식상 (표현과 창의성의 에너지)
+        "ko": "💘 <b>당신의 숨겨진 매력과 끼가 폭발하는 날입니다!</b><br>상대방의 마음을 사로잡는 화술과 센스가 돋보이니 설레는 데이트나 진심 어린 고백을 계획해 보세요. 창의적인 영감이 필요한 프로젝트나 예술 활동에서도 눈부신 성과를 거둘 수 있는 주인공의 날입니다.",
+        "en": "💘 <b>A day where your hidden charm and talent explode!</b><br>Your wit and communication skills are exceptionally captivating, making it perfect for a romantic date or a heartfelt confession. In creative projects or artistic endeavors, you will shine as the main character, achieving brilliant results.",
+        "fr": "💘 <b>Une journée où votre charme et votre talent éclatent !</b><br>Votre esprit et votre éloquence sont captivants. Idéal pour un rendez-vous romantique ou une déclaration sincère. Vous brillerez également dans tout projet créatif ou artistique, tel un véritable protagoniste.",
+        "es": "💘 <b>¡Un día donde tu encanto y talento estallan!</b><br>Tu ingenio y habilidades de comunicación son excepcionalmente cautivadores, lo que lo hace perfecto para una cita romántica. En proyectos creativos, brillarás como el protagonista principal, logrando resultados brillantes.",
+        "ja": "💘 <b>あなたの隠れた魅力と才能が溢れ出す日です！</b><br>相手の心を掴む話術とセンスが冴え渡るので、気になる人への告白や特別なデートに最適です。創造的なインスピレーションも湧きやすく、クリエイティブな活動やプレゼンでも主役として輝けるでしょう。",
+        "zh": "💘 <b>您的魅力与才华全面爆发的一天！</b><br>今天您的谈吐和洞察力极具感染力，非常适合浪漫约会或真情告白。在需要创意的项目或艺术活动中，您将如同主角般闪耀，取得令人瞩目的成就。"
     },
-    "Resource": {
-        "ko": "📝 <b>안정적인 기운이 당신을 돕습니다.</b><br>계약서에 도장을 찍거나, 결혼, 이사, 공부를 시작하기에 완벽합니다.",
-        "en": "📝 <b>Stable energy supports you.</b><br>Perfect for signing contracts, weddings, moving, or studying.",
-        "fr": "📝 <b>Énergie stable.</b><br>Idéal pour les contrats, mariages ou déménagements.",
-        "es": "📝 <b>Energía estable.</b><br>Ideal para contratos, bodas o mudanzas.",
-        "ja": "📝 <b>安定した運気が助けてくれます。</b><br>契約、結婚、引越しに最適な日です。",
-        "zh": "📝 <b>稳定的气场助你一臂之力。</b><br>非常适合签约、结婚、搬家或学习。"
+    "Resource": { # 인성 (안정과 지혜의 에너지)
+        "ko": "📝 <b>우주의 안정적인 기운이 당신을 보호하고 돕습니다.</b><br>중요한 계약서에 도장을 찍거나 결혼, 이사 등 삶의 기반을 다지는 일에 더없이 길한 날입니다. 새로운 지식을 습득하거나 깊이 있는 공부를 시작해 보세요. 당신의 지혜가 단단한 뿌리를 내리는 시기입니다.",
+        "en": "📝 <b>The universe's stable energy protects and guides you.</b><br>It is an auspicious day for foundational life events like signing contracts, weddings, or moving. It's also the perfect time to acquire new knowledge or start deep studies; your wisdom will take firm root today.",
+        "fr": "📝 <b>L'énergie stable de l'univers vous protège et vous guide.</b><br>C'est un jour faste pour les événements fondateurs comme la signature de contrats, les mariages ou les déménagements. Profitez-en pour acquérir de nouvelles connaissances ; votre sagesse s'enracinera durablement.",
+        "es": "📝 <b>La energía estable del universo te protege y te guía.</b><br>Es un día propicio para eventos fundamentales como firmar contratos, bodas o mudanzas. También es el momento perfecto para adquirir nuevos conocimientos; tu sabiduría echará raíces firmes hoy.",
+        "ja": "📝 <b>宇宙の安定したエネルギーがあなたを優しく守る日です。</b><br>重要な契約や結婚、引越しなど、人生の基盤を固める決断に最適な吉日です。新しいスキルの習得や深い学びに時間を費やしてみましょう。あなたの知恵が確かな実りをもたらす礎となります。",
+        "zh": "📝 <b>宇宙稳定的气场正默默地守护并指引着您。</b><br>今天是签约、结婚、搬家等奠定人生基础事务的大吉之日。也非常适合汲取新知识或开启深度学习，您的智慧将在今天像大树一样扎下深根。"
     },
-    "Power": {
-        "ko": "🏆 <b>명예와 합격운이 따르는 날입니다.</b><br>면접을 보거나, 시험을 치거나, 승진 기회를 잡으세요.",
-        "en": "🏆 <b>Day of honor and success.</b><br>Great for interviews, exams, or career advancement.",
-        "fr": "🏆 <b>Jour d'honneur.</b><br>Idéal pour les entretiens ou examens.",
-        "es": "🏆 <b>Día de honor.</b><br>Ideal para entrevistas o exámenes.",
-        "ja": "🏆 <b>名誉と成功の日です。</b><br>面接や試験、昇進に有利な日です。",
-        "zh": "🏆 <b>名誉与成功之日。</b><br>非常适合面试、考试或晋升。"
+    "Power": { # 관성 (명예와 책임의 에너지)
+        "ko": "🏆 <b>세상이 당신의 가치를 인정하는 명예로운 날입니다!</b><br>승진 기회를 잡거나 중요한 면접, 시험에서 최고의 실력을 발휘할 수 있는 강한 합격운이 따릅니다. 리더십을 발휘하여 조직 내 입지를 다지고, 당신의 명성을 널리 알릴 기회를 놓치지 마세요.",
+        "en": "🏆 <b>A day of honor where the world recognizes your value!</b><br>Strong luck for success follows you in interviews, exams, or career advancements. Seize the opportunity to solidify your position within your organization through leadership and let your reputation flourish.",
+        "fr": "🏆 <b>Un jour d'honneur où le monde reconnaît votre valeur !</b><br>Une forte chance de réussite vous accompagne pour les entretiens ou les promotions. Saisissez l'occasion d'affirmer votre leadership et de renforcer votre position au sein de votre organisation.",
+        "es": "🏆 <b>¡Un día de honor donde el mundo reconoce tu valor!</b><br>La suerte te acompaña en entrevistas, exámenes o ascensos. Aprovecha la oportunidad para consolidar tu posición dentro de tu organización a través del liderazgo y deja que tu reputación florezca.",
+        "ja": "🏆 <b>世界があなたの価値を認める、名誉ある一日です！</b><br>昇進のチャンスや重要な面接、試験において実力を最大限に発揮できる強い成功運が伴います。リーダーシップを発揮して組織内での地位を確立し、あなたの名を広める好機を逃さないでください。",
+        "zh": "🏆 <b>全世界都认可您价值的光荣之日！</b><br>今天有极强的成功运，非常适合面试、考试或争取晋升机会。请尽情发挥领导力以巩固在团队中的地位，不要错过任何一个提升名望和影响力的好时机。"
     },
-    "Same": {
-        "ko": "🤝 <b>사람들과의 관계가 좋아지는 날입니다.</b><br>친구를 만나거나 파티를 열어 인맥을 넓히세요.",
-        "en": "🤝 <b>Great day for social bonds.</b><br>Meet friends, throw a party, or network.",
-        "fr": "🤝 <b>Bon pour le social.</b><br>Rencontrez des amis ou faites la fête.",
-        "es": "🤝 <b>Bueno para lo social.</b><br>Reúnete con amigos o haz una fiesta.",
-        "ja": "🤝 <b>対人運が良い日です。</b><br>友人に会ったりパーティーを開くのに良いでしょう。",
-        "zh": "🤝 <b>社交运极佳。</b><br>适合见朋友、聚会或拓展人脉。"
+    "Same": { # 비견 (관계와 유대감의 에너지)
+        "ko": "🤝 <b>사람 사이의 연결고리가 단단해지고 깊어지는 날입니다.</b><br>새로운 인맥을 넓히거나 소중한 친구들과 파티를 열어 즐거운 시간을 보내세요. 주변 동료들과의 협력을 통해 혼자서는 해결하지 못했던 난제를 시원하게 풀어나갈 수 있는 귀중한 조력자를 만날 운입니다.",
+        "en": "🤝 <b>A day where social connections strengthen and deepen.</b><br>Expand your network, host a party, or enjoy quality time with cherished friends. Through collaboration, you will meet valuable supporters who can help you solve complex problems that seemed impossible alone.",
+        "fr": "🤝 <b>Une journée où les liens sociaux se renforcent et s'approfondissent.</b><br>Élargissez votre réseau, organisez une fête ou passez du temps avec des amis chers. La collaboration vous permettra de rencontrer des alliés précieux pour résoudre des problèmes complexes.",
+        "es": "🤝 <b>Un día donde las conexiones sociales se fortalecen y profundizan.</b><br>Amplía tu red, organiza una fiesta o disfruta con amigos. A través de la colaboración, conocerás a aliados valiosos que te ayudarán a resolver problemas que parecían imposibles solo.",
+        "ja": "🤝 <b>人との絆がより強く、より深くなる日です。</b><br>新しい人脈を広げたり、親しい友人たちとパーティーを開いて楽しい時間を共有しましょう。周囲との協調を大切にすることで、一人では解決できなかった難題を共に乗り越えてくれる強力な助っ人が現れる予感です。",
+        "zh": "🤝 <b>人际纽带变得更加紧密且深厚的一天。</b><br>非常适合拓展人脉、举办聚会或与好友共度时光。通过团队协作，您将有望遇到能助您一臂之力的贵人，共同解决那些单打独斗难以攻克的难题。"
     }
 }
-
 ui = {
     "ko": {
         "title": "📆 나만의 길일 찾기", 
