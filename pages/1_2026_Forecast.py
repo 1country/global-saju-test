@@ -302,115 +302,115 @@ def get_monthly_forecast_unique(element, lang):
     # 5개 오행 x 12개월 x 6개 국어 데이터 베이스
     raw_data = {
         "Wood": [
-    {
-        "mon": "1월", "star": "⭐⭐",
-        "ko": "새해 벽두부터 지인이나 가까운 친구가 곤란한 표정으로 금전적인 부탁을 해올 수 있습니다. 정에 이끌려 확답을 주거나 보증을 서는 행위는 절대 금물입니다. 냉정하게 거절하지 않으면 소중한 재산은 물론, 오랜 시간 쌓아온 인간관계까지 한꺼번에 잃을 수 있으니 공과 사를 명확히 구분하세요.",
-        "en": "At the start of the year, an acquaintance or close friend may approach you with a difficult financial request. Avoid giving a definite answer or acting as a guarantor based on emotion. If you don't refuse firmly, you risk losing both your precious assets and long-standing relationships. Keep business and personal life strictly separate.",
-        "fr": "En ce début d'année, une connaissance ou un ami proche pourrait vous solliciter pour une aide financière. Évitez de donner une réponse définitive ou de vous porter garant par émotion. Un refus ferme est nécessaire pour protéger votre patrimoine et vos relations de longue date.",
-        "es": "A principios de año, un conocido o amigo cercano podría acercarse a ti con una petición financiera difícil. Evita dar una respuesta definitiva o actuar como avalista por emoción. Un rechazo firme es necesario para proteger tanto tus activos como tus amistades.",
-        "ja": "年明け早々、知人や親한友人が困った様子で金銭的な頼み事をしてくるかもしれません。情に流されて安請け合いしたり、保証人になったりするのは絶対に禁物です。冷静に断らなければ、大切な財産はもちろん、長年築いてきた人間関係まで失う恐레가 있으니公私を明確に区別しましょう。",
-        "zh": "新年伊始，熟人或好友可能会面露难色地向你提出金钱方面的请求。切记不可因感情用事而给出肯定的答复或作担保。若不果断拒绝，恐将面临人财两失的境地，请务必公私分明。"
-    },
-    {
-        "mon": "2월", "star": "⭐⭐⭐",
-        "ko": "사회생활에서 강력한 라이벌이 등장하여 당신의 성과를 가로채려 하거나 영역을 침범할 수 있습니다. 상대의 도발에 감정적으로 대응하기보다는, 당신만의 전문성과 실력으로 승부하는 것이 현명합니다. 겉으로 드러나는 기 싸움보다는 실질적인 이득과 내실을 챙기는 데 집중하며 조용히 실력을 갈고닦으세요.",
-        "en": "A powerful rival appears in your professional life, attempting to take credit for your achievements or encroach on your territory. Rather than reacting emotionally to provocations, prove your worth through your expertise. Focus on securing practical benefits and inner strength rather than outward confrontations.",
-        "fr": "Un rival puissant apparaît dans votre vie professionnelle. Ne réagissez pas émotionnellement aux provocations. Prouvez votre valeur par votre expertise. Concentrez-vous sur les bénéfices pratiques plutôt que sur les confrontations inutiles.",
-        "es": "Aparece un rival poderoso en tu vida profesional. No reacciones emocionalmente a las provocaciones. Demuestra tu valía a través de tu experiencia. Concéntrate en asegurar beneficios prácticos en lugar de confrontaciones externas.",
-        "ja": "社会生活において強力なライバルが登場し、あなたの成果を横取りしようとしたり、領域を侵犯したりする可能性があります。相手の挑発に感情的に反応するより、あなただけの専門性と実力で勝負するのが賢明です。見栄を張るよりも、実利を取ることに集中しましょう。",
-        "zh": "职场上会出现强劲的对手，企图窃取你的成果或侵犯你的利益范围。面对挑衅，与其感情用事，不如凭借专业实力说话。比起表面的争执，专注于获取实利和巩固自身基础更为重要。"
-    },
-    {
-        "mon": "3월", "star": "⭐⭐",
-        "ko": "사람들이 많이 모이는 회식이나 미팅 자리에서 무심코 던진 한마디가 화근이 될 수 있습니다. 특히 타인의 험담이나 확인되지 않은 소문을 옮기는 것은 매우 위험합니다. '낮말은 새가 듣고 밤말은 쥐가 듣는다'는 격언을 가슴에 새기고, 가급적 남의 일에 참견하기보다 자신의 업무에만 몰입하는 것이 평안을 유지하는 길입니다.",
-        "en": "Inadvertent remarks at social gatherings or business meetings could lead to major trouble. Avoid gossiping or spreading unverified rumors. Remember that 'walls have ears.' The best way to maintain peace is to immerse yourself in your own work rather than interfering in others' business.",
-        "fr": "Des remarques imprudentes lors de réunions sociales pourraient causer des ennuis. Évitez les commérages. Gardez à l'esprit que 'les murs ont des oreilles'. Concentrez-vous sur votre propre travail pour préserver votre tranquillité.",
-        "es": "Comentarios descuidados en reuniones sociales podrían causar problemas. Evita los chismes. Recuerda que 'las paredes oyen'. Concéntrate en tu propio trabajo para mantener la paz.",
-        "ja": "人が集まる飲み会や会議の席で、何気なく発した一言が災いの元になるかもしれません。特に他人の悪口や不確かな噂を広めるのは非常に危険です。他人の事に首を突っ込むより、自分の業務に没頭することが平穏を保つ道です。",
-        "zh": "在聚会或会议等场合，无心的一句话可能会引发事端。特别是传播他人是非或未经证实的传闻非常危险。切记“隔墙有耳”，与其干涉他人事务，不如潜心于自己的工作，方能保平安。"
-    },
-    {
-        "mon": "4월", "star": "⭐⭐⭐⭐⭐",
-        "ko": "운수대통의 기운이 가득한 달입니다. 복권 당첨과 같은 깜짝 행운은 물론, 과거에 잊고 있었던 투자금이나 빌려준 돈이 이자가 붙어 돌아오는 등 뜻밖의 횡재수가 있습니다. 생각지도 못한 성과급이나 보너스 덕분에 가계에 큰 보탬이 되는 시기이니, 이 기운을 몰아 새로운 수익 파이프라인을 구상해 보는 것도 좋습니다.",
-        "en": "A month filled with immense good fortune. Beyond small wins like lotteries, expect unexpected windfalls such as the return of forgotten investments or debts with interest. This unexpected income will significantly boost your finances. It's a great time to brainstorm new revenue streams.",
-        "fr": "Un mois rempli d'une immense fortune. Attendez-vous à des rentrées d'argent inattendues, comme le retour d'investissements oubliés. Ces revenus boosteront vos finances. C'est le moment idéal pour envisager de nouvelles sources de revenus.",
-        "es": "Un mes lleno de inmensa fortuna. Espera ganancias inesperadas, como el retorno de inversiones olvidadas. Estos ingresos impulsarán tus finanzas. Es un gran momento para idear nuevas fuentes de ingresos.",
-        "ja": "運気が大好転する月です。宝くじのようなラッキーはもちろん、過去に忘れていた投資金や貸したお金が戻ってくるなど、思いがけない横財数があります。予想外のボーナスのおかげで家計が潤う時期なので、この運気に乗って新しい収益源を考えてみるのも良いでしょう。",
-        "zh": "本月好运连连。除了抽奖中奖之类的惊喜，还可能有遗忘已久的投资回笼或欠款归还等意外之财。意想不到的奖金将极大地改善财务状况，建议趁此好运筹划新的致富之路。"
-    },
-    {
-        "mon": "5월", "star": "⭐⭐⭐⭐⭐",
-        "ko": "지적 능력이 최고조에 달하며 반짝이는 아이디어가 봇물 터지듯 쏟아집니다. 기획안 작성, 창작 활동, 혹은 새로운 사업 전략을 짜기에 이보다 더 좋은 시기는 없습니다. 당신이 내놓은 독창적인 결과물이 주변의 찬사를 받으며 최고의 성과를 거두게 될 것입니다. 망설이지 말고 당신의 천재성을 세상에 드러내세요.",
-        "en": "Your intellectual capacity reaches its peak, and brilliant ideas will flow endlessly. There is no better time for writing proposals, creative work, or devloping new business strategies. Your original outputs will receive widespread acclaim. Don't hesitate to show your genius to the world.",
-        "fr": "Votre capacité intellectuelle est à son comble. C'est le meilleur moment pour des propositions, de la création ou des stratégies commerciales. Vos résultats originaux seront acclamés. N'hésitez pas à montrer votre génie.",
-        "es": "Tu capacidad intelectual alcanza su punto máximo. No hay mejor momento para propuestas, trabajo creativo o estrategias comerciales. Tus resultados originales serán aclamados. No dudes en mostrar tu genio al mundo.",
-        "ja": "知的能力が最高潮に達し、輝くアイデアが溢れ出します。企画書の作成、創作活動、あるいは新しい事業戦略を立てるのにこれ以上の時期はありません。あなたの独創的な成果が周囲から絶賛され、最高の成果を収めることになるでしょう。迷わずその才能を世に示してください。",
-        "zh": "头脑极度灵活，灵感如泉涌。现在是撰写企划、进行创作或制定商业战略的最佳时机。你独具匠心的成果将赢得广泛赞誉并取得卓越成效。不要犹豫，向世界展示你的才华吧。"
-    },
-    {
-        "mon": "6월", "star": "⭐⭐",
-        "ko": "의욕이 앞서 여러 가지 일을 동시에 벌이다 보니 몸이 열 개라도 부족할 만큼 바쁜 일정을 보내게 됩니다. 성취욕도 좋지만 과도한 업무량으로 인해 면역력이 떨어지고 번아웃이 올 수 있습니다. 비타민이나 영양제를 챙겨 먹으며 체력을 보충하고, 일의 우선순위를 정해 에너지를 효율적으로 분배하는 지혜가 필요합니다.",
-        "en": "Driven by ambition, you might take on too much at once, leading to an incredibly hectic schedule. While achievement is good, excessive workload may weaken your immunity or lead to burnout. Take supplements to boost your stamina and prioritize tasks to distribute your energy effectively.",
-        "fr": "Porté par l'ambition, vous pourriez en faire trop, menant à un emploi du temps épuisant. Un surmenage pourrait affaiblir votre immunité. Prenez des vitamines et priorisez vos tâches pour gérer votre énergie.",
-        "es": "Impulsado por la ambición, podrías abarcar demasiado, lo que resultaría en una agenda agotadora. El exceso de trabajo podría debilitar tu inmunidad. Toma suplementos y prioriza tus tareas para gestionar tu energía.",
-        "ja": "意欲が空回りして多くの仕事を同時に抱え込み、体がいくつあっても足りないほど忙しい日々を過ごすことになります。過度な業務量によって免疫力が落ち、燃え尽き症候群になる恐れがあります。栄養を摂って体力をつけ、仕事の優先順位を決める知恵が必要です。",
-        "zh": "因事业心过强，同时揽下多项任务，导致忙得不可开交。虽有成就欲是好事，但繁重的工作量可能会导致免疫力下降或产生倦怠感。请注意补充营养，学会分清轻重缓急，合理分配精力。"
-    },
-    {
-        "mon": "7월", "star": "⭐⭐⭐⭐",
-        "ko": "재물 흐름이 비단결처럼 매끄럽고 안정적인 달입니다. 수입과 지출이 균형을 이루며, 여유 자금이 생겨 저축하기에 아주 좋은 타이밍입니다. 충동적인 소비 욕구만 잘 억제한다면 통장의 숫자가 늘어나는 즐거움을 만끽할 수 있습니다. 장기적인 재테크 계획을 세우거나 안전 자산에 투자해 보는 것을 추천합니다.",
-        "en": "Financial flow is as smooth and stable as silk this month. Income and expenses are well-balanced, making it a perfect time to save surplus funds. If you control impulsive spending, you'll enjoy watching your bank balance grow. Consider making long-term financial plans or investing in safe assets.",
-        "fr": "Le flux financier est fluide et stable ce mois-ci. Les revenus et les dépenses sont équilibrés, idéal pour épargner. Si vous contrôlez vos impulsions d'achat, vous verrez votre solde augmenter. Envisagez des investissements sûrs.",
-        "es": "El flujo financiero es fluido y estable este mes. Los ingresos y gastos están equilibrados, ideal para ahorrar. Si controlas tus impulsos de compra, verás crecer tu saldo. Considera inversiones seguras.",
-        "ja": "財運の流れが非常にスムーズで安定した月です。収入と支出のバランスが取れ、余剰資金ができて貯蓄するのに絶好のタイミングです。衝動買いを抑えれば、通帳の数字が増えていく喜びを満喫できるでしょう。長期的な資産運用の計画を立てるのもお勧めです。",
-        "zh": "本月财运如丝般顺滑稳定。收支平衡，是储备余钱的绝佳时机。只要克制住冲动消费，就能体会到存款增加的喜悦。建议制定长期的理财计划或投资稳健型资产。"
-    },
-    {
-        "mon": "8월", "star": "⭐⭐",
-        "ko": "조직 내 갈등이나 과중한 업무로 인해 스트레스가 정점에 달하는 시기입니다. 순간적인 감정을 이기지 못해 사표를 던지거나 극단적인 선택을 하고 싶은 유혹이 들 수 있지만, 지금은 인내해야 하는 때입니다. 비바람이 지나가면 땅이 굳어지듯, 이 고비를 잘 넘기면 연말에 예상치 못한 큰 보상이 기다리고 있을 것입니다.",
-        "en": "Stress reaches its peak due to internal conflicts or heavy workloads. You may be tempted to quit impulsively, but now is the time for patience. Just as rain firms the ground, enduring this crisis will lead to unexpected rewards toward the end of the year.",
-        "fr": "Le stress culmine en raison de conflits internes ou d'une charge de travail lourde. Vous pourriez être tenté de démissionner sur un coup de tête, mais c'est le moment d'être patient. Cette crise passée, de grandes récompenses vous attendront.",
-        "es": "El estrés alcanza su punto máximo debido a conflictos internos o carga de trabajo. Podrías sentir la tentación de renunciar impulsivamente, pero es momento de tener paciencia. Superada esta crisis, te esperan grandes recompensas.",
-        "ja": "組織内の葛藤や過重な業務により、ストレスが頂点に達する時期です。感情に任せて辞表を出したくなる誘惑に駆られるかもしれませんが、今は忍耐の時です。この峠を越えれば、年末に予想外の大きな報酬が待っているはずです。",
-        "zh": "受职场纠纷或任务繁重的影响，压力达到顶峰。可能会有冲动辞职或采取消极态度的诱惑，但此时务必忍耐。风雨过后见彩虹，只要挺过这段时期，年末将有意想不到的厚报在等着你。"
-    },
-    {
-        "mon": "9월", "star": "⭐⭐⭐⭐",
-        "ko": "당신의 헌신과 성과가 마침내 윗사람들의 눈에 띄기 시작합니다. 책임이 막중해져 어깨는 무거워지겠지만, 그만큼 조직 내에서의 입지와 명예가 올라가는 보람찬 달입니다. 승진 제안을 받거나 중요한 프로젝트의 리더 자리를 맡게 될 수 있으니, 당당하게 당신의 역량을 발휘하여 리더십을 증명하세요.",
-        "en": "Your dedication and achievements finally catch the eye of your superiors. Although your responsibilities will grow, your standing and reputation within the organization will rise. You may receive a promotion offer or be appointed leader of an important project. Demonstrate your capabilities with confidence.",
-        "fr": "Votre dévouement et vos succès attirent enfin l'attention de vos supérieurs. Bien que vos responsabilités augmentent, votre statut s'améliore. Vous pourriez recevoir une promotion ou diriger un projet important. Montrez vos capacités.",
-        "es": "Tu dedicación y logros finalmente atraen la atención de tus superiores. Aunque tus responsabilidades crezcan, tu estatus mejorará. Podrías recibir un ascenso o dirigir un proyecto importante. Demuestra tus capacidades con confianza.",
-        "ja": "あなたの献身と成果がついに目上の人々の目に留まり始めます。責任が重くなり肩の荷は増えますが、その分組織内での地位と名誉が上がるやりがいのある月です。昇進の提案を受けたり、重要なプロジェクトのリーダーを任されたりする可能性があるので、堂々とリーダーシップを発揮してください。",
-        "zh": "你的奉献与成果终于得到了上司的青睐。虽然责任加重会感到压力，但这也是你在组织中地位与名誉提升的收获之月。有望获得晋升或被委以重任，请自信地展示你的领导才能。"
-    },
-    {
-        "mon": "10월", "star": "⭐⭐⭐⭐⭐",
-        "ko": "부동산 매매, 임대차 계약, 혹은 중요한 비즈니스 파트너십 체결 등 문서와 관련된 모든 일에서 최고의 행운이 따릅니다. 중요한 도장을 찍어야 할 일이 있다면 이번 달로 일정을 잡으세요. 나중에 큰 자산 가치가 될 귀중한 문서를 손에 쥐게 될 운세이니 꼼꼼하게 검토하되 과감하게 결정하십시오.",
-        "en": "Immense luck follows all matters related to documents, such as real estate deals, lease agreements, or major business partnerships. If you need to sign a contract, schedule it for this month. You are destined to hold a valuable document that will appreciate in the future. Review carefully but decide boldly.",
-        "fr": "Une immense chance accompagne tout ce qui touche aux documents (immobilier, contrats d'affaires). Si vous devez signer un contrat, faites-le ce mois-ci. Vous obtiendrez un document précieux pour votre avenir financier.",
-        "es": "Una inmensa suerte acompaña todo lo relacionado con documentos (bienes raíces, contratos). Si debes firmar un contrato, hazlo este mes. Obtendrás un documento valioso para tu futuro financiero. Revisa con cuidado pero decide con audacia.",
-        "ja": "不動産の売買、賃貸借契約、あるいは重要なビジネスパートナーシップの締結など、文書に関連するすべての事柄で最高の幸運が伴います。重要な判子を押す予定があるなら、今月に設定しましょう。将来的に大きな資産価値となる貴重な文書を手にすることになる運勢です。",
-        "zh": "本月在房地产交易、合同签署或重要商业合作等文书事务方面运势极佳。若有签约或盖章的需求，请安排在本月。你将获得未来具有巨大升值空间的珍贵文件，请在细致审查后果断抉择。"
-    },
-    {
-        "mon": "11월", "star": "⭐⭐⭐⭐",
-        "ko": "혼자 힘으로는 도저히 풀리지 않던 난제가 예상치 못한 조력자나 윗사람의 조언 한마디로 시원하게 해결됩니다. 주변에 도움을 요청하는 것을 부끄러워하지 마세요. 당신을 아끼는 귀인이 나타나 길을 인도해 주는 형국이니, 겸손한 자세로 조언을 구한다면 큰 성취를 맛보게 될 것입니다.",
-        "en": "A problem that seemed impossible to solve on your own will be cleared up with a single piece of advice from a mentor or unexpected supporter. Don't be afraid to ask for help. A noble person who cares for you will emerge to guide the way. Great success awaits if you seek wisdom with humility.",
-        "fr": "Un problème insoluble sera résolu grâce au conseil d'un mentor ou d'un soutien inattendu. N'ayez pas peur de demander de l'aide. Une personne bienveillante vous guidera. Le succès vous attend si vous restez humble.",
-        "es": "Un problema insoluble se resolverá gracias al consejo de un mentor o un apoyo inesperado. No temas pedir ayuda. Una persona benévola te guiará. El éxito te espera si te mantienes humilde.",
-        "ja": "一人の力ではどうしても解けなかった難題が、予想外の協力者や目上の人の助言一つでスッキリ解決します。周囲に助けを求めることを恥ずかしがらないでください。あなたを大切に思う貴人が現れて導いてくれる時期なので、謙虚な姿勢でアドバイスを求めれば大きな成果を得られます。",
-        "zh": "单凭个人力量难以解决的难题，将在意想不到的贵人或长辈的点拨下迎刃而解。不要羞于向他人求助。此时会有赏识你的贵人指引方向，只要保持谦虚的态度虚心求教，定能取得巨大成就。"
-    },
-    {
-        "mon": "12월", "star": "⭐⭐⭐⭐",
-        "ko": "새로운 분야의 공부를 시작하거나 자격증 취득에 도전하기에 가장 완벽한 연말입니다. 학업적 성취도가 높아 시험운이 따르며, 지금 배우는 기술이나 지식이 내년 당신의 몸값을 결정짓는 핵심 자산이 될 것입니다. 한 해를 차분하게 마무리하며 지적 성장에 투자하는 시간을 가지세요.",
-        "en": "The perfect end to the year for starting new studies or challenging yourself to earn a certification. Academic achievement is high, and the skills or knowledge you gain now will be key assets for your success next year. Invest time in intellectual growth as you close out the year calmly.",
-        "fr": "Une fin d'année parfaite pour commencer de nouvelles études ou passer une certification. Votre réussite académique est favorisée. Les connaissances acquises seront des atouts clés pour l'année prochaine. Investissez dans votre croissance intellectuelle.",
-        "es": "Un fin de año perfecto para comenzar nuevos estudios o certificaciones. Tu éxito académico está favorecido. Los conocimientos adquiridos serán activos clave para el próximo año. Invierte en tu crecimiento intelectual.",
-        "ja": "新しい分野の勉強を始めたり、資格取得に挑戦したりするのに完璧な年末です。学業の成就度が高く試験運も良いため、今学ぶ技術や知識が来年のあなたの価値を決める核心的な資産になります。知的な成長に投資する時間を持ち、一年を穏やかに締めくくりましょう。",
-        "zh": "这是开启新领域学习或挑战考证的完美岁末。学业运势强劲，此时掌握的技能或知识将成为明年提升个人身价的核心资产。建议在平静总结全年的同时，将时间投入到自我成长的智力投资中。"
-    }
-]
+            {
+                "mon": "1월", "star": "⭐⭐",
+                "ko": "새해 벽두부터 지인이나 가까운 친구가 곤란한 표정으로 금전적인 부탁을 해올 수 있습니다. 정에 이끌려 확답을 주거나 보증을 서는 행위는 절대 금물입니다. 냉정하게 거절하지 않으면 소중한 재산은 물론, 오랜 시간 쌓아온 인간관계까지 한꺼번에 잃을 수 있으니 공과 사를 명확히 구분하세요.",
+                "en": "At the start of the year, an acquaintance or close friend may approach you with a difficult financial request. Avoid giving a definite answer or acting as a guarantor based on emotion. If you don't refuse firmly, you risk losing both your precious assets and long-standing relationships. Keep business and personal life strictly separate.",
+                "fr": "En ce début d'année, une connaissance ou un ami proche pourrait vous solliciter pour une aide financière. Évitez de donner une réponse définitive ou de vous porter garant par émotion. Un refus ferme est nécessaire pour protéger votre patrimoine et vos relations de longue date.",
+                "es": "A principios de año, un conocido o amigo cercano podría acercarse a ti con una petición financiera difícil. Evita dar una respuesta definitiva o actuar como avalista por emoción. Un rechazo firme es necesario para proteger tanto tus activos como tus amistades.",
+                "ja": "年明け早々、知人や親한友人が困った様子で金銭的な頼み事をしてくるかもしれません。情に流されて安請け合いしたり、保証人になったりするのは絶対に禁物です。冷静に断らなければ、大切な財産はもちろん、長年築いてきた人間関係まで失う恐레가 있으니公私を明確に区別しましょう。",
+                "zh": "新年伊始，熟人或好友可能会面露难色地向你提出金钱方面的请求。切记不可因感情用事而给出肯定的答复或作担保。若不果断拒绝，恐将面临人财两失的境地，请务必公私分明。"
+            },
+            {
+                "mon": "2월", "star": "⭐⭐⭐",
+                "ko": "사회생활에서 강력한 라이벌이 등장하여 당신의 성과를 가로채려 하거나 영역을 침범할 수 있습니다. 상대의 도발에 감정적으로 대응하기보다는, 당신만의 전문성과 실력으로 승부하는 것이 현명합니다. 겉으로 드러나는 기 싸움보다는 실질적인 이득과 내실을 챙기는 데 집중하며 조용히 실력을 갈고닦으세요.",
+                "en": "A powerful rival appears in your professional life, attempting to take credit for your achievements or encroach on your territory. Rather than reacting emotionally to provocations, prove your worth through your expertise. Focus on securing practical benefits and inner strength rather than outward confrontations.",
+                "fr": "Un rival puissant apparaît dans votre vie professionnelle. Ne réagissez pas émotionnellement aux provocations. Prouvez votre valeur par votre expertise. Concentrez-vous sur les bénéfices pratiques plutôt que sur les confrontations inutiles.",
+                "es": "Aparece un rival poderoso en tu vida profesional. No reacciones emocionalmente a las provocaciones. Demuestra tu valía a través de tu experiencia. Concéntrate en asegurar beneficios prácticos en lugar de confrontaciones externas.",
+                "ja": "社会生活において強力なライバルが登場し、あなたの成果を横取りしようとしたり、領域を侵犯したりする可能性があります。相手の挑発に感情的に反応するより、あなただけの専門性と実力で勝負するのが賢明です。見栄を張るよりも、実利を取ることに集中しましょう。",
+                "zh": "职场上会出现强劲的对手，企图窃取你的成果或侵犯你的利益范围。面对挑衅，与其感情用事，不如凭借专业实力说话。比起表面的争执，专注于获取实利和巩固自身基础更为重要。"
+            },
+            {
+                "mon": "3월", "star": "⭐⭐",
+                "ko": "사람들이 많이 모이는 회식이나 미팅 자리에서 무심코 던진 한마디가 화근이 될 수 있습니다. 특히 타인의 험담이나 확인되지 않은 소문을 옮기는 것은 매우 위험합니다. '낮말은 새가 듣고 밤말은 쥐가 듣는다'는 격언을 가슴에 새기고, 가급적 남의 일에 참견하기보다 자신의 업무에만 몰입하는 것이 평안을 유지하는 길입니다.",
+                "en": "Inadvertent remarks at social gatherings or business meetings could lead to major trouble. Avoid gossiping or spreading unverified rumors. Remember that 'walls have ears.' The best way to maintain peace is to immerse yourself in your own work rather than interfering in others' business.",
+                "fr": "Des remarques imprudentes lors de réunions sociales pourraient causer des ennuis. Évitez les commérages. Gardez à l'esprit que 'les murs ont des oreilles'. Concentrez-vous sur votre propre travail pour préserver votre tranquillité.",
+                "es": "Comentarios descuidados en reuniones sociales podrían causar problemas. Evita los chismes. Recuerda que 'las paredes oyen'. Concéntrate en tu propio trabajo para mantener la paz.",
+                "ja": "人が集まる飲み会や会議の席で、何気なく発した一言が災いの元になるかもしれません。特に他人の悪口や不確かな噂を広めるのは非常に危険です。他人の事に首を突っ込むより、自分の業務に没頭することが平穏を保つ道です。",
+                "zh": "在聚会或会议等场合，无心的一句话可能会引发事端。特别是传播他人是非或未经证实的传闻非常危险。切记“隔墙有耳”，与其干涉他人事务，不如潜心于自己的工作，方能保平安。"
+            },
+            {
+                "mon": "4월", "star": "⭐⭐⭐⭐⭐",
+                "ko": "운수대통의 기운이 가득한 달입니다. 복권 당첨과 같은 깜짝 행운은 물론, 과거에 잊고 있었던 투자금이나 빌려준 돈이 이자가 붙어 돌아오는 등 뜻밖의 횡재수가 있습니다. 생각지도 못한 성과급이나 보너스 덕분에 가계에 큰 보탬이 되는 시기이니, 이 기운을 몰아 새로운 수익 파이프라인을 구상해 보는 것도 좋습니다.",
+                "en": "A month filled with immense good fortune. Beyond small wins like lotteries, expect unexpected windfalls such as the return of forgotten investments or debts with interest. This unexpected income will significantly boost your finances. It's a great time to brainstorm new revenue streams.",
+                "fr": "Un mois rempli d'une immense fortune. Attendez-vous à des rentrées d'argent inattendues, comme le retour d'investissements oubliés. Ces revenus boosteront vos finances. C'est le moment idéal pour envisager de nouvelles sources de revenus.",
+                "es": "Un mes lleno de inmensa fortuna. Espera ganancias inesperadas, como el retorno de inversiones olvidadas. Estos ingresos impulsarán tus finanzas. Es un gran momento para idear nuevas fuentes de ingresos.",
+                "ja": "運気が大好転する月です。宝くじのようなラッキーはもちろん、過去に忘れていた投資金や貸したお金が戻ってくるなど、思いがけない横財数があります。予想外のボーナスのおかげで家計が潤う時期なので、この運気に乗って新しい収益源を考えてみるのも良いでしょう。",
+                "zh": "本月好运连连。除了抽奖中奖之类的惊喜，还可能有遗忘已久的投资回笼或欠款归还等意外之财。意想不到的奖金将极大地改善财务状况，建议趁此好运筹划新的致富之路。"
+            },
+            {
+                "mon": "5월", "star": "⭐⭐⭐⭐⭐",
+                "ko": "지적 능력이 최고조에 달하며 반짝이는 아이디어가 봇물 터지듯 쏟아집니다. 기획안 작성, 창작 활동, 혹은 새로운 사업 전략을 짜기에 이보다 더 좋은 시기는 없습니다. 당신이 내놓은 독창적인 결과물이 주변의 찬사를 받으며 최고의 성과를 거두게 될 것입니다. 망설이지 말고 당신의 천재성을 세상에 드러내세요.",
+                "en": "Your intellectual capacity reaches its peak, and brilliant ideas will flow endlessly. There is no better time for writing proposals, creative work, or devloping new business strategies. Your original outputs will receive widespread acclaim. Don't hesitate to show your genius to the world.",
+                "fr": "Votre capacité intellectuelle est à son comble. C'est le meilleur moment pour des propositions, de la création ou des stratégies commerciales. Vos résultats originaux seront acclamés. N'hésitez pas à montrer votre génie.",
+                "es": "Tu capacidad intelectual alcanza su punto máximo. No hay mejor momento para propuestas, trabajo creativo o estrategias comerciales. Tus resultados originales serán aclamados. No dudes en mostrar tu genio al mundo.",
+                "ja": "知的能力が最高潮に達し、輝くアイデアが溢れ出します。企画書の作成、創作活動、あるいは新しい事業戦略を立てるのにこれ以上の時期はありません。あなたの独創的な成果が周囲から絶賛され、最高の成果を収めることになるでしょう。迷わずその才能を世に示してください。",
+                "zh": "头脑极度灵活，灵感如泉涌。现在是撰写企划、进行创作或制定商业战略的最佳时机。你独具匠心的成果将赢得广泛赞誉并取得卓越成效。不要犹豫，向世界展示你的才华吧。"
+            },
+            {
+                "mon": "6월", "star": "⭐⭐",
+                "ko": "의욕이 앞서 여러 가지 일을 동시에 벌이다 보니 몸이 열 개라도 부족할 만큼 바쁜 일정을 보내게 됩니다. 성취욕도 좋지만 과도한 업무량으로 인해 면역력이 떨어지고 번아웃이 올 수 있습니다. 비타민이나 영양제를 챙겨 먹으며 체력을 보충하고, 일의 우선순위를 정해 에너지를 효율적으로 분배하는 지혜가 필요합니다.",
+                "en": "Driven by ambition, you might take on too much at once, leading to an incredibly hectic schedule. While achievement is good, excessive workload may weaken your immunity or lead to burnout. Take supplements to boost your stamina and prioritize tasks to distribute your energy effectively.",
+                "fr": "Porté par l'ambition, vous pourriez en faire trop, menant à un emploi du temps épuisant. Un surmenage pourrait affaiblir votre immunité. Prenez des vitamines et priorisez vos tâches pour gérer votre énergie.",
+                "es": "Impulsado por la ambición, podrías abarcar demasiado, lo que resultaría en una agenda agotadora. El exceso de trabajo podría debilitar tu inmunidad. Toma suplementos y prioriza tus tareas para gestionar tu energía.",
+                "ja": "意欲が空回りして多くの仕事を同時に抱え込み、体がいくつあっても足りないほど忙しい日々を過ごすことになります。過度な業務量によって免疫力が落ち、燃え尽き症候群になる恐れがあります。栄養を摂って体力をつけ、仕事の優先順位を決める知恵が必要です。",
+                "zh": "因事业心过强，同时揽下多项任务，导致忙得不可开交。虽有成就欲是好事，但繁重的工作量可能会导致免疫力下降或产生倦怠感。请注意补充营养，学会分清轻重缓急，合理分配精力。"
+            },
+            {
+                "mon": "7월", "star": "⭐⭐⭐⭐",
+                "ko": "재물 흐름이 비단결처럼 매끄럽고 안정적인 달입니다. 수입과 지출이 균형을 이루며, 여유 자금이 생겨 저축하기에 아주 좋은 타이밍입니다. 충동적인 소비 욕구만 잘 억제한다면 통장의 숫자가 늘어나는 즐거움을 만끽할 수 있습니다. 장기적인 재테크 계획을 세우거나 안전 자산에 투자해 보는 것을 추천합니다.",
+                "en": "Financial flow is as smooth and stable as silk this month. Income and expenses are well-balanced, making it a perfect time to save surplus funds. If you control impulsive spending, you'll enjoy watching your bank balance grow. Consider making long-term financial plans or investing in safe assets.",
+                "fr": "Le flux financier est fluide et stable ce mois-ci. Les revenus et les dépenses sont équilibrés, idéal pour épargner. Si vous contrôlez vos impulsions d'achat, vous verrez votre solde augmenter. Envisagez des investissements sûrs.",
+                "es": "El flujo financiero es fluido y estable este mes. Los ingresos y gastos están equilibrados, ideal para ahorrar. Si controlas tus impulsos de compra, verás crecer tu saldo. Considera inversiones seguras.",
+                "ja": "財運の流れが非常にスムーズで安定した月です。収入と支出のバランスが取れ、余剰資金ができて貯蓄するのに絶好のタイミングです。衝動買いを抑えれば、通帳の数字が増えていく喜びを満喫できるでしょう。長期的な資産運用の計画を立てるのもお勧めです。",
+                "zh": "本月财运如丝般顺滑稳定。收支平衡，是储备余钱的绝佳时机。只要克制住冲动消费，就能体会到存款增加的喜悦。建议制定长期的理财计划或投资稳健型资产。"
+            },
+            {
+                "mon": "8월", "star": "⭐⭐",
+                "ko": "조직 내 갈등이나 과중한 업무로 인해 스트레스가 정점에 달하는 시기입니다. 순간적인 감정을 이기지 못해 사표를 던지거나 극단적인 선택을 하고 싶은 유혹이 들 수 있지만, 지금은 인내해야 하는 때입니다. 비바람이 지나가면 땅이 굳어지듯, 이 고비를 잘 넘기면 연말에 예상치 못한 큰 보상이 기다리고 있을 것입니다.",
+                "en": "Stress reaches its peak due to internal conflicts or heavy workloads. You may be tempted to quit impulsively, but now is the time for patience. Just as rain firms the ground, enduring this crisis will lead to unexpected rewards toward the end of the year.",
+                "fr": "Le stress culmine en raison de conflits internes ou d'une charge de travail lourde. Vous pourriez être tenté de démissionner sur un coup de tête, mais c'est le moment d'être patient. Cette crise passée, de grandes récompenses vous attendront.",
+                "es": "El estrés alcanza su punto máximo debido a conflictos internos o carga de trabajo. Podrías sentir la tentación de renunciar impulsivamente, pero es momento de tener paciencia. Superada esta crisis, te esperan grandes recompensas.",
+                "ja": "組織内の葛藤や過重な業務により、ストレスが頂点に達する時期です。感情に任せて辞表を出したくなる誘惑に駆られるかもしれませんが、今は忍耐の時です。この峠を越えれば、年末に予想外の大きな報酬が待っているはずです。",
+                "zh": "受职场纠纷或任务繁重的影响，压力达到顶峰。可能会有冲动辞职或采取消极态度的诱惑，但此时务必忍耐。风雨过后见彩虹，只要挺过这段时期，年末将有意想不到的厚报在等着你。"
+            },
+            {
+                "mon": "9월", "star": "⭐⭐⭐⭐",
+                "ko": "당신의 헌신과 성과가 마침내 윗사람들의 눈에 띄기 시작합니다. 책임이 막중해져 어깨는 무거워지겠지만, 그만큼 조직 내에서의 입지와 명예가 올라가는 보람찬 달입니다. 승진 제안을 받거나 중요한 프로젝트의 리더 자리를 맡게 될 수 있으니, 당당하게 당신의 역량을 발휘하여 리더십을 증명하세요.",
+                "en": "Your dedication and achievements finally catch the eye of your superiors. Although your responsibilities will grow, your standing and reputation within the organization will rise. You may receive a promotion offer or be appointed leader of an important project. Demonstrate your capabilities with confidence.",
+                "fr": "Votre dévouement et vos succès attirent enfin l'attention de vos supérieurs. Bien que vos responsabilités augmentent, votre statut s'améliore. Vous pourriez recevoir une promotion ou diriger un projet important. Montrez vos capacités.",
+                "es": "Tu dedicación y logros finalmente atraen la atención de tus superiores. Aunque tus responsabilidades crezcan, tu estatus mejorará. Podrías recibir un ascenso o dirigir un proyecto importante. Demuestra tus capacidades con confianza.",
+                "ja": "あなたの献身と成果がついに目上の人々の目に留まり始めます。責任が重くなり肩の荷は増えますが、その分組織内での地位と名誉が上がるやりがいのある月です。昇進の提案を受けたり、重要なプロジェクトのリーダーを任されたりする可能性があるので、堂々とリーダーシップを発揮してください。",
+                "zh": "你的奉献与成果终于得到了上司的青睐。虽然责任加重会感到压力，但这也是你在组织中地位与名誉提升的收获之月。有望获得晋升或被委以重任，请自信地展示你的领导才能。"
+            },
+            {
+                "mon": "10월", "star": "⭐⭐⭐⭐⭐",
+                "ko": "부동산 매매, 임대차 계약, 혹은 중요한 비즈니스 파트너십 체결 등 문서와 관련된 모든 일에서 최고의 행운이 따릅니다. 중요한 도장을 찍어야 할 일이 있다면 이번 달로 일정을 잡으세요. 나중에 큰 자산 가치가 될 귀중한 문서를 손에 쥐게 될 운세이니 꼼꼼하게 검토하되 과감하게 결정하십시오.",
+                "en": "Immense luck follows all matters related to documents, such as real estate deals, lease agreements, or major business partnerships. If you need to sign a contract, schedule it for this month. You are destined to hold a valuable document that will appreciate in the future. Review carefully but decide boldly.",
+                "fr": "Une immense chance accompagne tout ce qui touche aux documents (immobilier, contrats d'affaires). Si vous devez signer un contrat, faites-le ce mois-ci. Vous obtiendrez un document précieux pour votre avenir financier.",
+                "es": "Una inmensa suerte acompaña todo lo relacionado con documentos (bienes raíces, contratos). Si debes firmar un contrato, hazlo este mes. Obtendrás un documento valioso para tu futuro financiero. Revisa con cuidado pero decide con audacia.",
+                "ja": "不動産の売買、賃貸借契約、あるいは重要なビジネスパートナーシップの締結など、文書に関連するすべての事柄で最高の幸運が伴います。重要な判子を押す予定があるなら、今月に設定しましょう。将来的に大きな資産価値となる貴重な文書を手にすることになる運勢です。",
+                "zh": "本月在房地产交易、合同签署或重要商业合作等文书事务方面运势极佳。若有签约或盖章的需求，请安排在本月。你将获得未来具有巨大升值空间的珍贵文件，请在细致审查后果断抉择。"
+            },
+            {
+                "mon": "11월", "star": "⭐⭐⭐⭐",
+                "ko": "혼자 힘으로는 도저히 풀리지 않던 난제가 예상치 못한 조력자나 윗사람의 조언 한마디로 시원하게 해결됩니다. 주변에 도움을 요청하는 것을 부끄러워하지 마세요. 당신을 아끼는 귀인이 나타나 길을 인도해 주는 형국이니, 겸손한 자세로 조언을 구한다면 큰 성취를 맛보게 될 것입니다.",
+                "en": "A problem that seemed impossible to solve on your own will be cleared up with a single piece of advice from a mentor or unexpected supporter. Don't be afraid to ask for help. A noble person who cares for you will emerge to guide the way. Great success awaits if you seek wisdom with humility.",
+                "fr": "Un problème insoluble sera résolu grâce au conseil d'un mentor ou d'un soutien inattendu. N'ayez pas peur de demander de l'aide. Une personne bienveillante vous guidera. Le succès vous attend si vous restez humble.",
+                "es": "Un problema insoluble se resolverá gracias al consejo de un mentor o un apoyo inesperado. No temas pedir ayuda. Una persona benévola te guiará. El éxito te espera si te mantienes humilde.",
+                "ja": "一人の力ではどうしても解けなかった難題が、予想外の協力者や目上の人の助言一つでスッキリ解決します。周囲に助けを求めることを恥ずかしがらないでください。あなたを大切に思う貴人が現れて導いてくれる時期なので、謙虚な姿勢でアドバイスを求めれば大きな成果を得られます。",
+                "zh": "单凭个人力量难以解决的难题，将在意想不到的贵人或长辈的点拨下迎刃而解。不要羞于向他人求助。此时会有赏识你的贵人指引方向，只要保持谦虚的态度虚心求教，定能取得巨大成就。"
+            },
+            {
+                "mon": "12월", "star": "⭐⭐⭐⭐",
+                "ko": "새로운 분야의 공부를 시작하거나 자격증 취득에 도전하기에 가장 완벽한 연말입니다. 학업적 성취도가 높아 시험운이 따르며, 지금 배우는 기술이나 지식이 내년 당신의 몸값을 결정짓는 핵심 자산이 될 것입니다. 한 해를 차분하게 마무리하며 지적 성장에 투자하는 시간을 가지세요.",
+                "en": "The perfect end to the year for starting new studies or challenging yourself to earn a certification. Academic achievement is high, and the skills or knowledge you gain now will be key assets for your success next year. Invest time in intellectual growth as you close out the year calmly.",
+                "fr": "Une fin d'année parfaite pour commencer de nouvelles études ou passer une certification. Votre réussite académique est favorisée. Les connaissances acquises seront des atouts clés pour l'année prochaine. Investissez dans votre croissance intellectuelle.",
+                "es": "Un fin de año perfecto para comenzar nuevos estudios o certificaciones. Tu éxito académico está favorecido. Los conocimientos adquiridos serán activos clave para el próximo año. Invierte en tu crecimiento intelectual.",
+                "ja": "新しい分野の勉強を始めたり、資格取得に挑戦したりするのに完璧な年末です。学業の成就度が高く試験運も良いため、今学ぶ技術や知識が来年のあなたの価値を決める核心的な資産になります。知的な成長に投資する時間を持ち、一年を穏やかに締めくくりましょう。",
+                "zh": "这是开启新领域学习或挑战考证的完美岁末。学业运势强劲，此时掌握的技能或知识将成为明年提升个人身价的核心资产。建议在平静总结全年的同时，将时间投入到自我成长的智力投资中。"
+            }
+        ]
         "Fire": [
             {
                 "mon": "1월", "star": "⭐⭐",
