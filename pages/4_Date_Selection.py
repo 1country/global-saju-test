@@ -198,16 +198,70 @@ advice_msg = {
 
 ui = {
     "ko": {
-        "title": "📆 나만의 길일 찾기", "sub": "결혼, 이사, 투자 등 중요한 일정을 위한 최고의 날짜 Top 3를 추천합니다.",
-        "q1": "1. 어떤 중요한 일을 계획 중인가요?", "q2": "2. 언제쯤으로 원하시나요? (기준일)",
-        "btn": "🏆 최고의 날짜 찾기", "res_h": "당신을 위한 최고의 길일",
-        "lock_t": "🔒 VIP 리포트 잠금", "lock_m": "당신의 사주에 딱 맞는 정밀 분석 결과를 확인하세요.", "btn_buy": "잠금 해제 ($3)"
+        "title": "📆 나만의 길일 찾기", 
+        "sub": "결혼, 이사, 투자 등 중요한 일정을 위한 최고의 날짜 Top 3를 추천합니다.",
+        "q1": "1. 어떤 중요한 일을 계획 중인가요?", 
+        "q2": "2. 언제쯤으로 원하시나요? (기준일)",
+        "btn": "🏆 최고의 날짜 찾기", 
+        "res_h": "당신을 위한 최고의 길일",
+        "lock_t": "🔒 VIP 리포트 잠금", 
+        "lock_m": "당신의 사주에 딱 맞는 정밀 분석 결과를 확인하세요.", 
+        "btn_buy": "잠금 해제 ($3)"
     },
     "en": {
-        "title": "📆 Find Best Dates", "sub": "We recommend the Top 3 perfect dates for your important events.",
-        "q1": "1. What is your goal?", "q2": "2. Around which date?",
-        "btn": "🏆 Find Top 3 Dates", "res_h": "Top 3 Auspicious Dates",
-        "lock_t": "🔒 Report Locked", "lock_m": "Unlock the best dates tailored to your destiny.", "btn_buy": "Unlock ($3)"
+        "title": "📆 Find Best Dates", 
+        "sub": "We recommend the Top 3 perfect dates for your important events.",
+        "q1": "1. What is your goal?", 
+        "q2": "2. Around which date?",
+        "btn": "🏆 Find Top 3 Dates", 
+        "res_h": "Top 3 Auspicious Dates",
+        "lock_t": "🔒 VIP Report Locked", 
+        "lock_m": "Unlock the precise analysis tailored to your destiny.", 
+        "btn_buy": "Unlock ($3)"
+    },
+    "fr": {
+        "title": "📆 Meilleures Dates", 
+        "sub": "Trouvez les 3 meilleures dates pour vos événements importants.",
+        "q1": "1. Quel est votre objectif ?", 
+        "q2": "2. Vers quelle date ?",
+        "btn": "🏆 Trouver les dates", 
+        "res_h": "Top 3 des dates propices",
+        "lock_t": "🔒 Rapport VIP Verrouillé", 
+        "lock_m": "Débloquez l'analyse précise adaptée à votre destin.", 
+        "btn_buy": "Débloquer (3$)"
+    },
+    "es": {
+        "title": "📆 Mejores Fechas", 
+        "sub": "Encuentra las 3 mejores fechas para tus eventos importantes.",
+        "q1": "1. ¿Cuál es tu objetivo?", 
+        "q2": "2. ¿Alrededor de qué fecha?",
+        "btn": "🏆 Buscar Fechas", 
+        "res_h": "Top 3 Fechas Auspiciosas",
+        "lock_t": "🔒 Informe VIP Bloqueado", 
+        "lock_m": "Desbloquee el análisis preciso adaptado a su destino.", 
+        "btn_buy": "Desbloquear ($3)"
+    },
+    "ja": {
+        "title": "📆 吉日探し", 
+        "sub": "結婚、引越し、投資など、重要なイベントに最適な日付トップ3を推薦します。",
+        "q1": "1. どのようなご予定ですか？", 
+        "q2": "2. いつ頃をご希望ですか？",
+        "btn": "🏆 吉日を探す", 
+        "res_h": "あなただけの吉日 Top 3",
+        "lock_t": "🔒 VIPレポート ロック中", 
+        "lock_m": "あなたの運勢に合わせた精密な分析結果をご覧ください。", 
+        "btn_buy": "解除する ($3)"
+    },
+    "zh": {
+        "title": "📆 择吉日", 
+        "sub": "为您的婚礼、搬家、投资等重要事项推荐最佳日期。",
+        "q1": "1. 您有什么计划？", 
+        "q2": "2. 大约在什么时候？",
+        "btn": "🏆 查找吉日", 
+        "res_h": "为您推荐的吉日 Top 3",
+        "lock_t": "🔒 VIP报告已锁定", 
+        "lock_m": "查看为您运势量身定制的精准分析结果。", 
+        "btn_buy": "解锁 ($3)"
     }
 }
 # Fallback logic for other languages
