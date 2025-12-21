@@ -595,39 +595,46 @@ if check_clicked or st.session_state.get('day_analyzed'):
             c1, c2 = st.columns([3, 1])
             with c1: k_in = st.text_input(t['key_label'], type="password", label_visibility="collapsed")
             with c2: 
-                # 🔑 [수정본] 3회 및 10회 제한 로직 적용
-if st.button(t['btn_unlock']):
-    if k_in == UNLOCK_CODE:
-        st.session_state["unlocked_day"] = True
-        st.success("Unlocked!")
-        st.rerun()
-    else:
-        try:
-            # 1. 단품(Specific Day) 키 확인 (3회 제한)
-            r = requests.post("https://api.gumroad.com/v2/licenses/verify", 
-                              data={"product_permalink": "specific_day", "license_key": k_in, "increment_uses_count": "true"}).json()
-            
-            if r.get("success"):
-                if r.get("uses", 0) > 3: # 🚨 3회 제한
-                    st.error("🚫 Usage limit exceeded (Max 3)")
-                else:
-                    st.session_state["unlocked_day"] = True
-                    st.rerun()
-            else:
-                # 2. 올패스(All-Access) 키 확인 (합산 10회 제한)
-                r2 = requests.post("https://api.gumroad.com/v2/licenses/verify", 
-                                   data={"product_permalink": "all-access_pass", "license_key": k_in, "increment_uses_count": "true"}).json()
-                
-                if r2.get("success"):
-                    if r2.get("uses", 0) > 10: # 🚨 10회 제한
-                        st.error("🚫 Usage limit exceeded (Max 10)")
-                    else:
+                if st.button(t['btn_unlock'], type="primary", use_container_width=True):
+                    if k_in == UNLOCK_CODE:
                         st.session_state["unlocked_day"] = True
+                        st.success("Master Unlocked!")
                         st.rerun()
-                else:
-                    st.error("Invalid Key")
-        except: 
-            st.error("Connection Error")
+                    else:
+                        try:
+                            # 1. 단품 키 확인 (3회 제한)
+                            r = requests.post("https://api.gumroad.com/v2/licenses/verify", 
+                                              data={
+                                                  "product_permalink": "specific_day", 
+                                                  "license_key": k_in, 
+                                                  "increment_uses_count": "true"
+                                              }).json()
+                            
+                            if r.get("success"):
+                                if r.get("uses", 0) > 3: # 🚨 3회 제한
+                                    st.error("🚫 Usage limit exceeded (Max 3)")
+                                else:
+                                    st.session_state["unlocked_day"] = True
+                                    st.rerun()
+                            else:
+                                # 2. 올패스 키 확인 (합산 10회 제한)
+                                r2 = requests.post("https://api.gumroad.com/v2/licenses/verify", 
+                                                   data={
+                                                       "product_permalink": "all-access_pass", 
+                                                       "license_key": k_in, 
+                                                       "increment_uses_count": "true"
+                                                   }).json()
+                                
+                                if r2.get("success"):
+                                    if r2.get("uses", 0) > 10: # 🚨 10회 제한
+                                        st.error("🚫 Usage limit exceeded (Max 10)")
+                                    else:
+                                        st.session_state["unlocked_day"] = True
+                                        st.rerun()
+                                else:
+                                    st.error("Invalid Key")
+                        except: 
+                            st.error("Connection Error")
     else:
         # 🔓 [잠금 해제됨] 진짜 결과 전체 표시
         st.success("🔓 VIP Content Unlocked!")
