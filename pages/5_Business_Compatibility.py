@@ -29,41 +29,34 @@ st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* ✨ 배경: 밝은 오피스/도시 느낌 + 화이트 그라데이션 오버레이 */
+        /* ✨ 배경: 밝은 고층 빌딩 뷰 (확실한 이미지) */
         .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)),
-            url("https://img.freepik.com/free-photo/low-angle-shot-glass-building-with-cloudy-sky_181624-469.jpg");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)),
+            url("https://cdn.pixabay.com/photo/2017/09/08/18/20/skyscraper-2729606_1280.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
-            color: #1e293b; /* 기본 글자색: 진한 회색 */
+            color: #1e293b;
         }
         
-        /* 사이드바는 깔끔한 네이비 톤 유지 */
-        section[data-testid="stSidebar"] { background-color: #f1f5f9 !important; border-right: 1px solid #cbd5e1; }
+        /* 나머지 스타일은 기존과 동일 */
+        section[data-testid="stSidebar"] { background-color: #f8fafc !important; border-right: 1px solid #cbd5e1; }
         section[data-testid="stSidebar"] * { color: #334155 !important; }
 
-        /* 메인 타이틀 */
         .main-header {
             font-size: 2.5em; font-weight: 800; color: #1e40af; margin-bottom: 10px; text-align: center;
-            font-family: 'Gowun Batang', serif; text-shadow: none; /* 그림자 제거 */
+            font-family: 'Gowun Batang', serif;
         }
         
-        /* ✨ 입력 컨테이너: 밝은 흰색 박스 + 그림자 */
         .input-container {
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px; border-radius: 15px; border: 1px solid #e2e8f0;
             box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1); margin-bottom: 20px;
         }
         
-        /* 라벨 텍스트: 진한 색으로 변경 */
         .stSelectbox label p, .stDateInput label p, .stTextInput label p {
             color: #1e3a8a !important; font-weight: 700 !important; font-size: 1.1em !important;
         }
-        
-        /* 입력창 내부 스타일 */
-        div[data-baseweb="input"] { background-color: #f8fafc !important; border-color: #cbd5e1 !important; color: #000 !important; }
-        div[data-baseweb="select"] > div { background-color: #f8fafc !important; color: #000 !important; }
 
-        /* 리포트 컨테이너 (종이 질감) */
+        /* 리포트 컨테이너 */
         .report-container {
             background-color: #ffffff; padding: 40px; border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); border: 1px solid #bfdbfe;
@@ -85,7 +78,6 @@ st.markdown("""
         }
         .content-text { font-size: 1.1em; line-height: 1.8; color: #475569; text-align: justify; }
         
-        /* 사용자 카드 (밝은 명함 스타일) */
         .user-card {
             background: linear-gradient(135deg, #eff6ff, #ffffff); 
             padding: 20px; border-radius: 12px; border: 1px solid #dbeafe;
@@ -100,7 +92,6 @@ st.markdown("""
             font-size: 2.5em; font-weight: bold; color: #3b82f6; height: 100%;
         }
         
-        /* 잠금 화면 스타일 수정 */
         .lock-container {
             text-align:center; background-color: rgba(255,255,255,0.9); padding:30px; border-radius:15px;
             border: 1px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -544,31 +535,31 @@ if st.session_state["unlocked_biz"]:
     
     # (B) 메인 리포트
     html_content = f"""
-    <div class='report-container'>
-        <div class='score-display'>{t['lbl_score']}: {report['score']}</div>
-        <h2 style='text-align:center; color:#1e40af; margin-bottom:40px; border-bottom:1px solid #e2e8f0; padding-bottom:20px;'>{report['title']}</h2>
-        
-        <div class='section-box'>
-            <div class='section-title'>{t['lbl_syn']}</div>
-            <div class='content-text'>{report['synergy']}</div>
-        </div>
-        
-        <div class='section-box'>
-            <div class='section-title'>{t['lbl_fin']}</div>
-            <div class='content-text'>{report['finance']}</div>
-        </div>
-        
-        <div class='section-box' style='background-color:#f1f5f9; padding:20px; border-radius:10px; border:1px solid #e2e8f0;'>
-            <div class='section-title' style='color:#ec4899; border-left-color:#ec4899;'>{t['lbl_rol']}</div>
-            <div class='content-text' style='font-weight:bold; color:#334155; text-align:center;'>{report['role']}</div>
-        </div>
-        
-        <div style='margin-top:30px;'>
-            <div class='section-title' style='color:#d97706; border-left-color:#d97706;'>{t['lbl_adv']}</div>
-            <div class='content-text' style='white-space: pre-line; color:#1e293b; font-weight:500;'>{report['advice']}</div>
-        </div>
+<div class='report-container'>
+    <div class='score-display'>{t['lbl_score']}: {report['score']}</div>
+    <h2 style='text-align:center; color:#1e40af; margin-bottom:40px; border-bottom:1px solid #e2e8f0; padding-bottom:20px;'>{report['title']}</h2>
+    
+    <div class='section-box'>
+        <div class='section-title'>{t['lbl_syn']}</div>
+        <div class='content-text'>{report['synergy']}</div>
     </div>
-    """
+    
+    <div class='section-box'>
+        <div class='section-title'>{t['lbl_fin']}</div>
+        <div class='content-text'>{report['finance']}</div>
+    </div>
+    
+    <div class='section-box' style='background-color:#f1f5f9; padding:20px; border-radius:10px; border:1px solid #e2e8f0;'>
+        <div class='section-title' style='color:#ec4899; border-left-color:#ec4899;'>{t['lbl_rol']}</div>
+        <div class='content-text' style='font-weight:bold; color:#334155; text-align:center;'>{report['role']}</div>
+    </div>
+    
+    <div style='margin-top:30px;'>
+        <div class='section-title' style='color:#d97706; border-left-color:#d97706;'>{t['lbl_adv']}</div>
+        <div class='content-text' style='white-space: pre-line; color:#1e293b; font-weight:500;'>{report['advice']}</div>
+    </div>
+</div>
+"""
     
     st.markdown(html_content, unsafe_allow_html=True)
     
