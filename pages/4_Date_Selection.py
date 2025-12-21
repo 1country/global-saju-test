@@ -19,55 +19,66 @@ UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (가독성 유지)
+# 2. 스타일 설정 (배경 변경 및 라벨 가독성 개선)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
+        /* ✨ 배경 변경: 웨딩/파티/중요한 날 테마 + 가독성을 위한 어두운 오버레이 */
         .stApp {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
-            url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+            url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop");
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #f8fafc;
         }
+
+        /* 사이드바 스타일 */
         section[data-testid="stSidebar"] { background-color: #0f172a !important; border-right: 1px solid #334155; }
         section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
         
+        /* 메인 타이틀 */
         .main-title {
             font-size: 2.5em; font-weight: 800; color: #f472b6; text-align: center; margin-bottom: 10px;
             font-family: 'Gowun Batang', serif; text-shadow: 0 0 15px rgba(244, 114, 182, 0.8);
         }
 
-        /* 입력창 컨테이너 */
+        /* 입력창 컨테이너 스타일 */
         .input-container {
-            background-color: rgba(15, 23, 42, 0.85);
+            background-color: rgba(15, 23, 42, 0.85); /* 글자가 잘 보이도록 진한 배경 */
             padding: 30px;
             border-radius: 15px;
             border: 1px solid #475569;
             box-shadow: 0 4px 20px rgba(0,0,0,0.6);
             margin-bottom: 30px;
         }
-        .stSelectbox label p, .stDateInput label p {
-            color: #ffffff !important;
-            font-size: 1.2rem !important;
-            font-weight: 700 !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.9) !important;
-        }
-        div[data-baseweb="select"] > div { background-color: #1e293b; color: white; }
 
-        /* 결과 카드 스타일 (심플하게 변경됨) */
+        /* 🌟 [핵심 수정] 입력창 위 작은 글씨(라벨) 가독성 확보 */
+        .stSelectbox label p, .stDateInput label p {
+            color: #ffffff !important; /* 무조건 흰색 */
+            font-weight: 700 !important;
+            font-size: 1.2em !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,1.0) !important; /* 진한 검은 그림자 */
+        }
+        
+        /* 드롭다운 및 입력창 내부 텍스트 */
+        div[data-baseweb="select"] > div, div[data-baseweb="input"] {
+            background-color: #1e293b !important;
+            color: white !important;
+            border-color: #475569 !important;
+        }
+
+        /* 결과 카드 스타일 */
         .rec-card {
             background: rgba(30, 41, 59, 0.95); border: 1px solid #f472b6; padding: 20px;
             border-radius: 15px; margin-bottom: 15px; text-align: center;
             box-shadow: 0 4px 15px rgba(244, 114, 182, 0.2);
-            display: flex; justify-content: space-between; align-items: center; /* 가로 정렬 */
+            display: flex; justify-content: space-between; align-items: center;
         }
         .rec-rank { font-size: 1.5em; font-weight: bold; color: #f472b6; width: 15%; }
         .rec-date { font-size: 1.5em; font-weight: bold; color: #f8fafc; width: 50%; text-align: left;}
         .rec-star { font-size: 1.2em; text-shadow: 0 0 5px #fbbf24; width: 35%; text-align: right; }
         
-        /* 모바일 대응 */
         @media (max-width: 600px) {
             .rec-card { flex-direction: column; text-align: center; }
             .rec-rank, .rec-date, .rec-star { width: 100%; text-align: center; margin-bottom: 5px; }
@@ -85,9 +96,16 @@ st.markdown("""
             margin-bottom: 25px;
             line-height: 1.6;
         }
+        
+        /* 잠금 오버레이 스타일 */
+        .lock-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            border-radius: 15px; z-index: 10;
+        }
     </style>
 """, unsafe_allow_html=True)
-
 # ----------------------------------------------------------------
 # 3. 데이터 및 6개 국어 번역
 # ----------------------------------------------------------------
