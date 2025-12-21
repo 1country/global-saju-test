@@ -141,159 +141,159 @@ def get_interpretation(element, lang):
 def get_forecast_data(element):
     data = {
         "Wood": {
-    "ko": {
-        "title": "🔥 재능이 불타오르는 '표현과 결실'의 해", 
-        "gen": "2026년은 당신의 내면에 잠자고 있던 천재적인 잠재력이 화산처럼 폭발하는 시기입니다. 창의적인 아이디어가 끊임없이 샘솟으며, 당신의 말과 행동이 대중의 마음을 움직이는 강력한 힘을 갖게 됩니다. 새로운 도전이나 프로젝트를 시작하기에 최적의 해이며, 스스로의 가치를 증명할 기회가 도처에 널려 있습니다.", 
-        "money": "활동 범위가 넓어지는 만큼 통장의 잔고도 함께 불어나는 운세입니다. 당신의 아이디어가 곧바로 수익 창출이나 사업 확장으로 연결되며, 특히 예체능이나 기획 분야에서 예상치 못한 큰 성과급이나 보너스를 기대해 볼 수 있습니다.", 
-        "love": "거부할 수 없는 매력이 넘쳐나 주변에 사람이 끊이지 않는 해입니다. 싱글이라면 당신의 당당한 모습에 반한 이성의 적극적인 대시를 받게 되며, 커플은 서로의 꿈을 응원하며 관계가 한층 더 깊고 뜨거워지는 경험을 할 것입니다."
-    },
-    "en": {
-        "title": "🔥 Year of Radiant Expression & Tangible Success", 
-        "gen": "2026 is a monumental year where your dormant potential erupts like a volcano. Creative ideas will flow endlessly, and your words and actions will hold a magnetic power to influence the public. It is the ultimate time to launch new ventures, as opportunities to prove your worth are everywhere.", 
-        "money": "Your wealth grows in direct proportion to your increased activity. Your innovative ideas will directly translate into revenue or business expansion. Expect significant windfalls, especially in creative, planning, or artistic fields.", 
-        "love": "Your irresistible charm will make you the center of attention. If single, expect passionate advances from those captivated by your confidence. For couples, supporting each other's ambitions will lead to a deeper and more passionate bond."
-    },
-    "fr": {
-        "title": "🔥 Année d'Expression Éclatante et de Succès", 
-        "gen": "2026 est une année monumentale où votre potentiel dormant éclate. Les idées créatives fusionnent et vos paroles captivent le public. C'est le moment idéal pour lancer de nouveaux projets.", 
-        "money": "Vos revenus augmentent avec votre activité. Vos idées se transforment en profit. Attendez-vous à des gains importants dans les domaines créatifs.", 
-        "love": "Votre charme irrésistible attire tous les regards. Les célibataires recevront des avances passionnées. Les couples verront leur lien se renforcer par un soutien mutuel."
-    },
-    "es": {
-        "title": "🔥 Año de Expresión Radiante y Éxito Tangible", 
-        "gen": "2026 es un año monumental donde tu potencial dormido estalla. Las ideas creativas fluyen sin cesar y tus palabras cautivan al público. Es el momento perfecto para nuevos emprendimientos.", 
-        "money": "Tu riqueza crece con tu actividad. Tus ideas se traducen en ganancias. Espera beneficios significativos, especialmente en campos creativos.", 
-        "love": "Tu encanto irresistible te convertirá en el centro de atención. Si estás soltero, espera avances apasionados. Las parejas fortalecerán su vínculo mediante el apoyo mutuo."
-    },
-    "ja": {
-        "title": "🔥 才能が燃え上がる「表現と結実」の年", 
-        "gen": "2026年は、内面に眠っていた天才的な潜在能力が火山のように爆発する時期です。創造的なアイデアが絶えず湧き出、あなたの言葉と行動が人々の心を動かす強力な力を持つようになります。", 
-        "money": "活動範囲が広がる分、収入も比例して増える運勢です。あなたのアイデアが収益創出や事業拡大に直결し、特にクリエイティブな分野で予期せぬ大きな報酬が期待できます。", 
-        "love": "抗いがたい魅力が溢れ、周囲に人が絶えない一年です。シングルの人はあなたの堂々とした姿に惹かれた異性から積極的なアプローチを受け、カップルは互いの夢を応援し合うことで絆がより深まります。"
-    },
-    "zh": {
-        "title": "🔥 才华横溢之“表现与收获”年", 
-        "gen": "2026年是你内在潜能如火山般爆发的一年。创意灵感源源不断，你的言行将展现出影响大众的强大魅力。这是开启新挑战或项目的最佳时机，证明自身价值的机会无处不在。", 
-        "money": "财运随活动量的增加而水涨船高。你的创意将直接转化为收益或事业扩张。特别是在策划、艺术或创意领域，有望获得意想不到的丰厚奖金或回报。", 
-        "love": "魅力四射的一年，异性缘极佳。单身者会因自信大方的表现而收获热烈的追求；有伴侣的人则会通过互相扶持梦想，使感情进入更加深厚且甜蜜的新阶段。"
-    }
-},
+            "ko": {
+                "title": "🔥 재능이 불타오르는 '표현과 결실'의 해", 
+                "gen": "2026년은 당신의 내면에 잠자고 있던 천재적인 잠재력이 화산처럼 폭발하는 시기입니다. 창의적인 아이디어가 끊임없이 샘솟으며, 당신의 말과 행동이 대중의 마음을 움직이는 강력한 힘을 갖게 됩니다. 새로운 도전이나 프로젝트를 시작하기에 최적의 해이며, 스스로의 가치를 증명할 기회가 도처에 널려 있습니다.", 
+                "money": "활동 범위가 넓어지는 만큼 통장의 잔고도 함께 불어나는 운세입니다. 당신의 아이디어가 곧바로 수익 창출이나 사업 확장으로 연결되며, 특히 예체능이나 기획 분야에서 예상치 못한 큰 성과급이나 보너스를 기대해 볼 수 있습니다.", 
+                "love": "거부할 수 없는 매력이 넘쳐나 주변에 사람이 끊이지 않는 해입니다. 싱글이라면 당신의 당당한 모습에 반한 이성의 적극적인 대시를 받게 되며, 커플은 서로의 꿈을 응원하며 관계가 한층 더 깊고 뜨거워지는 경험을 할 것입니다."
+            },
+            "en": {
+                "title": "🔥 Year of Radiant Expression & Tangible Success", 
+                "gen": "2026 is a monumental year where your dormant potential erupts like a volcano. Creative ideas will flow endlessly, and your words and actions will hold a magnetic power to influence the public. It is the ultimate time to launch new ventures, as opportunities to prove your worth are everywhere.", 
+                "money": "Your wealth grows in direct proportion to your increased activity. Your innovative ideas will directly translate into revenue or business expansion. Expect significant windfalls, especially in creative, planning, or artistic fields.", 
+                "love": "Your irresistible charm will make you the center of attention. If single, expect passionate advances from those captivated by your confidence. For couples, supporting each other's ambitions will lead to a deeper and more passionate bond."
+            },
+            "fr": {
+                "title": "🔥 Année d'Expression Éclatante et de Succès", 
+                "gen": "2026 est une année monumentale où votre potentiel dormant éclate. Les idées créatives fusionnent et vos paroles captivent le public. C'est le moment idéal pour lancer de nouveaux projets.", 
+                "money": "Vos revenus augmentent avec votre activité. Vos idées se transforment en profit. Attendez-vous à des gains importants dans les domaines créatifs.", 
+                "love": "Votre charme irrésistible attire tous les regards. Les célibataires recevront des avances passionnées. Les couples verront leur lien se renforcer par un soutien mutuel."
+            },
+            "es": {
+                "title": "🔥 Año de Expresión Radiante y Éxito Tangible", 
+                "gen": "2026 es un año monumental donde tu potencial dormido estalla. Las ideas creativas fluyen sin cesar y tus palabras cautivan al público. Es el momento perfecto para nuevos emprendimientos.", 
+                "money": "Tu riqueza crece con tu actividad. Tus ideas se traducen en ganancias. Espera beneficios significativos, especialmente en campos creativos.", 
+                "love": "Tu encanto irresistible te convertirá en el centro de atención. Si estás soltero, espera avances apasionados. Las parejas fortalecerán su vínculo mediante el apoyo mutuo."
+            },
+            "ja": {
+                "title": "🔥 才能が燃え上がる「表現と結実」の年", 
+                "gen": "2026年は、内面に眠っていた天才的な潜在能力が火山のように爆発する時期です。創造的なアイデアが絶えず湧き出、あなたの言葉と行動が人々の心を動かす強力な力を持つようになります。", 
+                "money": "活動範囲が広がる分、収入も比例して増える運勢です。あなたのアイデアが収益創出や事業拡大に直결し、特にクリエイティブな分野で予期せぬ大きな報酬が期待できます。", 
+                "love": "抗いがたい魅力が溢れ、周囲に人が絶えない一年です。シングルの人はあなたの堂々とした姿に惹かれた異性から積極的なアプローチを受け、カップルは互いの夢を応援し合うことで絆がより深まります。"
+            },
+            "zh": {
+                "title": "🔥 才华横溢之“表现与收获”年", 
+                "gen": "2026年是你内在潜能如火山般爆发的一年。创意灵感源源不断，你的言行将展现出影响大众的强大魅力。这是开启新挑战或项目的最佳时机，证明自身价值的机会无处不在。", 
+                "money": "财运随活动量的增加而水涨船高。你的创意将直接转化为收益或事业扩张。特别是在策划、艺术或创意领域，有望获得意想不到的丰厚奖金或回报。", 
+                "love": "魅力四射的一年，异性缘极佳。单身者会因自信大方的表现而收获热烈的追求；有伴侣的人则会通过互相扶持梦想，使感情进入更加深厚且甜蜜的新阶段。"
+            }
+        },
         "Fire": {
-    "ko": {
-        "title": "🤝 경쟁을 뚫고 우뚝 서는 '자립과 도약'의 해", 
-        "gen": "2026년은 당신의 자신감과 주체성이 절정에 달하는 시기입니다. 주변의 시선에 흔들리지 않고 오직 자신의 신념에 따라 행동하게 되며, 이는 강력한 독립심으로 이어져 창업이나 새로운 사업 기틀을 마련하는 데 최적의 환경을 제공합니다. 동료들과의 건전한 경쟁 속에서 당신의 진가가 더욱 빛나게 될 것입니다.", 
-        "money": "재물 흐름이 매우 역동적인 해입니다. 사업 확장이나 공격적인 투자로 인해 큰 수익이 발생하기도 하지만, 그만큼 재투자와 활동비 지출도 늘어나는 형국입니다. 들어오는 돈을 지키기보다는 더 큰 가치를 위해 '투자'하는 관점으로 접근할 때 장기적으로 큰 자산을 형성하게 됩니다.", 
-        "love": "서로의 독립성을 존중하는 성숙한 연애운이 따릅니다. 싱글이라면 가치관이 비슷한 동료나 친구 사이에서 자연스럽게 연인으로 발전할 가능성이 크며, 커플은 서로의 성장을 돕는 가장 든든한 파트너로서 함께 미래를 설계하는 건설적인 한 해를 보낼 것입니다."
-    },
-    "en": {
-        "title": "🤝 Year of Bold Self-Reliance & Competitive Growth", 
-        "gen": "2026 is a year where your self-confidence reaches its peak. You will act solely on your convictions, unswayed by others, providing the perfect environment to establish a startup or a new business foundation. Your true value will shine through healthy competition with peers.", 
-        "money": "A year of dynamic financial flow. While aggressive investments or business expansions will lead to significant gains, reinvestment and operational expenses will also rise. Focus on strategic 'investment' for long-term growth rather than just saving cash.", 
-        "love": "A year for mature relationships that respect individuality. If single, a friend or colleague with similar values may naturally become a lover. Couples will find themselves acting as supportive partners, building a future together based on mutual growth."
-    },
-    "fr": {
-        "title": "🤝 Année d'Autonomie et de Croissance Compétitive", 
-        "gen": "2026 est l'année où votre confiance atteint son paroxysme. Vous agirez selon vos convictions, créant l'environnement idéal pour lancer une startup. Votre valeur s'imposera face à la concurrence.", 
-        "money": "Flux financiers dynamiques. Les gains seront importants mais les réinvestissements aussi. Privilégiez l'investissement stratégique pour bâtir un patrimoine durable.", 
-        "love": "Relations matures basées sur le respect de l'indépendance. Les célibataires pourraient trouver l'amour parmi leurs amis. Les couples se soutiendront mutuellement pour bâtir leur avenir."
-    },
-    "es": {
-        "title": "🤝 Año de Autosuficiencia y Crecimiento Competitivo", 
-        "gen": "2026 es un año donde tu confianza alcanza su punto máximo. Actuarás según tus convicciones, creando el entorno perfecto para emprender. Tu valor brillará en la competencia sana.", 
-        "money": "Flujo financiero dinámico. Grandes ganancias se verán compensadas por reinversiones. Enfócate en la inversión estratégica para el crecimiento a largo plazo.", 
-        "love": "Relaciones maduras que respetan la independencia. Los solteros podrían encontrar el amor entre amigos o colegas. Las parejas construirán un futuro basado en el apoyo mutuo."
-    },
-    "ja": {
-        "title": "🤝 競争を勝ち抜き自립する「自立と飛躍」の年", 
-        "gen": "2026年は、あなたの自信と主体性が絶頂に達する時期です。周囲に惑わされず自身の信念に従って行動でき、起業や新規事業の基盤を築くのに最適な環境が整います。", 
-        "money": "財運の流れが非常にダイナミックな一年です。積極的な投資で大きな収益を得る反면、活動費や再投資も増える傾向にあります。目先の貯蓄より、将来の価値のための「投資」に重点を置くことで大きな資産を築けます。", 
-        "love": "互いの独立性を尊重し合える成熟した恋愛運です。シングルの人は価値観の似た友人や同僚から恋人に発展する可能性が高く、カップルは互いの成長を支え合う最高のパートナーとして未来を共に設計するでしょう。"
-    },
-    "zh": {
-        "title": "🤝 竞争中脱颖而出的“自立与飞跃”年", 
-        "gen": "2026年是你的自信心与自主意识达到顶峰的一年。你将不受外界干扰，坚定地执行个人信念，这为创业或开辟事业新版图提供了绝佳时机。在与同行的良性竞争中，你的真正实力将得到充分认可。", 
-        "money": "财运呈现出大进大出的动态特征。事业扩张和果断投资将带来显著收益，但相应的再投资与活动开销也会增加。与其死守现金，不如以“战略性投资”的眼光布局，方能成就长远的大宗资产。", 
-        "love": "今年盛行尊重彼此独立空间的成熟恋爱观。单身者极易在志趣相投的朋友或同事中找到真爱；有伴侣的人则会成为彼此成长道路上最坚实的后盾，共同规划极具建设性的未来蓝图。"
-    }
-},
+            "ko": {
+                "title": "🤝 경쟁을 뚫고 우뚝 서는 '자립과 도약'의 해", 
+                "gen": "2026년은 당신의 자신감과 주체성이 절정에 달하는 시기입니다. 주변의 시선에 흔들리지 않고 오직 자신의 신념에 따라 행동하게 되며, 이는 강력한 독립심으로 이어져 창업이나 새로운 사업 기틀을 마련하는 데 최적의 환경을 제공합니다. 동료들과의 건전한 경쟁 속에서 당신의 진가가 더욱 빛나게 될 것입니다.", 
+                "money": "재물 흐름이 매우 역동적인 해입니다. 사업 확장이나 공격적인 투자로 인해 큰 수익이 발생하기도 하지만, 그만큼 재투자와 활동비 지출도 늘어나는 형국입니다. 들어오는 돈을 지키기보다는 더 큰 가치를 위해 '투자'하는 관점으로 접근할 때 장기적으로 큰 자산을 형성하게 됩니다.", 
+                "love": "서로의 독립성을 존중하는 성숙한 연애운이 따릅니다. 싱글이라면 가치관이 비슷한 동료나 친구 사이에서 자연스럽게 연인으로 발전할 가능성이 크며, 커플은 서로의 성장을 돕는 가장 든든한 파트너로서 함께 미래를 설계하는 건설적인 한 해를 보낼 것입니다."
+            },
+            "en": {
+                "title": "🤝 Year of Bold Self-Reliance & Competitive Growth", 
+                "gen": "2026 is a year where your self-confidence reaches its peak. You will act solely on your convictions, unswayed by others, providing the perfect environment to establish a startup or a new business foundation. Your true value will shine through healthy competition with peers.", 
+                "money": "A year of dynamic financial flow. While aggressive investments or business expansions will lead to significant gains, reinvestment and operational expenses will also rise. Focus on strategic 'investment' for long-term growth rather than just saving cash.", 
+                "love": "A year for mature relationships that respect individuality. If single, a friend or colleague with similar values may naturally become a lover. Couples will find themselves acting as supportive partners, building a future together based on mutual growth."
+            },
+            "fr": {
+                "title": "🤝 Année d'Autonomie et de Croissance Compétitive", 
+                "gen": "2026 est l'année où votre confiance atteint son paroxysme. Vous agirez selon vos convictions, créant l'environnement idéal pour lancer une startup. Votre valeur s'imposera face à la concurrence.", 
+                "money": "Flux financiers dynamiques. Les gains seront importants mais les réinvestissements aussi. Privilégiez l'investissement stratégique pour bâtir un patrimoine durable.", 
+                "love": "Relations matures basées sur le respect de l'indépendance. Les célibataires pourraient trouver l'amour parmi leurs amis. Les couples se soutiendront mutuellement pour bâtir leur avenir."
+            },
+            "es": {
+                "title": "🤝 Año de Autosuficiencia y Crecimiento Competitivo", 
+                "gen": "2026 es un año donde tu confianza alcanza su punto máximo. Actuarás según tus convicciones, creando el entorno perfecto para emprender. Tu valor brillará en la competencia sana.", 
+                "money": "Flujo financiero dinámico. Grandes ganancias se verán compensadas por reinversiones. Enfócate en la inversión estratégica para el crecimiento a largo plazo.", 
+                "love": "Relaciones maduras que respetan la independencia. Los solteros podrían encontrar el amor entre amigos o colegas. Las parejas construirán un futuro basado en el apoyo mutuo."
+            },
+            "ja": {
+                "title": "🤝 競争を勝ち抜き自립する「自立と飛躍」の年", 
+                "gen": "2026年は、あなたの自信と主体性が絶頂に達する時期です。周囲に惑わされず自身の信念に従って行動でき、起業や新規事業の基盤を築くのに最適な環境が整います。", 
+                "money": "財運の流れが非常にダイナミックな一年です。積極的な投資で大きな収益を得る反면、活動費や再投資も増える傾向にあります。目先の貯蓄より、将来の価値のための「投資」に重点を置くことで大きな資産を築けます。", 
+                "love": "互いの独立性を尊重し合える成熟した恋愛運です。シングルの人は価値観の似た友人や同僚から恋人に発展する可能性が高く、カップルは互いの成長を支え合う最高のパートナーとして未来を共に設計するでしょう。"
+            },
+            "zh": {
+                "title": "🤝 竞争中脱颖而出的“自立与飞跃”年", 
+                "gen": "2026年是你的自信心与自主意识达到顶峰的一年。你将不受外界干扰，坚定地执行个人信念，这为创业或开辟事业新版图提供了绝佳时机。在与同行的良性竞争中，你的真正实力将得到充分认可。", 
+                "money": "财运呈现出大进大出的动态特征。事业扩张和果断投资将带来显著收益，但相应的再投资与活动开销也会增加。与其死守现金，不如以“战略性投资”的眼光布局，方能成就长远的大宗资产。", 
+                "love": "今年盛行尊重彼此独立空间的成熟恋爱观。单身者极易在志趣相投的朋友或同事中找到真爱；有伴侣的人则会成为彼此成长道路上最坚实的后盾，共同规划极具建设性的未来蓝图。"
+            }
+        },
         "Earth": {
-    "ko": {
-        "title": "💎 내실을 다져 황금기를 여는 '결실'의 해", 
-        "gen": "2026년은 그동안 묵묵히 뿌려온 노력의 씨앗들이 마침내 단단한 결실을 맺는 시기입니다. 당신의 성실함이 대내외적으로 인정받으며, 조직 내에서 대체 불가능한 위치에 서게 됩니다. 주거 환경의 변화나 문서상의 이득이 따르는 등 삶의 기반이 더욱 공고해지는 한 해입니다.", 
-        "money": "안정적인 자산 증식이 기대되는 해입니다. 큰 모험보다는 적금, 부동산, 장기 투자 등 검증된 방식에서 큰 이득이 발생합니다. 생각지도 못한 상속이나 증여, 혹은 과거에 묶여있던 자금이 풀리는 기분 좋은 소식도 기대해 볼 수 있습니다.", 
-        "love": "신뢰를 바탕으로 한 깊은 유대감이 형성됩니다. 싱글이라면 가볍기보다는 결혼을 전제로 한 진지한 만남이 성사될 운이며, 커플은 양가 어른들께 인사를 드리거나 동거, 결혼 등 구체적인 가정을 꾸리는 단계로 진입하기에 매우 길한 운세입니다."
-    },
-    "en": {
-        "title": "💎 Year of Harvesting Fruit & Solidifying Foundations", 
-        "gen": "2026 is the year when the seeds of effort you've silently sown finally bear solid fruit. Your sincerity will be recognized, placing you in an irreplaceable position. It's a year where your life's foundation becomes even firmer through gains in contracts or favorable housing changes.", 
-        "money": "Expect stable asset growth. Significant gains will come from verified methods like real estate or long-term investments rather than risky ventures. Good news regarding inheritance or the release of previously tied-up funds may also arrive.", 
-        "love": "Deep bonds based on trust will flourish. If single, a serious relationship with marriage in mind is likely. For couples, it's a highly auspicious year to take concrete steps toward building a home, such as meeting parents or getting married."
-    },
-    "ja": {
-        "title": "💎 内実を固め黄金期を開く「結実」の年", 
-        "gen": "2026年は、これまで黙々と蒔いてきた努力の種がついに強固な結実を結ぶ時期です。あなたの誠実さが認められ、組織内でかけがえのない地位を築くことになります。住環境の変化や文書上の利益が伴うなど、生活の基盤がより強固になる一年です。", 
-        "money": "安定的な資産形成が期待できる年です。大きな冒険よりは、不動産や長期投資など検証された方法から大きな利益が発生します。思いがけない相続や、過去に滞っていた資金が動くといった嬉しいニュースも期待できます。", 
-        "love": "信頼に基づいた深い絆が形成されます。シングルの人は結婚を前提とした真剣な出会いがある運勢で、カップルは両親への挨拶や結婚など、具体的な家庭を築く段階に進むのに非常に良い時期です。"
-    },
-    "zh": {
-        "title": "💎 夯实基础、迎来黄金时刻的“收获”年", 
-        "gen": "2026年是你过去默默付出的汗水终获丰硕果实的一年。你的诚实可靠将获得内外一致认可，在组织中处于无可替代的地位。通过合同获利或住房环境的改善，你的人生地基将变得更加稳固。", 
-        "money": "财运稳步增长。比起投机冒险，从房地产或长期投资等稳健渠道中获利更多。可能会有关于遗产继承或之前被套牢资金回笼的好消息。", 
-        "love": "基于信任的深层情感纽带正在形成。单身者有望遇到以结婚为前提的认真对象；有伴侣的人则非常适合步入谈婚论嫁、组建家庭的实质性阶段。"
-    }
-},
+            "ko": {
+                "title": "💎 내실을 다져 황금기를 여는 '결실'의 해", 
+                "gen": "2026년은 그동안 묵묵히 뿌려온 노력의 씨앗들이 마침내 단단한 결실을 맺는 시기입니다. 당신의 성실함이 대내외적으로 인정받으며, 조직 내에서 대체 불가능한 위치에 서게 됩니다. 주거 환경의 변화나 문서상의 이득이 따르는 등 삶의 기반이 더욱 공고해지는 한 해입니다.", 
+                "money": "안정적인 자산 증식이 기대되는 해입니다. 큰 모험보다는 적금, 부동산, 장기 투자 등 검증된 방식에서 큰 이득이 발생합니다. 생각지도 못한 상속이나 증여, 혹은 과거에 묶여있던 자금이 풀리는 기분 좋은 소식도 기대해 볼 수 있습니다.", 
+                "love": "신뢰를 바탕으로 한 깊은 유대감이 형성됩니다. 싱글이라면 가볍기보다는 결혼을 전제로 한 진지한 만남이 성사될 운이며, 커플은 양가 어른들께 인사를 드리거나 동거, 결혼 등 구체적인 가정을 꾸리는 단계로 진입하기에 매우 길한 운세입니다."
+            },
+            "en": {
+                "title": "💎 Year of Harvesting Fruit & Solidifying Foundations", 
+                "gen": "2026 is the year when the seeds of effort you've silently sown finally bear solid fruit. Your sincerity will be recognized, placing you in an irreplaceable position. It's a year where your life's foundation becomes even firmer through gains in contracts or favorable housing changes.", 
+                "money": "Expect stable asset growth. Significant gains will come from verified methods like real estate or long-term investments rather than risky ventures. Good news regarding inheritance or the release of previously tied-up funds may also arrive.", 
+                "love": "Deep bonds based on trust will flourish. If single, a serious relationship with marriage in mind is likely. For couples, it's a highly auspicious year to take concrete steps toward building a home, such as meeting parents or getting married."
+            },
+            "ja": {
+                "title": "💎 内実を固め黄金期を開く「結実」の年", 
+                "gen": "2026年は、これまで黙々と蒔いてきた努力の種がついに強固な結実を結ぶ時期です。あなたの誠実さが認められ、組織内でかけがえのない地位を築くことになります。住環境の変化や文書上の利益が伴うなど、生活の基盤がより強固になる一年です。", 
+                "money": "安定的な資産形成が期待できる年です。大きな冒険よりは、不動産や長期投資など検証された方法から大きな利益が発生します。思いがけない相続や、過去に滞っていた資金が動くといった嬉しいニュースも期待できます。", 
+                "love": "信頼に基づいた深い絆が形成されます。シングルの人は結婚を前提とした真剣な出会いがある運勢で、カップルは両親への挨拶や結婚など、具体的な家庭を築く段階に進むのに非常に良い時期です。"
+            },
+            "zh": {
+                "title": "💎 夯实基础、迎来黄金时刻的“收获”年", 
+                "gen": "2026年是你过去默默付出的汗水终获丰硕果实的一年。你的诚实可靠将获得内外一致认可，在组织中处于无可替代的地位。通过合同获利或住房环境的改善，你的人生地基将变得更加稳固。", 
+                "money": "财运稳步增长。比起投机冒险，从房地产或长期投资等稳健渠道中获利更多。可能会有关于遗产继承或之前被套牢资金回笼的好消息。", 
+                "love": "基于信任的深层情感纽带正在形成。单身者有望遇到以结婚为前提的认真对象；有伴侣的人则非常适合步入谈婚论嫁、组建家庭的实质性阶段。"
+            }
+        },
         "Metal": {
-    "ko": {
-        "title": "🏢 권위와 명예가 드높아지는 '명예'의 해", 
-        "gen": "2026년은 당신의 카리스마와 리더십이 만개하는 해입니다. 직장 내 승진이나 사회적 지위가 상승하는 운세가 매우 강하며, 국가 기관이나 대기업을 상대로 한 계약에서 유리한 고지를 점하게 됩니다. 당신의 원칙주의가 마침내 빛을 발하며 많은 이들의 귀감이 되는 해가 될 것입니다.", 
-        "money": "명예가 오르면 재물은 자연스럽게 따라오는 법입니다. 고정적인 수입의 수준이 한 단계 업그레이드되며, 관급 공사나 공공 프로젝트 등을 통해 큰 규모의 자금을 만질 기회가 생깁니다. 다만, 체면 유지비나 품위 유지에 따른 지출이 늘어날 수 있으니 주의가 필요합니다.", 
-        "love": "존경할 수 있는 상대를 만나거나, 본인이 상대에게 존경받는 관계가 형성됩니다. 싱글이라면 전문직 종사자나 사회적 지위가 높은 이성과 인연이 닿을 가능성이 높습니다. 커플은 서로의 사회적 성공을 축하하며 품격 있는 데이트와 여행을 즐기는 화려한 한 해가 될 것입니다."
-    },
-    "en": {
-        "title": "🏢 Year of Rising Authority & Social Honor", 
-        "gen": "2026 is the year your charisma and leadership fully bloom. There's a strong trend toward promotion or a rise in social status. Your principled nature will shine, making you a role model for many. It's an excellent time for contracts involving large institutions.", 
-        "money": "As your honor rises, wealth naturally follows. Your base income will level up, and opportunities to handle large-scale funds through public projects may arise. However, be cautious of increased spending on maintaining your professional image.", 
-        "love": "A relationship built on mutual respect will form. If single, you're likely to connect with someone of high social status or professional standing. Couples will enjoy a sophisticated year, celebrating each other's career successes."
-    },
-    "ja": {
-        "title": "🏢 権威と名誉が高まる「名誉」の年", 
-        "gen": "2026年は、あなたのカリスマ性とリーダーシップが満開になる年です。職場での昇進や社会的地位の上昇運が非常に強く、あなたの原則主義がついに光を放ち、多くの人々の模範となる一年になるでしょう。", 
-        "money": "名誉が上がれば、財は自然とついてくるものです。固定収入の水準が一段階上がり、公共プロジェクトなどを通じて大規模な資金を扱う機会に恵まれます。ただし、品位を維持するための出費が増える可能性があるため、管理が必要です。", 
-        "love": "尊敬できる相手に出会うか、自分が相手から尊敬される関係が築かれます。シングルの人は専門職や社会的地位の高い異性と縁がある可能性が高いです。カップルは互いの社会的成功を祝い、品格のあるデートを楽しむ華やかな一年になるでしょう。"
-    },
-    "zh": {
-        "title": "🏢 威望与名誉双丰收的“显赫”年", 
-        "gen": "2026年是你的魅力与领导力全面绽放的一年。职场晋升或社会地位提升的运势极强，你的坚持原则终将获得认可，成为众人的楷模。在涉及大型机构的合同谈判中，你将占据绝对优势。", 
-        "money": "名利双收，财随名来。你的固定收入将迈上新台阶，并有机会接触到大型项目资金。但需注意，因维护个人形象或社交品位而产生的额外开销也会随之增加。", 
-        "love": "一段建立在互相钦佩基础上的关系正在萌芽。单身者易与专业人士或高社会地位者结缘；有伴侣者则会共同庆祝事业上的成功，享受充满质感的高端情感生活。"
-    }
-},
+            "ko": {
+                "title": "🏢 권위와 명예가 드높아지는 '명예'의 해", 
+                "gen": "2026년은 당신의 카리스마와 리더십이 만개하는 해입니다. 직장 내 승진이나 사회적 지위가 상승하는 운세가 매우 강하며, 국가 기관이나 대기업을 상대로 한 계약에서 유리한 고지를 점하게 됩니다. 당신의 원칙주의가 마침내 빛을 발하며 많은 이들의 귀감이 되는 해가 될 것입니다.", 
+                "money": "명예가 오르면 재물은 자연스럽게 따라오는 법입니다. 고정적인 수입의 수준이 한 단계 업그레이드되며, 관급 공사나 공공 프로젝트 등을 통해 큰 규모의 자금을 만질 기회가 생깁니다. 다만, 체면 유지비나 품위 유지에 따른 지출이 늘어날 수 있으니 주의가 필요합니다.", 
+                "love": "존경할 수 있는 상대를 만나거나, 본인이 상대에게 존경받는 관계가 형성됩니다. 싱글이라면 전문직 종사자나 사회적 지위가 높은 이성과 인연이 닿을 가능성이 높습니다. 커플은 서로의 사회적 성공을 축하하며 품격 있는 데이트와 여행을 즐기는 화려한 한 해가 될 것입니다."
+            },
+            "en": {
+                "title": "🏢 Year of Rising Authority & Social Honor", 
+                "gen": "2026 is the year your charisma and leadership fully bloom. There's a strong trend toward promotion or a rise in social status. Your principled nature will shine, making you a role model for many. It's an excellent time for contracts involving large institutions.", 
+                "money": "As your honor rises, wealth naturally follows. Your base income will level up, and opportunities to handle large-scale funds through public projects may arise. However, be cautious of increased spending on maintaining your professional image.", 
+                "love": "A relationship built on mutual respect will form. If single, you're likely to connect with someone of high social status or professional standing. Couples will enjoy a sophisticated year, celebrating each other's career successes."
+            },
+            "ja": {
+                "title": "🏢 権威と名誉が高まる「名誉」の年", 
+                "gen": "2026年は、あなたのカリスマ性とリーダーシップが満開になる年です。職場での昇進や社会的地位の上昇運が非常に強く、あなたの原則主義がついに光を放ち、多くの人々の模範となる一年になるでしょう。", 
+                "money": "名誉が上がれば、財は自然とついてくるものです。固定収入の水準が一段階上がり、公共プロジェクトなどを通じて大規模な資金を扱う機会に恵まれます。ただし、品位を維持するための出費が増える可能性があるため、管理が必要です。", 
+                "love": "尊敬できる相手に出会うか、自分が相手から尊敬される関係が築かれます。シングルの人は専門職や社会的地位の高い異性と縁がある可能性が高いです。カップルは互いの社会的成功を祝い、品格のあるデートを楽しむ華やかな一年になるでしょう。"
+            },
+            "zh": {
+                "title": "🏢 威望与名誉双丰收的“显赫”年", 
+                "gen": "2026年是你的魅力与领导力全面绽放的一年。职场晋升或社会地位提升的运势极强，你的坚持原则终将获得认可，成为众人的楷模。在涉及大型机构的合同谈判中，你将占据绝对优势。", 
+                "money": "名利双收，财随名来。你的固定收入将迈上新台阶，并有机会接触到大型项目资金。但需注意，因维护个人形象或社交品位而产生的额外开销也会随之增加。", 
+                "love": "一段建立在互相钦佩基础上的关系正在萌芽。单身者易与专业人士或高社会地位者结缘；有伴侣者则会共同庆祝事业上的成功，享受充满质感的高端情感生活。"
+            }
+        },
         "Water": {
-    "ko": {
-        "title": "🧘 지혜가 깊어지고 귀인을 만나는 '조력'의 해", 
-        "gen": "2026년은 당신의 깊은 통찰력이 빛을 발하고, 생각지도 못한 귀인의 도움을 받아 어려움을 해결하는 해입니다. 무리하게 앞으로 나가기보다는 공부, 연구, 혹은 내면의 평화를 찾는 활동에서 큰 성취감을 느낄 수 있습니다. 당신을 지지해 주는 강력한 후원자가 나타나 정신적, 물질적 안정을 돕는 시기입니다.", 
-        "money": "직접적인 근로 소득 외에 자산 가치 상승이나 후원금 등 '가만히 있어도 들어오는' 간접적 이득이 강한 해입니다. 문서 운이 좋아 자격증 취득이나 학위 이수를 통한 장기적인 몸값 상승을 꾀하기에 최적입니다. 재물에 대해 지나치게 욕심내지 않아도 필요할 때 적절히 채워지는 운세입니다.", 
-        "love": "정신적인 소통이 잘 통하는 소울메이트를 만나게 됩니다. 싱글이라면 대화가 잘 통하고 배울 점이 많은 이성에게 끌리게 되며, 커플은 함께 명상, 여행, 혹은 새로운 취미를 배우며 정서적인 유대감을 극대화하는 평온하고 행복한 한 해를 보낼 것입니다."
-    },
-    "en": {
-        "title": "🧘 Year of Deep Wisdom & Meeting Mentors", 
-        "gen": "2026 is a year where your insight shines and unexpected mentors help resolve long-standing issues. Focus on study, research, or inner peace rather than rushing forward. Powerful supporters will emerge to help you achieve both spiritual and material stability.", 
-        "money": "Strong potential for passive income or asset appreciation rather than just labor income. It’s an ideal time for long-term value growth through certifications or degrees. Wealth will flow in naturally when needed, so avoid excessive greed.", 
-        "love": "You will meet a soulmate with whom you share a deep spiritual connection. If single, you'll be drawn to someone intellectual and inspiring. Couples will maximize their emotional bond through shared hobbies or travel, enjoying a peaceful year."
-    },
-    "ja": {
-        "title": "🧘 知恵が深まり貴人に出会う「助力」の年", 
-        "gen": "2026年は、あなたの深い洞察力が光を放ち、思いがけない貴人の助けを借りて困難を解決する年です。無理に前進するよりは、勉強や研究、内面の平和を探る活動で大きな成就感を得られます。あなたを支持する強力な後援者が現れる時期です。", 
-        "money": "労働所得以外に、資産価値の上昇や支援金など、間接的な利益に恵まれる年です。文書運が良く、資格取得や学位取得を通じて長期的な価値を高めるのに最適です。財物に対して欲張らなくても、必要な時に適切に満たされる運勢です。", 
-        "love": "精神的なコミュニケーションが深まるソウルメイトに出会います。シングルの人は会話が弾み、尊敬できる異性に惹かれるでしょう。カップルは一緒に新しい趣味を学んだり旅行したりすることで、情緒的な絆を深める穏やかで幸せな一年を過ごします。"
-    },
-    "zh": {
-        "title": "🧘 智慧深造、贵人相助的“印绶”年", 
-        "gen": "2026年是你洞察力大爆发的一年，困扰已久的难题将在意想不到的贵人指点下迎刃而解。比起急于求成，通过学习、科研或寻求内心平静，你将获得更大的成就感。强大的支持者将出现在你身后，为你提供精神与物质的双重保障。", 
-        "money": "偏财运旺盛，除了固定工作收入，资产增值或获得赞助等间接收益显著。今年非常利于考取证书或提升学历，以此实现长期身价的飞跃。财运自然随缘，无需过度强求即可满足生活所需。", 
-        "love": "有望遇到心灵契合的灵魂伴侣。单身者会被学识渊博、谈吐不凡的对象吸引；有伴侣的人则会通过共同学习或深度旅行，提升情感层次，度过静谧而幸福的一年。"
-    }
-},
+            "ko": {
+                "title": "🧘 지혜가 깊어지고 귀인을 만나는 '조력'의 해", 
+                "gen": "2026년은 당신의 깊은 통찰력이 빛을 발하고, 생각지도 못한 귀인의 도움을 받아 어려움을 해결하는 해입니다. 무리하게 앞으로 나가기보다는 공부, 연구, 혹은 내면의 평화를 찾는 활동에서 큰 성취감을 느낄 수 있습니다. 당신을 지지해 주는 강력한 후원자가 나타나 정신적, 물질적 안정을 돕는 시기입니다.", 
+                "money": "직접적인 근로 소득 외에 자산 가치 상승이나 후원금 등 '가만히 있어도 들어오는' 간접적 이득이 강한 해입니다. 문서 운이 좋아 자격증 취득이나 학위 이수를 통한 장기적인 몸값 상승을 꾀하기에 최적입니다. 재물에 대해 지나치게 욕심내지 않아도 필요할 때 적절히 채워지는 운세입니다.", 
+                "love": "정신적인 소통이 잘 통하는 소울메이트를 만나게 됩니다. 싱글이라면 대화가 잘 통하고 배울 점이 많은 이성에게 끌리게 되며, 커플은 함께 명상, 여행, 혹은 새로운 취미를 배우며 정서적인 유대감을 극대화하는 평온하고 행복한 한 해를 보낼 것입니다."
+            },
+            "en": {
+                "title": "🧘 Year of Deep Wisdom & Meeting Mentors", 
+                "gen": "2026 is a year where your insight shines and unexpected mentors help resolve long-standing issues. Focus on study, research, or inner peace rather than rushing forward. Powerful supporters will emerge to help you achieve both spiritual and material stability.", 
+                "money": "Strong potential for passive income or asset appreciation rather than just labor income. It’s an ideal time for long-term value growth through certifications or degrees. Wealth will flow in naturally when needed, so avoid excessive greed.", 
+                "love": "You will meet a soulmate with whom you share a deep spiritual connection. If single, you'll be drawn to someone intellectual and inspiring. Couples will maximize their emotional bond through shared hobbies or travel, enjoying a peaceful year."
+            },
+            "ja": {
+                "title": "🧘 知恵が深まり貴人に出会う「助力」の年", 
+                "gen": "2026年は、あなたの深い洞察力が光を放ち、思いがけない貴人の助けを借りて困難を解決する年です。無理に前進するよりは、勉強や研究、内面の平和を探る活動で大きな成就感を得られます。あなたを支持する強力な後援者が現れる時期です。", 
+                "money": "労働所得以外に、資産価値の上昇や支援金など、間接的な利益に恵まれる年です。文書運が良く、資格取得や学位取得を通じて長期的な価値を高めるのに最適です。財物に対して欲張らなくても、必要な時に適切に満たされる運勢です。", 
+                "love": "精神的なコミュニケーションが深まるソウルメイトに出会います。シングルの人は会話が弾み、尊敬できる異性に惹かれるでしょう。カップルは一緒に新しい趣味を学んだり旅行したりすることで、情緒的な絆を深める穏やかで幸せな一年を過ごします。"
+            },
+            "zh": {
+                "title": "🧘 智慧深造、贵人相助的“印绶”年", 
+                "gen": "2026年是你洞察力大爆发的一年，困扰已久的难题将在意想不到的贵人指点下迎刃而解。比起急于求成，通过学习、科研或寻求内心平静，你将获得更大的成就感。强大的支持者将出现在你身后，为你提供精神与物质的双重保障。", 
+                "money": "偏财运旺盛，除了固定工作收入，资产增值或获得赞助等间接收益显著。今年非常利于考取证书或提升学历，以此实现长期身价的飞跃。财运自然随缘，无需过度强求即可满足生活所需。", 
+                "love": "有望遇到心灵契合的灵魂伴侣。单身者会被学识渊博、谈吐不凡的对象吸引；有伴侣的人则会通过共同学习或深度旅行，提升情感层次，度过静谧而幸福的一年。"
+            }
+        },
     }
     e_data = data.get(element, data["Wood"]) 
     return e_data.get(lang, e_data["en"])
