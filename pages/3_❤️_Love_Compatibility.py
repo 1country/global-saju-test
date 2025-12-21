@@ -11,14 +11,14 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="Love Compatibility | The Element", page_icon="💘", layout="wide")
 
-# 언어 설정
+# 언어 설정 (세션 상태 우선)
 if 'lang' not in st.session_state:
     st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
 lang = st.session_state['lang']
 
 # 🔑 [마스터 키 & 구매 링크]
 UNLOCK_CODE = "MASTER2026"
-GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/love_compatibility" # 상품 링크
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/love_compatibility" 
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 # ----------------------------------------------------------------
@@ -200,7 +200,7 @@ def get_love_report(u_elem, p_elem, lang):
     }
 
 # ----------------------------------------------------------------
-# 4. 사이드바 (언어 설정)
+# 4. 사이드바 (언어 설정 - 통일 완료!)
 # ----------------------------------------------------------------
 with st.sidebar:
     st.header("Settings")
@@ -208,21 +208,21 @@ with st.sidebar:
     st.info(f"Current Mode: **{lang_map.get(lang, 'English')}**")
     
     st.write("Change Language:")
-    c1, c2, c3 = st.columns(3)
-    with c1: 
-        if st.button("🇺🇸 EN"): st.session_state['lang']='en'; st.rerun()
-    with c2: 
-        if st.button("🇰🇷 KO"): st.session_state['lang']='ko'; st.rerun()
-    with c3: 
-        if st.button("🇫🇷 FR"): st.session_state['lang']='fr'; st.rerun()
+    col_l1, col_l2, col_l3 = st.columns(3)
+    with col_l1:
+        if st.button("🇺🇸 EN", key="en"): st.session_state['lang']='en'; st.rerun()
+    with col_l2:
+        if st.button("🇰🇷 KO", key="ko"): st.session_state['lang']='ko'; st.rerun()
+    with col_l3:
+        if st.button("🇫🇷 FR", key="fr"): st.session_state['lang']='fr'; st.rerun()
         
-    c4, c5, c6 = st.columns(3)
-    with c4: 
-        if st.button("🇪🇸 ES"): st.session_state['lang']='es'; st.rerun()
-    with c5: 
-        if st.button("🇯🇵 JA"): st.session_state['lang']='ja'; st.rerun()
-    with c6: 
-        if st.button("🇨🇳 ZH"): st.session_state['lang']='zh'; st.rerun()
+    col_l4, col_l5, col_l6 = st.columns(3)
+    with col_l4:
+        if st.button("🇪🇸 ES", key="es"): st.session_state['lang']='es'; st.rerun()
+    with col_l5:
+        if st.button("🇯🇵 JA", key="ja"): st.session_state['lang']='ja'; st.rerun()
+    with col_l6:
+        if st.button("🇨🇳 ZH", key="zh"): st.session_state['lang']='zh'; st.rerun()
 
     st.markdown("---")
     if st.button("🏠 Home", use_container_width=True):
@@ -253,7 +253,38 @@ ui = {
         "analyze": "Analyze", "h_chem": "🔮 Chemistry", "h_conf": "⚔️ Conflict", 
         "h_inti": "💋 Intimacy", "h_adv": "🚀 Advice"
     },
-    # (나머지 언어는 영어 fallback)
+    "fr": {
+        "title": "💘 Compatibilité Amoureuse", "sub": "Analyse approfondie des âmes et de la chimie.",
+        "p_info": "Info Partenaire", "p_name": "Nom", "p_dob": "Date de Naissance", "p_gender": "Genre",
+        "lock_title": "🔒 Rapport VIP", "lock_msg": "Débloquez l'intimité et les conseils.",
+        "btn_buy": "Débloquer ($10)", "btn_unlock": "Déverrouiller", "key_label": "Clé",
+        "analyze": "Analyser", "h_chem": "🔮 Chimie", "h_conf": "⚔️ Conflits", 
+        "h_inti": "💋 Intimité", "h_adv": "🚀 Conseils"
+    },
+    "es": {
+        "title": "💘 Compatibilidad Amorosa", "sub": "Análisis profundo de almas y química.",
+        "p_info": "Info Pareja", "p_name": "Nombre", "p_dob": "Fecha Nacimiento", "p_gender": "Género",
+        "lock_title": "🔒 Reporte VIP", "lock_msg": "Desbloquea intimidad y consejos.",
+        "btn_buy": "Desbloquear ($10)", "btn_unlock": "Desbloquear", "key_label": "Clave",
+        "analyze": "Analizar", "h_chem": "🔮 Química", "h_conf": "⚔️ Conflictos", 
+        "h_inti": "💋 Intimidad", "h_adv": "🚀 Consejos"
+    },
+    "ja": {
+        "title": "💘 恋愛相性診断", "sub": "魂、相性、未来を深く分析。",
+        "p_info": "相手の情報", "p_name": "名前", "p_dob": "生年月日", "p_gender": "性別",
+        "lock_title": "🔒 VIPレポート", "lock_msg": "親密さ、葛藤、未来のアドバイスを解除。",
+        "btn_buy": "解除 ($10)", "btn_unlock": "解除", "key_label": "キー",
+        "analyze": "分析する", "h_chem": "🔮 相性", "h_conf": "⚔️ 葛藤", 
+        "h_inti": "💋 親密さ", "h_adv": "🚀 アドバイス"
+    },
+    "zh": {
+        "title": "💘 恋爱契合度", "sub": "深度分析灵魂、化学反应和未来。",
+        "p_info": "伴侣信息", "p_name": "姓名", "p_dob": "出生日期", "p_gender": "性别",
+        "lock_title": "🔒 VIP报告", "lock_msg": "解锁亲密度、冲突点和建议。",
+        "btn_buy": "解锁 ($10)", "btn_unlock": "解锁", "key_label": "密钥",
+        "analyze": "分析", "h_chem": "🔮 化学反应", "h_conf": "⚔️ 冲突点", 
+        "h_inti": "💋 亲密度", "h_adv": "🚀 建议"
+    }
 }
 if lang not in ui: t = ui['en']
 else: t = ui[lang]
