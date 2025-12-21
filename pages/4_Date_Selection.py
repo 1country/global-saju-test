@@ -382,20 +382,48 @@ if analyze_btn or st.session_state.get('date_analyzed_2'):
             c1, c2 = st.columns([3, 1])
             with c1: k_in = st.text_input("Key", type="password", label_visibility="collapsed")
             with c2: 
-                if st.button("Unlock"):
+                if st.button("Unlock", type="primary", use_container_width=True):
+                    # 1. 마스터 키 (무제한) 확인
                     if k_in == UNLOCK_CODE:
                         st.session_state["unlocked_date_2"] = True
+                        st.success("Master Unlocked!")
                         st.rerun()
                     else:
                         try:
+                            # 2. 단품(Date Selection) 키 확인 (3회 제한)
                             r = requests.post("https://api.gumroad.com/v2/licenses/verify", 
-                                              data={"product_permalink": "date_selection", "license_key": k_in}).json()
+                                              data={
+                                                  "product_permalink": "date_selection", 
+                                                  "license_key": k_in,
+                                                  "increment_uses_count": "true" # 👈 횟수 차감 활성화
+                                              }).json()
+                            
                             if r.get("success"):
-                                st.session_state["unlocked_date_2"] = True
-                                st.rerun()
+                                if r.get("uses", 0) > 3: # 🚨 3회 제한 로직
+                                    st.error("🚫 Usage limit exceeded (Max 3)")
+                                else:
+                                    st.session_state["unlocked_date_2"] = True
+                                    st.rerun()
                             else:
-                                st.error("Invalid Key")
-                        except: st.error("Error")
+                                # 3. 올패스(All-Access) 키 확인 (합산 10회 제한)
+                                # 주의: 이 페이지에는 GUMROAD_LINK_ALL 변수가 누락되어 있을 수 있으니 확인 필요
+                                r2 = requests.post("https://api.gumroad.com/v2/licenses/verify", 
+                                                   data={
+                                                       "product_permalink": "all-access_pass", 
+                                                       "license_key": k_in,
+                                                       "increment_uses_count": "true" # 👈 횟수 차감 활성화
+                                                   }).json()
+                                
+                                if r2.get("success"):
+                                    if r2.get("uses", 0) > 10: # 🚨 합산 10회 제한 로직
+                                        st.error("🚫 Usage limit exceeded (Max 10)")
+                                    else:
+                                        st.session_state["unlocked_date_2"] = True
+                                        st.rerun()
+                                else:
+                                    st.error("Invalid Key")
+                        except: 
+                            st.error("Connection Error")
     else:
         # 🔓 잠금 해제: 실제 분석 로직 (중복 텍스트 제거 및 구조 개선)
         st.success(f"🔓 {current_ui['res_h']}")
