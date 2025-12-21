@@ -19,7 +19,7 @@ UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (라벨 가독성 완벽 해결)
+# 2. 스타일 설정 (강력한 가독성 모드)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
@@ -27,7 +27,7 @@ st.markdown("""
         
         /* ✨ 배경: 웨딩/파티 테마 */
         .stApp {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
             url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop");
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #f8fafc;
@@ -41,47 +41,55 @@ st.markdown("""
         .main-title {
             font-size: 3.5em; font-weight: 800; color: #fce7f3; text-align: center; margin-bottom: 20px;
             font-family: 'Gowun Batang', serif; 
-            text-shadow: 2px 2px 0 #000;
+            text-shadow: 3px 3px 0 #000; /* 제목에도 진한 테두리 */
         }
         .sub-title {
-            text-align: center; color: #e2e8f0; font-size: 1.5em; margin-bottom: 40px; font-weight: bold;
+            text-align: center; color: #fff; font-size: 1.5em; margin-bottom: 40px; font-weight: bold;
             text-shadow: 2px 2px 4px #000;
         }
 
-        /* 🌟 [수정됨] 입력창 라벨(질문) 스타일 - 선택자 강화 */
+        /* 🚨 [핵심 수정] 질문 라벨(What is your goal? 등) 강제 스타일링 */
+        /* Streamlit의 모든 위젯 라벨을 타겟팅합니다 */
         div[data-testid="stWidgetLabel"] p {
-            color: #ffffff !important;         /* 완전 흰색 */
-            font-size: 1.5rem !important;      /* 글자 크기 키움 */
-            font-weight: 900 !important;       /* 두께 두껍게 */
+            color: #ffffff !important;          /* 1. 무조건 흰색 */
+            font-size: 24px !important;         /* 2. 글자 크기 대폭 확대 (24px) */
+            font-weight: 900 !important;        /* 3. 아주 두껍게 */
+            
+            /* 4. 글자 테두리(Stroke) 효과 - 4방향 그림자로 테두리 구현 */
             text-shadow: 
-                2px 2px 0 #000,   /* 검은색 그림자로 테두리 효과 */
-                -1px -1px 0 #000,  
-                1px -1px 0 #000,
-                -1px 1px 0 #000,
-                1px 1px 0 #000;
-            background-color: rgba(0,0,0,0.3); /* 글자 뒤에 살짝 어두운 배경 추가 */
-            padding: 5px 10px;                 /* 배경 여백 */
-            border-radius: 5px;                /* 배경 둥글게 */
-            display: inline-block;             /* 배경이 글자 크기에 맞춰지도록 */
+                -2px -2px 0 #000,  
+                 2px -2px 0 #000,
+                -2px  2px 0 #000,
+                 2px  2px 0 #000,
+                 3px  3px 5px rgba(0,0,0,0.5) !important;
+                 
+            margin-bottom: 5px !important;
         }
         
-        /* 입력창 내부 디자인 */
-        div[data-baseweb="select"] > div, div[data-baseweb="input"] {
-            background-color: rgba(255, 255, 255, 0.95) !important; 
-            color: #1e293b !important; 
-            font-size: 1.2rem !important;
-            border: 2px solid #f472b6 !important;
-            border-radius: 10px !important;
-            height: 50px !important;
+        /* 입력창(Selectbox, DateInput) 내부 디자인 - 박스 배경을 밝게 */
+        div[data-baseweb="select"] > div, 
+        div[data-baseweb="input"], 
+        div[data-baseweb="base-input"] {
+            background-color: rgba(255, 255, 255, 0.95) !important; /* 거의 불투명한 흰색 배경 */
+            color: #000000 !important; /* 입력 글자는 검정 */
+            font-size: 18px !important; /* 입력 글자 크기 */
+            border: 2px solid #f472b6 !important; /* 핑크색 테두리 */
+            border-radius: 12px !important;
+        }
+        
+        /* 드롭다운 메뉴 아이템 */
+        ul[data-baseweb="menu"] li {
+            font-size: 18px !important;
         }
         
         /* 버튼 스타일 */
         .stButton button {
-            font-size: 1.5rem !important;
+            font-size: 20px !important;
             font-weight: bold !important;
-            padding: 15px !important;
-            border-radius: 12px !important;
+            padding: 15px 30px !important;
+            border-radius: 30px !important;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid white !important;
         }
 
         /* 결과 카드 스타일 */
@@ -96,18 +104,18 @@ st.markdown("""
             color: #334155;
         }
         .rec-rank { font-size: 2em; margin-bottom:10px; display:block;}
-        .rec-date { font-size: 2em; font-weight: 800; color: #be185d; display:block; margin-bottom: 5px;}
+        .rec-date { font-size: 2.2em; font-weight: 800; color: #be185d; display:block; margin-bottom: 5px;}
         .rec-star { font-size: 1.5em; color: #f59e0b; display:block;}
         
         /* 상단 조언 박스 */
         .advice-box {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8); /* 진한 배경 */
             border: 2px solid #f472b6;
             color: #fff;
             padding: 25px;
             border-radius: 15px;
             text-align: center;
-            font-size: 1.4em;
+            font-size: 1.5em;
             font-weight: bold;
             margin-bottom: 30px;
         }
