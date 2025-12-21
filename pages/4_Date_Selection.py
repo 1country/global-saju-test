@@ -66,6 +66,12 @@ st.markdown("""
             .date-card { background: white !important; border: 1px solid #ccc !important; color: black !important; }
             h1, h2, h3, p, div { color: black !important; text-shadow: none !important; }
         }
+        /* 입력 필드 라벨 (Year, Month) 색상 변경 */
+        .stSelectbox label p {
+            color: #e2e8f0 !important;
+            font-weight: 600 !important;
+            font-size: 1.1rem !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
