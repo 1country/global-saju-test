@@ -346,7 +346,8 @@ if analyze_btn or st.session_state.get('love_analyzed'):
     pt_elem = map_elem(pt_info['element'])
     
     # 결과 가져오기
-    res = get_love_report(my_elem, pt_elem, lang)
+    # ⭐ [수정] 성별 정보(p_gender)를 함수에 전달해야 He/She가 적용됩니다!
+    res = get_love_report(my_elem, pt_elem, lang, p_gender)
     
     st.divider()
     
