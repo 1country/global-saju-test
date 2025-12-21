@@ -401,7 +401,7 @@ ui = {
         "title": "💘 사랑 궁합 분석", "sub": "두 사람의 영혼, 케미, 미래를 꿰뚫어보는 심층 리포트",
         "p_info": "상대방 정보 입력", "p_name": "상대방 이름", "p_dob": "생년월일", "p_gender": "성별",
         "lock_title": "🔒 궁합 리포트 잠금 (VIP)", "lock_msg": "두 사람의 속궁합, 갈등 원인, 미래 조언을 확인하세요.",
-        "btn_buy": "전체 리포트 해제 ($10)", "btn_unlock": "잠금 해제", "key_label": "라이센스 키",
+        "btn_buy": "전체 리포트 해제 ($3)", "btn_unlock": "잠금 해제", "key_label": "라이센스 키",
         "analyze": "궁합 분석하기", "h_chem": "🔮 성격과 케미", "h_conf": "⚔️ 갈등 포인트", 
         "h_inti": "💋 속궁합 & 애정", "h_adv": "🚀 관계를 위한 조언"
     },
@@ -409,7 +409,7 @@ ui = {
         "title": "💘 Love Compatibility", "sub": "Deep analysis of souls, chemistry, and future.",
         "p_info": "Partner Info", "p_name": "Name", "p_dob": "DOB", "p_gender": "Gender",
         "lock_title": "🔒 VIP Report Locked", "lock_msg": "Unlock intimacy, conflict points, and future advice.",
-        "btn_buy": "Unlock Report ($10)", "btn_unlock": "Unlock", "key_label": "License Key",
+        "btn_buy": "Unlock Report ($3)", "btn_unlock": "Unlock", "key_label": "License Key",
         "analyze": "Analyze", "h_chem": "🔮 Chemistry", "h_conf": "⚔️ Conflict", 
         "h_inti": "💋 Intimacy", "h_adv": "🚀 Advice"
     },
@@ -417,7 +417,7 @@ ui = {
         "title": "💘 Compatibilité Amoureuse", "sub": "Analyse approfondie des âmes et de la chimie.",
         "p_info": "Info Partenaire", "p_name": "Nom", "p_dob": "Date de Naissance", "p_gender": "Genre",
         "lock_title": "🔒 Rapport VIP", "lock_msg": "Débloquez l'intimité et les conseils.",
-        "btn_buy": "Débloquer ($10)", "btn_unlock": "Déverrouiller", "key_label": "Clé",
+        "btn_buy": "Débloquer ($3)", "btn_unlock": "Déverrouiller", "key_label": "Clé",
         "analyze": "Analyser", "h_chem": "🔮 Chimie", "h_conf": "⚔️ Conflits", 
         "h_inti": "💋 Intimité", "h_adv": "🚀 Conseils"
     },
@@ -425,7 +425,7 @@ ui = {
         "title": "💘 Compatibilidad Amorosa", "sub": "Análisis profundo de almas y química.",
         "p_info": "Info Pareja", "p_name": "Nombre", "p_dob": "Fecha Nacimiento", "p_gender": "Género",
         "lock_title": "🔒 Reporte VIP", "lock_msg": "Desbloquea intimidad y consejos.",
-        "btn_buy": "Desbloquear ($10)", "btn_unlock": "Desbloquear", "key_label": "Clave",
+        "btn_buy": "Desbloquear ($3)", "btn_unlock": "Desbloquear", "key_label": "Clave",
         "analyze": "Analizar", "h_chem": "🔮 Química", "h_conf": "⚔️ Conflictos", 
         "h_inti": "💋 Intimidad", "h_adv": "🚀 Consejos"
     },
@@ -433,7 +433,7 @@ ui = {
         "title": "💘 恋愛相性診断", "sub": "魂、相性、未来を深く分析。",
         "p_info": "相手の情報", "p_name": "名前", "p_dob": "生年月日", "p_gender": "性別",
         "lock_title": "🔒 VIPレポート", "lock_msg": "親密さ、葛藤、未来のアドバイスを解除。",
-        "btn_buy": "解除 ($10)", "btn_unlock": "解除", "key_label": "キー",
+        "btn_buy": "解除 ($3)", "btn_unlock": "解除", "key_label": "キー",
         "analyze": "分析する", "h_chem": "🔮 相性", "h_conf": "⚔️ 葛藤", 
         "h_inti": "💋 親密さ", "h_adv": "🚀 アドバイス"
     },
@@ -441,7 +441,7 @@ ui = {
         "title": "💘 恋爱契合度", "sub": "深度分析灵魂、化学反应和未来。",
         "p_info": "伴侣信息", "p_name": "姓名", "p_dob": "出生日期", "p_gender": "性别",
         "lock_title": "🔒 VIP报告", "lock_msg": "解锁亲密度、冲突点和建议。",
-        "btn_buy": "解锁 ($10)", "btn_unlock": "解锁", "key_label": "密钥",
+        "btn_buy": "解锁 ($3)", "btn_unlock": "解锁", "key_label": "密钥",
         "analyze": "分析", "h_chem": "🔮 化学反应", "h_conf": "⚔️ 冲突点", 
         "h_inti": "💋 亲密度", "h_adv": "🚀 建议"
     }
