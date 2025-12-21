@@ -23,75 +23,87 @@ GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/business_compatibility"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (가독성 - 다크 모드 테마)
+# 2. 스타일 설정 (✨ 밝고 전문적인 비즈니스 테마)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* 배경 및 전체 폰트 색상 */
+        /* ✨ 배경: 밝은 오피스/도시 느낌 + 화이트 그라데이션 오버레이 */
         .stApp {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
-            url("https://img.freepik.com/free-photo/business-partners-shaking-hands-global-corporate_53876-102575.jpg");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)),
+            url("https://img.freepik.com/free-photo/low-angle-shot-glass-building-with-cloudy-sky_181624-469.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
-            color: #f8fafc;
+            color: #1e293b; /* 기본 글자색: 진한 회색 */
         }
         
-        section[data-testid="stSidebar"] { background-color: #0f172a !important; border-right: 1px solid #334155; }
-        section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
+        /* 사이드바는 깔끔한 네이비 톤 유지 */
+        section[data-testid="stSidebar"] { background-color: #f1f5f9 !important; border-right: 1px solid #cbd5e1; }
+        section[data-testid="stSidebar"] * { color: #334155 !important; }
 
+        /* 메인 타이틀 */
         .main-header {
-            font-size: 2.5em; font-weight: 800; color: #60a5fa; margin-bottom: 10px; text-align: center;
-            font-family: 'Gowun Batang', serif; text-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+            font-size: 2.5em; font-weight: 800; color: #1e40af; margin-bottom: 10px; text-align: center;
+            font-family: 'Gowun Batang', serif; text-shadow: none; /* 그림자 제거 */
         }
         
-        /* 입력 컨테이너 */
+        /* ✨ 입력 컨테이너: 밝은 흰색 박스 + 그림자 */
         .input-container {
-            background-color: rgba(15, 23, 42, 0.9);
-            padding: 25px; border-radius: 15px; border: 1px solid #475569;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5); margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px; border-radius: 15px; border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1); margin-bottom: 20px;
         }
+        
+        /* 라벨 텍스트: 진한 색으로 변경 */
         .stSelectbox label p, .stDateInput label p, .stTextInput label p {
-            color: #ffffff !important; font-weight: bold !important; font-size: 1.1em !important;
+            color: #1e3a8a !important; font-weight: 700 !important; font-size: 1.1em !important;
         }
+        
+        /* 입력창 내부 스타일 */
+        div[data-baseweb="input"] { background-color: #f8fafc !important; border-color: #cbd5e1 !important; color: #000 !important; }
+        div[data-baseweb="select"] > div { background-color: #f8fafc !important; color: #000 !important; }
 
-        /* 리포트 컨테이너 */
+        /* 리포트 컨테이너 (종이 질감) */
         .report-container {
-            background-color: rgba(30, 41, 59, 0.95); padding: 40px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); border: 1px solid #60a5fa;
-            color: #e2e8f0;
+            background-color: #ffffff; padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); border: 1px solid #bfdbfe;
+            color: #334155;
         }
         
         .score-display {
-            text-align: center; font-size: 3.5em; font-weight: bold; color: #60a5fa; margin: 20px 0;
-            text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+            text-align: center; font-size: 3.5em; font-weight: bold; color: #2563eb; margin: 20px 0;
         }
 
         .section-box {
-            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed #475569;
+            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed #cbd5e1;
         }
         .section-box:last-child { border-bottom: none; }
         
         .section-title {
-            font-size: 1.4em; font-weight: bold; color: #93c5fd; margin-bottom: 15px; 
-            display: flex; align-items: center; border-left: 4px solid #3b82f6; padding-left: 10px;
+            font-size: 1.4em; font-weight: bold; color: #1e40af; margin-bottom: 15px; 
+            display: flex; align-items: center; border-left: 5px solid #3b82f6; padding-left: 15px;
         }
-        .content-text { font-size: 1.1em; line-height: 1.8; color: #cbd5e1; text-align: justify; }
+        .content-text { font-size: 1.1em; line-height: 1.8; color: #475569; text-align: justify; }
         
-        /* 사용자 카드 (명함 스타일) */
+        /* 사용자 카드 (밝은 명함 스타일) */
         .user-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a); 
-            padding: 20px; border-radius: 12px; border: 1px solid #334155;
-            text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #eff6ff, #ffffff); 
+            padding: 20px; border-radius: 12px; border: 1px solid #dbeafe;
+            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .user-role { color: #94a3b8; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
-        .user-name { font-size: 1.6em; font-weight: bold; color: #f8fafc; margin: 5px 0; }
-        .user-elem { font-size: 1.2em; color: #60a5fa; font-weight: bold; }
+        .user-role { color: #64748b; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; font-weight:bold;}
+        .user-name { font-size: 1.6em; font-weight: bold; color: #1e293b; margin: 5px 0; }
+        .user-elem { font-size: 1.2em; color: #2563eb; font-weight: bold; }
 
         .vs-badge {
             display: flex; justify-content: center; align-items: center; 
-            font-size: 2.5em; font-weight: bold; color: #f472b6; height: 100%;
-            text-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
+            font-size: 2.5em; font-weight: bold; color: #3b82f6; height: 100%;
+        }
+        
+        /* 잠금 화면 스타일 수정 */
+        .lock-container {
+            text-align:center; background-color: rgba(255,255,255,0.9); padding:30px; border-radius:15px;
+            border: 1px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -128,10 +140,8 @@ def get_biz_report(u_elem, p_elem, lang):
         "Metal": {"Metal": "Same", "Water": "Output", "Wood": "Wealth", "Fire": "Power", "Earth": "Resource"},
         "Water": {"Water": "Same", "Wood": "Output", "Fire": "Wealth", "Earth": "Power", "Metal": "Resource"}
     }
-    # 5행 오류 방지를 위한 Fallback
     rel = relations.get(u_elem, {}).get(p_elem, "Same")
     
-    # 6개 국어 리포트 데이터
     reports = {
         "Same": { 
             "score": 80,
@@ -361,7 +371,6 @@ def get_biz_report(u_elem, p_elem, lang):
     }
     
     base_data = reports[rel]
-    # 언어 데이터가 없으면 영어 기본
     data = base_data.get(lang, base_data['en'])
     
     return {
@@ -435,12 +444,12 @@ u_dob = st.session_state["birth_date"]
 u_gender = st.session_state.get("gender", "Male")
 
 st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=True)
-st.markdown(f"<div style='text-align:center; color:#cbd5e1; margin-bottom:30px;'>{t['sub']}</div>", unsafe_allow_html=True)
+st.markdown(f"<div style='text-align:center; color:#64748b; margin-bottom:30px; font-weight:bold;'>{t['sub']}</div>", unsafe_allow_html=True)
 
-# 6-1. 입력 컨테이너
+# 6-1. 입력 컨테이너 (밝은 테마)
 with st.container():
     st.markdown('<div class="input-container">', unsafe_allow_html=True)
-    st.markdown(f"### {t['p_info_title']}")
+    st.markdown(f"<h3 style='color:#1e3a8a;'>{t['p_info_title']}</h3>", unsafe_allow_html=True)
     c1, c2, c3 = st.columns([2, 2, 1])
     with c1:
         p_name = st.text_input(t['p_name'])
@@ -456,9 +465,9 @@ if "unlocked_biz" not in st.session_state: st.session_state["unlocked_biz"] = Fa
 if not st.session_state["unlocked_biz"]:
     st.divider()
     with st.container():
-        st.markdown('<div class="input-container" style="text-align:center;">', unsafe_allow_html=True)
-        st.markdown(f"<h3 style='color:#f472b6;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
-        st.write(t['lock_desc'])
+        st.markdown('<div class="lock-container">', unsafe_allow_html=True)
+        st.markdown(f"<h3 style='color:#ec4899;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
+        st.write(f"<p style='color:#475569;'>{t['lock_desc']}</p>", unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
         with c1: st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC)
@@ -475,16 +484,13 @@ if not st.session_state["unlocked_biz"]:
                     st.session_state["unlocked_biz"] = True
                     st.rerun()
                 
-                # Gumroad Verify
                 try:
-                    # Specific Check
                     r1 = requests.post("https://api.gumroad.com/v2/licenses/verify",
                                       data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}).json()
                     if r1.get("success"):
                          st.session_state["unlocked_biz"] = True
                          st.rerun()
                     else:
-                        # All Access Check
                         r2 = requests.post("https://api.gumroad.com/v2/licenses/verify",
                                           data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}).json()
                         if r2.get("success"):
@@ -504,10 +510,9 @@ if st.session_state["unlocked_biz"]:
     u_info = calculate_day_gan(u_dob)
     p_info = calculate_day_gan(p_dob)
     
-    # 한자/영문 오행 매핑
     def map_elem(e):
         m = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'}
-        return m.get(e, e) # 이미 영어면 그대로
+        return m.get(e, e)
 
     u_elem_en = map_elem(u_info['element'])
     p_elem_en = map_elem(p_info['element'])
@@ -541,7 +546,7 @@ if st.session_state["unlocked_biz"]:
     html_content = f"""
     <div class='report-container'>
         <div class='score-display'>{t['lbl_score']}: {report['score']}</div>
-        <h2 style='text-align:center; color:#93c5fd; margin-bottom:40px; border-bottom:1px solid #475569; padding-bottom:20px;'>{report['title']}</h2>
+        <h2 style='text-align:center; color:#1e40af; margin-bottom:40px; border-bottom:1px solid #e2e8f0; padding-bottom:20px;'>{report['title']}</h2>
         
         <div class='section-box'>
             <div class='section-title'>{t['lbl_syn']}</div>
@@ -553,14 +558,14 @@ if st.session_state["unlocked_biz"]:
             <div class='content-text'>{report['finance']}</div>
         </div>
         
-        <div class='section-box' style='background-color:rgba(15, 23, 42, 0.5); padding:20px; border-radius:10px;'>
-            <div class='section-title' style='color:#f472b6; border-left-color:#f472b6;'>{t['lbl_rol']}</div>
-            <div class='content-text' style='font-weight:bold; color:#e2e8f0; text-align:center;'>{report['role']}</div>
+        <div class='section-box' style='background-color:#f1f5f9; padding:20px; border-radius:10px; border:1px solid #e2e8f0;'>
+            <div class='section-title' style='color:#ec4899; border-left-color:#ec4899;'>{t['lbl_rol']}</div>
+            <div class='content-text' style='font-weight:bold; color:#334155; text-align:center;'>{report['role']}</div>
         </div>
         
         <div style='margin-top:30px;'>
-            <div class='section-title' style='color:#fbbf24; border-left-color:#fbbf24;'>{t['lbl_adv']}</div>
-            <div class='content-text' style='white-space: pre-line; color:#f1f5f9;'>{report['advice']}</div>
+            <div class='section-title' style='color:#d97706; border-left-color:#d97706;'>{t['lbl_adv']}</div>
+            <div class='content-text' style='white-space: pre-line; color:#1e293b; font-weight:500;'>{report['advice']}</div>
         </div>
     </div>
     """
@@ -571,7 +576,7 @@ if st.session_state["unlocked_biz"]:
     components.html(
         f"""<script>function printParent() {{ window.parent.print(); }}</script>
         <div style="text-align:center;">
-            <button onclick="printParent()" style="background-color:#2563eb; color:white; border:none; padding:15px 30px; border-radius:30px; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.5);">
+            <button onclick="printParent()" style="background-color:#2563eb; color:white; border:none; padding:15px 30px; border-radius:30px; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);">
             {t['btn_print']}
             </button>
         </div>""", height=100
