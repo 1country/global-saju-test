@@ -201,13 +201,13 @@ ui = {
         "title": "📆 나만의 길일 찾기", "sub": "결혼, 이사, 투자 등 중요한 일정을 위한 최고의 날짜 Top 3를 추천합니다.",
         "q1": "1. 어떤 중요한 일을 계획 중인가요?", "q2": "2. 언제쯤으로 원하시나요? (기준일)",
         "btn": "🏆 최고의 날짜 찾기", "res_h": "당신을 위한 최고의 길일",
-        "lock_t": "🔒 VIP 리포트 잠금", "lock_m": "당신의 사주에 딱 맞는 정밀 분석 결과를 확인하세요.", "btn_buy": "잠금 해제 ($10)"
+        "lock_t": "🔒 VIP 리포트 잠금", "lock_m": "당신의 사주에 딱 맞는 정밀 분석 결과를 확인하세요.", "btn_buy": "잠금 해제 ($3)"
     },
     "en": {
         "title": "📆 Find Best Dates", "sub": "We recommend the Top 3 perfect dates for your important events.",
         "q1": "1. What is your goal?", "q2": "2. Around which date?",
         "btn": "🏆 Find Top 3 Dates", "res_h": "Top 3 Auspicious Dates",
-        "lock_t": "🔒 Report Locked", "lock_m": "Unlock the best dates tailored to your destiny.", "btn_buy": "Unlock ($10)"
+        "lock_t": "🔒 Report Locked", "lock_m": "Unlock the best dates tailored to your destiny.", "btn_buy": "Unlock ($3)"
     }
 }
 # Fallback logic for other languages
