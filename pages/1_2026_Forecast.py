@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import streamlit.components.v1 as components
 import requests
 import pandas as pd
@@ -106,12 +106,12 @@ def get_interpretation(element, lang):
             "zh": "你命中带有‘火’的基因，象征着照亮世界的万丈光芒。正如熊熊燃烧的火焰，你拥有炽热的热情和敏锐 compaction 的艺术直觉，在公开表达情感与思想方面具有卓越的天赋。你极其重视礼仪，为人处事光明磊落，以特有的开朗性格带动周围的气氛。虽然有时需要智慧来克制瞬间爆发的急躁情绪或情感波动，但你那爆发性能量正是化腐朽为神奇、变不可能为可能的强大驱动力。"
         },
         "Earth": {
-            "ko": "당신은 '흙(Earth)'입니다. 신용을 중시하며 포용력이 있고 묵직합니다.",
-            "en": "You are 'Earth'. You value trust, are inclusive, and reliable.",
-            "fr": "Vous êtes la 'Terre'. Vous valorisez la confiance, êtes inclusif et fiable.",
-            "es": "Eres 'Tierra'. Valoras la confianza, eres inclusivo y confiable.",
-            "ja": "あなたは「土」です。信用を重んじ、包容力があり、頼りになります。",
-            "zh": "你是‘土’。重视信用，具有包容力且稳重。"
+            "ko": "당신은 만물을 품고 길러내는 어머니 같은 '흙(Earth)'의 기운을 타고났습니다. 광활한 대지처럼 넓은 포용력과 중후한 매력을 지니고 있으며, 신용을 목숨처럼 중시하여 주변 사람들로부터 깊은 신뢰를 받는 '중재자'입니다. 매사에 서두르지 않고 묵직하게 자리를 지키는 안정감을 바탕으로 조직의 중심을 잡는 역할을 탁월하게 수행합니다. 다만, 생각이 너무 깊어 때로는 결단이 늦어지거나 변화를 두려워하는 보수적인 면도 있지만, 한 번 결심한 일은 끝까지 밀고 나가는 끈기는 누구도 따라올 수 없는 당신만의 강력한 무기입니다.",
+            "en": "You embody the essence of 'Earth,' the nurturing force that embraces and fosters all life. Much like the vast and steady ground, you possess immense inclusivity and a dignified presence. You value trust above all else, acting as a reliable 'mediator' who earns deep respect from those around you. With your calm and grounded nature, you excel at being the stabilizing force in any organization. While your deep contemplation may sometimes lead to slow decision-making or a resistance to change, your unparalleled perseverance in following through on your commitments is a powerful weapon that no one else can match.",
+            "fr": "Vous incarnez l'essence de la 'Terre', la force nourricière qui embrasse et favorise toute vie. Tout comme le sol vaste et stable, vous possédez une immense inclusivité et une présence digne. Vous valorisez la confiance avant tout, agissant comme un 'médiateur' fiable qui gagne le respect profond de son entourage. Grâce à votre nature calme et ancrée, vous excellez à être la force stabilisatrice de toute organisation. Bien que votre profonde réflexion puisse parfois mener à une prise de décision lente, votre persévérance inégalée à respecter vos engagements est une arme puissante que nul autre ne peut égaler.",
+            "es": "Encarnas la esencia de la 'Tierra', la fuerza nutritiva que abraza y fomenta toda la vida. Al igual que el suelo vasto y estable, posees una inmensa inclusividad y una presencia digna. Valoras la confianza por encima de todo, actuando como un 'mediador' confiable que se gana el respeto profundo de quienes lo rodean. Con tu naturaleza tranquila y centrada, destacas por ser la fuerza estabilizadora en cualquier organización. Aunque tu profunda reflexión a veces puede llevarte a tomar decisiones lentas, tu perseverancia inigualable para cumplir tus compromisos es un arma poderosa que nadie más puede igualar.",
+            "ja": "あなたは万物を包み込み、育てる母なる「土（Earth）」の気運を持って生まれました。広大な大地のように広い包容力と重厚な魅力を持ち、信用を何よりも重んじるため、周囲から深い信頼を得る「仲裁者」です。何事にも急がず、どっしりと構える安定感を活かし、組織の中心を守る役割を卓越して果たします。考えが深すぎて時に決단이 늦어지거나、変化を恐れる保守的な面もありますが、一度決心したことを最後までやり遂げる忍耐強さは、誰にも真似できないあなただけの強力な武器です。",
+            "zh": "你命中带有‘土’的基因，象征着孕育万物、厚德载物的母性力量。正如广袤无垠的大地，你拥有极强的包容力和稳重的魅力。你视信用如生命，是深受周围人信赖的‘协调者’。凭借不急不躁、处变不惊的定力，你在团队中始终扮演着中流砥柱的角色。虽然深思熟虑有时会导致决策稍慢，或表现出畏惧改变的保守倾向，但那种一旦下定决心便绝不言弃的韧性，是你通往成功最强大的武器。"
         },
         "Metal": {
             "ko": "당신은 '쇠(Metal)'입니다. 결단력이 있고 의리가 있으며 냉철합니다.",
