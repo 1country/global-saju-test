@@ -19,15 +19,15 @@ UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (배경 변경 및 라벨 가독성 개선)
+# 2. 스타일 설정 (글자 크기 UP, 테두리 추가, 쓸모없는 박스 제거)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* ✨ 배경 변경: 웨딩/파티/중요한 날 테마 + 가독성을 위한 어두운 오버레이 */
+        /* ✨ 배경: 웨딩/파티 테마 */
         .stApp {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
             url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop");
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #f8fafc;
@@ -39,70 +39,86 @@ st.markdown("""
         
         /* 메인 타이틀 */
         .main-title {
-            font-size: 2.5em; font-weight: 800; color: #f472b6; text-align: center; margin-bottom: 10px;
-            font-family: 'Gowun Batang', serif; text-shadow: 0 0 15px rgba(244, 114, 182, 0.8);
+            font-size: 3.5em; font-weight: 800; color: #fce7f3; text-align: center; margin-bottom: 20px;
+            font-family: 'Gowun Batang', serif; 
+            text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* 글자 테두리 효과 */
+        }
+        .sub-title {
+            text-align: center; color: #e2e8f0; font-size: 1.5em; margin-bottom: 40px; font-weight: bold;
+            text-shadow: 2px 2px 4px #000;
         }
 
-        /* 입력창 컨테이너 스타일 */
-        .input-container {
-            background-color: rgba(15, 23, 42, 0.85); /* 글자가 잘 보이도록 진한 배경 */
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #475569;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
-        }
-
-        /* 🌟 [핵심 수정] 입력창 위 작은 글씨(라벨) 가독성 확보 */
+        /* 🌟 [핵심 수정] 입력창 라벨(질문) 스타일: 박스 없이 글자만 강조 */
         .stSelectbox label p, .stDateInput label p {
-            color: #ffffff !important; /* 무조건 흰색 */
-            font-weight: 700 !important;
-            font-size: 1.2em !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,1.0) !important; /* 진한 검은 그림자 */
+            color: #ffffff !important;         /* 글자색 흰색 */
+            font-size: 1.8rem !important;      /* 글자 크기 대폭 확대 */
+            font-weight: 900 !important;       /* 두께 아주 두껍게 */
+            /* 글자 테두리(Stroke) 효과 - 배경이 뭐든 무조건 잘 보임 */
+            text-shadow: 
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                2px 2px 5px rgba(0,0,0,0.8); 
+            margin-bottom: 10px;
         }
         
-        /* 드롭다운 및 입력창 내부 텍스트 */
+        /* 입력창(Selectbox, DateInput) 내부 디자인 */
         div[data-baseweb="select"] > div, div[data-baseweb="input"] {
-            background-color: #1e293b !important;
-            color: white !important;
-            border-color: #475569 !important;
+            background-color: rgba(255, 255, 255, 0.9) !important; /* 약간 투명한 흰색 배경 */
+            color: #1e293b !important; /* 입력 글자는 진한 남색 */
+            font-size: 1.2rem !important; /* 입력 글자도 키움 */
+            border: 2px solid #f472b6 !important; /* 테두리 핑크색 */
+            border-radius: 10px !important;
+            height: 50px !important; /* 입력창 높이 키움 */
+            display: flex; align-items: center;
+        }
+        
+        /* 버튼 스타일 */
+        .stButton button {
+            font-size: 1.5rem !important;
+            font-weight: bold !important;
+            padding: 15px !important;
+            height: auto !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         /* 결과 카드 스타일 */
         .rec-card {
-            background: rgba(30, 41, 59, 0.95); border: 1px solid #f472b6; padding: 20px;
-            border-radius: 15px; margin-bottom: 15px; text-align: center;
-            box-shadow: 0 4px 15px rgba(244, 114, 182, 0.2);
-            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 255, 0.95); /* 흰색 카드 */
+            border: 3px solid #f472b6; 
+            padding: 25px;
+            border-radius: 20px; 
+            margin-bottom: 20px; 
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            color: #334155; /* 결과 글자색은 어둡게 */
         }
-        .rec-rank { font-size: 1.5em; font-weight: bold; color: #f472b6; width: 15%; }
-        .rec-date { font-size: 1.5em; font-weight: bold; color: #f8fafc; width: 50%; text-align: left;}
-        .rec-star { font-size: 1.2em; text-shadow: 0 0 5px #fbbf24; width: 35%; text-align: right; }
+        .rec-rank { font-size: 2em; margin-bottom:10px; display:block;}
+        .rec-date { font-size: 2em; font-weight: 800; color: #be185d; display:block; margin-bottom: 5px;}
+        .rec-star { font-size: 1.5em; color: #f59e0b; display:block;}
         
-        @media (max-width: 600px) {
-            .rec-card { flex-direction: column; text-align: center; }
-            .rec-rank, .rec-date, .rec-star { width: 100%; text-align: center; margin-bottom: 5px; }
-        }
-
         /* 상단 조언 박스 */
         .advice-box {
-            background-color: rgba(244, 114, 182, 0.1);
-            border: 1px solid #f472b6;
-            color: #fce7f3;
-            padding: 20px;
-            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
+            border: 2px solid #f472b6;
+            color: #fff;
+            padding: 25px;
+            border-radius: 15px;
             text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
-        /* 잠금 오버레이 스타일 */
+        /* 잠금 오버레이 */
         .lock-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); display: flex; flex-direction: column;
+            background: rgba(0,0,0,0.85); display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            border-radius: 15px; z-index: 10;
+            border-radius: 15px; z-index: 10; padding: 20px;
         }
     </style>
 """, unsafe_allow_html=True)
