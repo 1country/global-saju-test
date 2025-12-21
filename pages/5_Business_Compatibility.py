@@ -2,73 +2,123 @@ import streamlit as st
 import streamlit.components.v1 as components
 import requests
 from datetime import date
+import os
+# utils.py 파일이 같은 폴더에 있어야 합니다.
 from utils import calculate_day_gan
 
 # ----------------------------------------------------------------
 # 1. 페이지 설정
 # ----------------------------------------------------------------
-st.set_page_config(page_title="Business Compatibility", page_icon="💼", layout="wide")
+st.set_page_config(page_title="Business Compatibility | The Element", page_icon="💼", layout="wide")
+
+if 'lang' not in st.session_state:
+    st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
+lang = st.session_state['lang']
 
 # 🔑 [키 설정]
 UNLOCK_CODE = "MASTER2026"
-
-# (1) 이 페이지 전용 상품 (3회 제한) - 소문자 유지
 PRODUCT_PERMALINK_SPECIFIC = "business_compatibility" 
-# (2) 만능 패스 상품 (10회 제한) - 하이픈/언더바 주의 (Gumroad와 일치시킬 것)
 PRODUCT_PERMALINK_ALL = "all-access_pass" 
-
-# 구매 링크
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/business_compatibility"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
+# ----------------------------------------------------------------
+# 2. 스타일 설정 (가독성 - 다크 모드 테마)
+# ----------------------------------------------------------------
 st.markdown("""
     <style>
-        .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
-            url("https://img.freepik.com/free-vector/hand-drawn-korean-traditional-pattern-background_23-2149474585.jpg");
-            background-size: cover; background-attachment: fixed; background-position: center;
-        }
-        .main-header {font-size: 2.2em; font-weight: bold; color: #1e3a8a; margin-bottom: 10px; text-align: center;}
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        .report-container {
-            background-color: white; padding: 50px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(30, 58, 138, 0.15); border: 1px solid #dbeafe;
+        /* 배경 및 전체 폰트 색상 */
+        .stApp {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
+            url("https://img.freepik.com/free-photo/business-partners-shaking-hands-global-corporate_53876-102575.jpg");
+            background-size: cover; background-attachment: fixed; background-position: center;
+            color: #f8fafc;
         }
+        
+        section[data-testid="stSidebar"] { background-color: #0f172a !important; border-right: 1px solid #334155; }
+        section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
+
+        .main-header {
+            font-size: 2.5em; font-weight: 800; color: #60a5fa; margin-bottom: 10px; text-align: center;
+            font-family: 'Gowun Batang', serif; text-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+        }
+        
+        /* 입력 컨테이너 */
+        .input-container {
+            background-color: rgba(15, 23, 42, 0.9);
+            padding: 25px; border-radius: 15px; border: 1px solid #475569;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5); margin-bottom: 20px;
+        }
+        .stSelectbox label p, .stDateInput label p, .stTextInput label p {
+            color: #ffffff !important; font-weight: bold !important; font-size: 1.1em !important;
+        }
+
+        /* 리포트 컨테이너 */
+        .report-container {
+            background-color: rgba(30, 41, 59, 0.95); padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); border: 1px solid #60a5fa;
+            color: #e2e8f0;
+        }
+        
+        .score-display {
+            text-align: center; font-size: 3.5em; font-weight: bold; color: #60a5fa; margin: 20px 0;
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+        }
+
         .section-box {
-            margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px dashed #93c5fd;
+            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed #475569;
         }
         .section-box:last-child { border-bottom: none; }
         
         .section-title {
-            font-size: 1.5em; font-weight: bold; color: #1e40af; margin-bottom: 20px; 
-            display: flex; align-items: center; border-left: 5px solid #2563eb; padding-left: 15px;
+            font-size: 1.4em; font-weight: bold; color: #93c5fd; margin-bottom: 15px; 
+            display: flex; align-items: center; border-left: 4px solid #3b82f6; padding-left: 10px;
         }
-        .content-text { font-size: 1.1em; line-height: 1.9; color: #334155; text-align: justify; letter-spacing: -0.02em; }
-        .score-display { text-align: center; font-size: 3.5em; font-weight: bold; color: #1e3a8a; margin: 30px 0; }
+        .content-text { font-size: 1.1em; line-height: 1.8; color: #cbd5e1; text-align: justify; }
         
+        /* 사용자 카드 (명함 스타일) */
         .user-card {
-            background: #eff6ff; padding: 20px; border-radius: 15px; border: 1px solid #bfdbfe;
-            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: linear-gradient(135deg, #1e293b, #0f172a); 
+            padding: 20px; border-radius: 12px; border: 1px solid #334155;
+            text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
+        .user-role { color: #94a3b8; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
+        .user-name { font-size: 1.6em; font-weight: bold; color: #f8fafc; margin: 5px 0; }
+        .user-elem { font-size: 1.2em; color: #60a5fa; font-weight: bold; }
+
         .vs-badge {
             display: flex; justify-content: center; align-items: center; 
-            font-size: 2em; font-weight: bold; color: #2563eb; height: 100%;
+            font-size: 2.5em; font-weight: bold; color: #f472b6; height: 100%;
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
         }
     </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
-# 2. 사이드바
+# 3. 사이드바 (언어 설정)
 # ----------------------------------------------------------------
 with st.sidebar:
-    st.title("Settings")
-    lang_opt = st.radio("Language", ["English", "한국어"])
-    lang = "ko" if "한국어" in lang_opt else "en"
+    st.header("Settings")
+    lang_map = {"ko": "한국어", "en": "English", "fr": "Français", "es": "Español", "ja": "日本語", "zh": "中文"}
+    st.info(f"Language: **{lang_map.get(lang, 'English')}**")
+    
+    c1, c2, c3 = st.columns(3)
+    if c1.button("🇺🇸 EN"): st.session_state['lang']='en'; st.rerun()
+    if c2.button("🇰🇷 KO"): st.session_state['lang']='ko'; st.rerun()
+    if c3.button("🇫🇷 FR"): st.session_state['lang']='fr'; st.rerun()
+    c4, c5, c6 = st.columns(3)
+    if c4.button("🇪🇸 ES"): st.session_state['lang']='es'; st.rerun()
+    if c5.button("🇯🇵 JA"): st.session_state['lang']='ja'; st.rerun()
+    if c6.button("🇨🇳 ZH"): st.session_state['lang']='zh'; st.rerun()
+
     st.markdown("---")
-    if st.button("👈 Home"): st.switch_page("Home.py")
+    if st.button("🏠 Home", use_container_width=True):
+        st.switch_page("Home.py")
 
 # ----------------------------------------------------------------
-# 3. 비즈니스 리포트 데이터
+# 4. 데이터 및 리포트 (6개 국어)
 # ----------------------------------------------------------------
 def get_biz_report(u_elem, p_elem, lang):
     relations = {
@@ -78,133 +128,305 @@ def get_biz_report(u_elem, p_elem, lang):
         "Metal": {"Metal": "Same", "Water": "Output", "Wood": "Wealth", "Fire": "Power", "Earth": "Resource"},
         "Water": {"Water": "Same", "Wood": "Output", "Fire": "Wealth", "Earth": "Power", "Metal": "Resource"}
     }
-    rel = relations[u_elem][p_elem]
+    # 5행 오류 방지를 위한 Fallback
+    rel = relations.get(u_elem, {}).get(p_elem, "Same")
     
-    # 🌟 호칭 설정
-    if lang == "ko":
-        me_str = "당신"
-        pt_str = "상대방"
-    else:
-        me_str = "You"
-        pt_str = "Your Partner"
-
-    # 🌟 리포트 내용 (축약됨, 실제 사용시에는 이전의 긴 텍스트 사용)
+    # 6개 국어 리포트 데이터
     reports = {
         "Same": { 
             "score": 80,
             "ko": {
-                "title": "🤝 어깨를 나란히 하는 '공동 대표' 스타일",
-                "synergy": "두 사람은 비즈니스 파트너로서 아주 대등한 관계입니다. 서로의 능력, 야망, 추진력이 비슷하여 '의기투합'하기에 최적입니다. 창업 초기에는 누구보다 든든한 동지가 되어주며, 시너지 효과가 폭발합니다. 마치 형제처럼 서로를 밀어주고 끌어주는 강력한 '원팀(One Team)'이 될 수 있습니다.",
-                "finance": "수익 배분(Share)이 가장 중요한 이슈입니다. 둘 다 욕심이 있고 계산이 빠르기 때문에, 이익 배분이 불투명하면 바로 갈등으로 이어집니다. '좋은 게 좋은 거지'라는 식의 주먹구구식 운영은 절대 금물입니다. 계약서에 지분율과 역할 분담을 명확히 명시해야 합니다.",
-                "conflict": "의견 충돌이 발생하면 누구도 굽히지 않아 '치킨 게임'으로 갈 수 있습니다. 자존심 싸움이 비즈니스를 망칠 수 있으니 주의해야 합니다. 특히 회사가 커질수록 주도권 싸움이 치열해질 수 있습니다.",
-                "role": "두 분 모두 '공동 대표' 직함이 어울립니다. 혹은 한 명이 대외 영업(CEO)을 맡고, 다른 한 명이 내부 관리(COO)를 맡는 식으로 영역을 완전히 분리하는 것이 좋습니다.",
-                "advice": "1. **계약서 필수:** 수익 배분, 지분율, 출구 전략(Exit Plan)까지 문서화하세요.\n2. **영역 분리:** 서로 간섭하지 않는 고유 업무 영역을 정하세요.\n3. **경쟁심 활용:** 서로를 자극제로 삼아 선의의 경쟁을 하세요."
+                "title": "🤝 어깨를 나란히 하는 '공동 대표' (Friends & Rivals)",
+                "synergy": "두 사람은 비즈니스 파트너로서 아주 대등한 관계입니다. 서로의 야망과 추진력이 비슷하여 창업 초기 폭발적인 시너지를 냅니다. 마치 형제처럼 서로를 밀어주는 강력한 '원팀'이 될 수 있습니다.",
+                "finance": "수익 배분(Share)이 가장 중요합니다. 둘 다 계산이 빠르기 때문에 배분이 불투명하면 즉시 갈등이 생깁니다. 모든 것을 문서화하세요.",
+                "role": "공동 대표 (Co-CEO) 또는 영업(CEO) vs 운영(COO) 분리",
+                "advice": "1. 계약서에 지분율을 명확히 하세요.\n2. 서로의 영역을 침범하지 마세요.\n3. 선의의 경쟁을 즐기세요."
             },
             "en": {
-                "title": "🤝 Equal Partners: Co-Founders with Strong Synergy",
-                "synergy": "You are equals in business. Your ambition and drive align perfectly, creating explosive synergy in the early stages. You act like brothers in arms, pushing each other forward as a powerful 'One Team'.",
-                "finance": "Profit sharing is the critical issue. Ambiguity in finances will lead to immediate conflict. Avoid handshake deals; clearly document equity and profit distribution in a contract.",
-                "conflict": "Ego clashes are the biggest risk. Neither of you likes to back down, which can lead to a stalemate. Power struggles may arise as the company grows.",
-                "role": "Both suit the 'Co-CEO' title. Alternatively, split roles completely: one handles external sales (CEO), the other internal operations (COO).",
-                "advice": "1. **Contracts are Vital:** Document everything, including exit strategies.\n2. **Separate Domains:** Define distinct areas of responsibility.\n3. **Healthy Competition:** Use your rivalry to fuel growth."
+                "title": "🤝 Equal Partners: Co-Founders",
+                "synergy": "You are equals. Your ambition aligns perfectly, creating explosive synergy in early stages. You act like brothers in arms, pushing each other forward.",
+                "finance": "Profit sharing is critical. Ambiguity leads to conflict. Document equity and distribution clearly.",
+                "role": "Co-CEO or Split Roles (Sales vs Ops)",
+                "advice": "1. Clarify equity in contracts.\n2. Define distinct responsibilities.\n3. Use rivalry to fuel growth."
+            },
+            "fr": {
+                "title": "🤝 Partenaires Égaux : Cofondateurs",
+                "synergy": "Vous êtes des égaux. Votre ambition s'aligne parfaitement. Vous agissez comme des frères d'armes.",
+                "finance": "Le partage des profits est critique. L'ambiguïté mène au conflit. Documentez tout.",
+                "role": "Co-PDG ou Rôles séparés",
+                "advice": "1. Clarifiez l'équité par contrat.\n2. Définissez les responsabilités.\n3. Utilisez la rivalité positivement."
+            },
+            "es": {
+                "title": "🤝 Socios Iguales: Cofundadores",
+                "synergy": "Son iguales. Su ambición se alinea perfectamente. Actúan como hermanos de armas.",
+                "finance": "El reparto de beneficios es crítico. La ambigüedad lleva al conflicto. Documenten todo.",
+                "role": "Co-CEO o Roles separados",
+                "advice": "1. Aclare la equidad en contratos.\n2. Defina responsabilidades.\n3. Use la rivalidad para crecer."
+            },
+            "ja": {
+                "title": "🤝 肩を並べる「共同代表」タイプ",
+                "synergy": "二人は対等な関係です。野心と推進力が似ており、創業初期に爆発的なシナジーを生み出します。",
+                "finance": "利益配分が最も重要です。曖昧さは対立を招きます。全てを文書化してください。",
+                "role": "共同代表 (Co-CEO) または役割分担",
+                "advice": "1. 契約書で持分を明確にする。\n2. 互いの領域を侵さない。\n3. 善意の競争を楽しむ。"
+            },
+            "zh": {
+                "title": "🤝 旗鼓相当的“联合创始人”",
+                "synergy": "你们是平等的商业伙伴。野心和动力完美契合，在创业初期能产生爆发性的协同效应。",
+                "finance": "利益分配至关重要。模糊不清会导致冲突。请务必白纸黑字写清楚。",
+                "role": "联席CEO 或 职责分离",
+                "advice": "1. 在合同中明确股权。\n2. 划清各自的责任领域。\n3. 良性竞争促进成长。"
             }
         },
         "Output": { 
             "score": 90,
             "ko": {
-                "title": "💡 내가 기획하고 파트너가 실현하는 '창조적' 관계",
-                "synergy": f"{me_str}이 아이디어와 비전을 제시하면, {pt_str}이 그것을 현실로 만들어주는 관계입니다. 당신은 파트너의 재능을 키워주고, 파트너는 당신의 비전을 따릅니다. R&D, 디자인, 마케팅 등 창의성이 필요한 분야에서 최고의 궁합을 자랑합니다. 당신은 '투자자'나 '기획자'의 포지션, 파트너는 '기술자'나 '실무자' 포지션이 적합합니다.",
-                "finance": "당신이 자금을 대고 파트너가 기술을 대는 형태가 많습니다. 당장의 수익보다는 미래 가치를 보고 투자하는 형국입니다. 파트너의 능력이 발휘될 때까지 당신이 기다려줘야 하는 시간이 필요합니다.",
-                "conflict": "당신은 파트너가 답답해 보일 수 있고, 파트너는 당신의 요구사항이 너무 많다고 느낄 수 있습니다. '잔소리'가 심해지면 파트너가 의욕을 잃고 떠날 수 있으니 주의해야 합니다.",
-                "role": "**당신: 회장/기획이사 (Visionary)**, **상대방: 사장/개발팀장 (Executor)**. 당신이 판을 깔아주면 파트너가 춤을 추는 구조입니다.",
-                "advice": "1. **믿고 맡기기:** 실무에 너무 깊게 관여하지 마세요.\n2. **보상 체계:** 파트너에게 충분한 인센티브를 제공하여 동기 부여를 하세요.\n3. **인내심:** 성과가 나올 때까지 시간이 걸릴 수 있음을 인지하세요."
+                "title": "💡 기획자와 실행가: 창조적 파트너십",
+                "synergy": "당신(기획자)이 아이디어를 내면 파트너(실행가)가 그것을 현실로 만듭니다. R&D나 디자인 등 창의적인 분야에서 최고의 궁합입니다.",
+                "finance": "당신이 투자하고 파트너가 기술을 대는 형태입니다. 당장의 수익보다 미래 가치를 보고 투자해야 합니다.",
+                "role": "당신: 회장/기획 (Visionary) | 파트너: 사장/개발 (Executor)",
+                "advice": "1. 실무에 너무 깊게 관여하지 마세요.\n2. 파트너에게 충분한 인센티브를 주세요.\n3. 성과가 나올 때까지 기다려주세요."
             },
             "en": {
-                "title": "💡 Creative Duo: You Envision, They Execute",
-                "synergy": "You provide the vision and ideas; your partner turns them into reality. Excellent for R&D, design, or marketing. You are the 'Investor' or 'Planner', while they are the 'Technician' or 'Doer'.",
-                "finance": "Often, you provide capital, and they provide skills. You invest in future value rather than immediate profit. Patience is required until their skills bear fruit.",
-                "conflict": "You might find them slow; they might find you demanding. excessive micromanagement can demotivate your partner.",
-                "role": "**You: Chairman/Visionary**, **Partner: CEO/Executor**. You set the stage, and they perform.",
-                "advice": "1. **Trust Them:** Don't micromanage execution.\n2. **Incentives:** Motivate them with proper rewards.\n3. **Patience:** Understand that results may take time."
+                "title": "💡 Visionary & Executor: Creative Duo",
+                "synergy": "You provide the vision; your partner turns it into reality. Excellent for R&D, design, or marketing.",
+                "finance": "You invest capital; they invest skill. Look for future value rather than immediate profit.",
+                "role": "You: Visionary/Chairman | Partner: Executor/CEO",
+                "advice": "1. Don't micromanage execution.\n2. Incentivize them well.\n3. Be patient for results."
+            },
+            "fr": {
+                "title": "💡 Visionnaire & Exécutant",
+                "synergy": "Vous apportez la vision, votre partenaire la réalise. Excellent pour la R&D ou le design.",
+                "finance": "Vous investissez le capital, eux la compétence. Visez la valeur future.",
+                "role": "Vous: Visionnaire | Partenaire: Exécutant",
+                "advice": "1. Ne microgérez pas.\n2. Donnez des incitations.\n3. Soyez patient."
+            },
+            "es": {
+                "title": "💡 Visionario & Ejecutor",
+                "synergy": "Tú aportas la visión; tu socio la hace realidad. Excelente para I+D o diseño.",
+                "finance": "Tú inviertes capital; ellos habilidad. Busca valor futuro.",
+                "role": "Tú: Visionario | Socio: Ejecutor",
+                "advice": "1. No microgestiones.\n2. Incentiva bien.\n3. Ten paciencia."
+            },
+            "ja": {
+                "title": "💡 企画者と実行者：創造的パートナー",
+                "synergy": "あなたがビジョンを提示し、パートナーがそれを現実にします。R&Dやデザイン分野で最高です。",
+                "finance": "あなたが資金を、パートナーが技術を提供する形です。目先の利益より未来の価値を見てください。",
+                "role": "あなた：会長/企画 | パートナー：社長/開発",
+                "advice": "1. 実務に干渉しすぎない。\n2. 十分なインセンティブを与える。\n3. 結果が出るまで待つ。"
+            },
+            "zh": {
+                "title": "💡 策划者与执行者：创意搭档",
+                "synergy": "你提供愿景，伙伴将其变为现实。非常适合研发、设计或营销领域。",
+                "finance": "你出资，对方出力。看重未来价值而非眼前利益。",
+                "role": "你：董事长/策划 | 伙伴：CEO/执行",
+                "advice": "1. 不要微观管理。\n2. 给予充分的激励。\n3. 耐心等待结果。"
             }
         },
         "Wealth": {
             "score": 85,
             "ko": {
-                "title": "💰 내가 리드하고 관리하는 '오너와 경영인' 관계",
-                "synergy": f"{me_str}이 주도권을 쥐고 {pt_str}를 관리하는 관계입니다. 파트너는 당신에게 실질적인 이익(돈)을 가져다주는 존재입니다. 당신의 경영 능력과 파트너의 실무 능력이 결합하여 높은 수익을 창출할 수 있습니다. 비즈니스의 목적이 '이윤 추구'라면 가장 이상적인 배치입니다.",
-                "finance": "재물운이 가장 좋습니다. 파트너가 열심히 일해서 벌어온 돈을 당신이 관리하고 불리는 형국입니다. 자금의 흐름을 당신이 꽉 쥐고 있어야 회사가 안정적으로 돌아갑니다.",
-                "conflict": "당신이 파트너를 너무 부리려 하거나, 성과를 독차지하려 할 때 문제가 생깁니다. 파트너가 '나는 일만 하는 기계인가?'라는 불만을 가질 수 있습니다. 인간적인 존중이 결여되면 파트너는 경쟁사로 이직하거나 당신의 노하우를 가지고 독립할 수 있습니다.",
-                "role": "**당신: CEO/오너 (Owner)**, **상대방: 영업이사/CFO (Manager)**. 당신이 지시하고 파트너가 따르는 수직적인 구조가 효율적입니다.",
-                "advice": "1. **확실한 보상:** 파트너가 벌어온 만큼 확실하게 금전적으로 보상하세요.\n2. **인격적 대우:** 상하 관계가 아니라 비즈니스 파트너로서 존중하세요.\n3. **권한 위임:** 믿을 수 있는 범위 내에서는 전결권을 주세요."
+                "title": "💰 오너와 전문경영인: 이익 추구형",
+                "synergy": "당신이 주도권을 쥐고 파트너를 관리합니다. 파트너는 실질적인 돈을 벌어옵니다. 이윤 추구가 목적이라면 가장 이상적입니다.",
+                "finance": "재물운 최상. 파트너가 번 돈을 당신이 관리합니다. 자금 흐름을 꽉 쥐고 있어야 합니다.",
+                "role": "당신: 오너 (Owner) | 파트너: 영업/실무 (Manager)",
+                "advice": "1. 성과에 대해 확실히 보상하세요.\n2. 파트너를 인격적으로 존중하세요.\n3. 믿을 수 있는 범위 내에서 권한을 위임하세요."
             },
             "en": {
-                "title": "💰 The Boss & The Asset: Profit-Driven Partnership",
-                "synergy": "You hold the reins and manage the partner. The partner brings you tangible profit. Ideally suited for profit-maximization businesses. Your management skills meet their operational skills.",
-                "finance": "Best financial luck. You manage and multiply the money they earn. Keep a tight grip on cash flow for stability.",
-                "conflict": "Issues arise if you treat them like a machine or hog the credit. Without respect, they might leave with your trade secrets.",
-                "role": "**You: CEO/Owner**, **Partner: Sales Director/Manager**. A vertical structure where you lead and they follow is efficient.",
-                "advice": "1. **Fair Compensation:** Pay them well for their results.\n2. **Respect:** Treat them as a partner, not a subordinate.\n3. **Delegation:** Grant authority within trusted limits."
+                "title": "💰 Owner & Manager: Profit Driven",
+                "synergy": "You hold the reins. The partner brings in the profit. Ideal for profit-maximization businesses.",
+                "finance": "Best financial luck. You manage the money they earn. Keep a grip on cash flow.",
+                "role": "You: Owner | Partner: Manager/Sales",
+                "advice": "1. Pay well for results.\n2. Treat them with respect.\n3. Delegate authority wisely."
+            },
+            "fr": {
+                "title": "💰 Propriétaire & Gestionnaire",
+                "synergy": "Vous tenez les rênes. Le partenaire apporte le profit. Idéal pour maximiser les gains.",
+                "finance": "Meilleure chance financière. Vous gérez l'argent qu'ils gagnent.",
+                "role": "Vous: Propriétaire | Partenaire: Gestionnaire",
+                "advice": "1. Payez bien pour les résultats.\n2. Traitez-les avec respect.\n3. Déléguez sagement."
+            },
+            "es": {
+                "title": "💰 Dueño & Gerente",
+                "synergy": "Tú tienes el control. El socio trae las ganancias. Ideal para maximizar beneficios.",
+                "finance": "Mejor suerte financiera. Tú gestionas el dinero que ganan.",
+                "role": "Tú: Dueño | Socio: Gerente",
+                "advice": "1. Paga bien por resultados.\n2. Trátalos con respeto.\n3. Delega sabiamente."
+            },
+            "ja": {
+                "title": "💰 オーナーと専門経営者：利益追求型",
+                "synergy": "あなたが主導権を握り、パートナーが利益をもたらします。利益追求において最も理想的です。",
+                "finance": "金運最高。パートナーが稼いだお金をあなたが管理します。",
+                "role": "あなた：オーナー | パートナー：営業/実務",
+                "advice": "1. 成果に対して確実に報酬を出す。\n2. パートナーを尊重する。\n3. 賢く権限を委譲する。"
+            },
+            "zh": {
+                "title": "💰 老板与职业经理人：利益驱动",
+                "synergy": "你掌握控制权，伙伴带来利润。最适合追求利润最大化的企业。",
+                "finance": "财运最佳。你管理他们赚来的钱。需紧抓现金流。",
+                "role": "你：老板 | 伙伴：经理/销售",
+                "advice": "1. 按结果给予丰厚回报。\n2. 尊重对方。\n3. 明智地放权。"
             }
         },
         "Power": {
             "score": 75,
             "ko": {
-                "title": "⚖️ 파트너의 원칙과 시스템을 따르는 '안정적' 관계",
-                "synergy": f"{pt_str}가 주도권을 쥐고 {me_str}을 이끌어가는 관계입니다. 혹은 파트너가 당신에게 엄격한 규칙이나 시스템을 요구합니다. 처음에는 답답할 수 있지만, 파트너의 꼼꼼함과 원칙주의가 사업의 리스크를 줄여줍니다. 프랜차이즈 가맹점주(본인)와 본사(파트너)의 관계와 비슷합니다.",
-                "finance": "대박보다는 '안정'을 추구합니다. 파트너가 재무 관리를 하거나 결재권을 가질 때 회사가 탄탄해집니다. 당신이 무리한 투자를 하려 할 때 파트너가 브레이크를 걸어주어 손실을 막아줍니다.",
-                "conflict": "파트너의 간섭이나 지시가 심해지면 당신이 스트레스를 받습니다. '내 사업인데 내 마음대로 못 하나?'라는 반발심이 생길 수 있습니다. 당신의 자율성이 침해받을 때 갈등이 폭발합니다.",
-                "role": "**당신: 홍보/영업 (Face)**, **상대방: CEO/감사 (Controller)**. 당신은 밖에서 뛰고, 파트너는 안에서 살림을 챙기고 규율을 잡아야 합니다.",
-                "advice": "1. **시스템 존중:** 파트너가 만든 규칙을 따르는 것이 이득입니다.\n2. **리스크 관리:** 파트너의 조언은 쓴약이니 귀담아들으세요.\n3. **역할 인정:** 내가 2인자가 되는 것을 두려워하지 마세요."
+                "title": "⚖️ 시스템과 규율: 안정적 성장",
+                "synergy": "파트너가 주도권을 쥐거나 엄격한 원칙을 요구합니다. 답답할 수 있지만 리스크 관리에 탁월합니다. 프랜차이즈 본사(파트너)와 점주(본인) 관계와 비슷합니다.",
+                "finance": "대박보다는 안정을 추구합니다. 파트너가 재무 결재권을 가질 때 회사가 탄탄해집니다.",
+                "role": "당신: 홍보/영업 (Face) | 파트너: CEO/관리 (Controller)",
+                "advice": "1. 파트너의 규칙을 따르는 것이 이득입니다.\n2. 쓴소리를 귀담아 들으세요.\n3. 2인자가 되는 것을 두려워 마세요."
             },
             "en": {
-                "title": "⚖️ Structured Growth: Partner Leads with Discipline",
-                "synergy": "Your partner leads or sets strict rules. It might feel restrictive, but their meticulousness reduces business risks. Think of it as a Franchisee (You) vs. HQ (Partner) relationship.",
-                "finance": "Pursues stability over jackpot hits. Financial health improves when the partner manages the funds. They act as a brake on your risky investments.",
-                "conflict": "Excessive interference causes stress. You might feel your autonomy is violated. Conflict erupts if you feel stifled.",
-                "role": "**You: PR/Sales (Face)**, **Partner: CEO/Auditor (Controller)**. You work the field; they manage the house and rules.",
-                "advice": "1. **Respect the System:** Following their rules pays off.\n2. **Risk Mgmt:** Listen to their 'bitter pill' advice.\n3. **Acceptance:** Don't be afraid to be the number two."
+                "title": "⚖️ Structured Growth: Discipline",
+                "synergy": "Your partner sets strict rules. It feels restrictive but reduces risk. Like a Franchisee (You) vs HQ (Partner).",
+                "finance": "Stability over jackpots. Financial health improves when the partner manages funds.",
+                "role": "You: Face/PR | Partner: Controller/CEO",
+                "advice": "1. Following their rules pays off.\n2. Listen to their advice.\n3. Accept being number two."
+            },
+            "fr": {
+                "title": "⚖️ Croissance Structurée",
+                "synergy": "Votre partenaire fixe des règles strictes. Cela réduit les risques.",
+                "finance": "Stabilité avant tout. La santé financière s'améliore quand ils gèrent.",
+                "role": "Vous: Image/RP | Partenaire: Contrôleur/PDG",
+                "advice": "1. Suivre leurs règles paie.\n2. Écoutez leurs conseils.\n3. Acceptez d'être numéro deux."
+            },
+            "es": {
+                "title": "⚖️ Crecimiento Estructurado",
+                "synergy": "Tu socio establece reglas estrictas. Reduce riesgos. Como Franquiciado (Tú) vs Central (Socio).",
+                "finance": "Estabilidad sobre premios. La salud financiera mejora cuando ellos gestionan.",
+                "role": "Tú: Imagen/RP | Socio: Controlador/CEO",
+                "advice": "1. Seguir sus reglas vale la pena.\n2. Escucha sus consejos.\n3. Acepta ser el número dos."
+            },
+            "ja": {
+                "title": "⚖️ 規律とシステム：安定的成長",
+                "synergy": "パートナーが主導権や厳格な原則を求めます。リスク管理に優れています。",
+                "finance": "一攫千金より安定。パートナーが財務を管理すると会社が強くなります。",
+                "role": "あなた：広報/営業 | パートナー：CEO/管理",
+                "advice": "1. 相手のルールに従うが得。\n2. 苦言に耳を傾ける。\n3. No.2になることを恐れない。"
+            },
+            "zh": {
+                "title": "⚖️ 制度与规范：稳健成长",
+                "synergy": "伙伴制定严格规则。虽受限制但能降低风险。类似加盟商（你）与总部（伙伴）的关系。",
+                "finance": "求稳不求快。伙伴管理资金时财务更健康。",
+                "role": "你：门面/公关 | 伙伴：控制者/CEO",
+                "advice": "1. 遵守规则会有回报。\n2. 听取逆耳忠言。\n3. 接受做二把手。"
             }
         },
         "Resource": {
             "score": 95,
             "ko": {
-                "title": "🍼 든든한 후원자이자 멘토를 만난 '귀인' 관계",
-                "synergy": f"{pt_str}가 {me_str}을 전적으로 믿고 지지해주는 관계입니다. 파트너는 당신의 부족한 점을 채워주고, 노하우를 전수해주며, 심리적인 안정감을 줍니다. 당신은 비즈니스에만 집중할 수 있는 최고의 환경을 얻게 됩니다. 투자자(파트너)와 스타트업 대표(본인)로서 아주 훌륭한 궁합입니다.",
-                "finance": "문서운과 계약운이 좋습니다. 파트너의 도움으로 좋은 계약을 따내거나, 부동산/지식재산권 등 자산을 늘릴 수 있습니다. 당장의 현금 흐름보다 회사의 '브랜드 가치'가 올라갑니다.",
-                "conflict": "당신이 파트너에게 너무 의존하여 나태해질 수 있습니다. 또한, 파트너가 과보호하거나 보수적인 조언만 하여 회사의 성장 속도가 느려질 수 있습니다. '온실 속의 화초'가 되지 않도록 경계해야 합니다.",
-                "role": "**당신: CEO (Operator)**, **상대방: 회장/고문 (Mentor)**. 파트너는 뒤에서 묵묵히 지원하고, 당신이 전면에 나서서 스포트라이트를 받습니다.",
-                "advice": "1. **감사 표현:** 후원자의 도움을 당연하게 여기지 마세요.\n2. **독립성 유지:** 최종 결정은 당신이 내려야 회사가 젊어집니다.\n3. **비전 공유:** 파트너에게 회사의 성장 비전을 자주 브리핑하세요."
+                "title": "🍼 멘토와 후원자: 최고의 서포터",
+                "synergy": "파트너가 당신을 전적으로 믿고 지지해줍니다. 부족한 점을 채워주고 심리적 안정을 줍니다. 투자자(파트너)와 스타트업 대표(본인)로서 훌륭합니다.",
+                "finance": "계약운과 문서운이 좋습니다. 파트너 덕분에 자산을 늘릴 수 있습니다.",
+                "role": "당신: CEO (Operator) | 파트너: 회장/고문 (Mentor)",
+                "advice": "1. 후원을 당연하게 여기지 마세요.\n2. 최종 결정은 당신이 내려야 합니다.\n3. 비전을 자주 공유하세요."
             },
             "en": {
-                "title": "🍼 The Mentor & Protege: Supported Success",
-                "synergy": "Your partner fully trusts and supports you. They fill your gaps and provide stability. Ideally suited for an Investor (Partner) and Startup CEO (You) relationship.",
-                "finance": "Excellent luck with contracts and assets. Brand value grows. You gain assets (IP, Real Estate) with their help.",
-                "conflict": "You might become too dependent or lazy. Their conservative advice could slow down growth. Avoid becoming a 'flower in a greenhouse'.",
-                "role": "**You: CEO (Operator)**, **Partner: Chairman/Mentor (Advisor)**. They support from the shadows; you take the spotlight.",
-                "advice": "1. **Gratitude:** Never take their support for granted.\n2. **Independence:** Make final decisions yourself to keep the company agile.\n3. **Share Vision:** Regularly brief them on the company's growth."
+                "title": "🍼 Mentor & Protege: Full Support",
+                "synergy": "Your partner fully trusts and supports you. Ideal for an Investor (Partner) and CEO (You) relationship.",
+                "finance": "Great luck with contracts and assets. Brand value grows with their help.",
+                "role": "You: CEO | Partner: Mentor/Chairman",
+                "advice": "1. Don't take support for granted.\n2. Make final decisions yourself.\n3. Share your vision regularly."
+            },
+            "fr": {
+                "title": "🍼 Mentor & Protégé",
+                "synergy": "Votre partenaire vous soutient totalement. Idéal pour Investisseur (Eux) et PDG (Vous).",
+                "finance": "Grande chance avec les contrats. La valeur de la marque augmente.",
+                "role": "Vous: PDG | Partenaire: Mentor",
+                "advice": "1. Ne prenez pas le soutien pour acquis.\n2. Décidez vous-même.\n3. Partagez votre vision."
+            },
+            "es": {
+                "title": "🍼 Mentor & Protegido",
+                "synergy": "Tu socio te apoya totalmente. Ideal para Inversor (Ellos) y CEO (Tú).",
+                "finance": "Gran suerte con contratos. El valor de marca crece.",
+                "role": "Tú: CEO | Socio: Mentor",
+                "advice": "1. No des el apoyo por sentado.\n2. Toma decisiones tú mismo.\n3. Comparte tu visión."
+            },
+            "ja": {
+                "title": "🍼 メンターと後援者：最高のサポーター",
+                "synergy": "パートナーがあなたを全面的に支持します。投資家（パートナー）と代表（あなた）として素晴らしい相性です。",
+                "finance": "契約運と資産運が良いです。パートナーのおかげで資産が増えます。",
+                "role": "あなた：CEO | パートナー：会長/顧問",
+                "advice": "1. 支援を当たり前と思わない。\n2. 最終決定は自分でする。\n3. ビジョンを頻繁に共有する。"
+            },
+            "zh": {
+                "title": "🍼 导师与被辅佐者：全力支持",
+                "synergy": "伙伴完全信任并支持你。非常适合投资人（伙伴）与CEO（你）的关系。",
+                "finance": "合同运和资产运极佳。在他们的帮助下品牌价值提升。",
+                "role": "你：CEO | 伙伴：导师/董事长",
+                "advice": "1. 不要把支持视为理所当然。\n2. 自己做最终决定。\n3. 定期分享愿景。"
             }
         }
     }
     
     base_data = reports[rel]
-    data = base_data[lang]
+    # 언어 데이터가 없으면 영어 기본
+    data = base_data.get(lang, base_data['en'])
     
     return {
         "score": base_data["score"],
         "title": data['title'],
         "synergy": data['synergy'],
         "finance": data['finance'],
-        "conflict": data['conflict'],
         "role": data['role'],
         "advice": data['advice']
     }
 
 # ----------------------------------------------------------------
-# 4. 메인 화면 UI
+# 5. UI 텍스트 (6개 국어)
+# ----------------------------------------------------------------
+ui_text = {
+    "ko": {
+        "title": "💼 비즈니스 파트너 궁합", "sub": "동업 성공 전략 및 역할 분담 분석",
+        "p_info_title": "파트너 정보 입력", "p_name": "파트너 이름", "p_dob": "파트너 생년월일", "p_gender": "성별",
+        "lock_title": "🔒 리포트 잠금", "lock_desc": "결제 후 발급받은 키를 입력하세요.", "lock_warn": "⚠️ 사용 횟수가 1회 차감됩니다.",
+        "btn_buy_sp": "💳 단품 구매 ($10)", "btn_buy_all": "🎟️ All-Access ($30)", "btn_unlock": "결과 확인", "btn_print": "🖨️ 인쇄하기",
+        "lbl_syn": "🚀 시너지 (Synergy)", "lbl_fin": "💰 재무 (Finance)", "lbl_rol": "👔 역할 (Role)", "lbl_adv": "💡 조언 (Advice)", "lbl_score": "궁합 점수"
+    },
+    "en": {
+        "title": "💼 Business Compatibility", "sub": "Co-founding Strategy & Role Analysis",
+        "p_info_title": "Partner Info", "p_name": "Partner Name", "p_dob": "Partner DOB", "p_gender": "Gender",
+        "lock_title": "🔒 Report Locked", "lock_desc": "Enter license key to unlock.", "lock_warn": "⚠️ Deducts 1 credit.",
+        "btn_buy_sp": "💳 Single ($10)", "btn_buy_all": "🎟️ All-Access ($30)", "btn_unlock": "Unlock", "btn_print": "🖨️ Print",
+        "lbl_syn": "🚀 Synergy", "lbl_fin": "💰 Finance", "lbl_rol": "👔 Role", "lbl_adv": "💡 Advice", "lbl_score": "Score"
+    },
+    "fr": {
+        "title": "💼 Compatibilité Affaires", "sub": "Stratégie de partenariat",
+        "p_info_title": "Info Partenaire", "p_name": "Nom", "p_dob": "Date de naissance", "p_gender": "Genre",
+        "lock_title": "🔒 Verrouillé", "lock_desc": "Entrez la clé de licence.", "lock_warn": "⚠️ Déduit 1 crédit.",
+        "btn_buy_sp": "💳 Unique ($10)", "btn_buy_all": "🎟️ Tout ($30)", "btn_unlock": "Débloquer", "btn_print": "🖨️ Imprimer",
+        "lbl_syn": "🚀 Synergie", "lbl_fin": "💰 Finance", "lbl_rol": "👔 Rôle", "lbl_adv": "💡 Conseil", "lbl_score": "Score"
+    },
+    "es": {
+        "title": "💼 Compatibilidad de Negocios", "sub": "Estrategia de asociación",
+        "p_info_title": "Info Socio", "p_name": "Nombre", "p_dob": "Fecha nacimiento", "p_gender": "Género",
+        "lock_title": "🔒 Bloqueado", "lock_desc": "Ingrese la clave.", "lock_warn": "⚠️ Deduce 1 crédito.",
+        "btn_buy_sp": "💳 Único ($10)", "btn_buy_all": "🎟️ Todo ($30)", "btn_unlock": "Desbloquear", "btn_print": "🖨️ Imprimir",
+        "lbl_syn": "🚀 Sinergia", "lbl_fin": "💰 Finanzas", "lbl_rol": "👔 Rol", "lbl_adv": "💡 Consejo", "lbl_score": "Puntuación"
+    },
+    "ja": {
+        "title": "💼 ビジネス相性診断", "sub": "共同創業と役割分担の分析",
+        "p_info_title": "パートナー情報", "p_name": "名前", "p_dob": "生年月日", "p_gender": "性別",
+        "lock_title": "🔒 ロック中", "lock_desc": "ライセンスキーを入力。", "lock_warn": "⚠️ 1回分消費します。",
+        "btn_buy_sp": "💳 単品 ($10)", "btn_buy_all": "🎟️ 全て ($30)", "btn_unlock": "解除", "btn_print": "🖨️ 印刷",
+        "lbl_syn": "🚀 シナジー", "lbl_fin": "💰 財務", "lbl_rol": "👔 役割", "lbl_adv": "💡 アドバイス", "lbl_score": "スコア"
+    },
+    "zh": {
+        "title": "💼 商业伙伴合盘", "sub": "合伙策略与角色分配",
+        "p_info_title": "伙伴信息", "p_name": "姓名", "p_dob": "出生日期", "p_gender": "性别",
+        "lock_title": "🔒 已锁定", "lock_desc": "输入许可密钥。", "lock_warn": "⚠️ 扣除1次额度。",
+        "btn_buy_sp": "💳 单次 ($10)", "btn_buy_all": "🎟️ 通行证 ($30)", "btn_unlock": "解锁", "btn_print": "🖨️ 打印",
+        "lbl_syn": "🚀 协同效应", "lbl_fin": "💰 财务", "lbl_rol": "👔 角色", "lbl_adv": "💡 建议", "lbl_score": "分数"
+    }
+}
+t = ui_text.get(lang, ui_text['en'])
+
+# ----------------------------------------------------------------
+# 6. 메인 로직
 # ----------------------------------------------------------------
 if "user_name" not in st.session_state or "birth_date" not in st.session_state:
-    st.warning("Please enter your info at Home first." if lang == "en" else "⚠️ 홈 화면에서 본인 정보를 먼저 입력해주세요.")
+    st.warning("Please enter your info at Home first.")
     if st.button("Go Home"): st.switch_page("Home.py")
     st.stop()
 
@@ -212,85 +434,32 @@ u_name = st.session_state["user_name"]
 u_dob = st.session_state["birth_date"]
 u_gender = st.session_state.get("gender", "Male")
 
-ui = {
-    "ko": {
-        "title": "💼 비즈니스 파트너 궁합",
-        "sub": "동업을 해도 될까? 역할 분담은? 성공을 위한 전략적 파트너십 분석",
-        "p_info_title": "파트너 정보 입력",
-        "p_name": "파트너 이름",
-        "p_dob": "파트너 생년월일",
-        "p_gender": "파트너 성별",
-        "lock_title": "🔒 비즈니스 리포트 잠금",
-        "lock_desc": "결제 후 발급받은 라이센스 키를 입력하세요.",
-        "lock_warn": "⚠️ 주의: 라이센스 키 사용 횟수가 차감됩니다.",
-        "btn_buy_sp": "💳 단품 구매 ($10 / 3회)",
-        "btn_buy_all": "🎟️ All-Access 패스 구매 ($30 / 10회)",
-        "btn_unlock": "결과 확인하기",
-        "btn_print": "🖨️ 리포트 인쇄하기",
-        "sec_syn": "🚀 파트너십 시너지 (Synergy)",
-        "sec_fin": "💰 재무 & 이익 (Finance)",
-        "sec_con": "⚔️ 잠재적 갈등 (Risk)",
-        "sec_rol": "👔 최적 역할 분담 (Roles)",
-        "sec_adv": "💡 성공을 위한 조언 (Advice)",
-        "score_label": "사업 궁합 점수"
-    },
-    "en": {
-        "title": "💼 Business Compatibility",
-        "sub": "Strategic partnership analysis: Co-founding, Roles, and Success.",
-        "p_info_title": "Partner Information",
-        "p_name": "Partner Name",
-        "p_dob": "Partner DOB",
-        "p_gender": "Partner Gender",
-        "lock_title": "🔒 Report Locked",
-        "lock_desc": "Enter the license key after purchase.",
-        "lock_warn": "⚠️ Warning: This will consume 1 usage credit.",
-        "btn_buy_sp": "💳 Buy Single ($10 / 3 Uses)",
-        "btn_buy_all": "🎟️ Buy All-Access ($30 / 10 Uses)",
-        "btn_unlock": "Unlock Report",
-        "btn_print": "🖨️ Print Report",
-        "sec_syn": "🚀 Partnership Synergy",
-        "sec_fin": "💰 Finance & Profit",
-        "sec_con": "⚔️ Potential Conflict",
-        "sec_rol": "👔 Optimal Roles",
-        "sec_adv": "💡 Strategy for Success",
-        "score_label": "Compatibility Score"
-    }
-}
-t = ui[lang]
-
-# 🌟 팝업창(Dialog) 함수
-@st.dialog("⚠️ Usage Limit Warning")
-def show_limit_warning():
-    st.warning(t['lock_warn'], icon="⚠️")
-    st.write("Checking this result will deduct 1 credit from your license.")
-    if st.button("I Understand & Proceed", type="primary"):
-        st.rerun()
-
 st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=True)
-st.info(f"{t['sub']} (User: {u_name})")
+st.markdown(f"<div style='text-align:center; color:#cbd5e1; margin-bottom:30px;'>{t['sub']}</div>", unsafe_allow_html=True)
 
-# 5. 파트너 정보 입력
-with st.container(border=True):
-    st.subheader(t['p_info_title'])
-    c1, c2 = st.columns(2)
+# 6-1. 입력 컨테이너
+with st.container():
+    st.markdown('<div class="input-container">', unsafe_allow_html=True)
+    st.markdown(f"### {t['p_info_title']}")
+    c1, c2, c3 = st.columns([2, 2, 1])
     with c1:
         p_name = st.text_input(t['p_name'])
-        p_dob = st.date_input(t['p_dob'], min_value=date(1900,1,1), value=date(1985,1,1))
     with c2:
+        p_dob = st.date_input(t['p_dob'], min_value=date(1900,1,1), value=date(1990,1,1))
+    with c3:
         p_gender = st.selectbox(t['p_gender'], ["Male", "Female"])
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# 6. 잠금 및 결제 로직 (Dual Check)
+# 6-2. 잠금 및 결제
 if "unlocked_biz" not in st.session_state: st.session_state["unlocked_biz"] = False
 
 if not st.session_state["unlocked_biz"]:
     st.divider()
-    with st.container(border=True):
-        st.markdown(f"### {t['lock_title']}")
+    with st.container():
+        st.markdown('<div class="input-container" style="text-align:center;">', unsafe_allow_html=True)
+        st.markdown(f"<h3 style='color:#f472b6;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
         st.write(t['lock_desc'])
         
-        if st.button("⚠️ Check Limit Info", type="secondary"):
-            show_limit_warning()
-            
         c1, c2 = st.columns(2)
         with c1: st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC)
         with c2: st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL)
@@ -300,72 +469,101 @@ if not st.session_state["unlocked_biz"]:
         
         if st.button(t['btn_unlock'], type="primary"):
             if not p_name:
-                st.error("Please enter partner's name.")
+                st.error("Please enter partner name.")
             else:
-                # 1. 마스터키 확인
                 if key == UNLOCK_CODE:
                     st.session_state["unlocked_biz"] = True
-                    st.success("Developer Access Granted!")
                     st.rerun()
                 
-                # 2. 검로드 API 확인 (Two-Step Verification)
+                # Gumroad Verify
                 try:
-                    # (A) 먼저 이 페이지 전용 상품인지 확인
-                    response_specific = requests.post(
-                        "https://api.gumroad.com/v2/licenses/verify",
-                        data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}
-                    )
-                    data_specific = response_specific.json()
-                    
-                    if data_specific.get("success"):
-                        # 단품 상품 3회 제한 확인
-                        if data_specific.get("uses", 0) > 3:
-                            st.error(f"🚫 Single License Limit Exceeded ({data_specific.get('uses')}/3)")
-                        else:
-                            st.session_state["unlocked_biz"] = True
-                            st.success("Single License Accepted!")
-                            st.rerun()
+                    # Specific Check
+                    r1 = requests.post("https://api.gumroad.com/v2/licenses/verify",
+                                      data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}).json()
+                    if r1.get("success"):
+                         st.session_state["unlocked_biz"] = True
+                         st.rerun()
                     else:
-                        # (B) 실패했다면, All-Access 패스인지 확인
-                        response_all = requests.post(
-                            "https://api.gumroad.com/v2/licenses/verify",
-                            data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}
-                        )
-                        data_all = response_all.json()
-                        
-                        if data_all.get("success"):
-                            # ✅ All-Access 10회 제한 확인
-                            if data_all.get("uses", 0) > 10:
-                                st.error(f"🚫 All-Access Pass Limit Exceeded ({data_all.get('uses')}/10)")
-                            else:
-                                st.session_state["unlocked_biz"] = True
-                                st.success("All-Access Pass Accepted!")
-                                st.rerun()
+                        # All Access Check
+                        r2 = requests.post("https://api.gumroad.com/v2/licenses/verify",
+                                          data={"product_permalink": PRODUCT_PERMALINK_ALL, "license_key": key}).json()
+                        if r2.get("success"):
+                            st.session_state["unlocked_biz"] = True
+                            st.rerun()
                         else:
-                            st.error("🚫 Invalid License Key (Neither specific nor All-Access)")
-                            
+                            st.error("Invalid License Key")
                 except:
                     st.error("Connection Error")
+
+        st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
-# 7. 결과 리포트
+# 6-3. 결과 리포트
 if st.session_state["unlocked_biz"]:
     st.divider()
     u_info = calculate_day_gan(u_dob)
     p_info = calculate_day_gan(p_dob)
-    report = get_biz_report(u_info['element'], p_info['element'], lang)
     
-    # 대결 구도
-    c1, c2, c3 = st.columns([1, 0.5, 1])
+    # 한자/영문 오행 매핑
+    def map_elem(e):
+        m = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'}
+        return m.get(e, e) # 이미 영어면 그대로
+
+    u_elem_en = map_elem(u_info['element'])
+    p_elem_en = map_elem(p_info['element'])
+
+    report = get_biz_report(u_elem_en, p_elem_en, lang)
+    
+    # (A) 대결 구도 카드
+    c1, c2, c3 = st.columns([1, 0.2, 1])
     with c1:
-        st.markdown(f"""<div class='user-card'><div style='color:#64748b;'>ME ({u_gender})</div><div style='font-size:1.5em; font-weight:bold; color:#1e293b;'>{u_name}</div><div style='font-size:1.2em; color:#2563eb;'>{u_info[lang]} ({u_info['element']})</div></div>""", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class='user-card'>
+            <div class='user-role'>ME ({u_gender})</div>
+            <div class='user-name'>{u_name}</div>
+            <div class='user-elem'>{u_info['element']} ({u_elem_en})</div>
+        </div>
+        """, unsafe_allow_html=True)
     with c2:
         st.markdown("<div class='vs-badge'>🤝</div>", unsafe_allow_html=True)
     with c3:
-        st.markdown(f"""<div class='user-card'><div style='color:#64748b;'>PARTNER ({p_gender})</div><div style='font-size:1.5em; font-weight:bold; color:#1e293b;'>{p_name}</div><div style='font-size:1.2em; color:#2563eb;'>{p_info[lang]} ({p_info['element']})</div></div>""", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class='user-card'>
+            <div class='user-role'>PARTNER ({p_gender})</div>
+            <div class='user-name'>{p_name}</div>
+            <div class='user-elem'>{p_info['element']} ({p_elem_en})</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    # 메인 리포트 (화면 깨짐 방지: 한 줄 처리)
-    html_content = f"""<div class='report-container'><div class='score-display'>{t['score_label']}: {report['score']}</div><h2 style='text-align:center; color:#1e40af; margin-bottom:40px;'>{report['title']}</h2><div class='section-box'><div class='section-title'>{t['sec_syn']}</div><div class='content-text'>{report['synergy']}</div></div><div class='section-box'><div class='section-title'>{t['sec_fin']}</div><div class='content-text'>{report['finance']}</div></div><div class='section-box'><div class='section-title'>{t['sec_con']}</div><div class='content-text'>{report['conflict']}</div></div><div class='section-box' style='background-color:#eff6ff; border:1px solid #bfdbfe;'><div class='section-title'>{t['sec_rol']}</div><div class='content-text' style='font-weight:bold; color:#1e3a8a;'>{report['role']}</div></div><div class='section-box' style='border:none;'><div class='section-title'>{t['sec_adv']}</div><div class='content-text' style='white-space: pre-line; font-weight:bold; color:#1d4ed8;'>{report['advice']}</div></div></div>"""
+    st.write("")
+    
+    # (B) 메인 리포트
+    html_content = f"""
+    <div class='report-container'>
+        <div class='score-display'>{t['lbl_score']}: {report['score']}</div>
+        <h2 style='text-align:center; color:#93c5fd; margin-bottom:40px; border-bottom:1px solid #475569; padding-bottom:20px;'>{report['title']}</h2>
+        
+        <div class='section-box'>
+            <div class='section-title'>{t['lbl_syn']}</div>
+            <div class='content-text'>{report['synergy']}</div>
+        </div>
+        
+        <div class='section-box'>
+            <div class='section-title'>{t['lbl_fin']}</div>
+            <div class='content-text'>{report['finance']}</div>
+        </div>
+        
+        <div class='section-box' style='background-color:rgba(15, 23, 42, 0.5); padding:20px; border-radius:10px;'>
+            <div class='section-title' style='color:#f472b6; border-left-color:#f472b6;'>{t['lbl_rol']}</div>
+            <div class='content-text' style='font-weight:bold; color:#e2e8f0; text-align:center;'>{report['role']}</div>
+        </div>
+        
+        <div style='margin-top:30px;'>
+            <div class='section-title' style='color:#fbbf24; border-left-color:#fbbf24;'>{t['lbl_adv']}</div>
+            <div class='content-text' style='white-space: pre-line; color:#f1f5f9;'>{report['advice']}</div>
+        </div>
+    </div>
+    """
     
     st.markdown(html_content, unsafe_allow_html=True)
     
@@ -373,7 +571,7 @@ if st.session_state["unlocked_biz"]:
     components.html(
         f"""<script>function printParent() {{ window.parent.print(); }}</script>
         <div style="text-align:center;">
-            <button onclick="printParent()" style="background-color:#1e3a8a; color:white; border:none; padding:15px 30px; border-radius:30px; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);">
+            <button onclick="printParent()" style="background-color:#2563eb; color:white; border:none; padding:15px 30px; border-radius:30px; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.5);">
             {t['btn_print']}
             </button>
         </div>""", height=100
