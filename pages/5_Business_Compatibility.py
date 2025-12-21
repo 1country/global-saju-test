@@ -29,12 +29,12 @@ st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* ✨ 배경: 밝은 고층 빌딩 뷰 (새로운 이미지 URL 적용) */
+        /* ✨ 배경: 밝은 고층 빌딩 뷰 */
         .stApp {
             background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95)),
             url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop");
             background-size: cover; background-attachment: fixed; background-position: center;
-            color: #1e293b; /* 기본 글자색: 진한 회색 */
+            color: #1e293b; 
         }
         
         /* 사이드바 */
@@ -543,33 +543,31 @@ if st.session_state["unlocked_biz"]:
     st.write("")
     
     # (B) 메인 리포트
-    # ⚠️ 중요: 아래 HTML 코드는 들여쓰기 없이 왼쪽 끝에 붙여야 정상적으로 보입니다.
-    html_content = f"""
-<div class='report-container'>
-    <div class='score-display'>{t['lbl_score']}: {report['score']}</div>
-    <h2 style='text-align:center; color:#1e40af; margin-bottom:40px; border-bottom:1px solid #e2e8f0; padding-bottom:20px;'>{report['title']}</h2>
-    
-    <div class='section-box'>
-        <div class='section-title'>{t['lbl_syn']}</div>
-        <div class='content-text'>{report['synergy']}</div>
-    </div>
-    
-    <div class='section-box'>
-        <div class='section-title'>{t['lbl_fin']}</div>
-        <div class='content-text'>{report['finance']}</div>
-    </div>
-    
-    <div class='section-box' style='background-color:#f1f5f9; padding:20px; border-radius:10px; border:1px solid #e2e8f0;'>
-        <div class='section-title' style='color:#ec4899; border-left-color:#ec4899;'>{t['lbl_rol']}</div>
-        <div class='content-text' style='font-weight:bold; color:#334155; text-align:center;'>{report['role']}</div>
-    </div>
-    
-    <div style='margin-top:30px;'>
-        <div class='section-title' style='color:#d97706; border-left-color:#d97706;'>{t['lbl_adv']}</div>
-        <div class='content-text' style='white-space: pre-line; color:#1e293b; font-weight:500;'>{report['advice']}</div>
-    </div>
+    # 중요: 아래 문자열에서 HTML 태그 앞의 들여쓰기를 제거했습니다.
+    html_content = f"""<div class='report-container'>
+<div class='score-display'>{t['lbl_score']}: {report['score']}</div>
+<h2 style='text-align:center; color:#1e40af; margin-bottom:40px; border-bottom:1px solid #e2e8f0; padding-bottom:20px;'>{report['title']}</h2>
+
+<div class='section-box'>
+<div class='section-title'>{t['lbl_syn']}</div>
+<div class='content-text'>{report['synergy']}</div>
 </div>
-"""
+
+<div class='section-box'>
+<div class='section-title'>{t['lbl_fin']}</div>
+<div class='content-text'>{report['finance']}</div>
+</div>
+
+<div class='section-box' style='background-color:#f1f5f9; padding:20px; border-radius:10px; border:1px solid #e2e8f0;'>
+<div class='section-title' style='color:#ec4899; border-left-color:#ec4899;'>{t['lbl_rol']}</div>
+<div class='content-text' style='font-weight:bold; color:#334155; text-align:center;'>{report['role']}</div>
+</div>
+
+<div style='margin-top:30px;'>
+<div class='section-title' style='color:#d97706; border-left-color:#d97706;'>{t['lbl_adv']}</div>
+<div class='content-text' style='white-space: pre-line; color:#1e293b; font-weight:500;'>{report['advice']}</div>
+</div>
+</div>"""
     
     st.markdown(html_content, unsafe_allow_html=True)
     
