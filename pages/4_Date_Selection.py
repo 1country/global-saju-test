@@ -19,13 +19,13 @@ UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (강력한 가독성 모드)
+# 2. 스타일 설정 (가독성 끝판왕 버전)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* ✨ 배경: 웨딩/파티 테마 */
+        /* ✨ 배경: 웨딩/파티 테마 (이미지 유지) */
         .stApp {
             background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
             url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop");
@@ -41,45 +41,42 @@ st.markdown("""
         .main-title {
             font-size: 3.5em; font-weight: 800; color: #fce7f3; text-align: center; margin-bottom: 20px;
             font-family: 'Gowun Batang', serif; 
-            text-shadow: 3px 3px 0 #000; /* 제목에도 진한 테두리 */
+            /* 타이틀에도 진한 그림자 */
+            text-shadow: 2px 2px 4px #000000;
         }
         .sub-title {
             text-align: center; color: #fff; font-size: 1.5em; margin-bottom: 40px; font-weight: bold;
-            text-shadow: 2px 2px 4px #000;
+            text-shadow: 2px 2px 4px #000000;
         }
 
-        /* 🚨 [핵심 수정] 질문 라벨(What is your goal? 등) 강제 스타일링 */
-        /* Streamlit의 모든 위젯 라벨을 타겟팅합니다 */
-        div[data-testid="stWidgetLabel"] p {
+        /* 🚨 [최종 수정] 라벨(질문) 글씨만 정확히 타격 🚨 */
+        /* label 태그와 그 안의 p 태그, div 태그를 모두 강제 변환 */
+        .stSelectbox label, .stDateInput label, div[data-testid="stWidgetLabel"] p {
             color: #ffffff !important;          /* 1. 무조건 흰색 */
-            font-size: 24px !important;         /* 2. 글자 크기 대폭 확대 (24px) */
+            font-size: 22px !important;         /* 2. 글자 크기 아주 크게 */
             font-weight: 900 !important;        /* 3. 아주 두껍게 */
             
-            /* 4. 글자 테두리(Stroke) 효과 - 4방향 그림자로 테두리 구현 */
+            /* 4. 글자 외곽선(Stroke) 효과 - 검은색 그림자를 4방향으로 줘서 테두리처럼 보이게 함 */
             text-shadow: 
-                -2px -2px 0 #000,  
-                 2px -2px 0 #000,
-                -2px  2px 0 #000,
-                 2px  2px 0 #000,
-                 3px  3px 5px rgba(0,0,0,0.5) !important;
-                 
-            margin-bottom: 5px !important;
+                -1px -1px 0 #000,  
+                 1px -1px 0 #000,
+                -1px  1px 0 #000,
+                 1px  1px 0 #000,
+                 2px  2px 4px rgba(0,0,0,0.8) !important;
+            
+            background-color: transparent !important; /* 배경색 없음 (글자만 둥둥 뜨게) */
+            margin-bottom: 8px !important;
         }
         
-        /* 입력창(Selectbox, DateInput) 내부 디자인 - 박스 배경을 밝게 */
+        /* 입력창 박스 디자인 (글자가 아니라 박스) */
         div[data-baseweb="select"] > div, 
         div[data-baseweb="input"], 
         div[data-baseweb="base-input"] {
-            background-color: rgba(255, 255, 255, 0.95) !important; /* 거의 불투명한 흰색 배경 */
-            color: #000000 !important; /* 입력 글자는 검정 */
-            font-size: 18px !important; /* 입력 글자 크기 */
+            background-color: rgba(255, 255, 255, 0.95) !important; /* 흰색 배경 */
+            color: #000000 !important; /* 입력되는 글자는 검정 */
+            font-size: 18px !important;
             border: 2px solid #f472b6 !important; /* 핑크색 테두리 */
             border-radius: 12px !important;
-        }
-        
-        /* 드롭다운 메뉴 아이템 */
-        ul[data-baseweb="menu"] li {
-            font-size: 18px !important;
         }
         
         /* 버튼 스타일 */
@@ -88,8 +85,8 @@ st.markdown("""
             font-weight: bold !important;
             padding: 15px 30px !important;
             border-radius: 30px !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             border: 2px solid white !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         /* 결과 카드 스타일 */
@@ -109,7 +106,7 @@ st.markdown("""
         
         /* 상단 조언 박스 */
         .advice-box {
-            background-color: rgba(0, 0, 0, 0.8); /* 진한 배경 */
+            background-color: rgba(0, 0, 0, 0.8);
             border: 2px solid #f472b6;
             color: #fff;
             padding: 25px;
