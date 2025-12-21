@@ -142,7 +142,7 @@ txt = {
         "title": "🧭 운명의 나침반", "sub": "당신의 태어난 순간이 말해주는 운명의 지도를 펼쳐보세요.", "input_h": "👤 사주 정보 입력 (필수)",
         "name": "이름", "birth": "생년월일", "gender": "성별", "time": "태어난 시간", "unknown": "시간 모름", "btn": "✨ 내 운명 확인하기 (Free)", "warn_name": "이름을 입력해주세요.",
         "res_hello": "반갑습니다,", "res_msg": "당신은 <span style='color:#93c5fd; font-weight:bold;'>'{e_name}'</span>의 기운을 타고났습니다.",
-        "menu_h": "💎 프리미엄 운세 스토어", "btn_check": "확인하기 ($10)", "btn_buy": "구매하기 ($30)", "loading": "운명의 지도를 펼치는 중입니다...",
+        "menu_h": "💎 프리미엄 운세 스토어", "btn_check": "확인하기 ($3)", "btn_buy": "구매하기 ($10)", "loading": "운명의 지도를 펼치는 중입니다...",
         "s1_t": "🔮 2026 신년 운세", "s1_d": "2026년의 재물, 연애, 직장운을 미리 봅니다.", "s2_t": "📅 그날의 운세", "s2_d": "면접, 데이트 등 중요한 날의 기운을 확인하세요.",
         "s3_t": "❤️ 사랑 궁합", "s3_d": "그 사람과 나는 천생연분일까?", "s4_t": "📆 택일 (좋은 날짜)", "s4_d": "결혼, 이사, 개업 최고의 날짜.", "s5_t": "🤝 비즈니스 궁합", "s5_d": "성공적인 파트너십을 위한 분석.", "s6_t": "👑 프리패스 (VIP)", "s6_d": "모든 유료 서비스를 한 번에 소장하세요!",
         "icon1_t": "Ancient Wisdom", "icon1_d": "동양의 깊은 명리학적 지혜", "icon2_t": "Modern Insight", "icon2_d": "AI 기술을 결합한 정밀 분석", "icon3_t": "Premium Keys", "icon3_d": "인생의 해답을 여는 마스터 키", "coffee_bottom": "이 서비스가 도움이 되셨나요? 따뜻한 커피 한 잔은 개발자에게 큰 힘이 됩니다! ☕"
@@ -151,7 +151,7 @@ txt = {
         "title": "🧭 The Element: Destiny Map", "sub": "Discover the map of destiny hidden in your birth moment.", "input_h": "👤 Enter Your Details",
         "name": "Name", "birth": "Date of Birth", "gender": "Gender", "time": "Birth Time", "unknown": "Unknown Time", "btn": "✨ Analyze My Destiny (Free)", "warn_name": "Please enter your name.",
         "res_hello": "Hello,", "res_msg": "You are born with the energy of <span style='color:#93c5fd; font-weight:bold;'>'{e_name}'</span>.",
-        "menu_h": "💎 Premium Store", "btn_check": "Check ($10)", "btn_buy": "Buy Pass ($30)", "loading": "Unfolding your destiny map...",
+        "menu_h": "💎 Premium Store", "btn_check": "Check ($3)", "btn_buy": "Buy Pass ($10)", "loading": "Unfolding your destiny map...",
         "s1_t": "🔮 2026 Forecast", "s1_d": "Prepare for 2026. Wealth, Love, and Career.", "s2_t": "📅 Specific Day Forecast", "s2_d": "Check your luck for any specific day.",
         "s3_t": "❤️ Love Compatibility", "s3_d": "Are we a match? Romantic chemistry analysis.", "s4_t": "📆 Date Selection", "s4_d": "Find the most auspicious dates.", "s5_t": "🤝 Business Compatibility", "s5_d": "Analyze professional synergy.", "s6_t": "👑 All-Access Pass", "s6_d": "Unlock EVERYTHING at once.",
         "icon1_t": "Ancient Wisdom", "icon1_d": "Deep Ancient Asian Wisdom", "icon2_t": "Modern Insight", "icon2_d": "Precise Analysis with AI", "icon3_t": "Premium Keys", "icon3_d": "Master Keys to Unlock Destiny", "coffee_bottom": "Did you enjoy the service? A coffee would be a great support! ☕"
@@ -160,7 +160,7 @@ txt = {
         "title": "🧭 La Carte du Destin", "sub": "Découvrez la carte du destin cachée dans votre moment de naissance.", "input_h": "👤 Entrez vos détails",
         "name": "Nom", "birth": "Date de naissance", "gender": "Genre", "time": "Heure de naissance", "unknown": "Heure inconnue", "btn": "✨ Analyser mon destin (Gratuit)", "warn_name": "Veuillez entrer votre nom.",
         "res_hello": "Bonjour,", "res_msg": "Vous êtes né avec l'énergie de <span style='color:#93c5fd; font-weight:bold;'>'{e_name}'</span>.",
-        "menu_h": "💎 Boutique Premium", "btn_check": "Vérifier (10$)", "btn_buy": "Acheter (30$)", "loading": "Déploiement de votre carte du destin...",
+        "menu_h": "💎 Boutique Premium", "btn_check": "Vérifier (3$)", "btn_buy": "Acheter (10$)", "loading": "Déploiement de votre carte du destin...",
         "s1_t": "🔮 Prévisions 2026", "s1_d": "Préparez-vous pour 2026. Richesse, Amour, Carrière.", "s2_t": "📅 Prévisions Quotidiennes", "s2_d": "Vérifiez votre chance pour un jour précis.",
         "s3_t": "❤️ Compatibilité Amoureuse", "s3_d": "Sommes-nous compatibles ?", "s4_t": "📆 Sélection de Date", "s4_d": "Trouvez les dates les plus propices.", "s5_t": "🤝 Compatibilité Professionnelle", "s5_d": "Analysez la synergie professionnelle.", "s6_t": "👑 Pass Tout Accès", "s6_d": "Débloquez TOUT en une fois.",
         "icon1_t": "Sagesse Ancienne", "icon1_d": "Sagesse asiatique profonde", "icon2_t": "Vision Moderne", "icon2_d": "Analyse précise avec l'IA", "icon3_t": "Clés Premium", "icon3_d": "Clés maîtresses pour le destin", "coffee_bottom": "Vous avez aimé le service ? Un café serait un grand soutien ! ☕"
@@ -169,7 +169,7 @@ txt = {
         "title": "🧭 El Mapa del Destino", "sub": "Descubre el mapa del destino oculto en tu momento de nacimiento.", "input_h": "👤 Ingresa tus datos",
         "name": "Nombre", "birth": "Fecha de nacimiento", "gender": "Género", "time": "Hora de nacimiento", "unknown": "Hora desconocida", "btn": "✨ Analizar mi destino (Gratis)", "warn_name": "Por favor ingresa tu nombre.",
         "res_hello": "Hola,", "res_msg": "Naciste con la energía de <span style='color:#93c5fd; font-weight:bold;'>'{e_name}'</span>.",
-        "menu_h": "💎 Tienda Premium", "btn_check": "Ver ($10)", "btn_buy": "Comprar ($30)", "loading": "Desplegando tu mapa del destino...",
+        "menu_h": "💎 Tienda Premium", "btn_check": "Ver ($3)", "btn_buy": "Comprar ($10)", "loading": "Desplegando tu mapa del destino...",
         "s1_t": "🔮 Pronóstico 2026", "s1_d": "Prepárate para 2026. Riqueza, Amor, Carrera.", "s2_t": "📅 Pronóstico Diario", "s2_d": "Revisa tu suerte para cualquier día.",
         "s3_t": "❤️ Compatibilidad Amorosa", "s3_d": "¿Somos compatibles?", "s4_t": "📆 Selección de Fechas", "s4_d": "Encuentra las fechas más auspiciosas.", "s5_t": "🤝 Compatibilidad de Negocios", "s5_d": "Analiza la sinergia profesional.", "s6_t": "👑 Pase de Acceso Total", "s6_d": "Desbloquea TODO a la vez.",
         "icon1_t": "Sabiduría Antigua", "icon1_d": "Profunda sabiduría asiática", "icon2_t": "Visión Moderna", "icon2_d": "Análisis preciso con IA", "icon3_t": "Llaves Premium", "icon3_d": "Llaves maestras para el destino", "coffee_bottom": "¿Te gustó el servicio? ¡Un café sería un gran apoyo! ☕"
@@ -178,7 +178,7 @@ txt = {
         "title": "🧭 運命の羅針盤", "sub": "生まれた瞬間に隠された運命の地図を広げましょう。", "input_h": "👤 情報を入力 (必須)",
         "name": "名前", "birth": "生年月日", "gender": "性別", "time": "出生時間", "unknown": "時間不明", "btn": "✨ 運命を分析する (無料)", "warn_name": "名前を入力してください。",
         "res_hello": "こんにちは、", "res_msg": "あなたは<span style='color:#93c5fd; font-weight:bold;'>「{e_name}」</span>のエネルギーを持って生まれました。",
-        "menu_h": "💎 プレミアムストア", "btn_check": "確認 ($10)", "btn_buy": "購入 ($30)", "loading": "運命の地図を展開中...",
+        "menu_h": "💎 プレミアムストア", "btn_check": "確認 ($3)", "btn_buy": "購入 ($10)", "loading": "運命の地図を展開中...",
         "s1_t": "🔮 2026年の運勢", "s1_d": "2026年の財運、恋愛、仕事運を詳しく分析。", "s2_t": "📅 その日の運勢", "s2_d": "面接やデートなど、特定の日の運気をチェック。",
         "s3_t": "❤️ 恋愛相性", "s3_d": "あの人との相性は？ロマンチックな相性分析。", "s4_t": "📆 択日 (吉日選び)", "s4_d": "結婚、引っ越し、開業に最適な日を見つけます。", "s5_t": "🤝 ビジネス相性", "s5_d": "上司やパートナーとの仕事の相性を分析。", "s6_t": "👑 オールアクセスパス", "s6_d": "すべての有料サービスを一度にアンロック。",
         "icon1_t": "古代の叡智", "icon1_d": "東洋の深い命理学的知恵", "icon2_t": "現代の洞察", "icon2_d": "AI技術を組み合わせた精密分析", "icon3_t": "プレミアムキー", "icon3_d": "人生の答えを開くマスターキー", "coffee_bottom": "サービスは役に立ちましたか？コーヒー一杯の応援をお願いします！☕"
@@ -187,7 +187,7 @@ txt = {
         "title": "🧭 命运指南针", "sub": "探索隐藏在出生时刻的命运地图。", "input_h": "👤 输入您的信息",
         "name": "姓名", "birth": "出生日期", "gender": "性别", "time": "出生时间", "unknown": "时间未知", "btn": "✨ 分析我的命运 (免费)", "warn_name": "请输入您的名字。",
         "res_hello": "你好，", "res_msg": "你生来就带有<span style='color:#93c5fd; font-weight:bold;'>“{e_name}”</span>的能量。",
-        "menu_h": "💎 高级商店", "btn_check": "查看 ($10)", "btn_buy": "购买 ($30)", "loading": "正在展开命运地图...",
+        "menu_h": "💎 高级商店", "btn_check": "查看 ($3)", "btn_buy": "购买 ($10)", "loading": "正在展开命运地图...",
         "s1_t": "🔮 2026年运势", "s1_d": "为2026年做准备。财富、爱情、事业详细分析。", "s2_t": "📅 特定日运势", "s2_d": "查询面试、约会等特定日期的运势。",
         "s3_t": "❤️ 恋爱契合度", "s3_d": "我们合适吗？浪漫化学反应分析。", "s4_t": "📆 择吉日", "s4_d": "寻找结婚、搬家、开业的最佳吉日。", "s5_t": "🤝 商业契合度", "s5_d": "分析职业协同效应和团队合作。", "s6_t": "👑 全通票 (VIP)", "s6_d": "一次性解锁所有服务。",
         "icon1_t": "古老智慧", "icon1_d": "深奥的东方命理智慧", "icon2_t": "现代洞察", "icon2_d": "结合AI技术的精准分析", "icon3_t": "高级钥匙", "icon3_d": "开启命运答案的万能钥匙", "coffee_bottom": "喜欢这项服务吗？一杯咖啡将是巨大的支持！☕"
