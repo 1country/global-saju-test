@@ -98,12 +98,12 @@ def get_interpretation(element, lang):
             "zh": "你命中带有‘木’的基因，象征着万物的起源与勃勃生机。正如向天空伸展的树木，你拥有强大的推动力和进取心，在策划与创新方面天赋异禀。你天性仁慈，富有同情心，能够以温暖的领导力关怀身边的人。虽然你刚正不阿、宁折不弯的性格有时会被认为缺乏灵活性，但这正证明了你那如青松般坚定的信念与正直的品格。"
         },
         "Fire": {
-            "ko": "당신은 '불(Fire)'입니다. 열정적이고 예의가 바르며 표현력이 뛰어납니다.",
-            "en": "You are 'Fire'. You are passionate, polite, and expressive.",
-            "fr": "Vous êtes le 'Feu'. Vous êtes passionné, poli et expressif.",
-            "es": "Eres 'Fuego'. Eres apasionado, educado y expresivo.",
-            "ja": "あなたは「火」です。情熱的で礼儀正しく、表現力が豊かです。",
-            "zh": "你是‘火’。热情、有礼貌且富有表现力。"
+            "ko": "당신은 세상을 밝히고 따뜻하게 만드는 '불(Fire)'의 기운을 타고났습니다. 타오르는 불꽃처럼 뜨거운 열정과 예술적 감각을 지녔으며, 자신의 감정과 생각을 대중 앞에 표현하는 능력이 매우 뛰어납니다. 예의를 중시하고 매사에 명확하고 정직한 태도를 보이며, 특유의 명랑함으로 주변 분위기를 환하게 환기시키는 리더입니다. 다만, 순간적으로 달아올랐다 식는 급한 성미나 감정 기복을 다스리는 지혜가 필요하지만, 당신의 그 폭발적인 에너지는 불가능해 보이는 일도 가능하게 만드는 기적의 원동력입니다.",
+            "en": "You embody the spirit of 'Fire,' bringing light and warmth to the world. Much like a flickering flame, you possess burning passion and keen artistic intuition, with an exceptional ability to express your thoughts and emotions to the public. You value etiquette and maintain a clear, honest attitude in all dealings, acting as a leader who brightens the atmosphere with your natural cheerfulness. While you may need the wisdom to manage an impulsive temper or emotional fluctuations, your explosive energy is the miraculous driving force that makes the impossible possible.",
+            "fr": "Vous incarnez l'esprit du 'Feu', apportant lumière et chaleur au monde. Telle une flamme vacillante, vous possédez une passion ardente et une intuition artistique aiguisée, avec une capacité exceptionnelle à exprimer vos pensées et émotions. Vous valorisez l'étiquette et maintenez une attitude claire et honnête, agissant comme un leader qui illumine l'atmosphère par sa gaieté naturelle. Bien que vous puissiez avoir besoin de sagesse pour gérer un tempérament impulsif, votre énergie explosive est la force motrice miraculeuse qui rend possible l'impossible.",
+            "es": "Encarnas el espíritu del 'Fuego', aportando luz y calidez al mundo. Como una llama ardiente, posees una pasión vibrante y una aguda intuición artística, con una capacidad excepcional para expresar tus pensamientos y emociones ante los demás. Valoras la etiqueta y mantienes una actitud clara y honesta, actuando como un líder que ilumina el ambiente con su alegría natural. Aunque necesites sabiduría para manejar un temperamento impulsivo o cambios emocionales, tu energía explosiva es la fuerza milagrosa que hace que lo imposible sea posible.",
+            "ja": "あなたは世界を照らし、温める「火（Fire）」の気運を持って生まれました。燃え上がる炎のように熱い情熱と芸術的なセンスを持ち、自分の感情や考えを表現する能力に非常に長けています。礼儀を重んじ、何事にも明確で正直な態度を見せ、特有の明るさで周囲の雰囲気を一変させるリーダーです。瞬時に熱くなり冷めやすい短気な面や感情の起伏をコントロールする知恵が必要ですが、その爆発的なエネルギーは不可能に見えることも可能にする奇跡の原動力です。",
+            "zh": "你命中带有‘火’的基因，象征着照亮世界的万丈光芒。正如熊熊燃烧的火焰，你拥有炽热的热情和敏锐 compaction 的艺术直觉，在公开表达情感与思想方面具有卓越的天赋。你极其重视礼仪，为人处事光明磊落，以特有的开朗性格带动周围的气氛。虽然有时需要智慧来克制瞬间爆发的急躁情绪或情感波动，但你那爆发性能量正是化腐朽为神奇、变不可能为可能的强大驱动力。"
         },
         "Earth": {
             "ko": "당신은 '흙(Earth)'입니다. 신용을 중시하며 포용력이 있고 묵직합니다.",
