@@ -84,317 +84,317 @@ def get_relationship_data(user_elem, target_elem, language):
     
     # 데이터베이스 (6개 국어)
     db = {
-        "Same": { # 비견/겁재
-            "ko": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 거울 속의 나를 만나는 날 (자아/경쟁)",
-                "d": "오늘은 당신과 똑같은 에너지가 우주에서 쏟아지는 날입니다. 독립심과 주체성이 폭발하여 누구의 도움 없이도 혼자서 일을 처리해내는 능력이 탁월해집니다. 하지만 '내가 맞고 네가 틀리다'는 고집이 생기기 쉬우니 주의하세요.",
-                "money": "재물운에서는 '탈재(奪財)', 즉 재물을 뺏길 수 있습니다. 친구가 돈을 빌려달라고 하거나 예상치 못한 지출이 생깁니다. 이를 방지하는 최고의 방법은 **먼저 베푸는 것**입니다.",
-                "love": "연애 전선에 '경쟁자'의 그림자가 보입니다. 연인이 있다면 자존심 싸움을 하다가 냉전이 될 수 있습니다. 오늘 당신이 해야 할 일은 딱 하나, **'무조건 져주는 척하기'**입니다.",
-                "health": "에너지가 차고 넘쳐서 문제입니다. 가만히 있으면 몸살이 날 수 있으니 헬스장이나 등산을 가서 에너지를 쏟아내세요.",
-                "action": "1. 주문: '그래, 그럴 수도 있지.' (고집 내려놓기)\n2. 행동: 친구에게 밥 사주기\n3. 주의: 동업 제안이나 돈 거래 금지.",
-                "lucky": "🕶️ 선글라스/거울, 👫 모임 장소"
-            },
-            "en": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 Day of the Mirror: Strong Self & Competition",
-                "d": "Energy identical to yours flows today. Independence creates great ability to work alone, but avoid the stubborn 'I am right, you are wrong' attitude.",
-                "money": "Risk of wealth loss. Prevent this by spending on others first (charity or treating friends). Avoid high-risk investments.",
-                "love": "Rivals may appear. In relationships, avoid ego battles. Your mission today is to 'pretend to lose' to keep the peace.",
-                "health": "Excess energy needs release. Work out vigorously to avoid feeling restless or sick.",
-                "action": "1. Mantra: 'It is what it is.'\n2. Action: Treat a friend to a meal.\n3. Warning: No lending money.",
-                "lucky": "🕶️ Sunglasses/Mirror, 👫 Social Gatherings"
-            },
-            "fr": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 Jour du Miroir : Soi Fort & Compétition",
-                "d": "Une énergie identique à la vôtre circule aujourd'hui. Grande indépendance, mais évitez l'attitude obstinée du 'J'ai raison, tu as tort'.",
-                "money": "Risque de perte financière. Prévenez cela en dépensant d'abord pour les autres (charité ou resto entre amis). Évitez les investissements risqués.",
-                "love": "Des rivaux peuvent apparaître. Évitez les batailles d'ego. Votre mission : 'faire semblant de perdre' pour garder la paix.",
-                "health": "Trop d'énergie. Faites du sport intensément pour ne pas vous sentir agité.",
-                "action": "1. Mantra : 'C'est comme ça.'\n2. Action : Offrir un repas à un ami.\n3. Attention : Ne prêtez pas d'argent.",
-                "lucky": "🕶️ Lunettes de soleil/Miroir, 👫 Rassemblements"
-            },
-            "es": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 Día del Espejo: Yo Fuerte y Competencia",
-                "d": "Hoy fluye energía idéntica a la tuya. Gran independencia, pero evita la actitud terca de 'Yo tengo razón y tú no'.",
-                "money": "Riesgo de perder dinero. Evítalo gastando en otros primero (caridad o invitar a amigos). Evita inversiones de alto riesgo.",
-                "love": "Pueden aparecer rivales. Evita luchas de ego. Tu misión hoy es 'fingir perder' para mantener la paz.",
-                "health": "Exceso de energía. Haz ejercicio vigoroso para liberar la tensión.",
-                "action": "1. Mantra: 'Es lo que es.'\n2. Acción: Invita a comer a un amigo.\n3. Advertencia: No prestes dinero.",
-                "lucky": "🕶️ Gafas de sol/Espejo, 👫 Reuniones sociales"
-            },
-            "ja": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 鏡の日：強い自我と競争",
-                "d": "自分と同じエネルギーが流れる日。独立心が高まりますが、「自分が正しい」という頑固な態度は避けましょう。",
-                "money": "お金が出ていく運気です。寄付や友人に奢るなど、先に人のために使うことで不運を防げます。投資は控えて。",
-                "love": "ライバル現る。恋人とは意地の張り合いを避けて。平和のために「負けるが勝ち」を演じましょう。",
-                "health": "エネルギーが余っています。激しい運動をして発散しないと体調を崩します。",
-                "action": "1. 呪文：「まあ、いいか」\n2. 行動：友人に食事をご馳走する\n3. 注意：お金の貸し借りは禁止。",
-                "lucky": "🕶️ サングラス/鏡, 👫 集まり"
-            },
-            "zh": {
-                "score": 3, "star": "⭐⭐⭐",
-                "t": "🤝 镜面之日：自我与竞争",
-                "d": "今天流动着与你相同的能量。独立能力虽强，但要避免“我是对的，你是错的”这种固执态度。",
-                "money": "有破财风险。建议通过先花钱（慈善或请客）来化解。避免高风险投资。",
-                "love": "可能出现情敌。避免自尊心的争斗。今天的任务是为了和平而“假装输掉”。",
-                "health": "精力过剩。做些剧烈运动来发泄，以免感到焦躁。",
-                "action": "1. 咒语：“就这样吧”\n2. 行动：请朋友吃饭\n3. 注意：禁止借钱给别人。",
-                "lucky": "🕶️ 墨镜/镜子, 👫 聚会"
-            }
-        },
+        "Same": { # 비견/겁재 (자아와 경쟁의 에너지)
+    "ko": {
+        "score": 3, "star": "⭐⭐⭐",
+        "t": "🤝 거울 속의 나를 만나는 날: 강한 주체성과 보이지 않는 경쟁",
+        "d": "우주가 당신과 똑같은 주파수의 에너지를 보내주는 날입니다. 평소보다 자아 존중감이 높아지고 독립심이 폭발하여, 누구의 도움 없이도 어려운 과업을 스스로 돌파해낼 수 있는 강력한 추진력이 생깁니다. 마치 거울 속의 나를 마주하듯 본인의 장단점이 극명하게 드러나는 시기이기도 합니다. 다만, '내가 최고'라는 자만심과 '나만 옳다'는 고집이 타인과의 불협화음을 만들 수 있으니, 자신의 강한 에너지를 조절하는 '중용'의 자세가 필요합니다.",
+        "money": "재물운에서는 '탈재(奪財)'의 기운이 감돕니다. 이는 내 주머니의 돈을 노리는 경쟁자가 있거나, 주변 지인으로 인해 예상치 못한 지출이 생길 수 있음을 암시합니다. 친구가 투자 제안을 하거나 돈을 빌려달라고 할 수 있는데, 오늘 가장 현명한 대처법은 **'적극적인 베풂'**입니다. 차라리 먼저 기분 좋게 밥을 사거나 작은 기부를 함으로써 나갈 돈의 액운을 미리 액땜하는 것이 훨씬 유리합니다.",
+        "love": "연애 전선에 묘한 긴장감이 흐릅니다. 연인이 있다면 사소한 의견 차이가 '누가 이기나 보자'는 식의 자존심 싸움으로 번져 냉전이 될 수 있습니다. 오늘은 상대방이 나의 경쟁자가 아닌, 보듬어줘야 할 동반자임을 잊지 마세요. 싱글이라면 마음에 드는 상대 주변에 경쟁자가 나타날 수 있습니다. 오늘 당신의 필살기는 카리스마가 아닌 **'무조건적인 포용과 져주기'**입니다.",
+        "health": "내면의 에너지가 너무 차올라 가만히 있으면 오히려 몸살이 나거나 짜증이 늘 수 있습니다. 이 넘치는 에너지를 밖으로 분출해야 합니다. 땀이 흠뻑 날 정도의 고강도 운동, 등산, 혹은 활동량이 많은 취미 생활을 통해 에너지를 순환시키세요. 가벼운 명상은 들뜬 마음을 가라앉히는 데 큰 도움이 됩니다.",
+        "action": "1. 마음 주문: '내 생각만 옳은 것은 아니다' (고집 내려놓기)\n2. 행운의 행동: 가까운 동료나 친구에게 따뜻한 차 한 잔 대접하기\n3. 주의사항: 새로운 동업 제안, 금전 거래, 보증은 오늘 절대 금물입니다.",
+        "lucky": "🕶️ 선글라스(시선 분산), 🪞 거울(객관화), ☕ 커뮤니티 카페"
+    },
+    "en": {
+        "score": 3, "star": "⭐⭐⭐",
+        "t": "🤝 Meeting Your Mirror: Strong Sovereignty & Subtle Competition",
+        "d": "Today, the universe vibrates at the same frequency as your own soul. Your self-esteem and independence are at an all-time high, granting you the drive to conquer difficult tasks single-handedly. It’s a day where your strengths and weaknesses are magnified, as if staring into a cosmic mirror. However, beware of the 'I am always right' trap. Success today depends on your ability to channel your intense energy into constructive actions rather than stubborn arguments.",
+        "money": "The energy of 'Wealth Depletion' is present. This indicates potential competition for your resources or unexpected social expenses. You might encounter friends seeking loans or questionable investment advice. The best remedy? **'Proactive Generosity.'** By choosing to treat a friend to a meal or making a small donation, you satisfy the energy of 'giving' on your own terms, preventing larger, involuntary losses.",
+        "love": "A subtle tension exists in romantic relationships. Minor disagreements can easily escalate into ego battles if you aren't careful. Remember, your partner is your ally, not your rival. For singles, you may find yourself competing for someone's attention. Your winning strategy today is not to overpower others, but to **'graciously yield'** and show emotional maturity.",
+        "health": "Excess energy can lead to restlessness or physical tension. You need a healthy outlet for this internal fire. High-intensity workouts, long hikes, or active social hobbies are highly recommended to keep your energy circulating. Practice grounding through meditation if you feel overly irritable.",
+        "action": "1. Daily Mantra: 'I am open to other perspectives.'\n2. Luck Action: Treat a colleague to coffee to harmonize relations.\n3. Warning: Avoid new business partnerships or lending money today.",
+        "lucky": "🕶️ Sunglasses, 🪞 Mirrors, 👫 Social Clubs or Lounges"
+    },
+    "fr": {
+        "score": 3, "star": "⭐⭐⭐",
+        "t": "🤝 Rencontre avec votre Miroir : Souveraineté et Compétition",
+        "d": "Aujourd'hui, l'univers vibre à la même fréquence que vous. Votre indépendance et votre confiance en vous explosent, vous donnant la force de réussir seul. C'est un jour de réflexion où vos qualités et défauts sont amplifiés. Attention toutefois à l'entêtement : l'idée que 'vous avez seul raison' pourrait créer des frictions.",
+        "money": "Risque de 'dispersion des richesses'. Des proches pourraient solliciter votre aide financière ou des dépenses imprévues pourraient survenir. La meilleure stratégie est la **'Générosité Active'**. Offrir un repas ou faire un don permet de maîtriser ce flux sortant et d'éviter des pertes plus importantes.",
+        "love": "Tension dans l'air. Ne laissez pas votre ego transformer une simple discussion en bataille. Pour les célibataires, la compétition est forte. Votre atout ? **'Laisser gagner l'autre'** avec élégance pour montrer votre maturité.",
+        "health": "Trop d'énergie interne ! Bougez pour éviter l'irritabilité. Le sport intensif ou une longue marche sont vos meilleurs alliés. Méditez pour calmer votre esprit bouillonnant.",
+        "action": "1. Mantra : 'Mon point de vue n'est pas le seul.'\n2. Action : Offrir un café à un ami.\n3. Attention : Pas de prêts d'argent ni de nouvelles associations.",
+        "lucky": "🕶️ Lunettes de soleil, 🪞 Miroir, ☕ Café ou espaces sociaux"
+    },
+    "es": {
+        "score": 3, "star": "⭐⭐⭐",
+        "t": "🤝 Encuentro con tu Espejo: Soberanía y Competencia",
+        "d": "Hoy el universo vibra en tu misma frecuencia. Tu independencia y autoestima están en su punto máximo, dándote el impulso para resolver todo por ti mismo. Es un día de autodescubrimiento donde tus virtudes y defectos se reflejan claramente. Evita la terquedad; el creer que solo tú tienes la razón puede causar conflictos innecesarios.",
+        "money": "Energía de 'pérdida de riqueza'. Esto sugiere gastos inesperados por compromisos sociales o amigos pidiendo préstamos. La solución es la **'Generosidad Proactiva'**. Al invitar a alguien o donar voluntariamente, armonizas la energía del dinero y evitas pérdidas mayores imprevistas.",
+        "love": "Tensiones por el ego. No permitas que una diferencia de opinión se convierta en una guerra fría con tu pareja. Si estás soltero, podrías enfrentar rivales. Tu mejor jugada hoy es **'ceder con gracia'**, demostrando confianza y calma.",
+        "health": "Exceso de energía que necesita ser liberada. El ejercicio intenso o el senderismo son ideales para evitar el estrés físico o la irritabilidad. La meditación te ayudará a centrarte.",
+        "action": "1. Mantra: 'Acepto otras opiniones con humildad.'\n2. Acción: Invita a un colega a un café.\n3. Advertencia: No prestes dinero ni firmes contratos de sociedad hoy.",
+        "lucky": "🕶️ Gafas de sol, 🪞 Espejo, 👫 Lugares de reunión social"
+    },
+    "ja": {
+        "score": 3, "star": "⭐⭐⭐",
+        "t": "🤝 鏡の中の自分に出会う日：強い自律心と潜在的な競争",
+        "d": "今日は宇宙があなたと同じ周波数のエネルギーを送ってくれる日です。自律心と独立心が高まり、誰の助けを借りずとも困難な課題を自力で突破できる強い推進力が生まれます。鏡を見るように自分の長所と短所が明確になる時期です。しかし、「自分が一番正しい」という固執が対人関係に摩擦を生む可能性があるため、エネルギーを調整する「中庸」の姿勢が求められます。",
+        "money": "財運においては「奪財（だつざい）」、つまり財を奪われる気配があります。知人からの借金の申し込みや、予期せぬ交際費が発生しやすい時です。最も賢明な対処法は**「積極的な施し」**です。自分から進んで食事をご馳走したり、少額の寄付をしたりすることで、不運な出費を事前に「厄払い」することができます。",
+        "love": "恋愛面では奇妙な緊張感が流れます。パートナーがいる場合、些細な意見の相違がプライドをかけた争いに発展し、冷戦状態になる恐れがあります。今日は相手を「競争相手」ではなく「支え合う存在」として接しましょう。シングルの人は恋のライバルが現れるかも。今日の秘策は、強がるのではなく**「潔く負けてあげる」**心の余裕です。",
+        "health": "エネルギーが溢れすぎて、じっとしているとかえって体調を崩したり、イライラしたりします。この有り余るエネルギーを外に放出すべきです。激しい運動や登山などを通じて、心身の循環を促してください。軽い瞑想は高ぶった感情を鎮めるのに効果的です。",
+        "action": "1. 呪文：「他人の意見にも一理ある」\n2. 幸運の行動：同僚や友人に温かいお茶を差し出す\n3. 注意事項：共同事業の提案やお金の貸し借り、保証人になることは厳禁です。",
+        "lucky": "🕶️ サングラス、🪞 鏡、☕ カフェ・交流の場"
+    },
+    "zh": {
+        "score": 3, "star": "⭐⭐⭐",
+        "t": "🤝 与镜中之我相遇：强大的主观意识与隐形的竞争",
+        "d": "今天宇宙的能量与你的个人频率完全同步。你的自尊心与独立意识爆发，拥有不依靠任何人也能独当一面的强大推动力。这像是一面镜子，让你看清自己的优缺点。但要警惕“唯我独尊”的傲慢和固执，以免与他人产生不和谐的摩擦，学会调控能量的“中庸之道”是今天的核心。",
+        "money": "财运方面带有“比劫夺财”的意味。这意味着可能会有竞争者觊觎你的利益，或者因人际关系产生意料之外的支出。朋友可能会提出借钱或合作邀请。今天最聪明的化解方法是**“主动布施”**。主动请客或进行小额捐款，以此“破财消灾”，避免更严重的身不由己的损失。",
+        "love": "恋爱关系中存在微妙的火药味。有伴侣的人容易因琐事陷入自尊心的较量，甚至演变成冷战。请记住，伴侣是你的爱人而非对手。单身者可能会遇到情敌。今天你的必杀技不是展现霸气，而是**“无条件地宽容与示弱”**，展现你的大度。",
+        "health": "精力过剩，若无处发泄则容易导致身体酸痛或心情烦躁。必须将这股能量排出体外。建议进行大汗淋漓的高强度运动、登山或户外活动。冥想则能帮助你平复浮躁的心情。",
+        "action": "1. 心灵咒语：“我的想法不一定全对” (放下固执)\n2. 开运行动：请同事或朋友喝杯热茶\n3. 注意事项：严禁任何形式的合伙提议、金钱借贷或担保。",
+        "lucky": "🕶️ 墨镜, 🪞 镜子, ☕ 社交咖啡馆"
+    }
+},
         
-        "Output": { # 식상 (Output)
-            "ko": {
-                "score": 4, "star": "⭐⭐⭐⭐⭐",
-                "t": "🎨 억눌린 끼가 폭발하는 '표현'의 날",
-                "d": "가슴 속 아이디어가 화산처럼 분출됩니다. 머리 회전이 빨라져 창의적인 기획에 탁월합니다. 당신이 주인공이 되어 무대를 휘어잡는 날이니 자신감 있게 드러내세요.",
-                "money": "당신의 재주와 말솜씨가 곧바로 수익으로 연결됩니다. 프리랜서나 영업직에게 대박의 날입니다. 단, 기분이 들떠서 하는 '충동구매'만 조심하세요.",
-                "love": "유머 감각과 센스가 폭발하여 이성의 마음을 사로잡습니다. 썸 타는 사람에게 고백하기 좋은 날입니다. 여성은 남편에게 잔소리 대신 칭찬을 해주세요.",
-                "health": "에너지 소모가 극심해 저녁엔 방전될 수 있습니다. 달콤한 디저트로 당을 충전하고 목을 보호하세요.",
-                "action": "1. 주문: '나는 아티스트다.'\n2. 행동: 노래방, 일기 쓰기, SNS 포스팅\n3. 주의: 말실수 조심 (세 번 생각하고 말하기).",
-                "lucky": "🎤 마이크/노트, 🍰 디저트, 🎨 미술관"
-            },
-            "en": {
-                "score": 4, "star": "⭐⭐⭐⭐⭐",
-                "t": "🎨 Day of Expression (Talent)",
-                "d": "Ideas erupt. Perfect for creativity. You are the main character today; show off.",
-                "money": "Talent brings cash. Beware of impulse buying.",
-                "love": "Humor captivates. Great for confessions.",
-                "health": "High energy consumption. Recharge with sweets.",
-                "action": "1. Mantra: 'I am an Artist.'\n2. Action: Karaoke, Social Media.\n3. Warning: Watch your tongue.",
-                "lucky": "🎤 Microphone, 🍰 Dessert"
-            },
-            "fr": {
-                "score": 4, "star": "⭐⭐⭐⭐⭐",
-                "t": "🎨 Jour d'Expression (Talent)",
-                "d": "Les idées fusent. Parfait pour la créativité. Vous êtes le personnage principal aujourd'hui ; montrez-vous.",
-                "money": "Le talent rapporte de l'argent. Attention aux achats impulsifs.",
-                "love": "L'humour captive. Idéal pour faire une déclaration.",
-                "health": "Grande consommation d'énergie. Rechargez-vous avec des sucreries.",
-                "action": "1. Mantra : 'Je suis un Artiste.'\n2. Action : Karaoké, Réseaux sociaux.\n3. Attention : Surveillez vos paroles.",
-                "lucky": "🎤 Micro, 🍰 Dessert"
-            },
-            "es": {
-                "score": 4, "star": "⭐⭐⭐⭐⭐",
-                "t": "🎨 Día de Expresión (Talento)",
-                "d": "Las ideas brotan. Perfecto para la creatividad. Eres el protagonista hoy; lúcete.",
-                "money": "El talento trae dinero. Cuidado con las compras impulsivas.",
-                "love": "El humor cautiva. Genial para confesiones.",
-                "health": "Alto consumo de energía. Recárgate con dulces.",
-                "action": "1. Mantra: 'Soy un Artista.'\n2. Acción: Karaoke, Redes sociales.\n3. Advertencia: Cuida tu lengua.",
-                "lucky": "🎤 Micrófono, 🍰 Postre"
-            },
-            "ja": {
-                "score": 4, "star": "⭐⭐⭐⭐⭐",
-                "t": "🎨 表現の日（才能）",
-                "d": "アイデアが爆発します。創造性を発揮するのに最適。今日の主役はあなたです。アピールしましょう。",
-                "money": "才能がお金になります。衝動買いには注意してください。",
-                "love": "ユーモアが心を掴みます。告白するのに絶好の日です。",
-                "health": "エネルギー消費が激しいです。甘いもので充電してください。",
-                "action": "1. 呪文：「私はアーティストだ」\n2. 行動：カラオケ、SNS\n3. 注意：失言に注意。",
-                "lucky": "🎤 マイク, 🍰 デザート"
-            },
-            "zh": {
-                "score": 4, "star": "⭐⭐⭐⭐⭐",
-                "t": "🎨 表现之日（才华）",
-                "d": "灵感迸发。最适合发挥创意。今天你是主角，尽情展示吧。",
-                "money": "才华变现。提防冲动购物。",
-                "love": "幽默感迷人。非常适合表白。",
-                "health": "能量消耗大。吃点甜食补充。",
-                "action": "1. 咒语：“我是艺术家”\n2. 行动：卡拉OK、社交媒体\n3. 注意：小心口舌。",
-                "lucky": "🎤 麦克风, 🍰 甜点"
-            }
-        },
-        "Wealth": { # 재성 (Wealth)
-            "ko": {
-                "score": 5, "star": "⭐⭐⭐⭐⭐",
-                "t": "💰 결실을 맺는 '수확'의 날 (재물/결과)",
-                "d": "뜬구름 잡는 소리는 그만! 오늘은 철저하게 현실적이고 계산적인 하루입니다. 무엇이 나에게 이득인지 본능적으로 알게 됩니다. 노력에 대한 확실한 보상이 주어지며, 과정보다는 '결과'가 당신을 증명해 줄 것입니다.",
-                "money": "금전운 최상(Best)! 하늘에서 돈비가 내리는 형국입니다. 예상치 못한 보너스, 밀린 돈을 받거나 투자 수익이 발생합니다. 사고 싶었던 물건을 싸게 사는 등 돈을 '잘 쓰는' 운도 좋습니다.",
-                "love": "남자는 여자가 따르고, 여자는 능력 있는 남자를 만납니다. 감성보다는 현실적인 조건이 중요해지는 날입니다. 맛집 투어나 쇼핑 등 오감을 만족시키는 데이트가 행운을 부릅니다.",
-                "health": "컨디션은 좋으나, 결과에 집착하여 신경성 두통이 올 수 있습니다. '돈 세다가 밤새는 줄 모른다'는 말처럼 과로하기 쉬우니 휴식을 챙기세요. 하체 운동이 재물운을 지켜줍니다.",
-                "action": "1. 주문: '나는 부자다.' (풍요의 마인드)\n2. 행동: 지갑 정리, 복권 구매, 가계부 정리\n3. 주의: 돈 자랑 하지 말기. 조용히 챙길 것.",
-                "lucky": "💳 지갑/현금, 🏦 은행/백화점, 🍗 고기/맛집"
-            },
-            "en": {
-                "score": 5, "star": "⭐⭐⭐⭐⭐",
-                "t": "💰 Day of Harvest: Results Are in Sight",
-                "d": "No more daydreaming! Today is strictly realistic and calculated. You instinctively know what benefits you. Tangible rewards for your efforts await. Today, the 'Result' proves your worth more than the process.",
-                "money": "Best Financial Luck! It's raining money. Unexpected bonuses, overdue payments, or investment returns are likely. It's also a good day for smart spending, like finding great deals on items you wanted.",
-                "love": "Men will be popular with women, and women will be drawn to capable partners. Realistic conditions matter more than emotions today. Sensory dates like gourmet tours or shopping bring good luck.",
-                "health": "Body feels light, but obsessing over results can cause tension headaches. Beware of overworking from excitement. Lower body exercises will strengthen your capacity to hold wealth.",
-                "action": "1. Mantra: 'I am Abundant.'\n2. Action: Organize wallet, Buy a lottery ticket.\n3. Warning: Don't show off your money.",
-                "lucky": "💳 Wallet/Cash, 🏦 Bank/Mall, 🍗 Fine Dining"
-            },
-            "fr": {
-                "score": 5, "star": "⭐⭐⭐⭐⭐",
-                "t": "💰 Jour de Récolte : Résultats en Vue",
-                "d": "Fini de rêvasser ! Aujourd'hui est une journée strictement réaliste et calculée. Vous savez instinctivement ce qui est profitable. Des récompenses tangibles vous attendent. Le 'Résultat' compte plus que le processus.",
-                "money": "Chance Financière au Top ! Il pleut de l'argent. Bonus inattendus ou retours sur investissement sont probables. C'est aussi un bon jour pour dépenser intelligemment et faire de bonnes affaires.",
-                "love": "Les hommes auront du succès, les femmes chercheront des partenaires capables. Le réalisme l'emporte sur l'émotion. Les rendez-vous gourmands ou le shopping portent chance.",
-                "health": "Bonne forme, mais l'obsession des résultats peut causer des maux de tête. Attention au surmenage. Les exercices des jambes renforcent votre chance financière.",
-                "action": "1. Mantra : 'Je suis Abondant.'\n2. Action : Organiser son portefeuille, Acheter un billet de loterie.\n3. Attention : Ne montrez pas votre argent.",
-                "lucky": "💳 Portefeuille, 🏦 Banque, 🍗 Restaurant"
-            },
-            "es": {
-                "score": 5, "star": "⭐⭐⭐⭐⭐",
-                "t": "💰 Día de Cosecha: Resultados a la Vista",
-                "d": "¡No más soñar despierto! Hoy es un día estrictamente realista y calculado. Sabes instintivamente qué te beneficia. Recompensas tangibles te esperan. El 'Resultado' importa más que el proceso hoy.",
-                "money": "¡La Mejor Suerte Financiera! Llueve dinero. Bonos inesperados o retornos de inversión son probables. También es un buen día para gastar sabiamente y encontrar grandes ofertas.",
-                "love": "Los hombres serán populares y las mujeres buscarán parejas capaces. El realismo supera a la emoción. Citas sensoriales como tours gastronómicos o compras traen suerte.",
-                "health": "El cuerpo se siente ligero, pero obsesionarse con los resultados puede causar dolores de cabeza. Cuidado con el exceso de trabajo. Ejercicios de piernas fortalecen tu suerte.",
-                "action": "1. Mantra: 'Soy Abundante.'\n2. Acción: Organizar la billetera, Comprar lotería.\n3. Advertencia: No presumas tu dinero.",
-                "lucky": "💳 Billetera, 🏦 Banco, 🍗 Cena Fina"
-            },
-            "ja": {
-                "score": 5, "star": "⭐⭐⭐⭐⭐",
-                "t": "💰 収穫の日：結果が目の前に",
-                "d": "夢を見るのはやめて、徹底的に現実的で計算高い一日になりましょう。何が利益になるか本能的にわかります。努力に対する確実な報酬が待っており、過程より「結果」があなたを証明します。",
-                "money": "金運最高！空からお金の雨が降るようです。予期せぬボーナスや投資収益が期待できます。欲しかった物を安く買うなど、お金を「うまく使う」運も良いです。",
-                "love": "男性はモテ期、女性は能力のある男性に惹かれます。感情より現実的な条件が重要になる日。グルメツアーやショッピングなどのデートが幸運を呼びます。",
-                "health": "体調は良いですが、結果に執着して緊張性頭痛が起きるかも。興奮して働きすぎないように。下半身の運動が財運を支える器を丈夫にします。",
-                "action": "1. 呪文：「私は豊かだ」\n2. 行動：財布の整理、宝くじ購入\n3. 注意：お金を自慢しないこと。",
-                "lucky": "💳 財布/現金, 🏦 銀行/デパート, 🍗 グルメ"
-            },
-            "zh": {
-                "score": 5, "star": "⭐⭐⭐⭐⭐",
-                "t": "💰 收获之日：结果近在眼前",
-                "d": "别做白日梦了！今天是非常现实和精打细算的一天。你会本能地知道什么对自己有益。切实的努力回报在等着你，今天“结果”比过程更能证明你的价值。",
-                "money": "财运最佳！简直是天上掉钱。可能会有意外的奖金或投资回报。也是聪明消费的好日子，能以低价买到心仪的东西。",
-                "love": "男性的异性缘极佳，女性则会被有能力的伴侣吸引。今天是现实条件重于情感的日子。美食之旅或购物等满足感官的约会能招来好运。",
-                "health": "身体轻盈，但过度执着于结果可能会导致紧张性头痛。小心因兴奋而过劳。下肢运动能巩固你的财运。",
-                "action": "1. 咒语：“我很富足”\n2. 行动：整理钱包，买彩票\n3. 注意：财不外露，不要炫富。",
-                "lucky": "💳 钱包/现金, 🏦 银行/商场, 🍗 美食"
-            }
-        },
-        "Power": { # 관성 (Power)
-            "ko": {
-                "score": 2, "star": "⭐⭐",
-                "t": "⚖️ 왕관의 무게를 견디는 '명예'의 날",
-                "d": "책임감, 의무, 규칙이 당신을 둘러쌉니다. 상사의 압박이나 마감이 힘들게 느껴질 수 있습니다. 하지만 다이아몬드가 압력을 받아 만들어지듯, 이 스트레스를 견뎌내면 '리더'로서의 명예와 인정을 받게 됩니다.",
-                "money": "현금보다는 '명예'가 올라갑니다. 승진운이 있습니다. 돈은 오히려 세금, 공과금, 범칙금 등 의무적인 지출로 나갈 수 있으니 주의하세요.",
-                "love": "일에 치여 연인에게 소홀해지기 쉽습니다. 밖에서 받은 스트레스를 연인에게 풀지 않도록 각별히 조심하세요. 여성은 카리스마 있는 강한 남자를 만날 운입니다.",
-                "health": "스트레스 지수가 최고조에 달합니다. 어깨 결림이나 편두통을 조심하세요. 오늘은 격렬한 운동보다는 요가나 명상, 반신욕으로 긴장을 풀어야 합니다.",
-                "action": "1. 주문: '이 또한 지나가리라.' (인내)\n2. 행동: 정장/시계 착용, 규칙 준수\n3. 주의: 신호 위반, 지각 절대 금지.",
-                "lucky": "👔 시계/정장, 🏛️ 관공서, 🧘 명상"
-            },
-            "en": {
-                "score": 2, "star": "⭐⭐",
-                "t": "⚖️ Day of Honor: Bearing the Weight of the Crown",
-                "d": "Responsibility and rules surround you. External pressure is high, but like a diamond formed under pressure, this stress forges you into a leader. Enduring it brings honor and recognition.",
-                "money": "Reputation rises rather than cash. Promotion luck is strong. Money might leave your pocket for mandatory expenses like taxes or bills.",
-                "love": "You might neglect your partner due to work. Be careful not to vent your stress on them. Women are likely to meet a powerful, charismatic man.",
-                "health": "Stress levels peak. Watch out for stiff shoulders or migraines. Choose yoga or meditation over intense exercise today.",
-                "action": "1. Mantra: 'This too shall pass.'\n2. Action: Wear a suit/watch, Follow rules.\n3. Warning: No lateness or violations.",
-                "lucky": "👔 Suit/Watch, 🏛️ Government Office, 🧘 Meditation"
-            },
-            "fr": {
-                "score": 2, "star": "⭐⭐",
-                "t": "⚖️ Jour d'Honneur : Porter le Poids de la Couronne",
-                "d": "Responsabilités et règles vous entourent. La pression est forte, mais comme un diamant, ce stress vous forge en leader. L'endurance apporte la reconnaissance.",
-                "money": "C'est la réputation qui monte, pas le cash. Chance de promotion. L'argent risque de sortir pour des dépenses obligatoires (taxes, factures).",
-                "love": "Ne négligez pas votre partenaire à cause du travail. Ne déchargez pas votre stress sur l'autre. Les femmes pourraient rencontrer un homme charismatique.",
-                "health": "Stress au maximum. Attention aux raideurs de la nuque et migraines. Préférez le yoga ou la méditation au sport intense.",
-                "action": "1. Mantra : 'Cela aussi passera.'\n2. Action : Portez un costume/montre.\n3. Attention : Pas de retard ni d'infraction.",
-                "lucky": "👔 Costume/Montre, 🏛️ Bureau, 🧘 Méditation"
-            },
-            "es": {
-                "score": 2, "star": "⭐⭐",
-                "t": "⚖️ Día de Honor: Soportando el Peso de la Corona",
-                "d": "La responsabilidad y las reglas te rodean. La presión es alta, pero como un diamante, este estrés te forja como líder. Aguantar trae reconocimiento.",
-                "money": "Sube la reputación, no el efectivo. Suerte de ascenso. El dinero podría salir para gastos obligatorios como impuestos o facturas.",
-                "love": "No descuides a tu pareja por el trabajo. No descargues tu estrés en ella. Las mujeres podrían conocer a un hombre poderoso.",
-                "health": "Estrés al máximo. Cuidado con la rigidez de cuello y migrañas. Mejor yoga o meditación que ejercicio intenso.",
-                "action": "1. Mantra: 'Esto también pasará.'\n2. Acción: Usa traje/reloj.\n3. Advertencia: Prohibido llegar tarde.",
-                "lucky": "👔 Traje/Reloj, 🏛️ Oficina, 🧘 Meditación"
-            },
-            "ja": {
-                "score": 2, "star": "⭐⭐",
-                "t": "⚖️ 名誉の日：王冠の重さに耐える",
-                "d": "責任とルールがあなたを取り囲みます。圧力は高いですが、ダイヤモンドのように、今日のストレスはあなたをリーダーに育てます。耐えれば名誉が得られます。",
-                "money": "現金より「名声」が上がる日。昇進の可能性があります。むしろ税金や請求書などでお金が出ていくかもしれません。",
-                "love": "仕事で恋人を疎かにしがちです。ストレスを恋人にぶつけないよう注意。女性はカリスマ性のある男性に出会う運気です。",
-                "health": "ストレスがピークに。肩こりや片頭痛に注意。激しい運動より、ヨガや瞑想でリラックスしてください。",
-                "action": "1. 呪文：「これもまた過ぎ去る」\n2. 行動：スーツ/時計の着用\n3. 注意：遅刻・違反厳禁。",
-                "lucky": "👔 スーツ/時計, 🏛️ 役所, 🧘 瞑想"
-            },
-            "zh": {
-                "score": 2, "star": "⭐⭐",
-                "t": "⚖️ 名誉之日：欲戴王冠，必承其重",
-                "d": "责任和规则包围着你。压力很大，但这正是将你锻造成领导者的过程。坚持下去会带来认可和名誉。",
-                "money": "旺名声不旺财。有晋升运。钱财反而可能因税金或账单等义务性支出而流出。",
-                "love": "容易因工作忽略伴侣。千万别把压力发泄在爱人身上。女性可能会遇到充满魅力的强势男性。",
-                "health": "压力达到顶峰。注意肩膀僵硬或偏头痛。与其剧烈运动，不如做瑜伽或冥想。",
-                "action": "1. 咒语：“这一切终将过去”\n2. 行动：穿西装/戴手表\n3. 注意：严禁迟到或违规。",
-                "lucky": "👔 西装/手表, 🏛️ 政府机关, 🧘 冥想"
-            }
-        },
-        "Resource": { # 인성 (Resource)
-            "ko": {
-                "score": 4, "star": "⭐⭐⭐⭐",
-                "t": "📚 사랑과 지혜가 충전되는 '힐링'의 날",
-                "d": "마치 엄마 품에 안긴 듯 편안하고 안정적인 하루입니다. 굳이 애쓰지 않아도 주변에서 알아서 챙겨주고 도와주는 '인복'이 터집니다. 활동하기보다는 기존의 것을 점검하고, 공부하고, 계획을 세우기에 최적입니다. 오늘은 '속도'보다는 '방향'을 고민하는 시간입니다.",
-                "money": "당장 현금이 도는 운은 아니지만, '문서운'이 대길합니다. 부동산 계약, 결재, 자격증 취득 등 서류상의 이득이 따릅니다. 훗날 큰 자산이 될 문서를 잡는 날이니, 나를 위한 공부에 돈을 아끼지 마세요. 윗사람에게 용돈을 받을 수도 있습니다.",
-                "love": "사랑받는 날입니다. 연인에게 위로받고 싶어지며, 상대방이 나를 공주/왕자님처럼 세심하게 챙겨줍니다. 소개팅을 한다면 예의 바르고 학식이 깊어 배울 점이 많은 사람을 만나게 됩니다.",
-                "health": "몸이 물 먹은 솜처럼 처지고 나른해질 수 있는데, 이는 병이 아니라 '쉬어가라'는 신호입니다. 억지로 운동하지 말고, 낮잠을 자거나 마사지를 받으며 푹 쉬는 것이 최고의 보약입니다. 소화가 느리니 과식은 피하세요.",
-                "action": "1. 주문: '나는 사랑받기 위해 태어났다.'\n2. 행동: 독서, 명상, 부모님께 안부 전화\n3. 주의: 게으름 (생각만 하고 실행 안 함).",
-                "lucky": "📚 책/도서관, ☕ 따뜻한 차, 🛌 침대/휴식"
-            },
-            "en": {
-                "score": 4, "star": "⭐⭐⭐⭐",
-                "t": "📚 Day of Healing: Recharge with Love & Wisdom",
-                "d": "A day as comfortable as a mother's embrace. You have great 'People Luck'—others help you without you even trying. Static energy dominates, making it perfect for studying, planning, and reviewing rather than starting new actions. Focus on 'Direction' rather than 'Speed' today.",
-                "money": "Cash flow might be slow, but 'Document Luck' is excellent. Great for signing contracts, approvals, or acquiring licenses. Invest in self-improvement. You might receive gifts or allowance from elders.",
-                "love": "You will be loved and cared for. Your partner will treat you like royalty and look after your feelings. If single, expect to meet someone polite, educated, and worthy of respect.",
-                "health": "Feeling lethargic is a sign to rest, not sickness. Don't force intense exercise; a nap or massage is the best medicine today. Avoid overeating as digestion might be slow.",
-                "action": "1. Mantra: 'I am born to be loved.'\n2. Action: Reading, Meditation, Call parents.\n3. Warning: Laziness (Thinking without acting).",
-                "lucky": "📚 Book/Library, ☕ Warm Tea, 🛌 Bed/Rest"
-            },
-            "fr": {
-                "score": 4, "star": "⭐⭐⭐⭐",
-                "t": "📚 Jour de Guérison : Recharger avec Amour et Sagesse",
-                "d": "Une journée confortable comme les bras d'une mère. La chance avec les gens est excellente ; on vous aide spontanément. L'énergie est statique, idéale pour étudier et planifier plutôt que d'agir. Concentrez-vous sur la 'Direction' plutôt que la 'Vitesse'.",
-                "money": "Pas de cash immédiat, mais excellente chance avec les 'Documents' (contrats, licences). C'est le moment d'investir en vous. Vous pourriez recevoir des cadeaux ou de l'argent de vos aînés.",
-                "love": "Vous serez aimé et choyé. Votre partenaire prendra soin de vous comme d'un roi/une reine. Pour les célibataires, attendez-vous à rencontrer quelqu'un de poli et cultivé.",
-                "health": "La léthargie est un signal pour se reposer. Ne forcez pas le sport ; une sieste ou un massage est le meilleur remède. Évitez les excès de table.",
-                "action": "1. Mantra : 'Je suis né pour être aimé.'\n2. Action : Lecture, Méditation, Appeler les parents.\n3. Attention : Paresse.",
-                "lucky": "📚 Livre, ☕ Thé chaud, 🛌 Repos"
-            },
-            "es": {
-                "score": 4, "star": "⭐⭐⭐⭐",
-                "t": "📚 Día de Curación: Recarga con Amor y Sabiduría",
-                "d": "Un día tan cómodo como el abrazo de una madre. Tienes gran 'Suerte con la Gente'; te ayudan sin pedirlo. La energía estática domina, ideal para estudiar y planificar. Enfócate en la 'Dirección' más que en la 'Velocidad'.",
-                "money": "Poco flujo de efectivo, pero excelente 'Suerte de Documentos' (contratos, licencias). Invierte en ti mismo. Podrías recibir regalos de personas mayores.",
-                "love": "Serás amado y cuidado. Tu pareja te tratará como a la realeza. Si estás soltero, conocerás a alguien educado y digno de admiración.",
-                "health": "Sentirse letárgico es señal de descansar. No fuerces el ejercicio; una siesta o un masaje es la mejor medicina. Evita comer en exceso.",
-                "action": "1. Mantra: 'Nací para ser amado.'\n2. Acción: Leer, Meditar, Llamar a los padres.\n3. Advertencia: Pereza.",
-                "lucky": "📚 Libro, ☕ Té caliente, 🛌 Descanso"
-            },
-            "ja": {
-                "score": 4, "star": "⭐⭐⭐⭐",
-                "t": "📚 癒しの日：愛と知恵の充電",
-                "d": "母の胸のように安らかな日です。周りが自然と助けてくれる「人徳」があります。動くよりは、勉強や計画、点検に最適な静的な一日。「速度」より「方向」を考える時です。",
-                "money": "現金より「文書運」が大吉。契約、決済、資格取得に良いです。自己投資にお金を使いましょう。目上の人からお小遣いをもらえるかも。",
-                "love": "愛される日です。恋人はあなたを王族のように大切に扱ってくれます。シングルなら、礼儀正しく学識のある、尊敬できる人との出会いがあります。",
-                "health": "体がだるいのは「休め」のサインです。無理な運動は避け、昼寝やマッサージが最高の薬です。消化機能が落ちるので過食は禁物。",
-                "action": "1. 呪文：「私は愛されるために生まれた」\n2. 行動：読書、瞑想、親への連絡\n3. 注意：怠け心（考えすぎて動かない）。",
-                "lucky": "📚 本, ☕ 温かいお茶, 🛌 休息"
-            },
-            "zh": {
-                "score": 4, "star": "⭐⭐⭐⭐",
-                "t": "📚 治愈之日：爱与智慧的充电",
-                "d": "像母亲怀抱一样舒适安稳的一天。贵人运极佳，周围人会主动帮忙。静态能量为主，适合学习、规划而非开展新行动。今天请关注“方向”而非“速度”。",
-                "money": "虽然现金流一般，但“文书运”大吉（合同、审批、考证）。请投资自己。可能会收到长辈的红包或礼物。",
-                "love": "是被爱的日子。伴侣会把你当王子/公主般细心照顾。单身者会遇到彬彬有礼、博学多才的对象。",
-                "health": "身体沉重乏力是休息的信号。别强迫运动，午睡或按摩是最好的良药。注意消化不良，避免暴饮暴食。",
-                "action": "1. 咒语：“我为被爱而生”\n2. 行动：读书、冥想、联系父母\n3. 注意：懒惰（只想不做）。",
-                "lucky": "📚 书籍, ☕ 热茶, 🛌 休息"
-            }
-        }
+        "Output": { # 식상 (예술적 감각과 생산적인 에너지)
+    "ko": {
+        "score": 4, "star": "⭐⭐⭐⭐⭐",
+        "t": "🎨 창조적 영감이 폭발하는 날: 세상이 당신의 무대입니다",
+        "d": "내면에 억눌려 있던 예술적 끼와 아이디어가 화산처럼 분출되는 날입니다. 머리 회전이 평소보다 2배는 빨라지며, 복잡한 문제를 한 번에 해결할 기발한 기획력이 돋보입니다. 오늘은 관객이 아닌 주인공이 되어야 하는 날입니다. 당신의 능력을 숨기지 말고 당당하게 세상에 드러내세요. 당신의 말 한마디, 몸짓 하나가 주변 사람들에게 강력한 영감을 줄 것입니다.",
+        "money": "당신의 독창적인 재주와 세련된 말솜씨가 곧바로 금전적 가치로 치환됩니다. 프리랜서, 영업직, 마케터라면 평소보다 높은 성과를 올릴 수 있는 '골든 데이'입니다. 다만, 에너지가 고조되어 기분에 취한 나머지 계획에 없던 과감한 '지름신'이 강림할 수 있으니 카드 결제 전 딱 세 번만 더 생각하세요.",
+        "love": "유머 감각과 센스가 최고조에 달해 가만히 있어도 이성의 시선을 한몸에 받습니다. 평소 마음에 두었던 상대가 있다면 오늘이 바로 승부수를 던질 날입니다. 이미 연인이 있다면 재치 있는 이벤트로 상대방을 감동시켜 보세요. 여성이라면 배우자에게 지적이나 잔소리 대신 따뜻한 칭찬과 애교를 보여줄 때 관계가 비약적으로 발전합니다.",
+        "health": "두뇌 회전과 외부 활동량이 많아 저녁에는 급격한 체력 방전이 올 수 있습니다. 목소리를 많이 쓰는 날이니 따뜻한 차로 목을 보호하고, 초콜릿이나 과일 같은 달콤한 간식으로 즉각적인 당 충전을 해주는 것이 좋습니다. 충분한 수면이 내일의 창의력을 보장합니다.",
+        "action": "1. 자기 암시: '나는 세상을 아름답게 만드는 아티스트다.'\n2. 행운 행동: SNS에 당신의 작업물 공유하기, 노래방 가기, 전시회 관람\n3. 주의 사항: 감정에 치우친 말실수 주의 (말하기 전 1초만 멈추기).",
+        "lucky": "🎤 블루투스 마이크, 🎨 파스텔 톤 아이템, 🍰 달콤한 마카롱"
+    },
+    "en": {
+        "score": 4, "star": "⭐⭐⭐⭐⭐",
+        "t": "🎨 Explosion of Creative Inspiration: The World is Your Stage",
+        "d": "Today, your suppressed artistic talents and ideas erupt like a volcano. Your brain processes information twice as fast as usual, granting you brilliant planning skills to solve complex problems effortlessly. Don't be an observer today; be the protagonist. Showcase your abilities boldly. Your every word and gesture will serve as a powerful inspiration to those around you.",
+        "money": "Your unique talents and polished eloquence translate directly into monetary value. For freelancers, salespeople, or marketers, this is a 'Golden Day' for high performance. However, your elevated mood might trigger impulsive luxury purchases. Think three times before swiping your card.",
+        "love": "Your peak sense of humor and wit will naturally draw people to you. If there is someone you like, today is the perfect day to express your feelings. For couples, a witty surprise will deepen your bond. Women can dramatically improve relationship harmony by replacing nagging with warm compliments and affection.",
+        "health": "High mental and physical activity may lead to a sudden energy crash by evening. Since you'll likely be talking a lot, protect your throat with warm tea. Recharge instantly with sweet snacks like chocolate or fruit. Quality sleep is essential to sustain tomorrow's creativity.",
+        "action": "1. Affirmation: 'I am an artist who makes the world beautiful.'\n2. Luck Action: Share your creative work on social media, visit a gallery, or go to karaoke.\n3. Warning: Watch for emotional slips of the tongue. Pause for one second before speaking.",
+        "lucky": "🎤 Microphone, 🎨 Pastel-colored items, 🍰 Sweet Macarons"
+    },
+    "fr": {
+        "score": 4, "star": "⭐⭐⭐⭐⭐",
+        "t": "🎨 Explosion d'Inspiration Créative : Le Monde est Votre Scène",
+        "d": "Aujourd'hui, vos talents artistiques et vos idées fusent comme un volcan. Votre cerveau fonctionne à toute allure, vous offrant une capacité de planification géniale. Ne soyez pas un simple spectateur ; soyez le protagoniste. Montrez vos capacités avec assurance. Chaque parole et geste inspirera puissamment votre entourage.",
+        "money": "Vos talents uniques et votre éloquence se transforment directement en gains financiers. Pour les freelances ou les commerciaux, c'est une 'Journée Dorée'. Attention toutefois aux achats compulsifs sous le coup de l'émotion. Réfléchissez bien avant de dépenser.",
+        "love": "Votre humour et votre esprit captivent tout le monde. C'est le moment idéal pour déclarer votre flamme. En couple, une surprise pleine d'esprit ravira votre partenaire. Les femmes renforceront leur relation en remplaçant les reproches par des compliments sincères.",
+        "health": "Une forte activité mentale peut épuiser vos réserves en fin de journée. Protégez votre gorge avec du thé chaud. Rechargez vos batteries avec des douceurs sucrées. Un bon sommeil est crucial pour la créativité de demain.",
+        "action": "1. Affirmation : 'Je suis un artiste qui embellit le monde.'\n2. Action : Partager vos créations sur les réseaux, aller au musée ou au karaoké.\n3. Attention : Évitez les paroles impulsives. Marquez une pause avant de parler.",
+        "lucky": "🎤 Micro, 🎨 Accessoires aux tons pastels, 🍰 Macarons"
+    },
+    "es": {
+        "score": 4, "star": "⭐⭐⭐⭐⭐",
+        "t": "🎨 Explosión de Inspiración Creativa: El Mundo es tu Escenario",
+        "d": "Hoy, tus talentos artísticos e ideas brotan como un volcán. Tu mente trabaja más rápido que nunca, dándote una capacidad de planificación brillante. No seas un observador; sé el protagonista. Muestra tus habilidades con confianza. Cada palabra y gesto será una gran inspiración para los demás.",
+        "money": "Tus talentos únicos y elocuencia se traducen directamente en valor económico. Para freelancers y vendedores, es un 'Día Dorado'. Sin embargo, tu buen humor podría incitar compras impulsivas. Piénsalo tres veces antes de usar tu tarjeta.",
+        "love": "Tu sentido del humor y agudeza atraerán todas las miradas. Es el día perfecto para confesar tus sentimientos. En pareja, una sorpresa ingeniosa fortalecerá el vínculo. Las mujeres verán mejoras en su relación al cambiar los regaños por elogios afectuosos.",
+        "health": "La alta actividad mental puede causar un bajón de energía por la noche. Protege tu garganta con té caliente. Recárgate con dulces como chocolate o fruta. Dormir bien es vital para mantener la creatividad.",
+        "action": "1. Afirmación: 'Soy un artista que embellece el mundo.'\n2. Acción: Comparte tu trabajo en redes sociales, visita una galería o ve al karaoke.\n3. Advertencia: Cuidado con las palabras impulsivas. Pausa un segundo antes de hablar.",
+        "lucky": "🎤 Micrófono, 🎨 Objetos de tonos pastel, 🍰 Macarons dulces"
+    },
+    "ja": {
+        "score": 4, "star": "⭐⭐⭐⭐⭐",
+        "t": "🎨 創造的インスピレーションの爆発：世界があなたの舞台です",
+        "d": "内に秘めていた芸術的な才能とアイデアが火山のように噴出する日です。頭の回転がいつもの2倍速くなり、複雑な問題を解決する独創的な企画力が光ります。今日は観客ではなく、主人公になるべき日です。堂々と自分の能力を世に示してください。あなたの言葉一つ、仕草一つが周囲に強いインスピレーションを与えるでしょう。",
+        "money": "あなたの独創的な才能と洗練された話術が、そのまま金銭的価値に変わります。フリーランスや営業職にとって、最高の成果を上げられる「ゴールデンデー」です。ただし、気分が高揚して予定外の衝動買いをしてしまう恐れがあるので、財布を開く前によく考えましょう。",
+        "love": "ユーモアのセンスが最高潮に達し、何もしなくても異性の視線を独占します。意中の人がいるなら、今日が勝負の日です。パートナーがいる方は、気の利いたサプライズで相手を感動させてみて。女性は小言を封印し、褒め言葉と愛嬌を見せることで関係が飛躍的に良くなります。",
+        "health": "脳の活動量が多く、夜には急激なエネルギー切れが起こるかもしれません。喉を酷使する日なので、温かいお茶で保護し、マカロンやフルーツなどの甘いもので糖分を補給してください。十分な睡眠が明日の創造力を支えます。",
+        "action": "1. 自己暗示：『私は世界を美しくするアーティストだ』\n2. 幸運の行動：SNSで作品を共有する、美術館に行く、カラオケで歌う\n3. 注意事項：感情に任せた失言に注意（話す前に一呼吸置くこと）。",
+        "lucky": "🎤 マイク、🎨 パステルカラーのアイテム、🍰 甘いマカロン"
+    },
+    "zh": {
+        "score": 4, "star": "⭐⭐⭐⭐⭐",
+        "t": "🎨 创意灵感大爆发：世界就是你的舞台",
+        "d": "今天，你内心积压已久的艺术才华和创意将如火山般喷发。头脑运转速度比平时快两倍，卓越的策划能力让你能轻松解决复杂问题。今天不要做旁观者，要做主角。大胆展示你的才华吧，你的言谈举止将给周围人带来巨大的启发。",
+        "money": "你独特的才华和圆滑的口才会直接转化为财富。对于自由职业者或销售人员来说，这是高绩效的“黄金日”。但由于情绪高涨，可能会引发冲动消费。刷卡前请三思。",
+        "love": "幽默感和灵敏度达到顶峰，让你成为异性关注的焦点。如果有心仪的对象，今天就是表白的最佳时机。已有伴侣的人可以用别出心裁的惊喜打动对方。女性通过温柔的赞美代替唠叨，会让夫妻关系飞跃式提升。",
+        "health": "由于脑力消耗和活动量巨大，傍晚可能会感到精疲力竭。今天是费嗓子的一天，请喝热茶保护喉咙，并吃点巧克力或水果等甜食补充能量。充足的睡眠是保持明天创造力的关键。",
+        "action": "1. 自我暗示：“我是美化世界的艺术家。”\n2. 开运行动：在社交平台分享作品、看展览、去KTV唱歌\n3. 注意事项：谨防情绪化的失言（说话前先停顿一秒）。",
+        "lucky": "🎤 麦克风, 🎨 柔和粉色系物品, 🍰 甜点/马卡龙"
+    }
+},
+        "Wealth": { # 재성 (결과 중심적이며 현실적인 수확의 에너지)
+    "ko": {
+        "score": 5, "star": "⭐⭐⭐⭐⭐",
+        "t": "💰 황금빛 결실을 맺는 날: 당신의 노력이 현금화되는 순간",
+        "d": "막연한 기대나 뜬구름 잡는 소리는 이제 그만두세요. 오늘은 철저하게 현실의 법칙이 지배하는 날입니다. 당신의 뇌는 무엇이 나에게 이득이 되고 손해인지 본능적으로 계산해낼 것입니다. 그동안 공들여온 프로젝트나 계획들이 마침내 눈에 보이는 '결과물'로 나타나며, 과정보다는 확실한 '숫자'와 '실적'이 당신의 가치를 증명해 줄 것입니다.",
+        "money": "금전운 최상(Best)! 하늘에서 풍요의 비가 내리는 형국입니다. 잊고 있던 미수금이 들어오거나, 보너스, 혹은 투자했던 자산의 가치가 급상승하는 경험을 할 수 있습니다. 오늘은 단순히 돈을 버는 것뿐만 아니라, 사고 싶었던 물건을 최적의 가격에 얻는 등 '돈을 잘 쓰는' 감각도 매우 날카롭습니다.",
+        "love": "감성적인 밀당보다는 현실적인 조건과 신뢰가 사랑의 중심이 됩니다. 남성은 나를 믿고 따라주는 이성운이 강하며, 여성은 능력 있고 경제적 기반이 튼튼한 상대와 인연이 닿습니다. 맛집 투어나 쇼핑, 오감을 자극하는 화려한 데이트가 행운을 더욱 증폭시킵니다.",
+        "health": "전반적인 컨디션은 활기차지만, 성과에 대한 과도한 집착이 신경성 두통이나 소화 불량을 유발할 수 있습니다. '돈을 세느라 밤새는 줄 모른다'는 말처럼 과로하기 쉬운 날이니 의식적인 휴식이 필요합니다. 특히 하체 운동이나 스쿼트가 재물을 담는 당신의 그릇을 튼튼하게 지켜줄 것입니다.",
+        "action": "1. 풍요 주문: '나는 부를 끌어당기는 자석이다.' (확언)\n2. 행운 행동: 지갑 안 영수증 정리, 복권 구매, 가계부 앱 점검\n3. 주의 사항: 들어온 돈을 자랑하지 마세요. 조용히 챙겨야 내 것이 됩니다.",
+        "lucky": "💳 가죽 지갑/현금 뭉치, 🏦 은행/백화점 라운지, 🥩 고기 요리/미슐랭 맛집"
+    },
+    "en": {
+        "score": 5, "star": "⭐⭐⭐⭐⭐",
+        "t": "💰 The Golden Harvest: The Moment Your Efforts Turn into Cash",
+        "d": "Stop daydreaming. Today is governed by the laws of reality. Your mind will instinctively calculate gains and losses with cold precision. Long-term projects finally manifest into tangible results. Today, 'Numbers' and 'Metrics' will prove your worth more than any process or intention.",
+        "money": "Best Financial Luck! It is raining abundance. You may experience unexpected bonuses, the settlement of overdue debts, or a surge in investment value. Beyond earning, your sense of 'smart spending' is sharp—it's the perfect day to secure a great deal on a high-value purchase.",
+        "love": "Realistic conditions and trust take center stage over emotional games. Men will attract supportive partners, while women will connect with capable individuals with solid foundations. Indulgent dates, such as fine dining or luxury shopping, will amplify your luck.",
+        "health": "General vitality is high, but obsessing over results may cause tension headaches or indigestion. You risk overworking from sheer excitement. Conscious rest is mandatory. Lower-body exercises like squats will strengthen your 'vessel' to hold this incoming wealth.",
+        "action": "1. Wealth Mantra: 'I am a magnet for financial abundance.'\n2. Luck Action: Organize your wallet, buy a lottery ticket, or review your budget.\n3. Warning: Keep your gains private. Quietly securing your assets is the key to keeping them.",
+        "lucky": "💳 Leather Wallet/Cash, 🏦 Bank/Mall Lounges, 🥩 Fine Steak/Gourmet Dining"
+    },
+    "fr": {
+        "score": 5, "star": "⭐⭐⭐⭐⭐",
+        "t": "💰 La Récolte Dorée : Quand vos efforts se transforment en profit",
+        "d": "Fini les rêves vagues. Aujourd'hui est régi par la réalité brute. Votre esprit calculera instinctivement les profits. Les projets de longue date se concrétisent. Aujourd'hui, les 'Chiffres' et les 'Résultats' prouvent votre valeur plus que n'importe quel discours.",
+        "money": "Excellente chance financière ! Il pleut de l'abondance. Bonus inattendus, retours sur investissements ou remboursements de dettes sont au rendez-vous. C'est aussi un jour idéal pour faire des achats intelligents et dénicher la perle rare au meilleur prix.",
+        "love": "Le réalisme et la confiance l'emportent sur les jeux de séduction. Les hommes attirent des partenaires dévouées, et les femmes rencontrent des personnes aux bases solides. Les sorties luxueuses et le shopping portent chance.",
+        "health": "Grande vitalité, mais attention au surmenage lié à l'excitation des gains. L'obsession des résultats peut causer des maux de tête. Les exercices des jambes renforcent votre capacité à stabiliser votre fortune.",
+        "action": "1. Mantra d'abondance : 'Je suis un aimant pour la richesse.'\n2. Action chanceuse : Organiser son portefeuille, acheter un billet de loterie.\n3. Attention : Ne vous vantez pas de vos gains. La discrétion est la mère de la sûreté.",
+        "lucky": "💳 Portefeuille en cuir, 🏦 Banque/Grands Magasins, 🥩 Dîner gastronomique"
+    },
+    "es": {
+        "score": 5, "star": "⭐⭐⭐⭐⭐",
+        "t": "💰 La Cosecha de Oro: El momento en que tu esfuerzo se vuelve efectivo",
+        "d": "Basta de soñar despierto. Hoy mandan las leyes de la realidad. Tu mente calculará ganancias y pérdidas con precisión instintiva. Los proyectos largos finalmente dan frutos tangibles. Hoy, los 'Números' y el 'Éxito' hablan por ti.",
+        "money": "¡La mejor suerte financiera! Llueve abundancia. Espera bonos inesperados o un aumento en tus inversiones. Tu instinto para las compras inteligentes está muy agudo; es el día ideal para conseguir ofertas en artículos de lujo.",
+        "love": "Las condiciones realistas y la confianza superan a las emociones pasajeras. Los hombres atraerán parejas leales; las mujeres conectarán con personas de gran solvencia. Citas sensoriales como cenas gourmet o compras aumentarán tu suerte.",
+        "health": "Vitalidad alta, pero la obsesión por el éxito puede causar migrañas por tensión. Cuidado con el exceso de trabajo por la emoción de ganar. Los ejercicios de piernas te ayudarán a 'sostener' esta riqueza entrante.",
+        "action": "1. Mantra de riqueza: 'Soy un imán para la abundancia.'\n2. Acción: Organiza tu billetera, compra lotería o revisa tus finanzas.\n3. Advertencia: No presumas tus ganancias. El dinero prefiere el silencio.",
+        "lucky": "💳 Billetera de cuero, 🏦 Banco/Centro Comercial, 🥩 Cena de gala/Cortes finos"
+    },
+    "ja": {
+        "score": 5, "star": "⭐⭐⭐⭐⭐",
+        "t": "💰 黄金の収穫：努力が現金に変わる瞬間",
+        "d": "夢想は終わりです。今日は徹底的に現実的な法則が支配する日です。何が利益になり、何が損になるか、脳が本能的に計算します。これまで準備してきたことが「数字」や「実績」として現れ、過程よりも確かな結果があなたの価値を証明します。",
+        "money": "金運最高（Best）！豊かさの雨が降る兆しです。未回収金の入金やボーナス、投資価値の急騰が期待できます。稼ぐだけでなく、欲しかった物を最安値で手に入れるような「賢い支出」のセンスも抜群です。",
+        "love": "感情的な駆け引きよりも、現実的な条件と信頼が愛の柱となります。男性は献身的なパートナーに恵まれ、女性は経済力の安定した相手との縁があります。美食やショッピングなど、五感を満たす華やかなデートが幸運を呼びます。",
+        "health": "全体的なコンディションは良いですが、結果への執着が神経性頭痛を招くかもしれません。稼ぐことに夢中で働きすぎないよう、意識的な休息が必要です。下半신を鍛える運動が、財運を逃さない器を強くしてくれます。",
+        "action": "1. 豊かさの呪文：「私は富を引き寄せる磁石だ」\n2. 幸運の行動：財布の中の整理、宝くじ購入、家計簿のチェック\n3. 注意事項：得た利益を自慢しないでください。静かに守ることが肝心です。",
+        "lucky": "💳 革の財布/現金, 🏦 銀行/ラウンジ, 🥩 肉料理/ミシュラン店"
+    },
+    "zh": {
+        "score": 5, "star": "⭐⭐⭐⭐⭐",
+        "t": "💰 黄金收获日：努力转化为财富的时刻",
+        "d": "停止幻想。今天受现实法则主宰。你的大脑会本能地精准计算得失。长期积累的项目终于迎来显现成果的时刻。今天，“数字”和“业绩”比任何过程都能更好地证明你的价值。",
+        "money": "财运顶峰！ abundance 盈门。可能会收到意外奖金、欠款回笼或投资升值。除了赚钱，你对“聪明消费”的感觉也很敏锐，非常适合以极佳的价格买入心仪已久的物品。",
+        "love": "现实条件与信任感比情感博弈更重要。男性会有贤内助般的异性缘，女性则易结识经济基础雄厚的伴侣。美食之旅、购物等能刺激感官的华丽约会能进一步催旺运气。",
+        "health": "精力充沛，但过度执着于结果可能导致神经性头痛或消化不良。小心因兴奋而过劳，需要有意识地休息。加强下肢锻炼（如深蹲）能稳固你承载财富的“容器”。",
+        "action": "1. 财富咒语：“我是吸引财富的磁石。”\n2. 开运行动：整理钱包收据、买彩票、查看理财账单\n3. 注意事项：财不外露。闷声发大财才能真正留住财富。",
+        "lucky": "💳 真皮钱包/现金, 🏦 银行/高端商场休息室, 🥩 顶级牛排/米其林餐厅"
+    }
+},
+        "Power": { # 관성 (사회적 규율과 리더십을 단련하는 에너지)
+    "ko": {
+        "score": 2, "star": "⭐⭐",
+        "t": "⚖️ 왕관의 무게를 견디는 날: 인내가 만드는 고결한 명예",
+        "d": "주변의 시선, 엄격한 규칙, 그리고 막중한 책임감이 당신의 어깨를 누르는 날입니다. 상사의 까다로운 지시나 촉박한 마감이 심리적 압박으로 다가올 수 있습니다. 하지만 기억하세요. 다이아몬드는 거대한 압력을 견뎌내었을 때 비로소 탄생합니다. 오늘 겪는 이 스트레스는 당신을 진정한 '리더'로 성장시키기 위한 우주의 시험이며, 이를 묵묵히 버텨낼 때 당신의 명예와 사회적 평판은 비약적으로 상승할 것입니다.",
+        "money": "당장의 현금 흐름보다는 미래를 위한 '명예 지수'가 올라가는 날입니다. 승진이나 공공 프로젝트 참여 등 장기적인 수익 기반을 다지는 운세입니다. 재물적으로는 세금 체납, 과태료, 혹은 의무적인 부조금 등 피할 수 없는 지출이 생길 수 있으니 꼼꼼한 자금 관리가 필요합니다.",
+        "love": "업무적인 긴장감이 연애 전선까지 영향을 줄 수 있습니다. 밖에서 받은 스트레스를 무의식중에 파트너에게 쏟아내지 않도록 각별히 주의하세요. 오늘은 로맨틱한 이벤트보다 서로의 고충을 들어주는 '신뢰의 대화'가 필요한 때입니다. 여성이라면 카리스마 있고 배울 점이 많은 듬직한 이성과의 인연이 닿는 날입니다.",
+        "health": "스트레스 지수가 최고조에 달해 어깨 결림, 목통증, 혹은 신경성 편두통이 올 수 있습니다. 오늘은 자기 자신을 채찍질하기보다는 이완해 주어야 합니다. 격렬한 근력 운동보다는 요가, 명상, 혹은 반신욕을 통해 경직된 몸과 마음의 긴장을 풀어주는 것이 최고의 보약입니다.",
+        "action": "1. 인내 주문: '이 또한 지나가리라, 나는 더 강해지고 있다.'\n2. 행운 행동: 격식을 차린 옷차림(정장), 시계 착용, 5분 일찍 도착하기\n3. 주의 사항: 신호 위반, 사소한 규칙 어기기, 지각은 명예에 치명타를 입힙니다.",
+        "lucky": "👔 잘 다려진 셔츠/시계, 🏛️ 도서관/정부 청사, 🧘 숲속 명상 센터"
+    },
+    "en": {
+        "score": 2, "star": "⭐⭐",
+        "t": "⚖️ Day of the Crown's Weight: Honor Forged in Patience",
+        "d": "Social expectations, strict rules, and heavy responsibilities weigh on your shoulders today. Demanding instructions from superiors or tight deadlines may feel overwhelming. Remember, a diamond is only formed under immense pressure. The stress you face today is a cosmic test designed to forge you into a true leader. By enduring this with grace, your reputation and social standing will rise to new heights.",
+        "money": "Your 'Honor Quotient' rises rather than immediate cash flow. This is a time to solidify your long-term income base through promotions or public projects. Financially, be prepared for mandatory expenses such as taxes, bills, or social obligations. Manage your funds with extra care.",
+        "love": "Work-related tension may spill over into your romantic life. Be mindful not to vent your frustrations on your partner. Instead of romantic gestures, focus on 'trust-building conversations' where you listen to each other’s struggles. Women are likely to encounter a charismatic and reliable partner who offers great inspiration.",
+        "health": "Stress levels peak, potentially causing stiff shoulders or migraines. Today, prioritize relaxation over self-discipline. Avoid high-intensity workouts; instead, choose yoga, meditation, or a warm bath to release the physical and mental tension accumulated throughout the day.",
+        "action": "1. Resilience Mantra: 'This too shall pass, and I am becoming stronger.'\n2. Luck Action: Dress formally, wear a watch, and arrive 5 minutes early to all appointments.\n3. Warning: Traffic violations, breaking small rules, or lateness will severely damage your reputation today.",
+        "lucky": "👔 Formal Suit/Watch, 🏛️ Government Building, 🧘 Meditation Center"
+    },
+    "fr": {
+        "score": 2, "star": "⭐⭐",
+        "t": "⚖️ Le Poids de la Couronne : L'Honneur forgé par la Patience",
+        "d": "Les attentes sociales et les responsabilités pèsent lourd aujourd'hui. Le stress que vous ressentez est un test pour faire de vous un véritable leader. En endurant cela avec calme, votre réputation s'élèvera. Comme le diamant, vous brillez sous la pression.",
+        "money": "C'est votre prestige qui augmente, pas votre cash immédiat. Préparez-vous à des dépenses obligatoires (taxes, factures). Gérez vos finances avec une précision rigoureuse.",
+        "love": "La tension du travail peut affecter votre couple. Ne déchargez pas votre stress sur l'autre. Privilégiez l'écoute et le soutien mutuel. Les femmes pourraient être attirées par un homme charismatique et protecteur.",
+        "health": "Le stress est au maximum. Attention aux maux de tête. Évitez le sport intensif ; préférez le yoga ou un bain chaud pour relâcher la pression accumulée.",
+        "action": "1. Mantra : 'Cela aussi passera, je deviens plus fort.'\n2. Action : Tenue formelle, ponctualité exemplaire.\n3. Attention : Les infractions aux règles nuiront gravement à votre image aujourd'hui.",
+        "lucky": "👔 Costume/Montre, 🏛️ Administration, 🧘 Méditation"
+    },
+    "es": {
+        "score": 2, "star": "⭐⭐",
+        "t": "⚖️ El Peso de la Corona: Honor forjado en la Paciencia",
+        "d": "Las responsabilidades y las reglas te rodean hoy. La presión externa es alta, pero como un diamante, este estrés te convierte en un líder. Aguantar con dignidad traerá reconocimiento y elevará tu estatus social.",
+        "money": "Sube tu reputación más que el efectivo. Es un momento para asegurar tu futuro profesional. Ten cuidado con gastos obligatorios como impuestos o facturas imprevistas. Controla bien tu presupuesto.",
+        "love": "El estrés laboral puede filtrarse en tu relación. No te desquites con tu pareja. Hoy se necesita comprensión, no drama. Las mujeres podrían conocer a un hombre con gran carisma y liderazgo.",
+        "health": "Niveles de estrés al límite. Cuidado con la tensión en hombros y cuello. No te exijas físicamente; mejor opta por yoga o meditación para calmar la mente y el cuerpo.",
+        "action": "1. Mantra: 'Esto también pasará y me hará más fuerte.'\n2. Acción: Viste formal, usa reloj y sé muy puntual.\n3. Advertencia: Romper reglas o llegar tarde dañará seriamente tu prestigio hoy.",
+        "lucky": "👔 Traje/Reloj, 🏛️ Edificio Gubernamental, 🧘 Meditación"
+    },
+    "ja": {
+        "score": 2, "star": "⭐⭐",
+        "t": "⚖️ 王冠の重みに耐える日：忍耐が創る気高い名誉",
+        "d": "周囲の視線、厳しい規則、そして重い責任が肩にのしかかる日です。上司の要求や締め切りがプレッシャーになるかもしれません。しかし、ダイヤモンドが圧力の中で磨かれるように、今日の試練はあなたを真のリーダーへと成長させます。耐え抜くことで、あなたの社会的評価は飛躍的に高まるでしょう。",
+        "money": "現金の流入よりも「名誉指数」が上がる日です。昇進や大きなプロジェクトへの参加など、長期的な基盤を固める運気です。出費面では、税金や公共料金、義理の出費など避けられない支払いが発生しやすいので注意が必要です。",
+        "love": "仕事の緊張感をプライベートに持ち込まないよう注意しましょう。外でのストレスをパートナーにぶつけるのは厳禁です。今日は情熱的なデートよりも、お互いの苦労を分かち合う「信頼の対話」を大切に。女性はカリスマ性のある頼もしい異性との縁があります。",
+        "health": "ストレスがピークに達し、肩こりや頭痛が起きやすい時です。自分を追い込むのではなく、緩めることが必要です。激しい運動より、ヨガや瞑想、半身浴で心身の緊張を解きほぐしてください。",
+        "action": "1. 忍耐の呪文：『これもまた過ぎ去る、私はより強くなっている』\n2. 幸運の行動：フォーマルな服装、時計の着用、5分前行動を徹底する\n3. 注意事項：信号無視や些細なルール違反、遅刻は名誉に致命傷を与えます。",
+        "lucky": "👔 スーツ/腕時計, 🏛️ 役所/図書館, 🧘 瞑想センター"
+    },
+    "zh": {
+        "score": 2, "star": "⭐⭐",
+        "t": "⚖️ 欲戴王冠，必承其重：耐性铸就的高贵名誉",
+        "d": "今天，社会的期待、严格的规则和沉重的责任感笼罩着你。上司的苛刻要求或紧迫的截止日期可能会让你感到窒息。但请记住，钻石是在压力下形成的。今天的压力是宇宙对你的考验，旨在将你锻造成真正的领导者。当你默默坚持下去时，你的社会地位和名誉将获得质的飞跃。",
+        "money": "与其说是财运，不如说是“名誉运”上升的日子。这是通过晋升或参与重要项目来巩固长期收益基础的时机。财物方面，可能会有税款、罚单或人情往来等不可避免的开支，请务必精细化管理财务。",
+        "love": "职场的紧张感极易蔓延到感情生活。请特别注意不要将外面的负能量发泄在伴侣身上。今天比起浪漫的惊喜，更需要一次坦诚相待、互相倾听的深度交流。女性有望结识有魄力、值得学习和依赖的高素质异性。",
+        "health": "压力指数达到顶点，容易出现肩膀僵硬、颈椎酸痛或神经性头痛。今天不适合挑战体能，而应以放松为主。比起高强度健身，瑜伽、冥想或泡澡是缓解身心僵硬的最佳良药。",
+        "action": "1. 忍耐咒语：“这一切终将过去，而我正变得愈发强大。”\n2. 开运行动：穿着得体西装、佩戴手表、任何约会提前5分钟到达\n3. 注意事项：违章、违反小规则或迟到都会对你今天的名誉造成致命打击。",
+        "lucky": "👔 熨烫平整的衬衫/手表, 🏛️ 政府机关/图书馆, 🧘 冥想中心"
+    }
+},
+        "Resource": { # 인성 (지혜와 사랑을 받아들이는 수용의 에너지)
+    "ko": {
+        "score": 4, "star": "⭐⭐⭐⭐",
+        "t": "📚 지혜와 사랑이 샘솟는 날: 영혼을 채우는 힐링의 시간",
+        "d": "마치 따뜻한 어머니의 품에 안긴 듯 마음이 한없이 편안하고 안정적인 하루입니다. 굳이 당신이 애써 노력하지 않아도 주변 사람들이 먼저 당신의 필요를 채워주는 '인복'이 터지는 시기입니다. 오늘은 밖으로 나가 에너지를 발산하기보다 내면을 가꾸고, 미뤄왔던 공부를 하거나 계획을 재점검하기에 가장 완벽한 날입니다. 인생의 '속도'에 매몰되기보다 올바른 '방향'을 정립하는 귀중한 시간을 가지세요.",
+        "money": "당장 눈앞에 현금이 오가는 운은 아니지만, 미래의 부를 보장하는 '문서운'이 대길합니다. 부동산 계약, 중요한 결재, 자격증 취득 등 서류와 관련된 일에서 큰 이득이 따를 것입니다. 훗날 큰 자산이 될 지식이나 자격을 갖추는 날이니, 자신을 위한 교육이나 책 구매에 돈을 아끼지 마세요. 윗사람이나 부모님으로부터 생각지도 못한 용돈이나 지원을 받을 수도 있습니다.",
+        "love": "온 세상의 사랑을 듬뿍 받는 날입니다. 연인에게 정서적인 위로를 받고 싶어지며, 상대방 역시 당신을 왕자님/공주님처럼 세심하고 따뜻하게 챙겨줄 것입니다. 싱글이라면 대화가 깊이 있게 통하고 학식이 깊어 배울 점이 많은 이성과 인연이 닿을 운입니다. 화려한 곳보다는 조용한 카페나 서점에서의 데이트가 사랑의 깊이를 더해줍니다.",
+        "health": "몸이 물에 젖은 솜처럼 처지고 나른해질 수 있는데, 이는 병이 아니라 당신의 몸이 '잠시 쉬어가라'고 보내는 강력한 신호입니다. 억지로 고강도 운동을 하기보다는 낮잠을 자거나 전문가의 마사지를 받으며 몸을 이완하는 것이 최고의 보약입니다. 소화 기관이 평소보다 천천히 움직이니 자극적인 음식이나 과식은 피하는 것이 좋습니다.",
+        "action": "1. 긍정 주문: '나는 충분히 사랑받을 자격이 있는 소중한 존재다.'\n2. 행운 행동: 독서, 명상, 부모님이나 스승님께 안부 전화드리기\n3. 주의 사항: 게으름과 나태함 경계 (생각만 하다가 실천의 때를 놓칠 수 있음).",
+        "lucky": "📚 고전 소설/인문학 서적, ☕ 따뜻한 대추차나 허브티, 🛌 포근한 호텔 침구"
+    },
+    "en": {
+        "score": 4, "star": "⭐⭐⭐⭐",
+        "t": "📚 Day of Flowing Wisdom & Love: A Time for Soul Healing",
+        "d": "Today feels as safe and stable as a mother's warm embrace. Even without conscious effort, your 'People Luck' is so strong that others will naturally step forward to support and care for you. It is the perfect day for introspection, studying, or reviewing long-term plans rather than outward expansion. Instead of obsessing over 'Speed,' use this precious time to re-evaluate your life's 'Direction.'",
+        "money": "While immediate cash flow may be quiet, your 'Document Luck' is exceptionally auspicious. This is a great time for signing real estate contracts, obtaining professional certifications, or securing official approvals. Invest generously in your self-improvement or books, as they will turn into significant assets later. You might also receive unexpected gifts or financial support from elders or parents.",
+        "love": "You are surrounded by deep affection today. You will find yourself seeking emotional comfort from your partner, who in turn will treat you with immense care and devotion. If single, you are likely to meet someone intellectual and well-mannered who inspires respect. Dates in quiet, thoughtful places like libraries or cozy cafes will deepen your connection.",
+        "health": "Feeling unusually lethargic or heavy is not a sign of illness, but a signal from your body to slow down. Avoid forcing yourself into intense workouts. A long nap or a professional massage is the best medicine today. Your digestion may be slower than usual, so opt for light, warm meals over heavy feasts.",
+        "action": "1. Affirmation: 'I am a precious being worthy of unconditional love.'\n2. Luck Action: Reading, meditation, or calling your parents/mentors.\n3. Warning: Beware of excessive procrastination. Don't let deep thinking turn into missed opportunities.",
+        "lucky": "📚 Classic Literature, ☕ Warm Herbal Tea, 🛌 Soft Premium Bedding"
+    },
+    "fr": {
+        "score": 4, "star": "⭐⭐⭐⭐",
+        "t": "📚 Jour de Sagesse et d'Amour : Temps pour la Guérison de l'Âme",
+        "d": "Une journée aussi apaisante que les bras d'une mère. Votre 'Chance avec les gens' est excellente ; on vous aide spontanément. C'est le moment idéal pour étudier et planifier. Au lieu de viser la 'Vitesse', concentrez-vous sur la 'Direction' de votre vie.",
+        "money": "Excellente chance avec les documents officiels (contrats, licences). Investissez dans votre savoir, cela deviendra un actif précieux. Des cadeaux inattendus de la part de vos aînés sont possibles.",
+        "love": "Vous êtes choyé aujourd'hui. Votre partenaire prendra soin de vous comme d'une royauté. Pour les célibataires, attendez-vous à rencontrer une personne cultivée et inspirante. Privilégiez les rendez-vous calmes.",
+        "health": "La léthargie est un signal pour se reposer. Évitez le sport intensif. Un massage ou une sieste est le meilleur remède. Mangez léger.",
+        "action": "1. Mantra : 'Je mérite d'être aimé inconditionnellement.'\n2. Action : Lecture, méditation, appeler ses parents.\n3. Attention : Ne confondez pas repos et paresse totale.",
+        "lucky": "📚 Beaux livres, ☕ Thé chaud, 🛌 Repos et confort"
+    },
+    "es": {
+        "score": 4, "star": "⭐⭐⭐⭐",
+        "t": "📚 Día de Sabiduría y Amor: Tiempo para la Sanación del Alma",
+        "d": "Un día tan seguro y estable como el abrazo de una madre. Tu 'Suerte con la Gente' es fuerte; los demás te ayudarán sin que lo pidas. Es el momento perfecto para el estudio y la introspección. Enfócate en la 'Dirección' de tu vida más que en la 'Velocidad'.",
+        "money": "Excelente 'Suerte de Documentos' (contratos, licencias). Invierte en tu educación; los libros que compres hoy serán riqueza mañana. Podrías recibir apoyo financiero de tus padres o superiores.",
+        "love": "Te sentirás muy amado. Tu pareja te tratará con una dedicación especial. Si estás soltero, podrías conocer a alguien intelectual y digno de admiración. Una cita en un lugar tranquilo será ideal.",
+        "health": "Sentirse cansado es un aviso para descansar. No te fuerces físicamente. Una siesta o un masaje será tu mejor medicina hoy. Evita las comidas pesadas.",
+        "action": "1. Afirmación: 'Soy un ser valioso digno de todo amor.'\n2. Acción: Leer, meditar o llamar a tus mentores.\n3. Advertencia: Cuidado con la procrastinación excesiva.",
+        "lucky": "📚 Libros clásicos, ☕ Té de hierbas caliente, 🛌 Ropa de cama cómoda"
+    },
+    "ja": {
+        "score": 4, "star": "⭐⭐⭐⭐",
+        "t": "📚 知恵と愛が溢れる日：魂を充たす癒やしの時間",
+        "d": "母の懐に抱かれているような、安らぎに満ちた一日です。周囲の人々が自然とあなたの力になってくれる「人徳」に恵まれます。活動的に動くよりも、内面を磨き、勉強や計画の再確認に時間を割くのが最適です。「速度」よりも「方向」を見つめ直す貴重な時間にしてください。",
+        "money": "目先の現金よりも、将来の富を約束する「文書運」が大吉です。不動産契約や資格取得、重要な決済などに利益があります。自己投資や書籍への支出は惜しまないでください。目上の人や両親から思いがけない援助を受ける可能性もあります。",
+        "love": "愛に包まれる日です。パートナーに甘えたい気持ちが強まり、相手もあなたを大切に扱ってくれるでしょう。シングルなら、学識があり尊敬できる異性との出会いの予感。静かなカフェや図書館でのデートが二人の距離を縮めます。",
+        "health": "体がだるく感じるのは「休め」というサインです。無理に運動せず、昼寝やマッサージで心身を解きほぐすのが最善の健康法です。消化機能が休止モードなので、暴飲暴食は避けてください。",
+        "action": "1. 肯定の言葉：『私は愛されるに値する大切な存在だ』\n2. 幸운の行動：読書、瞑想、両親や恩師に連絡を入れる\n3. 注意事項：怠慢に注意（考えるだけで終わらないこと）。",
+        "lucky": "📚 古典や専門書, ☕ 温かいお茶, 🛌 心地よい寝具"
+    },
+    "zh": {
+        "score": 4, "star": "⭐⭐⭐⭐",
+        "t": "📚 智慧与爱盈门：充实灵魂的治愈时刻",
+        "d": "像在母亲怀抱中一样安稳舒适的一天。贵人运极佳，周围人会主动关怀并满足你的需求。比起外出的忙碌，今天更适合深造学习或复盘计划。不要执着于人生的“速度”，请利用这段时间确立正确的“方向”。",
+        "money": "“文书运”大吉。虽然没有大笔现金流，但在房产合同、考证、审批等事务上会有长远获利。请大方地为知识和自我提升买单。此外，还可能收到长辈或父母的红包或资助。",
+        "love": "是被爱包围的日子。伴侣会像对待王子/公主般细心呵护你。单身者易遇到谈吐不凡、学识渊博的对象。在书店或安静的茶室约会更能增进感情。",
+        "health": "身体感到沉重乏力是休息的信号，而非生病。不要强迫自己剧烈运动，午睡或按摩是最好的良药。消化系统较弱，请避免油腻，饮食宜清淡。",
+        "action": "1. 心灵咒语：“我是一个值得被无条件爱着的宝贵存在。”\n2. 开运行动：读书、冥想、给父母或老师打个问候电话\n3. 注意事项：警惕懒散（防止因思虑过多而错过行动时机）。",
+        "lucky": "📚 经典著作, ☕ 热茶/草本茶, 🛌 舒适的床上用品"
+    }
+}
     }
     data = db.get(rel_key, db["Same"])
     return data.get(language, data["en"])
