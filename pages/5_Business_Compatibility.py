@@ -439,7 +439,7 @@ ui_text = {
 t = ui_text.get(lang, ui_text['en'])
 
 # ----------------------------------------------------------------
-# 6. 메인 로직
+# 6. 메인 로직 (🚨 수정된 부분: 흰색 박스 제거)
 # ----------------------------------------------------------------
 if "user_name" not in st.session_state or "birth_date" not in st.session_state:
     st.warning("Please enter your info at Home first.")
@@ -453,18 +453,18 @@ u_gender = st.session_state.get("gender", "Male")
 st.markdown(f"<div class='main-header'>{t['title']}</div>", unsafe_allow_html=True)
 st.markdown(f"<div style='text-align:center; color:#64748b; margin-bottom:30px; font-weight:bold;'>{t['sub']}</div>", unsafe_allow_html=True)
 
-# 6-1. 입력 컨테이너 (밝은 테마)
-with st.container():
-    st.markdown('<div class="input-container">', unsafe_allow_html=True)
-    st.markdown(f"<h3 style='color:#1e3a8a;'>{t['p_info_title']}</h3>", unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([2, 2, 1])
-    with c1:
-        p_name = st.text_input(t['p_name'])
-    with c2:
-        p_dob = st.date_input(t['p_dob'], min_value=date(1900,1,1), value=date(1990,1,1))
-    with c3:
-        p_gender = st.selectbox(t['p_gender'], ["Male", "Female"])
-    st.markdown('</div>', unsafe_allow_html=True)
+# 6-1. 파트너 정보 입력 (박스 제거됨)
+st.markdown(f"<h3 style='color:#1e3a8a; text-shadow:1px 1px 0 #fff; margin-bottom:15px;'>{t['p_info_title']}</h3>", unsafe_allow_html=True)
+
+c1, c2, c3 = st.columns([2, 2, 1])
+with c1:
+    p_name = st.text_input(t['p_name'])
+with c2:
+    p_dob = st.date_input(t['p_dob'], min_value=date(1900,1,1), value=date(1990,1,1))
+with c3:
+    p_gender = st.selectbox(t['p_gender'], ["Male", "Female"])
+
+st.write("") # 간격
 
 # 6-2. 잠금 및 결제
 if "unlocked_biz" not in st.session_state: st.session_state["unlocked_biz"] = False
@@ -472,6 +472,7 @@ if "unlocked_biz" not in st.session_state: st.session_state["unlocked_biz"] = Fa
 if not st.session_state["unlocked_biz"]:
     st.divider()
     with st.container():
+        # 잠금 화면은 박스가 있는게 예뻐서 유지하되, 필요없으면 이 div도 지우면 됩니다.
         st.markdown('<div class="lock-container">', unsafe_allow_html=True)
         st.markdown(f"<h3 style='color:#ec4899;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
         st.write(f"<p style='color:#475569;'>{t['lock_desc']}</p>", unsafe_allow_html=True)
@@ -490,7 +491,7 @@ if not st.session_state["unlocked_biz"]:
                 if key == UNLOCK_CODE:
                     st.session_state["unlocked_biz"] = True
                     st.rerun()
-                
+                # (API 검증 로직은 동일)
                 try:
                     r1 = requests.post("https://api.gumroad.com/v2/licenses/verify",
                                       data={"product_permalink": PRODUCT_PERMALINK_SPECIFIC, "license_key": key}).json()
@@ -510,6 +511,7 @@ if not st.session_state["unlocked_biz"]:
 
         st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
+
 
 # 6-3. 결과 리포트
 if st.session_state["unlocked_biz"]:
