@@ -84,47 +84,33 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 사이드바 설정 (언어 변경 기능 추가)
+# ----------------------------------------------------------------
+# 3. 사이드바 설정 (디자인 통일)
+# ----------------------------------------------------------------
 with st.sidebar:
     st.header("Settings")
     
     # 현재 언어 표시
-    lang_map = {
-        "ko": "한국어 (Korean)", "en": "English", "fr": "Français (French)",
-        "es": "Español (Spanish)", "ja": "日本語 (Japanese)", "zh": "中文 (Chinese)"
-    }
-    current_lang_display = lang_map.get(lang, "English")
-    st.info(f"Current Mode: **{current_lang_display}**")
+    lang_map = {"ko": "한국어", "en": "English", "fr": "Français", "es": "Español", "ja": "日本語", "zh": "中文"}
+    st.info(f"Current Mode: **{lang_map.get(lang, 'English')}**")
     
-    # ⭐ 6개 국어 변경 버튼 ⭐
+    # ⭐ 6개 국어 변경 버튼
     st.write("Change Language:")
     col_l1, col_l2, col_l3 = st.columns(3)
     with col_l1:
-        if st.button("🇺🇸 EN", use_container_width=True):
-            st.session_state['lang'] = 'en'
-            st.rerun()
+        if st.button("🇺🇸 EN", key="home_en"): st.session_state['lang'] = 'en'; st.rerun()
     with col_l2:
-        if st.button("🇰🇷 KO", use_container_width=True):
-            st.session_state['lang'] = 'ko'
-            st.rerun()
+        if st.button("🇰🇷 KO", key="home_ko"): st.session_state['lang'] = 'ko'; st.rerun()
     with col_l3:
-        if st.button("🇫🇷 FR", use_container_width=True):
-            st.session_state['lang'] = 'fr'
-            st.rerun()
+        if st.button("🇫🇷 FR", key="home_fr"): st.session_state['lang'] = 'fr'; st.rerun()
             
     col_l4, col_l5, col_l6 = st.columns(3)
     with col_l4:
-        if st.button("🇪🇸 ES", use_container_width=True):
-            st.session_state['lang'] = 'es'
-            st.rerun()
+        if st.button("🇪🇸 ES", key="home_es"): st.session_state['lang'] = 'es'; st.rerun()
     with col_l5:
-        if st.button("🇯🇵 JA", use_container_width=True):
-            st.session_state['lang'] = 'ja'
-            st.rerun()
+        if st.button("🇯🇵 JA", key="home_ja"): st.session_state['lang'] = 'ja'; st.rerun()
     with col_l6:
-        if st.button("🇨🇳 ZH", use_container_width=True):
-            st.session_state['lang'] = 'zh'
-            st.rerun()
+        if st.button("🇨🇳 ZH", key="home_zh"): st.session_state['lang'] = 'zh'; st.rerun()
     
     st.markdown("---")
     
@@ -398,9 +384,16 @@ if st.session_state["analyzed"]:
 
     st.subheader(t['menu_h'])
 
+    # VIP 패스 (링크 연결)
     draw_premium_card(t['s6_t'], t['s6_d'], t['btn_buy'], imgs['s6'], link_url="https://5codes.gumroad.com/l/all-access_pass")
+    
+    # 1. 2026 운세 (페이지 이동)
     draw_premium_card(t['s1_t'], t['s1_d'], t['btn_check'], imgs['s1'], click_page="pages/1_🔮_2026_Forecast.py")
+    
+    # ⭐ 2. 그날의 운세 [수정됨] : 파일명 뒤에 _Forecast가 붙어야 에러가 안 납니다!
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day_Forecast.py")
+    
+    # ⭐ 3. 사랑 궁합 [수정됨] : 파일명 정확히 매칭
     draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_💘_Love_Compatibility.py")
     draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_🗓️_Date_Selection.py")
     draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_💼_Business_Compatibility.py")
