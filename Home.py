@@ -400,7 +400,7 @@ if st.session_state["analyzed"]:
     draw_premium_card(t['s2_t'], t['s2_d'], t['btn_check'], imgs['s2'], click_page="pages/2_📅_Specific_Day_Forecast.py")
     
     # ⭐ 3. 사랑 궁합 [수정됨] : 파일명 정확히 매칭
-    draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_💘_Love_Compatibility.py")
+    draw_premium_card(t['s3_t'], t['s3_d'], t['btn_check'], imgs['s3'], click_page="pages/3_Love_Compatibility.py")
     draw_premium_card(t['s4_t'], t['s4_d'], t['btn_check'], imgs['s4'], click_page="pages/4_🗓️_Date_Selection.py")
     draw_premium_card(t['s5_t'], t['s5_d'], t['btn_check'], imgs['s5'], click_page="pages/5_💼_Business_Compatibility.py")
 
