@@ -23,7 +23,7 @@ GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/business_compatibility"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (✨ 밝고 전문적인 비즈니스 테마)
+# 2. 스타일 설정 (박스 제거 및 글자 가독성 강화)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
@@ -31,7 +31,7 @@ st.markdown("""
         
         /* ✨ 배경: 밝은 고층 빌딩 뷰 */
         .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95)),
+            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.6)),
             url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop");
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #1e293b; 
@@ -43,25 +43,32 @@ st.markdown("""
 
         /* 메인 타이틀 */
         .main-header {
-            font-size: 2.5em; font-weight: 800; color: #1e40af; margin-bottom: 10px; text-align: center;
-            font-family: 'Gowun Batang', serif; text-shadow: none;
+            font-size: 3em; font-weight: 800; color: #1e40af; margin-bottom: 10px; text-align: center;
+            font-family: 'Gowun Batang', serif; 
+            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff; /* 타이틀 흰색 테두리 */
         }
         
-        /* ✨ 입력 컨테이너 */
-        .input-container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px; border-radius: 15px; border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1); margin-bottom: 20px;
-        }
-        
-        /* 라벨 텍스트 */
-        .stSelectbox label p, .stDateInput label p, .stTextInput label p {
-            color: #1e3a8a !important; font-weight: 700 !important; font-size: 1.1em !important;
+        /* 🚨 [핵심 수정] 라벨(질문) 글씨 스타일 (박스 없이 글자만 선명하게) */
+        .stTextInput label, .stDateInput label, .stSelectbox label, div[data-testid="stWidgetLabel"] p {
+            color: #1e3a8a !important;          /* 진한 파란색 글씨 */
+            font-size: 1.5rem !important;       /* 글자 크기 키움 */
+            font-weight: 900 !important;        /* 두께 두껍게 */
+            text-shadow: 
+                -1px -1px 0 #fff,  
+                 1px -1px 0 #fff,
+                -1px  1px 0 #fff,
+                 1px  1px 0 #fff,
+                 2px  2px 4px rgba(0,0,0,0.2) !important; /* 흰색 테두리로 배경 분리 */
+            margin-bottom: 8px !important;
         }
         
         /* 입력창 내부 스타일 */
-        div[data-baseweb="input"] { background-color: #f8fafc !important; border-color: #cbd5e1 !important; color: #000 !important; }
-        div[data-baseweb="select"] > div { background-color: #f8fafc !important; color: #000 !important; }
+        div[data-baseweb="input"], div[data-baseweb="select"] > div { 
+            background-color: rgba(255, 255, 255, 0.9) !important; 
+            border: 2px solid #3b82f6 !important; /* 파란색 테두리 */
+            color: #000 !important; 
+            border-radius: 10px !important;
+        }
 
         /* 리포트 컨테이너 */
         .report-container {
