@@ -141,13 +141,43 @@ def get_interpretation(element, lang):
 def get_forecast_data(element):
     data = {
         "Wood": {
-            "ko": {"title": "🔥 재능이 불타오르는 '표현'의 해", "gen": "2026년은 당신의 잠재력이 폭발하는 시기입니다. 표현 욕구가 강해지고 말과 행동이 돈이 됩니다.", "money": "활동하는 만큼 통장이 불어납니다.", "love": "매력이 넘쳐 이성이 꼬입니다."},
-            "en": {"title": "🔥 Year of Expression & Talent", "gen": "Your hidden potential explodes. Creativity peaks. Express your talents boldly.", "money": "Income grows as you move.", "love": "Irresistible charm."},
-            "fr": {"title": "🔥 Année de l'Expression", "gen": "Votre potentiel caché explose. Votre créativité est à son comble.", "money": "Les revenus augmentent.", "love": "Charme irrésistible."},
-            "es": {"title": "🔥 Año de Expresión", "gen": "Tu potencial oculto explota. La creatividad está en su punto máximo.", "money": "Los ingresos crecen.", "love": "Encanto irresistible."},
-            "ja": {"title": "🔥 才能が燃え上がる「表現」の年", "gen": "潜在能力が爆発する時期です。表現欲求が強まります。", "money": "活動した分だけ収入が増えます。", "love": "魅力が溢れます。"},
-            "zh": {"title": "🔥 才华燃烧的“表现”之年", "gen": "潜力爆发的一年。创意源源不断。", "money": "收入与活动量成正比。", "love": "魅力四射。"}
-        },
+    "ko": {
+        "title": "🔥 재능이 불타오르는 '표현과 결실'의 해", 
+        "gen": "2026년은 당신의 내면에 잠자고 있던 천재적인 잠재력이 화산처럼 폭발하는 시기입니다. 창의적인 아이디어가 끊임없이 샘솟으며, 당신의 말과 행동이 대중의 마음을 움직이는 강력한 힘을 갖게 됩니다. 새로운 도전이나 프로젝트를 시작하기에 최적의 해이며, 스스로의 가치를 증명할 기회가 도처에 널려 있습니다.", 
+        "money": "활동 범위가 넓어지는 만큼 통장의 잔고도 함께 불어나는 운세입니다. 당신의 아이디어가 곧바로 수익 창출이나 사업 확장으로 연결되며, 특히 예체능이나 기획 분야에서 예상치 못한 큰 성과급이나 보너스를 기대해 볼 수 있습니다.", 
+        "love": "거부할 수 없는 매력이 넘쳐나 주변에 사람이 끊이지 않는 해입니다. 싱글이라면 당신의 당당한 모습에 반한 이성의 적극적인 대시를 받게 되며, 커플은 서로의 꿈을 응원하며 관계가 한층 더 깊고 뜨거워지는 경험을 할 것입니다."
+    },
+    "en": {
+        "title": "🔥 Year of Radiant Expression & Tangible Success", 
+        "gen": "2026 is a monumental year where your dormant potential erupts like a volcano. Creative ideas will flow endlessly, and your words and actions will hold a magnetic power to influence the public. It is the ultimate time to launch new ventures, as opportunities to prove your worth are everywhere.", 
+        "money": "Your wealth grows in direct proportion to your increased activity. Your innovative ideas will directly translate into revenue or business expansion. Expect significant windfalls, especially in creative, planning, or artistic fields.", 
+        "love": "Your irresistible charm will make you the center of attention. If single, expect passionate advances from those captivated by your confidence. For couples, supporting each other's ambitions will lead to a deeper and more passionate bond."
+    },
+    "fr": {
+        "title": "🔥 Année d'Expression Éclatante et de Succès", 
+        "gen": "2026 est une année monumentale où votre potentiel dormant éclate. Les idées créatives fusionnent et vos paroles captivent le public. C'est le moment idéal pour lancer de nouveaux projets.", 
+        "money": "Vos revenus augmentent avec votre activité. Vos idées se transforment en profit. Attendez-vous à des gains importants dans les domaines créatifs.", 
+        "love": "Votre charme irrésistible attire tous les regards. Les célibataires recevront des avances passionnées. Les couples verront leur lien se renforcer par un soutien mutuel."
+    },
+    "es": {
+        "title": "🔥 Año de Expresión Radiante y Éxito Tangible", 
+        "gen": "2026 es un año monumental donde tu potencial dormido estalla. Las ideas creativas fluyen sin cesar y tus palabras cautivan al público. Es el momento perfecto para nuevos emprendimientos.", 
+        "money": "Tu riqueza crece con tu actividad. Tus ideas se traducen en ganancias. Espera beneficios significativos, especialmente en campos creativos.", 
+        "love": "Tu encanto irresistible te convertirá en el centro de atención. Si estás soltero, espera avances apasionados. Las parejas fortalecerán su vínculo mediante el apoyo mutuo."
+    },
+    "ja": {
+        "title": "🔥 才能が燃え上がる「表現と結実」の年", 
+        "gen": "2026年は、内面に眠っていた天才的な潜在能力が火山のように爆発する時期です。創造的なアイデアが絶えず湧き出、あなたの言葉と行動が人々の心を動かす強力な力を持つようになります。", 
+        "money": "活動範囲が広がる分、収入も比例して増える運勢です。あなたのアイデアが収益創出や事業拡大に直결し、特にクリエイティブな分野で予期せぬ大きな報酬が期待できます。", 
+        "love": "抗いがたい魅力が溢れ、周囲に人が絶えない一年です。シングルの人はあなたの堂々とした姿に惹かれた異性から積極的なアプローチを受け、カップルは互いの夢を応援し合うことで絆がより深まります。"
+    },
+    "zh": {
+        "title": "🔥 才华横溢之“表现与收获”年", 
+        "gen": "2026年是你内在潜能如火山般爆发的一年。创意灵感源源不断，你的言行将展现出影响大众的强大魅力。这是开启新挑战或项目的最佳时机，证明自身价值的机会无处不在。", 
+        "money": "财运随活动量的增加而水涨船高。你的创意将直接转化为收益或事业扩张。特别是在策划、艺术或创意领域，有望获得意想不到的丰厚奖金或回报。", 
+        "love": "魅力四射的一年，异性缘极佳。单身者会因自信大方的表现而收获热烈的追求；有伴侣的人则会通过互相扶持梦想，使感情进入更加深厚且甜蜜的新阶段。"
+    }
+},
         "Fire": {
             "ko": {"title": "🤝 경쟁과 도약의 '자립'의 해", "gen": "자신감이 하늘을 찌릅니다. 독립심이 강해져 창업하기 좋습니다.", "money": "들어오는 돈도 많고 나가는 돈도 많습니다.", "love": "친구 같은 연인을 만납니다."},
             "en": {"title": "🤝 Year of Self-Reliance", "gen": "Confidence skyrockets. Great year for startups.", "money": "High income, high expenses.", "love": "Friends turn into lovers."},
