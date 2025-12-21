@@ -62,6 +62,15 @@ st.markdown("""
             text-align: center; width: 90%; z-index: 99; border: 1px solid #f472b6;
             box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
         }
+        /* 입력 필드 레이블 및 라디오 버튼 텍스트 색상 변경 */
+        .stTextInput label, .stDateInput label, .stRadio label p {
+            color: #e2e8f0 !important; /* 밝은 회색으로 설정하여 가독성 확보 */
+            font-weight: 600 !important;
+        }
+        /* 라디오 버튼 옵션 텍스트 (Male, Female) 색상 */
+        .stRadio div[role='radiogroup'] label div {
+            color: #e2e8f0 !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
