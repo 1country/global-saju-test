@@ -484,6 +484,9 @@ if not st.session_state["unlocked_biz"]:
         st.markdown("---")
         key = st.text_input("License Key", type="password")
         
+        # 🚨 이 아래에 </div>를 닫아주는 코드를 추가해야 흰 박스가 사라집니다!
+        st.markdown('</div>', unsafe_allow_html=True)
+        
         if st.button(t['btn_unlock'], type="primary", use_container_width=True):
             if not p_name:
                 st.error("Please enter partner name.")
