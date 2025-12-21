@@ -325,12 +325,15 @@ if analyze_btn or st.session_state.get('love_analyzed'):
     my_info = calculate_day_gan(st.session_state["birth_date"])
     pt_info = calculate_day_gan(p_dob)
     
-    # 오행 변환 (한자/영어 호환)
+    # ⭐ [수정] 한자와 영어를 모두 처리하는 안전한 변환 함수
     def map_elem(input_val):
+        # 1. 이미 영어라면 그대로 반환
         valid_english = ["Wood", "Fire", "Earth", "Metal", "Water"]
-        if input_val in valid_english: return input_val
+        if input_val in valid_english:
+            return input_val
+        # 2. 한자라면 영어로 변환
         m = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'}
-        return m.get(input_val, 'Wood')
+        return m.get(input_val, 'Wood') # 기본값 설정
 
     my_elem = map_elem(my_info['element'])
     pt_elem = map_elem(pt_info['element'])
