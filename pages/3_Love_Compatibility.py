@@ -535,27 +535,47 @@ if analyze_btn or st.session_state.get('love_analyzed'):
             c1, c2 = st.columns([3, 1])
             with c1: k_in = st.text_input(t['key_label'], type="password", label_visibility="collapsed")
             with c2: 
-                if st.button(t['btn_unlock']):
+                if st.button(t['btn_unlock'], type="primary", use_container_width=True):
+                    # 1. 마스터 키 (무제한) 확인
                     if k_in == UNLOCK_CODE:
                         st.session_state["unlocked_love"] = True
-                        st.success("Unlocked!")
+                        st.success("Master Unlocked!")
                         st.rerun()
                     else:
                         try:
+                            # 2. 단품(Love Compatibility) 키 확인 (3회 제한)
                             r = requests.post("https://api.gumroad.com/v2/licenses/verify", 
-                                              data={"product_permalink": "love_compatibility", "license_key": k_in}).json()
+                                              data={
+                                                  "product_permalink": "love_compatibility", 
+                                                  "license_key": k_in, 
+                                                  "increment_uses_count": "true" # 👈 카운트 증가
+                                              }).json()
+                            
                             if r.get("success"):
-                                st.session_state["unlocked_love"] = True
-                                st.rerun()
-                            else:
-                                r2 = requests.post("https://api.gumroad.com/v2/licenses/verify", 
-                                                   data={"product_permalink": "all-access_pass", "license_key": k_in}).json()
-                                if r2.get("success"):
+                                if r.get("uses", 0) > 3: # 🚨 3회 제한 로직
+                                    st.error("🚫 Usage limit exceeded (Max 3)")
+                                else:
                                     st.session_state["unlocked_love"] = True
                                     st.rerun()
+                            else:
+                                # 3. 올패스(All-Access) 키 확인 (합산 10회 제한)
+                                r2 = requests.post("https://api.gumroad.com/v2/licenses/verify", 
+                                                   data={
+                                                       "product_permalink": "all-access_pass", 
+                                                       "license_key": k_in, 
+                                                       "increment_uses_count": "true" # 👈 카운트 증가
+                                                   }).json()
+                                
+                                if r2.get("success"):
+                                    if r2.get("uses", 0) > 10: # 🚨 합산 10회 제한 로직
+                                        st.error("🚫 Usage limit exceeded (Max 10)")
+                                    else:
+                                        st.session_state["unlocked_love"] = True
+                                        st.rerun()
                                 else:
                                     st.error("Invalid Key")
-                        except: st.error("Error")
+                        except: 
+                            st.error("Connection Error")
     else:
         # 🔓 해제 상태
         st.success("🔓 VIP Report Unlocked!")
