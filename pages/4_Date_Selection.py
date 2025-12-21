@@ -19,7 +19,7 @@ UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/date_selection"
 
 # ----------------------------------------------------------------
-# 2. 스타일 설정 (글자 크기 UP, 테두리 추가, 쓸모없는 박스 제거)
+# 2. 스타일 설정 (라벨 가독성 완벽 해결)
 # ----------------------------------------------------------------
 st.markdown("""
     <style>
@@ -41,37 +41,38 @@ st.markdown("""
         .main-title {
             font-size: 3.5em; font-weight: 800; color: #fce7f3; text-align: center; margin-bottom: 20px;
             font-family: 'Gowun Batang', serif; 
-            text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* 글자 테두리 효과 */
+            text-shadow: 2px 2px 0 #000;
         }
         .sub-title {
             text-align: center; color: #e2e8f0; font-size: 1.5em; margin-bottom: 40px; font-weight: bold;
             text-shadow: 2px 2px 4px #000;
         }
 
-        /* 🌟 [핵심 수정] 입력창 라벨(질문) 스타일: 박스 없이 글자만 강조 */
-        .stSelectbox label p, .stDateInput label p {
-            color: #ffffff !important;         /* 글자색 흰색 */
-            font-size: 1.8rem !important;      /* 글자 크기 대폭 확대 */
-            font-weight: 900 !important;       /* 두께 아주 두껍게 */
-            /* 글자 테두리(Stroke) 효과 - 배경이 뭐든 무조건 잘 보임 */
+        /* 🌟 [수정됨] 입력창 라벨(질문) 스타일 - 선택자 강화 */
+        div[data-testid="stWidgetLabel"] p {
+            color: #ffffff !important;         /* 완전 흰색 */
+            font-size: 1.5rem !important;      /* 글자 크기 키움 */
+            font-weight: 900 !important;       /* 두께 두껍게 */
             text-shadow: 
+                2px 2px 0 #000,   /* 검은색 그림자로 테두리 효과 */
                 -1px -1px 0 #000,  
                 1px -1px 0 #000,
                 -1px 1px 0 #000,
-                1px 1px 0 #000,
-                2px 2px 5px rgba(0,0,0,0.8); 
-            margin-bottom: 10px;
+                1px 1px 0 #000;
+            background-color: rgba(0,0,0,0.3); /* 글자 뒤에 살짝 어두운 배경 추가 */
+            padding: 5px 10px;                 /* 배경 여백 */
+            border-radius: 5px;                /* 배경 둥글게 */
+            display: inline-block;             /* 배경이 글자 크기에 맞춰지도록 */
         }
         
-        /* 입력창(Selectbox, DateInput) 내부 디자인 */
+        /* 입력창 내부 디자인 */
         div[data-baseweb="select"] > div, div[data-baseweb="input"] {
-            background-color: rgba(255, 255, 255, 0.9) !important; /* 약간 투명한 흰색 배경 */
-            color: #1e293b !important; /* 입력 글자는 진한 남색 */
-            font-size: 1.2rem !important; /* 입력 글자도 키움 */
-            border: 2px solid #f472b6 !important; /* 테두리 핑크색 */
+            background-color: rgba(255, 255, 255, 0.95) !important; 
+            color: #1e293b !important; 
+            font-size: 1.2rem !important;
+            border: 2px solid #f472b6 !important;
             border-radius: 10px !important;
-            height: 50px !important; /* 입력창 높이 키움 */
-            display: flex; align-items: center;
+            height: 50px !important;
         }
         
         /* 버튼 스타일 */
@@ -79,21 +80,20 @@ st.markdown("""
             font-size: 1.5rem !important;
             font-weight: bold !important;
             padding: 15px !important;
-            height: auto !important;
             border-radius: 12px !important;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         /* 결과 카드 스타일 */
         .rec-card {
-            background: rgba(255, 255, 255, 0.95); /* 흰색 카드 */
+            background: rgba(255, 255, 255, 0.95);
             border: 3px solid #f472b6; 
             padding: 25px;
             border-radius: 20px; 
             margin-bottom: 20px; 
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            color: #334155; /* 결과 글자색은 어둡게 */
+            color: #334155;
         }
         .rec-rank { font-size: 2em; margin-bottom:10px; display:block;}
         .rec-date { font-size: 2em; font-weight: 800; color: #be185d; display:block; margin-bottom: 5px;}
@@ -101,7 +101,7 @@ st.markdown("""
         
         /* 상단 조언 박스 */
         .advice-box {
-            background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
+            background-color: rgba(0, 0, 0, 0.7);
             border: 2px solid #f472b6;
             color: #fff;
             padding: 25px;
@@ -110,7 +110,6 @@ st.markdown("""
             font-size: 1.4em;
             font-weight: bold;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
         /* 잠금 오버레이 */
