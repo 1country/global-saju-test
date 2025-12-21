@@ -114,12 +114,12 @@ def get_interpretation(element, lang):
             "zh": "你命中带有‘土’的基因，象征着孕育万物、厚德载物的母性力量。正如广袤无垠的大地，你拥有极强的包容力和稳重的魅力。你视信用如生命，是深受周围人信赖的‘协调者’。凭借不急不躁、处变不惊的定力，你在团队中始终扮演着中流砥柱的角色。虽然深思熟虑有时会导致决策稍慢，或表现出畏惧改变的保守倾向，但那种一旦下定决心便绝不言弃的韧性，是你通往成功最强大的武器。"
         },
         "Metal": {
-            "ko": "당신은 '쇠(Metal)'입니다. 결단력이 있고 의리가 있으며 냉철합니다.",
-            "en": "You are 'Metal'. You are decisive, loyal, and sharp.",
-            "fr": "Vous êtes le 'Métal'. Vous êtes décisif, loyal et tranchant.",
-            "es": "Eres 'Metal'. Eres decidido, leal y agudo.",
-            "ja": "あなたは「金」です。決断力があり、義理堅く、冷静です。",
-            "zh": "你是‘金’。果断、讲义气且冷静。"
+            "ko": "당신은 예리한 칼날과 단단한 바위를 상징하는 '쇠(Metal)'의 기운을 타고났습니다. 흐트러짐 없는 결단력과 강한 의지를 지니고 있으며, 한 번 맺은 인연과 약속을 끝까지 지켜내는 의리파입니다. 매사에 완벽을 기하며 공과 사를 명확히 구분하는 냉철한 이성을 바탕으로 조직의 기강을 잡고 문제를 해결하는 '해결사' 역할을 수행합니다. 다만, 자신과 타인에게 엄격한 잣대를 대는 완벽주의 성향 때문에 차갑다는 오해를 사기도 하지만, 그 내면에는 누구보다 정의롭고 속이 깊은 따뜻한 진심이 숨겨져 있습니다.",
+            "en": "You embody the essence of 'Metal,' symbolizing sharp blades and solid rock. You possess unwavering decisiveness and a powerful will, acting as a person of great integrity who honors commitments and relationships to the end. With a commitment to perfection and a rational mind that clearly distinguishes between public and private matters, you excel as a 'troubleshooter' who maintains discipline and solves complex problems. While your perfectionist nature and strict standards for yourself and others may lead to being misunderstood as cold, beneath that exterior lies a profoundly just and deeply warm heart.",
+            "fr": "Vous incarnez l'essence du 'Métal', symbolisant les lames acérées et le roc solide. Vous possédez une détermination inébranlable et une volonté puissante, agissant comme une personne d'une grande intégrité qui honore ses engagements jusqu'au bout. Avec un souci de perfection et un esprit rationnel qui distingue clairement les affaires publiques et privées, vous excellez en tant que 'dépanneur' qui maintient la discipline. Bien que votre nature perfectionniste et vos normes strictes puissent être perçues comme de la froideur, sous cette apparence se cache un cœur profondément juste et chaleureux.",
+            "es": "Encarnas la esencia del 'Metal', que simboliza las hojas afiladas y la roca sólida. Posees una determinación inquebrantable y una voluntad poderosa, actuando como una persona de gran integridad que honra sus compromisos hasta el final. Con un compromiso con la perfección y una mente racional que distingue claramente entre asuntos públicos y privados, destacas como un 'solucionador de problemas' que mantiene la disciplina. Aunque tu naturaleza perfeccionista y tus estrictos estándares puedan ser malinterpretados como frialdad, bajo ese exterior se esconde un corazón profundamente justo y cálido.",
+            "ja": "あなたは鋭い刃や硬い岩を象徴する「金（Metal）」の気運を持って生まれました。乱れのない決断力と強い意志を持ち、一度結んだ縁や約束を最後まで守り抜く義理堅い人です。何事にも完璧を期し、公私を明確に区별する冷静な理性を基に、組織の規律を守り問題を解決する「解決師」の役割を果たします。自分や他人に厳しい完璧主義な面から冷たいと誤解されることもありますが、その内面には誰よりも正義感が強く、思慮深い温かな真心が秘められています。",
+            "zh": "你命中带有‘金’的基因，象征着锋利的宝剑与坚固的磐石。你拥有果 敢的决断力和顽强的意志，是极重义气、言出必行的诚信之辈。凭借追求完美的严谨态度和公私分明的冷峻理性，你在团队中扮演着整肃纪律、攻坚克难的‘终结者’角色。虽然因对自己和他人的严苛要求有时会被误解为冷酷，但实际上你外冷内热，内心深处藏着一颗比任何人都更正直、更深沉的赤子之心。"
         },
         "Water": {
             "ko": "당신은 '물(Water)'입니다. 지혜롭고 유연하며 적응력이 뛰어납니다.",
