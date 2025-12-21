@@ -467,25 +467,27 @@ with c3:
 st.write("") # 간격
 
 # 6-2. 잠금 및 결제
-if "unlocked_biz" not in st.session_state: st.session_state["unlocked_biz"] = False
+if "unlocked_biz" not in st.session_state: 
+    st.session_state["unlocked_biz"] = False
 
 if not st.session_state["unlocked_biz"]:
     st.divider()
+    
+    # 🚨 흰 박스를 만드는 'lock-container' div를 제거하고 
+    # 대신 st.container의 테두리(border)를 꺼버립니다.
     with st.container():
-        # 잠금 화면은 박스가 있는게 예뻐서 유지하되, 필요없으면 이 div도 지우면 됩니다.
-        st.markdown('<div class="lock-container">', unsafe_allow_html=True)
-        st.markdown(f"<h3 style='color:#ec4899;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
-        st.write(f"<p style='color:#475569;'>{t['lock_desc']}</p>", unsafe_allow_html=True)
+        st.markdown(f"<h3 style='color:#ec4899; text-align:center;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
+        st.write(f"<p style='color:#475569; text-align:center;'>{t['lock_desc']}</p>", unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
-        with c1: st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC)
-        with c2: st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL)
+        with c1: 
+            st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC, use_container_width=True)
+        with c2: 
+            st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL, use_container_width=True)
         
         st.markdown("---")
-        key = st.text_input("License Key", type="password")
-        
-        # 🚨 이 아래에 </div>를 닫아주는 코드를 추가해야 흰 박스가 사라집니다!
-        st.markdown('</div>', unsafe_allow_html=True)
+        # 🔑 레이블이 안 보일 수 있으니 안내 문구를 추가한 text_input
+        key = st.text_input("License Key (결제 후 받은 키를 입력하세요)", type="password")
         
         if st.button(t['btn_unlock'], type="primary", use_container_width=True):
             if not p_name:
