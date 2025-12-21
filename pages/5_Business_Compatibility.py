@@ -390,42 +390,42 @@ ui_text = {
         "title": "💼 비즈니스 파트너 궁합", "sub": "동업 성공 전략 및 역할 분담 분석",
         "p_info_title": "파트너 정보 입력", "p_name": "파트너 이름", "p_dob": "파트너 생년월일", "p_gender": "성별",
         "lock_title": "🔒 리포트 잠금", "lock_desc": "결제 후 발급받은 키를 입력하세요.", "lock_warn": "⚠️ 사용 횟수가 1회 차감됩니다.",
-        "btn_buy_sp": "💳 단품 구매 ($10)", "btn_buy_all": "🎟️ All-Access ($30)", "btn_unlock": "결과 확인", "btn_print": "🖨️ 인쇄하기",
+        "btn_buy_sp": "💳 단품 구매 ($3)", "btn_buy_all": "🎟️ All-Access ($10)", "btn_unlock": "결과 확인", "btn_print": "🖨️ 인쇄하기",
         "lbl_syn": "🚀 시너지 (Synergy)", "lbl_fin": "💰 재무 (Finance)", "lbl_rol": "👔 역할 (Role)", "lbl_adv": "💡 조언 (Advice)", "lbl_score": "궁합 점수"
     },
     "en": {
         "title": "💼 Business Compatibility", "sub": "Co-founding Strategy & Role Analysis",
         "p_info_title": "Partner Info", "p_name": "Partner Name", "p_dob": "Partner DOB", "p_gender": "Gender",
         "lock_title": "🔒 Report Locked", "lock_desc": "Enter license key to unlock.", "lock_warn": "⚠️ Deducts 1 credit.",
-        "btn_buy_sp": "💳 Single ($10)", "btn_buy_all": "🎟️ All-Access ($30)", "btn_unlock": "Unlock", "btn_print": "🖨️ Print",
+        "btn_buy_sp": "💳 Single ($3)", "btn_buy_all": "🎟️ All-Access ($10)", "btn_unlock": "Unlock", "btn_print": "🖨️ Print",
         "lbl_syn": "🚀 Synergy", "lbl_fin": "💰 Finance", "lbl_rol": "👔 Role", "lbl_adv": "💡 Advice", "lbl_score": "Score"
     },
     "fr": {
         "title": "💼 Compatibilité Affaires", "sub": "Stratégie de partenariat",
         "p_info_title": "Info Partenaire", "p_name": "Nom", "p_dob": "Date de naissance", "p_gender": "Genre",
         "lock_title": "🔒 Verrouillé", "lock_desc": "Entrez la clé de licence.", "lock_warn": "⚠️ Déduit 1 crédit.",
-        "btn_buy_sp": "💳 Unique ($10)", "btn_buy_all": "🎟️ Tout ($30)", "btn_unlock": "Débloquer", "btn_print": "🖨️ Imprimer",
+        "btn_buy_sp": "💳 Unique ($3)", "btn_buy_all": "🎟️ Tout ($10)", "btn_unlock": "Débloquer", "btn_print": "🖨️ Imprimer",
         "lbl_syn": "🚀 Synergie", "lbl_fin": "💰 Finance", "lbl_rol": "👔 Rôle", "lbl_adv": "💡 Conseil", "lbl_score": "Score"
     },
     "es": {
         "title": "💼 Compatibilidad de Negocios", "sub": "Estrategia de asociación",
         "p_info_title": "Info Socio", "p_name": "Nombre", "p_dob": "Fecha nacimiento", "p_gender": "Género",
         "lock_title": "🔒 Bloqueado", "lock_desc": "Ingrese la clave.", "lock_warn": "⚠️ Deduce 1 crédito.",
-        "btn_buy_sp": "💳 Único ($10)", "btn_buy_all": "🎟️ Todo ($30)", "btn_unlock": "Desbloquear", "btn_print": "🖨️ Imprimir",
+        "btn_buy_sp": "💳 Único ($3)", "btn_buy_all": "🎟️ Todo ($10)", "btn_unlock": "Desbloquear", "btn_print": "🖨️ Imprimir",
         "lbl_syn": "🚀 Sinergia", "lbl_fin": "💰 Finanzas", "lbl_rol": "👔 Rol", "lbl_adv": "💡 Consejo", "lbl_score": "Puntuación"
     },
     "ja": {
         "title": "💼 ビジネス相性診断", "sub": "共同創業と役割分担の分析",
         "p_info_title": "パートナー情報", "p_name": "名前", "p_dob": "生年月日", "p_gender": "性別",
         "lock_title": "🔒 ロック中", "lock_desc": "ライセンスキーを入力。", "lock_warn": "⚠️ 1回分消費します。",
-        "btn_buy_sp": "💳 単品 ($10)", "btn_buy_all": "🎟️ 全て ($30)", "btn_unlock": "解除", "btn_print": "🖨️ 印刷",
+        "btn_buy_sp": "💳 単品 ($3)", "btn_buy_all": "🎟️ 全て ($10)", "btn_unlock": "解除", "btn_print": "🖨️ 印刷",
         "lbl_syn": "🚀 シナジー", "lbl_fin": "💰 財務", "lbl_rol": "👔 役割", "lbl_adv": "💡 アドバイス", "lbl_score": "スコア"
     },
     "zh": {
         "title": "💼 商业伙伴合盘", "sub": "合伙策略与角色分配",
         "p_info_title": "伙伴信息", "p_name": "姓名", "p_dob": "出生日期", "p_gender": "性别",
         "lock_title": "🔒 已锁定", "lock_desc": "输入许可密钥。", "lock_warn": "⚠️ 扣除1次额度。",
-        "btn_buy_sp": "💳 单次 ($10)", "btn_buy_all": "🎟️ 通行证 ($30)", "btn_unlock": "解锁", "btn_print": "🖨️ 打印",
+        "btn_buy_sp": "💳 单次 ($3)", "btn_buy_all": "🎟️ 通行证 ($10)", "btn_unlock": "解锁", "btn_print": "🖨️ 打印",
         "lbl_syn": "🚀 协同效应", "lbl_fin": "💰 财务", "lbl_rol": "👔 角色", "lbl_adv": "💡 建议", "lbl_score": "分数"
     }
 }
