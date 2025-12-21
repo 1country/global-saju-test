@@ -29,32 +29,39 @@ st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
-        /* ✨ 배경: 밝은 고층 빌딩 뷰 (확실한 이미지) */
+        /* ✨ 배경: 밝은 고층 빌딩 뷰 (새로운 이미지 URL 적용) */
         .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)),
-            url("https://cdn.pixabay.com/photo/2017/09/08/18/20/skyscraper-2729606_1280.jpg");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95)),
+            url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop");
             background-size: cover; background-attachment: fixed; background-position: center;
-            color: #1e293b;
+            color: #1e293b; /* 기본 글자색: 진한 회색 */
         }
         
-        /* 나머지 스타일은 기존과 동일 */
+        /* 사이드바 */
         section[data-testid="stSidebar"] { background-color: #f8fafc !important; border-right: 1px solid #cbd5e1; }
         section[data-testid="stSidebar"] * { color: #334155 !important; }
 
+        /* 메인 타이틀 */
         .main-header {
             font-size: 2.5em; font-weight: 800; color: #1e40af; margin-bottom: 10px; text-align: center;
-            font-family: 'Gowun Batang', serif;
+            font-family: 'Gowun Batang', serif; text-shadow: none;
         }
         
+        /* ✨ 입력 컨테이너 */
         .input-container {
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px; border-radius: 15px; border: 1px solid #e2e8f0;
             box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1); margin-bottom: 20px;
         }
         
+        /* 라벨 텍스트 */
         .stSelectbox label p, .stDateInput label p, .stTextInput label p {
             color: #1e3a8a !important; font-weight: 700 !important; font-size: 1.1em !important;
         }
+        
+        /* 입력창 내부 스타일 */
+        div[data-baseweb="input"] { background-color: #f8fafc !important; border-color: #cbd5e1 !important; color: #000 !important; }
+        div[data-baseweb="select"] > div { background-color: #f8fafc !important; color: #000 !important; }
 
         /* 리포트 컨테이너 */
         .report-container {
@@ -78,6 +85,7 @@ st.markdown("""
         }
         .content-text { font-size: 1.1em; line-height: 1.8; color: #475569; text-align: justify; }
         
+        /* 사용자 카드 */
         .user-card {
             background: linear-gradient(135deg, #eff6ff, #ffffff); 
             padding: 20px; border-radius: 12px; border: 1px solid #dbeafe;
@@ -92,8 +100,9 @@ st.markdown("""
             font-size: 2.5em; font-weight: bold; color: #3b82f6; height: 100%;
         }
         
+        /* 잠금 화면 스타일 */
         .lock-container {
-            text-align:center; background-color: rgba(255,255,255,0.9); padding:30px; border-radius:15px;
+            text-align:center; background-color: rgba(255,255,255,0.95); padding:30px; border-radius:15px;
             border: 1px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
     </style>
@@ -534,6 +543,7 @@ if st.session_state["unlocked_biz"]:
     st.write("")
     
     # (B) 메인 리포트
+    # ⚠️ 중요: 아래 HTML 코드는 들여쓰기 없이 왼쪽 끝에 붙여야 정상적으로 보입니다.
     html_content = f"""
 <div class='report-container'>
     <div class='score-display'>{t['lbl_score']}: {report['score']}</div>
