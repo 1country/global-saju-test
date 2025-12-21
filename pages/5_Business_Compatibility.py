@@ -466,78 +466,77 @@ with c3:
 
 st.write("") # 간격
 
-# 6-2. 잠금 및 결제
+# 6-2. 잠금 및 결제 (흰 박스 완벽 제거 버전)
 if "unlocked_biz" not in st.session_state: 
     st.session_state["unlocked_biz"] = False
 
 if not st.session_state["unlocked_biz"]:
     st.divider()
     
-    # 🚨 흰 박스를 만드는 'lock-container' div를 제거하고 
-    # 대신 st.container의 테두리(border)를 꺼버립니다.
-    with st.container():
-        st.markdown(f"<h3 style='color:#ec4899; text-align:center;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
-        st.write(f"<p style='color:#475569; text-align:center;'>{t['lock_desc']}</p>", unsafe_allow_html=True)
-        
-        c1, c2 = st.columns(2)
-        with c1: 
-            st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC, use_container_width=True)
-        with c2: 
-            st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL, use_container_width=True)
-        
-        st.markdown("---")
-        # 🔑 레이블이 안 보일 수 있으니 안내 문구를 추가한 text_input
-        key = st.text_input("License Key (결제 후 받은 키를 입력하세요)", type="password")
-        
-        if st.button(t['btn_unlock'], type="primary", use_container_width=True):
-            if not p_name:
-                st.error("Please enter partner name.")
-            else:
-                # 1. 마스터 키 (무제한) 확인
-                if key == UNLOCK_CODE:
-                    st.session_state["unlocked_biz"] = True
-                    st.success("Master Unlocked!")
-                    st.rerun()
+    # 🚨 [수정] 박스를 만드는 모든 div와 border 옵션을 제거했습니다.
+    st.markdown(f"<h3 style='color:#ec4899; text-align:center; text-shadow: 1px 1px 2px white;'>{t['lock_title']}</h3>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color:#475569; text-align:center; font-weight:bold;'>{t['lock_desc']}</p>", unsafe_allow_html=True)
+    
+    # 구매 버튼 섹션
+    c1, c2 = st.columns(2)
+    with c1: 
+        st.link_button(t['btn_buy_sp'], GUMROAD_LINK_SPECIFIC, use_container_width=True)
+    with c2: 
+        st.link_button(t['btn_buy_all'], GUMROAD_LINK_ALL, use_container_width=True)
+    
+    st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True) # 미세 간격 조정
+    
+    # 라이선스 키 입력창 (중앙 정렬 효과를 위해 빈 컬럼 활용 가능)
+    key = st.text_input("🔑 License Key (결제 후 받은 키를 입력하세요)", type="password")
+    
+    # 분석하기 버튼
+    if st.button(t['btn_unlock'], type="primary", use_container_width=True):
+        if not p_name:
+            st.error("Please enter partner name.")
+        else:
+            # 1. 마스터 키 (무제한) 확인
+            if key == UNLOCK_CODE:
+                st.session_state["unlocked_biz"] = True
+                st.success("Master Unlocked!")
+                st.rerun()
+            
+            # 2. 검로드 라이센스 확인
+            try:
+                # (A) 단품(Business Compatibility) 키 확인 (3회 제한)
+                r1 = requests.post("https://api.gumroad.com/v2/licenses/verify",
+                                  data={
+                                      "product_permalink": PRODUCT_PERMALINK_SPECIFIC, 
+                                      "license_key": key,
+                                      "increment_uses_count": "true" 
+                                  }).json()
                 
-                # 2. 검로드 라이센스 확인
-                try:
-                    # (A) 단품(Business Compatibility) 키 확인 (3회 제한)
-                    r1 = requests.post("https://api.gumroad.com/v2/licenses/verify",
+                if r1.get("success"):
+                    if r1.get("uses", 0) > 3: 
+                        st.error(f"🚫 Usage limit exceeded (Max 3)")
+                    else:
+                        st.session_state["unlocked_biz"] = True
+                        st.rerun()
+                else:
+                    # (B) 올패스(All-Access) 키 확인 (합산 10회 제한)
+                    r2 = requests.post("https://api.gumroad.com/v2/licenses/verify",
                                       data={
-                                          "product_permalink": PRODUCT_PERMALINK_SPECIFIC, 
+                                          "product_permalink": PRODUCT_PERMALINK_ALL, 
                                           "license_key": key,
-                                          "increment_uses_count": "true" # 👈 카운트 증가 활성화
+                                          "increment_uses_count": "true"
                                       }).json()
                     
-                    if r1.get("success"):
-                        if r1.get("uses", 0) > 3: # 🚨 3회 제한 로직
-                            st.error(f"🚫 Usage limit exceeded (Max 3)")
+                    if r2.get("success"):
+                        if r2.get("uses", 0) > 10: 
+                            st.error(f"🚫 Usage limit exceeded (Max 10)")
                         else:
                             st.session_state["unlocked_biz"] = True
                             st.rerun()
                     else:
-                        # (B) 올패스(All-Access) 키 확인 (합산 10회 제한)
-                        r2 = requests.post("https://api.gumroad.com/v2/licenses/verify",
-                                          data={
-                                              "product_permalink": PRODUCT_PERMALINK_ALL, 
-                                              "license_key": key,
-                                              "increment_uses_count": "true" # 👈 카운트 증가 활성화
-                                          }).json()
-                        
-                        if r2.get("success"):
-                            if r2.get("uses", 0) > 10: # 🚨 합산 10회 제한 로직
-                                st.error(f"🚫 Usage limit exceeded (Max 10)")
-                            else:
-                                st.session_state["unlocked_biz"] = True
-                                st.rerun()
-                        else:
-                            st.error("Invalid License Key")
-                except:
-                    st.error("Connection Error")
+                        st.error("Invalid License Key")
+            except:
+                st.error("Connection Error")
 
-        st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
-
 
 # 6-3. 결과 리포트
 if st.session_state["unlocked_biz"]:
