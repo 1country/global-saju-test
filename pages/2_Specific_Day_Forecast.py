@@ -58,7 +58,13 @@ st.markdown("""
             border: 1px solid #f472b6; background: rgba(83, 24, 59, 0.3); padding: 20px; border-radius: 10px; margin-top: 10px;
         }
         h3, h4 { font-family: 'Gowun Batang', serif; }
-        
+        /* 날짜 선택 라벨 색상 및 크기 조절 */
+        .stDateInput label p {
+            color: #ffffff !important;  /* 흰색 코드 */
+            font-size: 1.2rem !important; /* 글자 크기 (기존보다 크게) */
+            font-weight: 600 !important; /* 글자 두께 두껍게 */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* 가독성을 위한 그림자 살짝 */
+        }
         /* 잠금 오버레이 스타일 */
         .lock-overlay {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
