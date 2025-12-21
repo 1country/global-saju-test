@@ -337,7 +337,7 @@ if not st.session_state["analyzed"]:
             </div>
         """, unsafe_allow_html=True)
 
-# --- 도우미 함수 ---
+# --- 도우미 함수 (수정됨) ---
 def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=None):
     with st.container(border=True):
         col_img, col_text, col_btn = st.columns([1.2, 3.3, 1.5], gap="medium")
@@ -350,11 +350,17 @@ def draw_premium_card(title, desc, btn_text, img_url, click_page=None, link_url=
         with col_btn:
             st.write("") 
             st.write("") 
-            if click_page:
-                if st.button(btn_text, key=title, use_container_width=True):
-                    st.switch_page(click_page)
-            elif link_url:
+            # ⭐ [중요] 버튼 로직을 단순하고 명확하게 변경
+            if link_url:
+                # 외부 링크 (새 탭)
                 st.link_button(btn_text, link_url, type="primary", use_container_width=True)
+            elif click_page:
+                # 내부 페이지 이동 (st.switch_page는 반드시 전체 경로를 포함해야 함)
+                if st.button(btn_text, key=f"btn_{title}", use_container_width=True):
+                    try:
+                        st.switch_page(click_page)
+                    except Exception as e:
+                        st.error(f"Page not found: {click_page}")
 
 # 6. 결과 및 프리미엄 스토어
 if st.session_state["analyzed"]:
