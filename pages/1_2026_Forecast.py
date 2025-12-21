@@ -90,12 +90,13 @@ def get_interpretation(element, lang):
     # 6개 국어 데이터베이스
     data = {
         "Wood": {
-            "ko": "당신은 '나무(Wood)'입니다. 성장을 지향하며 창의적이고 인자한 성품을 가졌습니다.",
-            "en": "You are 'Wood'. You are growth-oriented, creative, and benevolent.",
-            "fr": "Vous êtes le 'Bois'. Vous visez la croissance, êtes créatif et bienveillant.",
-            "es": "Eres 'Madera'. Buscas el crecimiento, eres creativo y benevolente.",
-            "ja": "あなたは「木」です。成長を志向し、創造的で慈悲深い性格です。",
-            "zh": "你是‘木’。向往成长，富有创造力且仁慈。"
+    "ko": "당신은 만물의 시작과 성장을 상징하는 '나무(Wood)'의 기운을 타고났습니다. 하늘을 향해 뻗어 나가는 나무처럼 강한 추진력과 향상심을 가지고 있으며, 새로운 일을 기획하고 창조하는 데 탁월한 재능이 있습니다. 성품이 인자하고 측은지심이 있어 주변 사람들을 따뜻하게 보살피는 리더십을 발휘합니다. 다만, 굽히기보다 부러지기를 택하는 강직함 때문에 때로는 융통성이 부족하다는 평을 듣기도 하지만, 이는 당신이 가진 올곧은 신념의 증거이기도 합니다.",
+    "en": "You embody the essence of 'Wood,' symbolizing the beginning of all life and upward growth. Much like a tree reaching for the sky, you possess powerful drive and a constant desire for self-improvement. You have an exceptional talent for planning and creating new ventures. Your benevolent nature and deep empathy allow you to lead others with warmth and compassion. While your steadfast integrity—choosing to break rather than bend—can sometimes be perceived as stubbornness, it is a testament to your unwavering principles and honesty.",
+    "fr": "Vous incarnez l'essence du 'Bois', symbolisant le renouveau et la croissance ascendante. Tel un arbre s'élançant vers le ciel, vous possédez un dynamisme puissant et un désir constant de dépassement. Vous avez un talent exceptionnel pour planifier et créer de nouveaux projets. Votre nature bienveillante et votre profonde empathie vous permettent de diriger les autres avec chaleur. Bien que votre intégrité rigide — préférant rompre que de plier — puisse parfois passer pour de l'inflexibilité, c'est la preuve de vos principes inébranlables.",
+    "es": "Encarnas la esencia de la 'Madera', que simboliza el comienzo de la vida y el crecimiento hacia arriba. Como un árbol que busca el cielo, posees un impulso poderoso y un deseo constante de superación. Tienes un talento excepcional para planificar y crear nuevos proyectos. Tu naturaleza benevolente y profunda empatía te permiten liderar a otros con calidez. Aunque tu integridad inquebrantable —prefiriendo romperse antes que doblarse— a veces puede verse como falta de flexibilidad, es testimonio de tus firmes principios.",
+    "ja": "あなたは万物の始まりと成長を象徴する「木（Wood）」の気運を持って生まれました。空に向かって伸びる木のように強い推進力と向上心を持ち、新しいことを企画し創造することに卓越した才能を発揮します。慈悲深く、他人を思いやる心があるため、周囲を温かく見守るリーダーシップを持っています。曲がるよりは折れることを選ぶ潔さゆえに、時に融통性に欠けると評価されることもありますが、それはあなたが持つ真っ直ぐな信念の証でもあります。",
+    "zh": "你命中带有‘木’的基因，象征着万物的起源与勃勃生机。正如向天空伸展的树木，你拥有强大的推动力和进取心，在策划与创新方面天赋异禀。你天性仁慈，富有同情心，能够以温暖的领导力关怀身边的人。虽然你刚正不阿、宁折不弯的性格有时会被认为缺乏灵活性，但这正证明了你那如青松般坚定的信念与正直的品格。"
+},
         },
         "Fire": {
             "ko": "당신은 '불(Fire)'입니다. 열정적이고 예의가 바르며 표현력이 뛰어납니다.",
