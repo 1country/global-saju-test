@@ -71,6 +71,30 @@ st.markdown("""
         .stRadio div[role='radiogroup'] label div {
             color: #e2e8f0 !important;
         }
+        /* 🖨️ 프린트 전용 스타일 (사이드바 숨김) */
+        @media print {
+            section[data-testid="stSidebar"], header, footer {
+                display: none !important;
+            }
+            .stApp {
+                background: white !important; /* 잉크 절약을 위해 흰 배경 */
+                color: black !important; /* 글자는 검은색 */
+            }
+            .main .block-container {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            .card, .vs-box {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+            }
+            h1, h2, h3, h4, p, div, span {
+                color: black !important;
+                text-shadow: none !important;
+            }
+        }
     </style>
 """, unsafe_allow_html=True)
 
