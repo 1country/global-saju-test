@@ -122,13 +122,13 @@ def get_interpretation(element, lang):
             "zh": "你命中带有‘金’的基因，象征着锋利的宝剑与坚固的磐石。你拥有果 敢的决断力和顽强的意志，是极重义气、言出必行的诚信之辈。凭借追求完美的严谨态度和公私分明的冷峻理性，你在团队中扮演着整肃纪律、攻坚克难的‘终结者’角色。虽然因对自己和他人的严苛要求有时会被误解为冷酷，但实际上你外冷内热，内心深处藏着一颗比任何人都更正直、更深沉的赤子之心。"
         },
         "Water": {
-            "ko": "당신은 '물(Water)'입니다. 지혜롭고 유연하며 적응력이 뛰어납니다.",
-            "en": "You are 'Water'. You are wise, flexible, and adaptable.",
-            "fr": "Vous êtes l'Eau'. Vous êtes sage, flexible et adaptable.",
-            "es": "Eres 'Agua'. Eres sabio, flexible y adaptable.",
-            "ja": "あなたは「水」です。賢明で柔軟性があり、適応力に優れています。",
-            "zh": "你是‘水’。智慧、灵活且适应力强。"
-        }
+            "ko": "당신은 만물의 생명을 유지시키고 어디로든 흐르는 '물(Water)'의 기운을 타고났습니다. 흐르는 강물처럼 유연한 사고와 뛰어난 적응력을 지니고 있으며, 보이지 않는 곳까지 살피는 깊은 통찰력과 지혜를 겸비한 '전략가'입니다. 대인관계에서 상대를 편안하게 만드는 포용력이 뛰어나며, 지식에 대한 탐구심이 강해 학문이나 예술 분야에서 두각을 나타냅니다. 다만, 생각이 너무 많아 때로는 내면의 우울감이나 고민에 빠지기도 하지만, 어떤 그릇에 담겨도 그 모양에 맞춰 변화하는 당신의 유연함은 변화무쌍한 현대 사회에서 살아남는 가장 강력한 생존 전략입니다.",
+            "en": "You embody the essence of 'Water,' the life-giving force that flows and adapts to any environment. Much like a river, you possess a flexible mindset and exceptional adaptability, acting as a 'strategist' with profound insight and wisdom that looks beneath the surface. You have a natural ability to make others feel at ease and a strong intellectual curiosity that often leads to excellence in academia or the arts. While your deep contemplation can sometimes lead to inner melancholy or overthinking, your ability to adapt to any situation—like water taking the shape of its container—is your greatest strength in a rapidly changing world.",
+            "fr": "Vous incarnez l'essence de l' 'Eau', la force vitale qui coule et s'adapte à tout environnement. Tel un fleuve, vous possédez un esprit flexible et une adaptabilité exceptionnelle, agissant comme un 'stratège' doté d'une perspicacité profonde et d'une sagesse qui voit au-delà des apparences. Vous avez une capacité naturelle à mettre les autres à l'aise et une forte curiosité intellectuelle. Bien que votre profonde réflexion puisse parfois mener à la mélancolie, votre capacité à vous adapter à toute situation — comme l'eau prenant la forme de son contenant — est votre plus grande force dans un monde en mutation.",
+            "es": "Encarnas la esencia del 'Agua', la fuerza vital que fluye y se adapta a cualquier entorno. Como un río, posees una mente flexible y una adaptabilidad excepcional, actuando como un 'estratega' con una visión profunda y una sabiduría que mira más allá de la superficie. Tienes una capacidad natural para hacer que los demás se sientan cómodos y una fuerte curiosidad intelectual. Aunque tu profunda reflexión a veces puede llevarte a la melancolía o a pensar demasiado, tu capacidad para adaptarte a cualquier situación —como el agua tomando la forma de su recipiente— es tu mayor fortaleza en un mundo en constante cambio.",
+            "ja": "あなたは万物の生命を維持し、どこへでも流れる「水（Water）」の気運を持って生まれました。流れる川のように柔軟な思考と優れた適応力を持ち、見えないところまで見通す深い洞察力と知恵を兼ね備えた「戦略家」です。対人関係で相手をリラックスさせる包容力に優れ、知識に対する探求心が強いため、学問や芸術分野で頭角を現します。考えすぎて時に内面的な憂鬱や悩みに陥ることもありますが、どんな器に入れてもその形に合わせて変化するあなたの柔軟性は、変化の激しい現代社会を生き抜く最も強力な生存戦略です。",
+            "zh": "你命中带有‘水’的基因，象征着滋養万物、无孔不入的生命源泉。正如奔流不息的江河，你拥有极强的适应能力和灵活的思维，是一位极具洞察力与智慧的‘策划大师’。你擅长营造轻松的人际氛围，求知欲极强，常在学术或艺术领域展现非凡才华。虽然深邃的思想有时会带来内心的忧郁或过度思虑，但那种如水般随方就圆、顺势而为的变通能力，正是你在瞬息万变的现代社会中立于不败之地的最强生存武器。"
+        },
     }
 
     # 해당 오행(element)의 데이터를 가져옴 (없으면 기본값 Wood)
