@@ -137,22 +137,18 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
+# FutureNara 로고 사이드바 상단 고정
 st.markdown("""
     <style>
-        /* 사이드바 맨 위에 로고 배치 */
         #future-nara-brand {
             position: absolute;
             top: 15px;
             left: 20px;
-            width: 100%;
-            text-align: left;
             font-size: 1.2rem;
             font-weight: 900;
             color: gold;
             z-index: 1000;
         }
-
-        /* 사이드바 콘텐츠 아래로 밀기 (로고와 겹치지 않도록) */
         section[data-testid="stSidebar"] > div:first-child {
             margin-top: 50px;
         }
@@ -160,6 +156,7 @@ st.markdown("""
 
     <div id="future-nara-brand">🌟 FutureNara.com</div>
 """, unsafe_allow_html=True)
+
 
 
 # ----------------------------------------------------------------
