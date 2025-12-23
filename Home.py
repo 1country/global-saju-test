@@ -24,10 +24,14 @@ st.markdown("""
         
         /* 배경 설정 */
         .stApp {
-            background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
-            url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
-            background-size: cover; background-attachment: fixed; background-position: center;
-            color: #FDECEC;
+    background-image: linear-gradient(rgba(111, 21, 21, 0.85), rgba(76, 17, 17, 0.85)),
+    url("https://img.freepik.com/free-photo/red-ink-texture-background_23-2147851394.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #2e0707;
+}
+
         }
 
         /* 사이드바 스타일 (Navy & Soft Text) */
