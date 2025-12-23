@@ -33,7 +33,7 @@ st.markdown("""
 },
 st.markdown("""
     <div style="text-align: center; margin-top: -20px; margin-bottom: 20px;">
-        <img src="https://github.com/1country/global-saju-test/main/images/sign1.jpg" 
+        <img src="https://github.com/1country/global-saju-test/tree/main/images#:~:text=..-,Sign1.jpg,-Add%20files%20via.jpg" 
              alt="FutureNara.com"
              style="width: 250px; max-width: 80%; margin: auto;">
     </div>
