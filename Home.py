@@ -30,7 +30,7 @@ st.markdown("""
     background-attachment: fixed;
     background-position: center;
     color: #fefefe;
-}
+},
 st.markdown("""
     <div style="text-align: center; margin-top: -20px; margin-bottom: 20px;">
         <img src="https://yourcdn.com/images/futurenara-logo-gold.png" 
