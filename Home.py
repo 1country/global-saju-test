@@ -146,7 +146,8 @@ st.markdown("""
             content: "🌟 FutureNara.com";
             display: block;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            text-shadow: 1px 1px 3px #00000055;
             font-weight: 800;
             color: gold;
             margin-bottom: 1rem;
