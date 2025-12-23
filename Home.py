@@ -23,13 +23,15 @@ st.markdown("""
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
         .stApp {
-            background-image: 
-                linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
-                url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/sign1.jpg");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: #fefefe;
+    background-image: 
+        linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
+        url("https://your-cdn.com/images/oheng-bg.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fefefe;
+}
+
         }
     </style>
 """, unsafe_allow_html=True)
