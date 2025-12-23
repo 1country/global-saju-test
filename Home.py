@@ -37,7 +37,7 @@ st.markdown("""
 # 🟡 메인 상단 FutureNara.com 이미지 로고 삽입
 st.markdown("""
     <div style="text-align: center; margin-top: -20px; margin-bottom: 20px;">
-        <img src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/sign1.jpg" 
+        <img src="https://https://github.com/1country/global-saju-test/blob/main/images/Sign1.jpg" 
              alt="FutureNara.com"
              style="width: 250px; max-width: 80%; margin: auto;">
     </div>
