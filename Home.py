@@ -137,6 +137,30 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
+st.markdown("""
+    <style>
+        /* 사이드바 맨 위에 로고 배치 */
+        #future-nara-brand {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            width: 100%;
+            text-align: left;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: gold;
+            z-index: 1000;
+        }
+
+        /* 사이드바 콘텐츠 아래로 밀기 (로고와 겹치지 않도록) */
+        section[data-testid="stSidebar"] > div:first-child {
+            margin-top: 50px;
+        }
+    </style>
+
+    <div id="future-nara-brand">🌟 FutureNara.com</div>
+""", unsafe_allow_html=True)
+
 
 # ----------------------------------------------------------------
 # 3. 사이드바 설정 (디자인 통일)
