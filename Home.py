@@ -142,6 +142,12 @@ st.markdown("""
 # 3. 사이드바 설정 (디자인 통일)
 # ----------------------------------------------------------------
 with st.sidebar:
+    st.markdown("""
+        <h1 style="color: gold; font-weight: 800; text-align: center; margin-bottom: 20px;">
+            FutureNara.com
+        </h1>
+    """, unsafe_allow_html=True)
+
     st.header("Settings")
     
     # 현재 언어 표시
