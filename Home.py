@@ -23,8 +23,15 @@ st.markdown("""
 
         /* 전체 배경 스타일 - 진한 붉은색 */
         .stApp {
-            background-color: #7f1d1d;  /* 남성적인 짙은 레드 */
-        }
+    background-image: 
+        linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
+        url("https://your-cdn.com/images/oheng-bg.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fefefe;
+}
+
 
         /* 사이드바 스타일 */
         section[data-testid="stSidebar"] {
