@@ -17,27 +17,32 @@ if 'lang' not in st.session_state:
 
 lang = st.session_state['lang'] # 이제 이 변수가 전체 언어를 결정합니다.
 
+# 🔴 배경 스타일 (오행 배경 이미지 + 어두운 그라데이션)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
-        /* 전체 배경 스타일 - 진한 붉은색 */
         .stApp {
-    background-image: 
-        linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
-        url("https://github.com/1country/global-saju-test/main/images/sign1.jpg");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    color: #fefefe;
-},
+            background-image: 
+                linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
+                url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/sign1.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fefefe;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# 🟡 메인 상단 FutureNara.com 이미지 로고 삽입
 st.markdown("""
     <div style="text-align: center; margin-top: -20px; margin-bottom: 20px;">
-        <img src="https://github.com/1country/global-saju-test/tree/main/images#:~:text=..-,Sign1.jpg,-Add%20files%20via.jpg" 
+        <img src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/sign1.jpg" 
              alt="FutureNara.com"
              style="width: 250px; max-width: 80%; margin: auto;">
     </div>
 """, unsafe_allow_html=True)
+
 
 
         /* 사이드바 스타일 */
