@@ -29,58 +29,101 @@ GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
-        
-        /* 메인 배경 */
+
+        /* 🔥 메인 배경 - 붉은 말 이미지 + 붉은 그라데이션 */
         .stApp {
-            background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
-            url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
-            background-size: cover; background-attachment: fixed; background-position: center;
-            color: #e2e8f0;
+            background-image: 
+                linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
+                url("https://i.imgur.com/sSRRsW0.jpg"); /* 붉은 말 이미지 */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fefefe;
         }
-        
-        /* 사이드바 스타일 */
-        section[data-testid="stSidebar"] { background-color: #1e293b !important; border-right: 1px solid #334155; }
-        section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
-        [data-testid="stSidebarNav"] span { font-size: 1.1rem !important; font-weight: 600 !important; color: #e2e8f0 !important; }
-        
-        /* 제목 및 카드 스타일 */
+
+        /* 사이드바 스타일 - 짙은 레드 */
+        section[data-testid="stSidebar"] {
+            background-color: #7f1d1d !important;
+            border-right: 1px solid #991b1b;
+        }
+
+        section[data-testid="stSidebar"] * {
+            color: #fefefe !important;
+        }
+
+        [data-testid="stSidebarNav"] span {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #fefefe !important;
+        }
+
+        /* 제목 스타일 - 황금빛 효과 */
         .year-title {
-            font-size: 2.5em; font-weight: 800; color: #fbbf24; text-align: center; margin-bottom: 10px;
-            font-family: 'Gowun Batang', serif; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+            font-size: 2.6em;
+            font-weight: 800;
+            color: #fbbf24;
+            text-align: center;
+            margin-bottom: 10px;
+            font-family: 'Gowun Batang', serif;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
         }
+
+        /* 카드 스타일 - 반투명 다크 레드 배경 */
         .card {
-            background: rgba(30, 41, 59, 0.8); border: 1px solid #475569; padding: 25px;
-            border-radius: 15px; margin-bottom: 20px; color: #e2e8f0;
+            background: rgba(127, 29, 29, 0.85);
+            border: 1px solid #dc2626;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #fefefe;
         }
-        
-        /* ⭐ [핵심 수정] 표(Table) 가독성 해결 코드 추가 ⭐ */
+
+        /* 표 스타일 */
         div[data-testid="stTable"] {
-            background-color: rgba(30, 41, 59, 0.6) !important; /* 표 배경을 반투명 검정으로 */
+            background-color: rgba(127, 29, 29, 0.8) !important;
             border-radius: 10px;
             padding: 10px;
             overflow: hidden;
         }
+
         div[data-testid="stTable"] table {
-            color: #ffffff !important; /* 글씨를 무조건 흰색으로 */
+            color: #ffffff !important;
         }
+
         div[data-testid="stTable"] th {
-            color: #93c5fd !important; /* 헤더는 밝은 파란색 */
+            color: #fde68a !important;
             font-size: 1.1em !important;
-            border-bottom: 1px solid #475569 !important;
+            border-bottom: 1px solid #991b1b !important;
         }
+
         div[data-testid="stTable"] td {
-            color: #e2e8f0 !important; /* 내용은 밝은 회색 */
+            color: #fef2f2 !important;
             font-size: 1.0em !important;
         }
-        
-        /* 잠금 화면 스타일 */
+
+        /* 잠금화면 오버레이 */
         .lock-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.85); padding: 30px; border-radius: 15px; 
-            text-align: center; width: 90%; z-index: 99; border: 1px solid #fbbf24;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            z-index: 99;
+            border: 1px solid #fbbf24;
+            color: #fefefe;
+        }
+
+        /* 버튼 텍스트 대비 높이기 */
+        .stButton button {
+            font-weight: bold;
         }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ----------------------------------------------------------------
 # 3. 데이터 및 함수 정의
