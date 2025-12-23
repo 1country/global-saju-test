@@ -27,50 +27,112 @@ GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
-        /* 탭 스타일 변경 */
-        button[data-baseweb="tab"] {
-            color: #cbd5e1 !important; /* 기본 탭 글자색 (밝은 회색) */
-            font-weight: 600 !important;
-        }
-        button[data-baseweb="tab"][aria-selected="true"] {
-            color: #f472b6 !important; /* 선택된 탭 글자색 (핑크) */
-            background-color: rgba(244, 114, 182, 0.1) !important; /* 선택된 탭 배경 */
-        }
+
+        /* 🔥 배경 이미지 + 붉은색 필터 */
         .stApp {
-            background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
-            url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
-            background-size: cover; background-attachment: fixed; background-position: center;
-            color: #e2e8f0;
+            background-image: 
+                linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
+                url("https://i.imgur.com/sSRRsW0.jpg");  /* 불타는 말 이미지 */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fefefe;
         }
-        section[data-testid="stSidebar"] { background-color: #1e293b !important; border-right: 1px solid #334155; }
-        section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
-        [data-testid="stSidebarNav"] span { font-size: 1.1rem !important; font-weight: 600 !important; color: #e2e8f0 !important; }
-        
+
+        /* 📌 상단 로고 스타일 */
+        .logo-container {
+            text-align: center;
+            margin-top: -25px;
+            margin-bottom: 10px;
+        }
+
+        .logo-container img {
+            width: 300px;
+            max-width: 90%;
+            animation: pulse 5s infinite;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* 사이드바 스타일 */
+        section[data-testid="stSidebar"] {
+            background-color: #7f1d1d !important;
+            border-right: 1px solid #991b1b;
+        }
+
+        section[data-testid="stSidebar"] * {
+            color: #fefefe !important;
+        }
+
+        [data-testid="stSidebarNav"] span {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #fefefe !important;
+        }
+
+        /* 메인 헤더 */
         .day-header {
-            font-size: 2.2em; font-weight: 800; color: #f472b6; text-align: center; margin-bottom: 20px;
-            font-family: 'Gowun Batang', serif; text-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
+            font-size: 2.4em;
+            font-weight: 800;
+            color: #fbbf24;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Gowun Batang', serif;
+            text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
         }
+
+        /* 카드 */
         .card {
-            background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; padding: 25px;
-            border-radius: 15px; margin-bottom: 20px; color: #e2e8f0; line-height: 1.6;
+            background: rgba(127, 29, 29, 0.85);
+            border: 1px solid #dc2626;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #fefefe;
+            line-height: 1.6;
         }
+
+        /* 프리미엄 박스 */
         .premium-box {
-            border: 1px solid #f472b6; background: rgba(83, 24, 59, 0.3); padding: 20px; border-radius: 10px; margin-top: 10px;
+            border: 1px solid #fbbf24;
+            background: rgba(89, 0, 10, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
         }
-        h3, h4 { font-family: 'Gowun Batang', serif; }
-        /* 날짜 선택 라벨 색상 및 크기 조절 */
+
+        h3, h4 {
+            font-family: 'Gowun Batang', serif;
+        }
+
+        /* 날짜 입력 라벨 */
         .stDateInput label p {
-            color: #ffffff !important;  /* 흰색 코드 */
-            font-size: 1.2rem !important; /* 글자 크기 (기존보다 크게) */
-            font-weight: 600 !important; /* 글자 두께 두껍게 */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* 가독성을 위한 그림자 살짝 */
+            color: #ffffff !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
-        /* 잠금 오버레이 스타일 */
+
+        /* 잠금 오버레이 */
         .lock-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; 
-            text-align: center; width: 90%; z-index: 99; border: 1px solid #f472b6;
-            box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            z-index: 99;
+            border: 1px solid #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
         }
     </style>
 """, unsafe_allow_html=True)
