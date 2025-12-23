@@ -24,7 +24,7 @@ st.markdown("""
         
         /* 배경 설정 */
        .stApp {
-    background-color: #FDECEC; /* 따뜻한 연분홍색 배경 */
+    background-color: #fcdada; /* 따뜻한 연분홍색 배경 */
 }
 
 }
@@ -57,32 +57,81 @@ border-right: 1px solid #991b1b;
             padding-top: 5px; padding-bottom: 5px;
         }
 
-        /* 메인 타이틀 */
-        .main-title {
-            font-size: 3.0em; color: #450a0a; font-weight: 800; margin-bottom: 10px; font-family: 'Gowun Batang', serif;
-        }
-        .sub-desc {
-            font-size: 1.3em; color: #7f1d1d; margin-bottom: 40px; font-weight: 500;
-        }
-        
-        /* 입력창 라벨 스타일 */
-        .stTextInput label p, .stDateInput label p, .stTimeInput label p, .stRadio label p, .stCheckbox label p {
-            font-size: 1.1rem !important; font-weight: 600 !important; color: #e2e8f0 !important;
-        }
-        
-        /* 카드 스타일 */
-        .card {
-            background: rgba(30, 41, 59, 0.95); padding: 30px; border-radius: 15px; border: 1px solid #334155; 
-            margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center;
-            font-family: 'Gowun Batang', serif; color: #f1f5f9;
-        }
-        
-        /* 버튼 스타일 */
-        .stButton button {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; font-size: 1rem; transition: all 0.3s; background-color: #3b82f6; color: white; border: none;}
-        .stButton button:hover {background-color: #2563eb;}
-        .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem; background-color: #8b5cf6; color: white;}
-        
-        h1, h2, h3, h4, p { color: #5b0a0a; } 
+       /* 메인 타이틀 및 설명 텍스트 */
+.main-title {
+    font-size: 3.0em;
+    color: #4b0a0a;
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-family: 'Gowun Batang', serif;
+}
+.sub-desc {
+    font-size: 1.3em;
+    color: #771d1d;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+/* 입력창 라벨 텍스트 스타일 */
+.stTextInput label p,
+.stDateInput label p,
+.stTimeInput label p,
+.stRadio label p,
+.stCheckbox label p {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #5b0a0a !important;
+}
+
+/* 카드 스타일 - 붉은 계열 배경으로 변경 */
+.card {
+    background: rgba(251, 233, 233, 0.95); /* 연한 로즈 배경 */
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #fca5a5;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: 'Gowun Batang', serif;
+    color: #5b0a0a;
+}
+
+/* 버튼 스타일 - 파란색 제거, 붉은 계열 적용 */
+.stButton button {
+    width: 100%;
+    height: 50px;
+    font-weight: bold;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: #b91c1c;  /* 진한 빨강 */
+    color: white;
+    border: none;
+}
+.stButton button:hover {
+    background-color: #991b1b;  /* 더 진한 레드 */
+}
+
+/* 링크 버튼 스타일도 레드 계열로 변경 */
+.stLinkButton a {
+    width: 100%;
+    height: 50px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background-color: #be123c;
+    color: white;
+}
+
+/* 전체 텍스트 컬러 */
+h1, h2, h3, h4, p {
+    color: #5b0a0a;
+}
+
     </style>
 """, unsafe_allow_html=True)
 
