@@ -59,10 +59,10 @@ border-right: 1px solid #991b1b;
 
         /* 메인 타이틀 */
         .main-title {
-            font-size: 3.0em; color: #f8fafc; font-weight: 800; margin-bottom: 10px; font-family: 'Gowun Batang', serif;
+            font-size: 3.0em; color: #450a0a; font-weight: 800; margin-bottom: 10px; font-family: 'Gowun Batang', serif;
         }
         .sub-desc {
-            font-size: 1.3em; color: #cbd5e1; margin-bottom: 40px; font-weight: 500;
+            font-size: 1.3em; color: #7f1d1d; margin-bottom: 40px; font-weight: 500;
         }
         
         /* 입력창 라벨 스타일 */
@@ -82,7 +82,7 @@ border-right: 1px solid #991b1b;
         .stButton button:hover {background-color: #2563eb;}
         .stLinkButton a {width: 100%; height: 50px; font-weight: bold; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 1rem; background-color: #8b5cf6; color: white;}
         
-        h1, h2, h3, h4, p { color: #e2e8f0; } 
+        h1, h2, h3, h4, p { color: #5b0a0a; } 
     </style>
 """, unsafe_allow_html=True)
 
