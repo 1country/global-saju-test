@@ -33,8 +33,9 @@ st.markdown("""
 
         /* 사이드바 스타일 (Navy & Soft Text) */
         section[data-testid="stSidebar"] {
-            background-color: #1e293b !important; 
-            border-right: 1px solid #334155;       
+            background-color: #7f1d1d; /* 짙은 붉은 색 */
+border-right: 1px solid #991b1b;
+     
         }
         
         /* 사이드바 텍스트 색상 */
