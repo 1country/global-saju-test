@@ -6,6 +6,14 @@ from utils import calculate_day_gan, get_interpretation
 
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
+# 🟡 메인 상단 로고 삽입
+st.markdown("""
+    <div style="text-align: center; margin-top: -10px; margin-bottom: 30px;">
+        <img src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/Sign1.jpg"
+             alt="FutureNara.com"
+             style="width: 300px; max-width: 90%; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-radius: 10px;">
+    </div>
+""", unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
 # ⭐ [핵심] 언어 설정 로직 (Session State 사용)
@@ -38,22 +46,24 @@ st.markdown("""
 
 # 🟡 메인 상단 FutureNara.com 이미지 로고 삽입
 st.markdown("""
-    <div style="text-align: center; margin-top: -20px; margin-bottom: 20px;">
-        <img src="https://github.com/1country/global-saju-test/blob/main/images/Sign1.jpg" 
-             alt="FutureNara.com"
-             style="width: 250px; max-width: 80%; margin: auto;">
-    </div>
-""", unsafe_allow_html=True)
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
+        .stApp {
+            background-image: 
+                linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
+                url("https://your-cdn.com/images/oheng-bg.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fefefe;
+        }
 
-
-        /* 사이드바 스타일 */
         section[data-testid="stSidebar"] {
-            background-color: #991b1b;  /* 진한 레드 */
+            background-color: #991b1b;
             border-right: 1px solid #7f1d1d;
         }
 
-        /* 사이드바 텍스트 색상 */
         section[data-testid="stSidebar"] h1, 
         section[data-testid="stSidebar"] h2, 
         section[data-testid="stSidebar"] h3, 
@@ -61,10 +71,9 @@ st.markdown("""
         section[data-testid="stSidebar"] span, 
         section[data-testid="stSidebar"] div,
         section[data-testid="stSidebar"] label {
-            color: #f8fafc !important;  /* 밝은 텍스트 */
+            color: #f8fafc !important;
         }
 
-        /* 사이드바 메뉴 링크 */
         [data-testid="stSidebarNav"] span {
             font-size: 1.1rem !important;
             font-weight: 600 !important;
@@ -73,7 +82,6 @@ st.markdown("""
             padding-bottom: 5px;
         }
 
-        /* 메인 타이틀 */
         .main-title {
             font-size: 3.0em;
             color: #fefefe;
@@ -89,7 +97,6 @@ st.markdown("""
             font-weight: 500;
         }
 
-        /* 입력창 라벨 텍스트 */
         .stTextInput label p,
         .stDateInput label p,
         .stTimeInput label p,
@@ -100,7 +107,6 @@ st.markdown("""
             color: #fefefe !important;
         }
 
-        /* 카드 스타일 */
         .card {
             background: #991b1b;
             padding: 30px;
@@ -113,7 +119,6 @@ st.markdown("""
             color: #fefefe;
         }
 
-        /* 버튼 스타일 */
         .stButton button {
             width: 100%;
             height: 50px;
@@ -130,7 +135,6 @@ st.markdown("""
             background-color: #7f1d1d;
         }
 
-        /* 링크 버튼 스타일 */
         .stLinkButton a {
             width: 100%;
             height: 50px;
@@ -145,12 +149,12 @@ st.markdown("""
             color: white;
         }
 
-        /* 전체 텍스트 컬러 */
         h1, h2, h3, h4, p {
             color: #fefefe;
         }
     </style>
 """, unsafe_allow_html=True)
+
 # FutureNara 로고 사이드바 상단 고정
 # 🟡 FutureNara.com 간판을 사이드바 가장 위에 고정 배치
 st.markdown("""
