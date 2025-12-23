@@ -25,12 +25,19 @@ st.markdown("""
         .stApp {
     background-image: 
         linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
-        url("https://your-cdn.com/images/oheng-bg.jpg");
+        url("https://github.com/1country/global-saju-test/main/images/sign1.jpg");
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
     color: #fefefe;
 }
+st.markdown("""
+    <div style="text-align: center; margin-top: -20px; margin-bottom: 20px;">
+        <img src="https://yourcdn.com/images/futurenara-logo-gold.png" 
+             alt="FutureNara.com"
+             style="width: 250px; max-width: 80%; margin: auto;">
+    </div>
+""", unsafe_allow_html=True)
 
 
         /* 사이드바 스타일 */
