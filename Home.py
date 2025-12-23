@@ -6,14 +6,47 @@ from utils import calculate_day_gan, get_interpretation
 
 # 1. 페이지 설정
 st.set_page_config(page_title="The Element: Destiny Map", page_icon="🧭", layout="wide")
-# 🟡 메인 상단 로고 삽입
+# 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
 st.markdown("""
-    <div style="text-align: center; margin-top: -10px; margin-bottom: 30px;">
+    <style>
+        /* 로고 흔들림 애니메이션 */
+        @keyframes subtleShake {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(1px, -1px) rotate(-0.5deg); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .animated-logo {
+            width: 360px;
+            max-width: 90%;
+            margin: auto;
+            display: block;
+            animation: subtleShake 0.3s ease-in-out infinite;
+            animation-delay: 5s;
+            animation-iteration-count: infinite;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-wrapper {
+            text-align: center;
+            margin-top: -5px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            padding: 15px 20px;
+            border-radius: 30px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+    </style>
+
+    <div class="logo-wrapper">
         <img src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/Sign1.jpg"
              alt="FutureNara.com"
-             style="width: 300px; max-width: 90%; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-radius: 10px;">
+             class="animated-logo">
     </div>
 """, unsafe_allow_html=True)
+
 
 # ----------------------------------------------------------------
 # ⭐ [핵심] 언어 설정 로직 (Session State 사용)
@@ -30,17 +63,17 @@ st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
-        .stApp {
+        # 🔴 스타일 상단 부분 일부 수정
+.stApp {
     background-image: 
-        linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.9)),
-        url("https://your-cdn.com/images/oheng-bg.jpg");
+        linear-gradient(rgba(89, 0, 10, 0.95), rgba(89, 0, 10, 0.95)),
+        url("https://your-cdn.com/images/oheng-bg.jpg");  /* 필요시 배경 이미지 */
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
     color: #fefefe;
 }
 
-        }
     </style>
 """, unsafe_allow_html=True)
 
