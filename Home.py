@@ -23,13 +23,10 @@ st.markdown("""
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
         /* 배경 설정 */
-        .stApp {
-    background-image: linear-gradient(rgba(111, 21, 21, 0.85), rgba(76, 17, 17, 0.85)),
-    url("https://img.freepik.com/free-photo/red-ink-texture-background_23-2147851394.jpg");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    color: #2e0707;
+       .stApp {
+    background-color: #FDECEC; /* 따뜻한 연분홍색 배경 */
+}
+
 }
 
         }
