@@ -17,27 +17,21 @@ if 'lang' not in st.session_state:
 
 lang = st.session_state['lang'] # 이제 이 변수가 전체 언어를 결정합니다.
 
-# 2. 스타일 및 배경 설정 (Navy 사이드바 & 가독성 CSS)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
-        
-        /* 배경 설정 */
-       .stApp {
-    background-color: #fcdada; /* 따뜻한 연분홍색 배경 */
-}
 
-}
-
+        /* 전체 배경 스타일 - 진한 붉은색 */
+        .stApp {
+            background-color: #7f1d1d;  /* 남성적인 짙은 레드 */
         }
 
-        /* 사이드바 스타일 (Navy & Soft Text) */
+        /* 사이드바 스타일 */
         section[data-testid="stSidebar"] {
-            background-color: #7f1d1d; /* 짙은 붉은 색 */
-border-right: 1px solid #991b1b;
-     
+            background-color: #991b1b;  /* 진한 레드 */
+            border-right: 1px solid #7f1d1d;
         }
-        
+
         /* 사이드바 텍스트 색상 */
         section[data-testid="stSidebar"] h1, 
         section[data-testid="stSidebar"] h2, 
@@ -46,92 +40,94 @@ border-right: 1px solid #991b1b;
         section[data-testid="stSidebar"] span, 
         section[data-testid="stSidebar"] div,
         section[data-testid="stSidebar"] label {
-            color: #cbd5e1 !important; 
+            color: #f8fafc !important;  /* 밝은 텍스트 */
         }
 
-        /* 사이드바 메뉴 링크 스타일 */
+        /* 사이드바 메뉴 링크 */
         [data-testid="stSidebarNav"] span {
-            font-size: 1.1rem !important; 
-            font-weight: 600 !important; 
-            color: #e2e8f0 !important;
-            padding-top: 5px; padding-bottom: 5px;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #fefefe !important;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
 
-       /* 메인 타이틀 및 설명 텍스트 */
-.main-title {
-    font-size: 3.0em;
-    color: #4b0a0a;
-    font-weight: 800;
-    margin-bottom: 10px;
-    font-family: 'Gowun Batang', serif;
-}
-.sub-desc {
-    font-size: 1.3em;
-    color: #771d1d;
-    margin-bottom: 40px;
-    font-weight: 500;
-}
+        /* 메인 타이틀 */
+        .main-title {
+            font-size: 3.0em;
+            color: #fefefe;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-family: 'Gowun Batang', serif;
+        }
 
-/* 입력창 라벨 텍스트 스타일 */
-.stTextInput label p,
-.stDateInput label p,
-.stTimeInput label p,
-.stRadio label p,
-.stCheckbox label p {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    color: #5b0a0a !important;
-}
+        .sub-desc {
+            font-size: 1.3em;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
 
-/* 카드 스타일 - 붉은 계열 배경으로 변경 */
-.card {
-    background: rgba(251, 233, 233, 0.95); /* 연한 로즈 배경 */
-    padding: 30px;
-    border-radius: 15px;
-    border: 1px solid #fca5a5;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    text-align: center;
-    font-family: 'Gowun Batang', serif;
-    color: #5b0a0a;
-}
+        /* 입력창 라벨 텍스트 */
+        .stTextInput label p,
+        .stDateInput label p,
+        .stTimeInput label p,
+        .stRadio label p,
+        .stCheckbox label p {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #fefefe !important;
+        }
 
-/* 버튼 스타일 - 파란색 제거, 붉은 계열 적용 */
-.stButton button {
-    width: 100%;
-    height: 50px;
-    font-weight: bold;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s;
-    background-color: #b91c1c;  /* 진한 빨강 */
-    color: white;
-    border: none;
-}
-.stButton button:hover {
-    background-color: #991b1b;  /* 더 진한 레드 */
-}
+        /* 카드 스타일 */
+        .card {
+            background: #991b1b;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #b91c1c;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            font-family: 'Gowun Batang', serif;
+            color: #fefefe;
+        }
 
-/* 링크 버튼 스타일도 레드 계열로 변경 */
-.stLinkButton a {
-    width: 100%;
-    height: 50px;
-    font-weight: bold;
-    border-radius: 8px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    background-color: #be123c;
-    color: white;
-}
+        /* 버튼 스타일 */
+        .stButton button {
+            width: 100%;
+            height: 50px;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #b91c1c;
+            color: white;
+            border: none;
+        }
 
-/* 전체 텍스트 컬러 */
-h1, h2, h3, h4, p {
-    color: #5b0a0a;
-}
+        .stButton button:hover {
+            background-color: #7f1d1d;
+        }
 
+        /* 링크 버튼 스타일 */
+        .stLinkButton a {
+            width: 100%;
+            height: 50px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background-color: #be123c;
+            color: white;
+        }
+
+        /* 전체 텍스트 컬러 */
+        h1, h2, h3, h4, p {
+            color: #fefefe;
+        }
     </style>
 """, unsafe_allow_html=True)
 
