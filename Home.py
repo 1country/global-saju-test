@@ -27,7 +27,7 @@ st.markdown("""
             background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
             url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
             background-size: cover; background-attachment: fixed; background-position: center;
-            color: #e2e8f0;
+            color: #FDECEC;
         }
 
         /* 사이드바 스타일 (Navy & Soft Text) */
