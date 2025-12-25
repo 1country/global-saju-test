@@ -51,10 +51,14 @@ section[data-testid="stSidebar"] {
     border-right: 1px solid #991b1b;
 }
 
-section[data-testid="stSidebar"] * {
-    color: #fefefe !important;
+#section[data-testid="stSidebar"] * {
+ #   color: #fefefe !important;
+#}
+label[data-testid="stWidgetLabel"] {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #fde68a !important;
 }
-
 [data-testid="stSidebarNav"] span {
     font-size: 1.1rem !important;
     font-weight: 600 !important;
