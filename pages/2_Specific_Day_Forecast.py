@@ -6,9 +6,6 @@ import os
 from datetime import date
 from utils import calculate_day_gan
 
-st.write("DEBUG:", st.session_state)
-st.stop()
-
 # ==================================================
 # 1. Page Config
 # ==================================================
@@ -123,9 +120,14 @@ with st.sidebar:
 # 5. Page Content (페이지별 내용)
 # ==================================================
 
-if "user_name" not in st.session_state or "birth_date" not in st.session_state:
-    st.warning("Please enter your info at Home first." if lang == "en" else "⚠️ 홈 화면에서 본인 정보를 먼저 입력해주세요.")
-    if st.button("Go Home"): st.switch_page("Home.py")
+if not st.session_state.get("analyzed"):
+    st.warning(
+        "Please complete your information on the Home page first."
+        if lang == "en"
+        else "⚠️ 홈 화면에서 정보를 먼저 입력해주세요."
+    )
+    if st.button("Go Home"):
+        st.switch_page("Home.py")
     st.stop()
 
 
