@@ -11,6 +11,10 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 st.set_page_config(page_title="2026 Forecast | The Element", page_icon="🔮", layout="wide")
 # 1. 페이지 설정
+# ✅ lang 세팅은 markdown 밖에서
+if "lang" not in st.session_state:
+    st.session_state["lang"] = os.environ.get("LANGUAGE", "en")
+lang = st.session_state["lang"]
 # 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
 st.markdown("""
     <style>
@@ -44,13 +48,14 @@ st.markdown("""
             box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
         }
     </style>
-# [핵심 변경] 언어 설정 로직 개선
-# 1. 세션 상태에 'lang'이 없으면 -> 환경변수(기본값)를 가져옴
-# 2. 세션 상태에 'lang'이 있으면 -> 사용자가 선택한 언어를 유지함
-if 'lang' not in st.session_state:
-    st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
-
-lang = st.session_state['lang'] # 이제 코드 전체에서 이 변수를 사용
+    <div class="logo-wrapper">
+  <img
+    src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/Sign1.jpg"
+    alt="FutureNara.com"
+    class="animated-logo"
+  />
+</div>
+""", unsafe_allow_html=True)
 
 # 🔑 [마스터 키 & 구매 링크 설정]
 UNLOCK_CODE = "MASTER2026"
