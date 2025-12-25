@@ -37,7 +37,7 @@ st.markdown("""
 .stApp {
     background-image:
         linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
-        url("https://github.com/1country/global-saju-test/blob/main/images/s2.png");
+        url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s2.png");
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
