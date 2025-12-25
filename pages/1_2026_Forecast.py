@@ -16,40 +16,39 @@ if "lang" not in st.session_state:
     st.session_state["lang"] = os.environ.get("LANGUAGE", "en")
 lang = st.session_state["lang"]
 # 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
-st.markdown("""
-    components.html("""
-    <style>
-        /* 로고 흔들림 애니메이션 */
-        @keyframes subtleShake {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(1px, -1px) rotate(-0.5deg); }
-            100% { transform: translate(0, 0); }
-        }
+# 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
+components.html("""
+<style>
+@keyframes subtleShake {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(1px, -1px) rotate(-0.5deg); }
+  100% { transform: translate(0, 0); }
+}
 
-        .animated-logo {
-            width: 360px;
-            max-width: 90%;
-            margin: auto;
-            display: block;
-            animation: subtleShake 0.3s ease-in-out infinite;
-            animation-delay: 5s;
+.animated-logo {
+  width: 360px;
+  max-width: 90%;
+  margin: auto;
+  display: block;
+  animation: subtleShake 0.3s ease-in-out infinite;
+  animation-delay: 5s;
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+}
 
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease;
-        }
+.logo-wrapper {
+  text-align: center;
+  margin-top: -5px;
+  margin-bottom: 30px;
+  background: linear-gradient(#D41515, #7f1d1d, #ED0505);
+  padding: 15px 20px;
+  border-radius: 30px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+}
+</style>
 
-        .logo-wrapper {
-            text-align: center;
-            margin-top: -5px;
-            margin-bottom: 30px;
-            background: linear-gradient(#D41515, #7f1d1d, #ED0505);
-            padding: 15px 20px;
-            border-radius: 30px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
-        }
-    </style>
-    <div class="logo-wrapper">
+<div class="logo-wrapper">
   <img
     src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/Sign1.jpg"
     alt="FutureNara.com"
@@ -57,7 +56,7 @@ st.markdown("""
   />
 </div>
 """, height=220)
-""", unsafe_allow_html=True)
+
 
 # 🔑 [마스터 키 & 구매 링크 설정]
 UNLOCK_CODE = "MASTER2026"
