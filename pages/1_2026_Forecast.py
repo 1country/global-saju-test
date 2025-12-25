@@ -97,6 +97,23 @@ st.markdown("""
 <div class="page-title">The Element: 2026 Forecast</div>
 <div class="page-subtitle">Discover your destiny for the year ahead</div>
 """, unsafe_allow_html=True)
+/* 기본 텍스트 */
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown span,
+.stText {
+    color: #fefefe !important;
+}
+
+/* 테이블 */
+div[data-testid="stTable"] td {
+    color: #fefefe !important;
+}
+
+div[data-testid="stTable"] th {
+    color: #fde68a !important;
+    font-weight: 700;
+}
 
         section[data-testid="stSidebar"] h1, 
         section[data-testid="stSidebar"] h2, 
