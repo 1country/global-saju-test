@@ -75,18 +75,7 @@ section[data-testid="stSidebar"] * {
 # --------------------------------------------------
 # 🔴 여기! 접근 체크 위치 (가장 중요)
 # --------------------------------------------------
-if "birth_date" not in st.session_state:
-    st.markdown("""
-    <div class="card" style="text-align:center;">
-        <h3>🚨 Step Required</h3>
-        <p style="font-size:1.1em;">
-            Please complete your basic information on the Home page first.
-        </p>
-        <br>
-        <p>⬅️ Use the sidebar to return to Home</p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.stop()
+
 # ==================================================
 # 4. Sidebar (🔥 모든 페이지 공통)
 # ==================================================
@@ -130,6 +119,13 @@ with st.sidebar:
 # ==================================================
 # 5. Page Content (페이지별 내용)
 # ==================================================
+
+if "user_name" not in st.session_state or "birth_date" not in st.session_state:
+    st.warning("Please enter your info at Home first." if lang == "en" else "⚠️ 홈 화면에서 본인 정보를 먼저 입력해주세요.")
+    if st.button("Go Home"): st.switch_page("Home.py")
+    st.stop()
+
+
 st.markdown("""
 <div class="card">
 <h2>📅 Specific Day Forecast</h2>
