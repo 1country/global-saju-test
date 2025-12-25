@@ -1,3 +1,6 @@
+# =========================================================
+# 1. Imports
+# =========================================================
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
@@ -6,46 +9,67 @@ import os
 from datetime import date
 from utils import calculate_day_gan
 
-# ----------------------------------------------------------------
-# 1. 페이지 및 환경 설정
-# ----------------------------------------------------------------
 
-# 🔑 [마스터 키 & 구매 링크 설정]
+# =========================================================
+# 2. Constants
+# =========================================================
 UNLOCK_CODE = "MASTER2026"
 GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/2026_forecast"
 GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
-st.set_page_config(page_title="2026 Forecast | The Element", page_icon="🔮", layout="wide")
 
+# =========================================================
+# 3. Page Config
+# =========================================================
+st.set_page_config(
+    page_title="2026 Forecast | The Element",
+    page_icon="🔮",
+    layout="wide"
+)
+
+
+# =========================================================
+# 4. Session State
+# =========================================================
 if "lang" not in st.session_state:
     st.session_state["lang"] = os.environ.get("LANGUAGE", "en")
 lang = st.session_state["lang"]
 
-# ✅ 공통 CSS 먼저
+
+# =========================================================
+# 5. Global CSS (ONE block only)
+# =========================================================
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
+/* ---------- App Background ---------- */
 .stApp {
     background-color: #7f1d1d;
     color: #fefefe;
     font-family: 'Gowun Batang', serif;
 }
 
+/* ---------- Sidebar ---------- */
 section[data-testid="stSidebar"] {
     background-color: #991b1b;
     border-right: 1px solid #7f1d1d;
 }
 
 section[data-testid="stSidebar"] * {
-    color: #fefefe !important;
+    color: #f8fafc !important;
 }
 
+[data-testid="stSidebarNav"] span {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+}
+
+/* ---------- Titles ---------- */
 .page-title {
     font-size: 3.0em;
     font-weight: 800;
     margin-bottom: 12px;
-    color: #fefefe;
 }
 
 .page-subtitle {
@@ -53,10 +77,75 @@ section[data-testid="stSidebar"] * {
     color: #f3dcdc;
     margin-bottom: 35px;
 }
+
+/* ---------- Text ---------- */
+.stMarkdown, .stMarkdown p, .stMarkdown span {
+    color: #fefefe !important;
+    line-height: 1.7;
+}
+
+/* ---------- Tables ---------- */
+div[data-testid="stTable"] td {
+    color: #fefefe !important;
+}
+
+div[data-testid="stTable"] th {
+    color: #fde68a !important;
+    font-weight: 700;
+}
+
+/* ---------- Inputs ---------- */
+.stTextInput label p,
+.stDateInput label p,
+.stTimeInput label p,
+.stRadio label p,
+.stCheckbox label p {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fefefe !important;
+}
+
+/* ---------- Cards ---------- */
+.card {
+    background-color: #8b3a3a;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid #7f1d1d;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* ---------- Buttons ---------- */
+.stButton button {
+    background-color: #b91c1c;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    height: 52px;
+    border: none;
+}
+
+.stButton button:hover {
+    background-color: #7f1d1d;
+}
+
+/* ---------- Sidebar Logo ---------- */
+div[data-testid="stSidebar"]::before {
+    content: "🌟 FutureNara.com";
+    display: block;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: gold;
+    margin: 0.5rem 0 1rem 0;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 로고는 components.html
+
+# =========================================================
+# 6. Header (Logo)
+# =========================================================
 components.html("""
 <style>
 @keyframes subtleShake {
@@ -64,6 +153,7 @@ components.html("""
   50% { transform: translate(1px, -1px) rotate(-0.5deg); }
   100% { transform: translate(0, 0); }
 }
+
 .animated-logo {
   width: 360px;
   max-width: 90%;
@@ -74,14 +164,13 @@ components.html("""
   border-radius: 20px;
   box-shadow: 0 0 40px rgba(0,0,0,0.4);
 }
+
 .logo-wrapper {
   text-align: center;
-  margin-top: -5px;
   margin-bottom: 30px;
   background: linear-gradient(#D41515, #7f1d1d, #ED0505);
   padding: 15px 20px;
   border-radius: 30px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
 }
 </style>
 
@@ -92,138 +181,15 @@ components.html("""
 </div>
 """, height=220)
 
-# ✅ 타이틀
+
+# =========================================================
+# 7. Page Title
+# =========================================================
 st.markdown("""
 <div class="page-title">The Element: 2026 Forecast</div>
 <div class="page-subtitle">Discover your destiny for the year ahead</div>
 """, unsafe_allow_html=True)
-/* 기본 텍스트 */
-.stMarkdown,
-.stMarkdown p,
-.stMarkdown span,
-.stText {
-    color: #fefefe !important;
-}
 
-/* 테이블 */
-div[data-testid="stTable"] td {
-    color: #fefefe !important;
-}
-
-div[data-testid="stTable"] th {
-    color: #fde68a !important;
-    font-weight: 700;
-}
-
-        section[data-testid="stSidebar"] h1, 
-        section[data-testid="stSidebar"] h2, 
-        section[data-testid="stSidebar"] h3, 
-        section[data-testid="stSidebar"] p, 
-        section[data-testid="stSidebar"] span, 
-        section[data-testid="stSidebar"] div,
-        section[data-testid="stSidebar"] label {
-            color: #f8fafc !important;
-        }
-
-        [data-testid="stSidebarNav"] span {
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: #fefefe !important;
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-
-        .main-title {
-            font-size: 3.0em;
-            color: #fefefe;
-            font-weight: 800;
-            margin-bottom: 10px;
-            font-family: 'Gowun Batang', serif;
-        }
-
-        .sub-desc {
-            font-size: 1.3em;
-            color: #e2e8f0;
-            margin-bottom: 40px;
-            font-weight: 500;
-        }
-
-        .stTextInput label p,
-        .stDateInput label p,
-        .stTimeInput label p,
-        .stRadio label p,
-        .stCheckbox label p {
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: #fefefe !important;
-        }
-
-        .card {
-            background: #991b1b;
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #b91c1c;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            text-align: center;
-            font-family: 'Gowun Batang', serif;
-            color: #fefefe;
-        }
-
-        .stButton button {
-            width: 100%;
-            height: 50px;
-            font-weight: bold;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background-color: #b91c1c;
-            color: white;
-            border: none;
-        }
-
-        .stButton button:hover {
-            background-color: #7f1d1d;
-        }
-
-        .stLinkButton a {
-            width: 100%;
-            height: 50px;
-            font-weight: bold;
-            border-radius: 8px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            background-color: #be123c;
-            color: white;
-        }
-
-        h1, h2, h3, h4, p {
-            color: #fefefe;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# FutureNara 로고 사이드바 상단 고정
-# 🟡 FutureNara.com 간판을 사이드바 가장 위에 고정 배치
-st.markdown("""
-    <style>
-        /* 사이드바 가장 위에 고정될 영역 */
-        div[data-testid="stSidebar"]::before {
-            content: "🌟 FutureNara.com";
-            display: block;
-            text-align: center;
-            font-size: 1.4rem;
-            text-shadow: 1px 1px 3px #00000055;
-            font-weight: 800;
-            color: gold;
-            margin-bottom: 1rem;
-            margin-top: 0.5rem;
-        }
-    </style>
-""", unsafe_allow_html=True)
 # ----------------------------------------------------------------
 # 3. 데이터 및 함수 정의
 # ----------------------------------------------------------------
