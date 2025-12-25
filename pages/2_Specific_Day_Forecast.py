@@ -93,7 +93,7 @@ section[data-testid="stSidebarNav"] li[data-selected="true"] span {
 
 /* hover 시 */
 section[data-testid="stSidebarNav"] li:hover span {
-    color: #ffffff !important;
+    color: #D91414 !important;
 }
 
 # ==================================================
