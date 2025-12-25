@@ -73,7 +73,7 @@ st.markdown("""
    전체 앱 배경 (홈페이지 톤)
    =============================== */
 .stApp {
-    background-color: #8b3a3a;   /* 홈 메인 배경 */
+    background-color: #F53333;   /* 홈 메인 배경 */
     color: #fefefe;
     font-family: 'Gowun Batang', serif;
 }
