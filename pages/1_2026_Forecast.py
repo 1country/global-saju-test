@@ -27,7 +27,7 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
 .stApp {
-    background-color: #F53333;
+    background-color: #7f1d1d;
     color: #fefefe;
     font-family: 'Gowun Batang', serif;
 }
