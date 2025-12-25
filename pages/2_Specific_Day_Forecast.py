@@ -22,6 +22,10 @@ if "lang" not in st.session_state:
     st.session_state["lang"] = os.environ.get("LANGUAGE", "en")
 
 lang = st.session_state["lang"]
+# 🔑 [마스터 키 & 구매 링크]
+UNLOCK_CODE = "MASTER2026"
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/specific_day"
+GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 
 # ==================================================
 # 3. Global CSS (Home / 2026 Forecast와 동일)
@@ -68,7 +72,21 @@ section[data-testid="stSidebar"] * {
 }
 </style>
 """, unsafe_allow_html=True)
-
+# --------------------------------------------------
+# 🔴 여기! 접근 체크 위치 (가장 중요)
+# --------------------------------------------------
+if "birth_info" not in st.session_state:
+    st.markdown("""
+    <div class="card" style="text-align:center;">
+        <h3>🚨 Step Required</h3>
+        <p style="font-size:1.1em;">
+            Please complete your basic information on the Home page first.
+        </p>
+        <br>
+        <p>⬅️ Use the sidebar to return to Home</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.stop()
 # ==================================================
 # 4. Sidebar (🔥 모든 페이지 공통)
 # ==================================================
