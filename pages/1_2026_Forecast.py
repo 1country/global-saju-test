@@ -56,7 +56,14 @@ components.html("""
   />
 </div>
 """, height=220)
-
+st.markdown("""
+<div class="page-title">
+  The Element: 2026 Forecast
+</div>
+<div class="page-subtitle">
+  Discover your destiny for the year ahead
+</div>
+""", unsafe_allow_html=True)st.
 
 # 🔑 [마스터 키 & 구매 링크 설정]
 UNLOCK_CODE = "MASTER2026"
