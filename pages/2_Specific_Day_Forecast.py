@@ -6,135 +6,119 @@ import os
 from datetime import date
 from utils import calculate_day_gan
 
-# ----------------------------------------------------------------
-# 1. 페이지 및 환경 설정
-# ----------------------------------------------------------------
-st.set_page_config(page_title="Specific Day Forecast | The Element", page_icon="📅", layout="wide")
+# ==================================================
+# 1. Page Config
+# ==================================================
+st.set_page_config(
+    page_title="Specific Day Forecast | The Element",
+    page_icon="📅",
+    layout="wide"
+)
 
-# 언어 설정
-if 'lang' not in st.session_state:
-    st.session_state['lang'] = os.environ.get('LANGUAGE', 'en')
-lang = st.session_state['lang']
+# ==================================================
+# 2. Language Session
+# ==================================================
+if "lang" not in st.session_state:
+    st.session_state["lang"] = os.environ.get("LANGUAGE", "en")
 
-# 🔑 [마스터 키 & 구매 링크]
-UNLOCK_CODE = "MASTER2026"
-GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/specific_day"
-GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
+lang = st.session_state["lang"]
 
-# ----------------------------------------------------------------
-# 2. 스타일 설정 (CSS)
-# ----------------------------------------------------------------
+# ==================================================
+# 3. Global CSS (Home / 2026 Forecast와 동일)
+# ==================================================
 st.markdown("""
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
-        /* 🔥 배경 이미지 + 붉은색 필터 */
-        .stApp {
-            background-image: 
-                linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
-                url("https://i.imgur.com/sSRRsW0.jpg");  /* 불타는 말 이미지 */
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: #fefefe;
-        }
+.stApp {
+    background-image:
+        linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
+        url("https://i.imgur.com/sSRRsW0.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fefefe;
+    font-family: 'Gowun Batang', serif;
+}
 
-        /* 📌 상단 로고 스타일 */
-        .logo-container {
-            text-align: center;
-            margin-top: -25px;
-            margin-bottom: 10px;
-        }
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #7f1d1d !important;
+    border-right: 1px solid #991b1b;
+}
 
-        .logo-container img {
-            width: 300px;
-            max-width: 90%;
-            animation: pulse 5s infinite;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-        }
+section[data-testid="stSidebar"] * {
+    color: #fefefe !important;
+}
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
+[data-testid="stSidebarNav"] span {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+}
 
-        /* 사이드바 스타일 */
-        section[data-testid="stSidebar"] {
-            background-color: #7f1d1d !important;
-            border-right: 1px solid #991b1b;
-        }
+/* Card */
+.card {
+    background: rgba(127, 29, 29, 0.85);
+    border: 1px solid #dc2626;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    color: #fefefe;
+    line-height: 1.6;
+}
+</style>
+""", unsafe_allow_html=True)
 
-        section[data-testid="stSidebar"] * {
-            color: #fefefe !important;
-        }
+# ==================================================
+# 4. Sidebar (🔥 모든 페이지 공통)
+# ==================================================
+with st.sidebar:
+    st.header("Settings")
 
-        [data-testid="stSidebarNav"] span {
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: #fefefe !important;
-        }
+    lang_map = {
+        "en": "English",
+        "ko": "한국어",
+        "fr": "Français",
+        "es": "Español",
+        "ja": "日本語",
+        "zh": "中文"
+    }
 
-        /* 메인 헤더 */
-        .day-header {
-            font-size: 2.4em;
-            font-weight: 800;
-            color: #fbbf24;
-            text-align: center;
-            margin-bottom: 20px;
-            font-family: 'Gowun Batang', serif;
-            text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
-        }
+    st.info(f"Current Mode: **{lang_map.get(lang, 'English')}**")
 
-        /* 카드 */
-        .card {
-            background: rgba(127, 29, 29, 0.85);
-            border: 1px solid #dc2626;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            color: #fefefe;
-            line-height: 1.6;
-        }
+    st.write("Change Language:")
 
-        /* 프리미엄 박스 */
-        .premium-box {
-            border: 1px solid #fbbf24;
-            background: rgba(89, 0, 10, 0.3);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        if st.button("🇺🇸 EN"): st.session_state["lang"] = "en"; st.rerun()
+    with c2:
+        if st.button("🇰🇷 KO"): st.session_state["lang"] = "ko"; st.rerun()
+    with c3:
+        if st.button("🇫🇷 FR"): st.session_state["lang"] = "fr"; st.rerun()
 
-        h3, h4 {
-            font-family: 'Gowun Batang', serif;
-        }
+    c4, c5, c6 = st.columns(3)
+    with c4:
+        if st.button("🇪🇸 ES"): st.session_state["lang"] = "es"; st.rerun()
+    with c5:
+        if st.button("🇯🇵 JA"): st.session_state["lang"] = "ja"; st.rerun()
+    with c6:
+        if st.button("🇨🇳 ZH"): st.session_state["lang"] = "zh"; st.rerun()
 
-        /* 날짜 입력 라벨 */
-        .stDateInput label p {
-            color: #ffffff !important;
-            font-size: 1.2rem !important;
-            font-weight: 600 !important;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
+    st.markdown("---")
 
-        /* 잠금 오버레이 */
-        .lock-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            width: 90%;
-            z-index: 99;
-            border: 1px solid #fbbf24;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-        }
-    </style>
+    if st.button("🏠 Home", use_container_width=True):
+        st.switch_page("Home.py")
+
+# ==================================================
+# 5. Page Content (페이지별 내용)
+# ==================================================
+st.markdown("""
+<div class="card">
+<h2>📅 Specific Day Forecast</h2>
+<p>
+Choose a date and discover the elemental energy of that specific moment.
+</p>
+</div>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
