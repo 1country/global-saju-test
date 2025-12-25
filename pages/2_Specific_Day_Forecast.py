@@ -1,6 +1,3 @@
-st.write("DEBUG:", st.session_state)
-st.stop()
-
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
@@ -8,6 +5,9 @@ import pandas as pd
 import os
 from datetime import date
 from utils import calculate_day_gan
+
+st.write("DEBUG:", st.session_state)
+st.stop()
 
 # ==================================================
 # 1. Page Config
