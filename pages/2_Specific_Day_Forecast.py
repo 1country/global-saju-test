@@ -126,8 +126,6 @@ if not st.session_state.get("analyzed"):
         if lang == "en"
         else "⚠️ 홈 화면에서 정보를 먼저 입력해주세요."
     )
-    if st.button("Go Home"):
-        st.switch_page("Home.py")
     st.stop()
 
 
