@@ -76,6 +76,25 @@ label[data-testid="stWidgetLabel"] {
 }
 </style>
 """, unsafe_allow_html=True)
+/* ===== Sidebar Navigation Menu Text ===== */
+section[data-testid="stSidebarNav"] span {
+    color: #f8fafc !important;   /* 거의 흰색 */
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+}
+
+/* 선택된 메뉴 (하이라이트) */
+section[data-testid="stSidebarNav"] li[data-selected="true"] span {
+    background-color: rgba(255,255,255,0.18);
+    padding: 6px 10px;
+    border-radius: 10px;
+    color: #ffffff !important;
+}
+
+/* hover 시 */
+section[data-testid="stSidebarNav"] li:hover span {
+    color: #ffffff !important;
+}
 
 # ==================================================
 # 4. Sidebar (🔥 모든 페이지 공통)
