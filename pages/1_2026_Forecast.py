@@ -17,6 +17,7 @@ if "lang" not in st.session_state:
 lang = st.session_state["lang"]
 # 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
 st.markdown("""
+    components.html("""
     <style>
         /* 로고 흔들림 애니메이션 */
         @keyframes subtleShake {
@@ -55,7 +56,8 @@ st.markdown("""
     class="animated-logo"
   />
 </div>
-""", unsafe_allow_html=True)
+""", height=220)
+
 
 # 🔑 [마스터 키 & 구매 링크 설정]
 UNLOCK_CODE = "MASTER2026"
