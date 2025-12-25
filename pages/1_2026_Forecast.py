@@ -57,7 +57,7 @@ st.markdown("""
   />
 </div>
 """, height=220)
-
+""", unsafe_allow_html=True)
 
 # 🔑 [마스터 키 & 구매 링크 설정]
 UNLOCK_CODE = "MASTER2026"
