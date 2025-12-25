@@ -72,9 +72,6 @@ section[data-testid="stSidebar"] * {
 }
 </style>
 """, unsafe_allow_html=True)
-# --------------------------------------------------
-# 🔴 여기! 접근 체크 위치 (가장 중요)
-# --------------------------------------------------
 
 # ==================================================
 # 4. Sidebar (🔥 모든 페이지 공통)
@@ -467,35 +464,6 @@ def get_relationship_data(user_elem, target_elem, language):
     }
     data = db.get(rel_key, db["Same"])
     return data.get(language, data["en"])
-
-# ----------------------------------------------------------------
-# 4. 사이드바
-# ----------------------------------------------------------------
-with st.sidebar:
-    st.header("Settings")
-    lang_map = {"ko": "한국어", "en": "English", "fr": "Français", "es": "Español", "ja": "日本語", "zh": "中文"}
-    st.info(f"Current Mode: **{lang_map.get(lang, 'English')}**")
-    
-    st.write("Change Language:")
-    col_l1, col_l2, col_l3 = st.columns(3)
-    with col_l1:
-        if st.button("🇺🇸 EN", key="en"): st.session_state['lang']='en'; st.rerun()
-    with col_l2:
-        if st.button("🇰🇷 KO", key="ko"): st.session_state['lang']='ko'; st.rerun()
-    with col_l3:
-        if st.button("🇫🇷 FR", key="fr"): st.session_state['lang']='fr'; st.rerun()
-    
-    col_l4, col_l5, col_l6 = st.columns(3)
-    with col_l4:
-        if st.button("🇪🇸 ES", key="es"): st.session_state['lang']='es'; st.rerun()
-    with col_l5:
-        if st.button("🇯🇵 JA", key="ja"): st.session_state['lang']='ja'; st.rerun()
-    with col_l6:
-        if st.button("🇨🇳 ZH", key="zh"): st.session_state['lang']='zh'; st.rerun()
-
-    st.markdown("---")
-    if st.button("🏠 Home", use_container_width=True):
-        st.switch_page("Home.py")
 
 # ----------------------------------------------------------------
 # 5. 메인 로직
