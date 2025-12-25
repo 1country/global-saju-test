@@ -9,14 +9,54 @@ from utils import calculate_day_gan
 # ----------------------------------------------------------------
 # 1. 페이지 및 환경 설정
 # ----------------------------------------------------------------
+
+# 🔑 [마스터 키 & 구매 링크 설정]
+UNLOCK_CODE = "MASTER2026"
+GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/2026_forecast"
+GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
+
 st.set_page_config(page_title="2026 Forecast | The Element", page_icon="🔮", layout="wide")
-# 1. 페이지 설정
-# ✅ lang 세팅은 markdown 밖에서
+
 if "lang" not in st.session_state:
     st.session_state["lang"] = os.environ.get("LANGUAGE", "en")
 lang = st.session_state["lang"]
-# 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
-# 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
+
+# ✅ 공통 CSS 먼저
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
+
+.stApp {
+    background-color: #F53333;
+    color: #fefefe;
+    font-family: 'Gowun Batang', serif;
+}
+
+section[data-testid="stSidebar"] {
+    background-color: #991b1b;
+    border-right: 1px solid #7f1d1d;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #fefefe !important;
+}
+
+.page-title {
+    font-size: 3.0em;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #fefefe;
+}
+
+.page-subtitle {
+    font-size: 1.25em;
+    color: #f3dcdc;
+    margin-bottom: 35px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ✅ 로고는 components.html
 components.html("""
 <style>
 @keyframes subtleShake {
@@ -24,7 +64,6 @@ components.html("""
   50% { transform: translate(1px, -1px) rotate(-0.5deg); }
   100% { transform: translate(0, 0); }
 }
-
 .animated-logo {
   width: 360px;
   max-width: 90%;
@@ -34,9 +73,7 @@ components.html("""
   animation-delay: 5s;
   border-radius: 20px;
   box-shadow: 0 0 40px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease;
 }
-
 .logo-wrapper {
   text-align: center;
   margin-top: -5px;
@@ -49,138 +86,16 @@ components.html("""
 </style>
 
 <div class="logo-wrapper">
-  <img
-    src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/Sign1.jpg"
-    alt="FutureNara.com"
-    class="animated-logo"
-  />
+  <img src="https://raw.githubusercontent.com/1country/global-saju-test/main/images/Sign1.jpg"
+       alt="FutureNara.com"
+       class="animated-logo" />
 </div>
 """, height=220)
+
+# ✅ 타이틀
 st.markdown("""
-<div class="page-title">
-  The Element: 2026 Forecast
-</div>
-<div class="page-subtitle">
-  Discover your destiny for the year ahead
-</div>
-""", unsafe_allow_html=True)st.
-
-# 🔑 [마스터 키 & 구매 링크 설정]
-UNLOCK_CODE = "MASTER2026"
-GUMROAD_LINK_SPECIFIC = "https://5codes.gumroad.com/l/2026_forecast"
-GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
-
-# ----------------------------------------------------------------
-# 2. 공통 스타일 (홈페이지와 색상 통일)
-# ----------------------------------------------------------------
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
-
-/* ===============================
-   전체 앱 배경 (홈페이지 톤)
-   =============================== */
-.stApp {
-    background-color: #F53333;   /* 홈 메인 배경 */
-    color: #fefefe;
-    font-family: 'Gowun Batang', serif;
-}
-
-/* ===============================
-   사이드바 (홈페이지와 동일)
-   =============================== */
-section[data-testid="stSidebar"] {
-    background-color: #991b1b;
-    border-right: 1px solid #7f1d1d;
-}
-
-section[data-testid="stSidebar"] * {
-    color: #fefefe !important;
-}
-
-[data-testid="stSidebarNav"] span {
-    font-size: 1.05rem !important;
-    font-weight: 600 !important;
-}
-
-/* ===============================
-   메인 컨텐츠 카드 영역
-   =============================== */
-.card {
-    background-color: #8b3a3a;
-    border: 1px solid #7f1d1d;
-    border-radius: 18px;
-    padding: 28px;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-}
-
-/* ===============================
-   메인 제목 (홈과 동일 톤)
-   =============================== */
-.page-title {
-    font-size: 3.0em;
-    font-weight: 800;
-    margin-bottom: 12px;
-    color: #fefefe;
-}
-
-/* ===============================
-   보조 설명 텍스트
-   =============================== */
-.page-subtitle {
-    font-size: 1.25em;
-    color: #f3dcdc;
-    margin-bottom: 35px;
-}
-
-/* ===============================
-   입력 필드 라벨
-   =============================== */
-.stTextInput label p,
-.stDateInput label p,
-.stTimeInput label p,
-.stRadio label p,
-.stCheckbox label p {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #fefefe !important;
-}
-
-/* ===============================
-   버튼 (홈페이지와 동일)
-   =============================== */
-.stButton button {
-    background-color: #b91c1c;
-    color: white;
-    font-weight: bold;
-    border-radius: 10px;
-    height: 52px;
-    border: none;
-}
-
-.stButton button:hover {
-    background-color: #7f1d1d;
-}
-
-/* ===============================
-   테이블
-   =============================== */
-div[data-testid="stTable"] {
-    background-color: #7f1d1d;
-    border-radius: 12px;
-    padding: 10px;
-}
-
-div[data-testid="stTable"] th {
-    color: #fde68a !important;
-    border-bottom: 1px solid #7f1d1d;
-}
-
-div[data-testid="stTable"] td {
-    color: #fffafa !important;
-}
-</style>
+<div class="page-title">The Element: 2026 Forecast</div>
+<div class="page-subtitle">Discover your destiny for the year ahead</div>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
