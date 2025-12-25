@@ -98,6 +98,115 @@ st.markdown("""
 <div class="page-subtitle">Discover your destiny for the year ahead</div>
 """, unsafe_allow_html=True)
 
+        section[data-testid="stSidebar"] h1, 
+        section[data-testid="stSidebar"] h2, 
+        section[data-testid="stSidebar"] h3, 
+        section[data-testid="stSidebar"] p, 
+        section[data-testid="stSidebar"] span, 
+        section[data-testid="stSidebar"] div,
+        section[data-testid="stSidebar"] label {
+            color: #f8fafc !important;
+        }
+
+        [data-testid="stSidebarNav"] span {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #fefefe !important;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .main-title {
+            font-size: 3.0em;
+            color: #fefefe;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-family: 'Gowun Batang', serif;
+        }
+
+        .sub-desc {
+            font-size: 1.3em;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .stTextInput label p,
+        .stDateInput label p,
+        .stTimeInput label p,
+        .stRadio label p,
+        .stCheckbox label p {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #fefefe !important;
+        }
+
+        .card {
+            background: #991b1b;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #b91c1c;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            font-family: 'Gowun Batang', serif;
+            color: #fefefe;
+        }
+
+        .stButton button {
+            width: 100%;
+            height: 50px;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #b91c1c;
+            color: white;
+            border: none;
+        }
+
+        .stButton button:hover {
+            background-color: #7f1d1d;
+        }
+
+        .stLinkButton a {
+            width: 100%;
+            height: 50px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background-color: #be123c;
+            color: white;
+        }
+
+        h1, h2, h3, h4, p {
+            color: #fefefe;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# FutureNara 로고 사이드바 상단 고정
+# 🟡 FutureNara.com 간판을 사이드바 가장 위에 고정 배치
+st.markdown("""
+    <style>
+        /* 사이드바 가장 위에 고정될 영역 */
+        div[data-testid="stSidebar"]::before {
+            content: "🌟 FutureNara.com";
+            display: block;
+            text-align: center;
+            font-size: 1.4rem;
+            text-shadow: 1px 1px 3px #00000055;
+            font-weight: 800;
+            color: gold;
+            margin-bottom: 1rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+""", unsafe_allow_html=True)
 # ----------------------------------------------------------------
 # 3. 데이터 및 함수 정의
 # ----------------------------------------------------------------
