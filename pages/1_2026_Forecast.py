@@ -10,7 +10,40 @@ from utils import calculate_day_gan
 # 1. 페이지 및 환경 설정
 # ----------------------------------------------------------------
 st.set_page_config(page_title="2026 Forecast | The Element", page_icon="🔮", layout="wide")
+# 1. 페이지 설정
+# 🟡 메인 상단 FutureNara.com 로고 (애니메이션 포함)
+st.markdown("""
+    <style>
+        /* 로고 흔들림 애니메이션 */
+        @keyframes subtleShake {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(1px, -1px) rotate(-0.5deg); }
+            100% { transform: translate(0, 0); }
+        }
 
+        .animated-logo {
+            width: 360px;
+            max-width: 90%;
+            margin: auto;
+            display: block;
+            animation: subtleShake 0.3s ease-in-out infinite;
+            animation-delay: 5s;
+            animation-iteration-count: infinite;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-wrapper {
+            text-align: center;
+            margin-top: -5px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            padding: 15px 20px;
+            border-radius: 30px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+    </style>
 # [핵심 변경] 언어 설정 로직 개선
 # 1. 세션 상태에 'lang'이 없으면 -> 환경변수(기본값)를 가져옴
 # 2. 세션 상태에 'lang'이 있으면 -> 사용자가 선택한 언어를 유지함
