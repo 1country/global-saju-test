@@ -32,7 +32,7 @@ st.markdown("""
             display: block;
             animation: subtleShake 0.3s ease-in-out infinite;
             animation-delay: 5s;
-            animation-iteration-count: infinite;
+
             border-radius: 20px;
             box-shadow: 0 0 40px rgba(0,0,0,0.4);
             transition: transform 0.3s ease;
@@ -42,7 +42,7 @@ st.markdown("""
             text-align: center;
             margin-top: -5px;
             margin-bottom: 30px;
-            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            background: linear-gradient(D41515, #7f1d1d, #991b1b);
             padding: 15px 20px;
             border-radius: 30px;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
