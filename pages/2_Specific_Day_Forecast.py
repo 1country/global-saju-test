@@ -53,7 +53,7 @@ section[data-testid="stSidebar"] {
 
 /* Sidebar menu text */
 section[data-testid="stSidebarNav"] span {
-    color: #EDDD53 !important;
+    color: #FAFAF7 !important;
     font-weight: 600 !important;
     font-size: 1.05rem !important;
 }
