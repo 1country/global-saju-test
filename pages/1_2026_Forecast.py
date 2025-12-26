@@ -53,10 +53,7 @@ st.markdown("""
     background-position: center;
     color: #fefefe;
     font-family: 'Gowun Batang', serif;
-.stApp {
-    background-color: #7f1d1d;
-    color: #fefefe;
-    font-family: 'Gowun Batang', serif;
+
 }
 
 /* ---------- Sidebar ---------- */
