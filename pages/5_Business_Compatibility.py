@@ -36,7 +36,16 @@ st.markdown("""
             background-size: cover; background-attachment: fixed; background-position: center;
             color: #1e293b; 
         }
-        
+        .stApp {
+    background-image:
+        linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
+        url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s2.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fefefe;
+    font-family: 'Gowun Batang', serif;
+}
         /* 사이드바 */
         section[data-testid="stSidebar"] { background-color: #f8fafc !important; border-right: 1px solid #cbd5e1; }
         section[data-testid="stSidebar"] * { color: #334155 !important; }
