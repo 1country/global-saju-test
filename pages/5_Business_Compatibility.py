@@ -54,7 +54,7 @@ st.markdown("""
         .main-header {
             font-size: 3em; font-weight: 800; color: #1e40af; margin-bottom: 10px; text-align: center;
             font-family: 'Gowun Batang', serif; 
-            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff; /* 타이틀 흰색 테두리 */
+         #   text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff; /* 타이틀 흰색 테두리 */
         }
         
         /* 🚨 [핵심 수정] 라벨(질문) 글씨 스타일 (박스 없이 글자만 선명하게) */
@@ -62,7 +62,7 @@ st.markdown("""
             color: #1e3a8a !important;          /* 진한 파란색 글씨 */
             font-size: 1.5rem !important;       /* 글자 크기 키움 */
             font-weight: 900 !important;        /* 두께 두껍게 */
-            text-shadow: 
+          #  text-shadow: 
                 -1px -1px 0 #fff,  
                  1px -1px 0 #fff,
                 -1px  1px 0 #fff,
@@ -74,7 +74,7 @@ st.markdown("""
         /* 입력창 내부 스타일 */
         div[data-baseweb="input"], div[data-baseweb="select"] > div { 
             background-color: rgba(255, 255, 255, 0.9) !important; 
-            border: 2px solid #3b82f6 !important; /* 파란색 테두리 */
+       #     border: 2px solid #3b82f6 !important; /* 파란색 테두리 */
             color: #000 !important; 
             border-radius: 10px !important;
         }
@@ -82,7 +82,7 @@ st.markdown("""
         /* 리포트 컨테이너 */
         .report-container {
             background-color: #ffffff; padding: 40px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); border: 1px solid #bfdbfe;
+       #     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); border: 1px solid #bfdbfe;
             color: #334155;
         }
         
