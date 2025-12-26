@@ -45,23 +45,37 @@ st.markdown("""
     font-family: 'Gowun Batang', serif;
 }
 
-/* Sidebar */
+/* Sidebar background */
 section[data-testid="stSidebar"] {
     background-color: #7f1d1d !important;
     border-right: 1px solid #991b1b;
 }
 
-#section[data-testid="stSidebar"] * {
- #   color: #fefefe !important;
-#}
+/* Sidebar menu text */
+section[data-testid="stSidebarNav"] span {
+    color: #f8fafc !important;
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+}
+
+/* Selected menu */
+section[data-testid="stSidebarNav"] li[data-selected="true"] span {
+    background-color: rgba(255,255,255,0.18);
+    padding: 6px 10px;
+    border-radius: 10px;
+    color: #ffffff !important;
+}
+
+/* Hover */
+section[data-testid="stSidebarNav"] li:hover span {
+    color: #ffffff !important;
+}
+
+/* Widget labels (Select Date 등) */
 label[data-testid="stWidgetLabel"] {
     font-size: 1.2rem !important;
     font-weight: 600 !important;
     color: #fde68a !important;
-}
-[data-testid="stSidebarNav"] span {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
 }
 
 /* Card */
@@ -76,25 +90,6 @@ label[data-testid="stWidgetLabel"] {
 }
 </style>
 """, unsafe_allow_html=True)
-/* ===== Sidebar Navigation Menu Text ===== */
-section[data-testid="stSidebarNav"] span {
-    color: #f8fafc !important;   /* 거의 흰색 */
-    font-weight: 600 !important;
-    font-size: 1.05rem !important;
-}
-
-/* 선택된 메뉴 (하이라이트) */
-section[data-testid="stSidebarNav"] li[data-selected="true"] span {
-    background-color: rgba(255,255,255,0.18);
-    padding: 6px 10px;
-    border-radius: 10px;
-    color: #ffffff !important;
-}
-
-/* hover 시 */
-section[data-testid="stSidebarNav"] li:hover span {
-    color: #D91414 !important;
-}
 
 # ==================================================
 # 4. Sidebar (🔥 모든 페이지 공통)
