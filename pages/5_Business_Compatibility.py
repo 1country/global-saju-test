@@ -30,12 +30,7 @@ st.markdown("""
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
         
         /* ✨ 배경: 밝은 고층 빌딩 뷰 */
-        .stApp {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.6)),
-            url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop");
-            background-size: cover; background-attachment: fixed; background-position: center;
-            color: #1e293b; 
-        }
+      
         .stApp {
     background-image:
         linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
