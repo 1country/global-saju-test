@@ -31,16 +31,11 @@ st.markdown("""
         
         /* ✨ 배경: 밝은 고층 빌딩 뷰 */
       
-        .stApp {
-    background-image:
-        linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
-        url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s5.png");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    color: #fefefe;
-    font-family: 'Gowun Batang', serif;
-}
+         .stApp {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
+            url("https://img.freepik.com/free-vector/hand-drawn-korean-traditional-pattern-background_23-2149474585.jpg");
+            background-size: cover; background-attachment: fixed; background-position: center;
+        }
         /* 사이드바 */
         section[data-testid="stSidebar"] { background-color: #f8fafc !important; border-right: 1px solid #cbd5e1; }
         section[data-testid="stSidebar"] * { color: #334155 !important; }
