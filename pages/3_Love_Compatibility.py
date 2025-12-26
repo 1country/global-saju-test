@@ -27,13 +27,22 @@ GUMROAD_LINK_ALL = "https://5codes.gumroad.com/l/all-access_pass"
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
-        
         .stApp {
-            background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
-            url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
-            background-size: cover; background-attachment: fixed; background-position: center;
-            color: #e2e8f0;
-        }
+    background-image:
+        linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
+        url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s3.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fefefe;
+    font-family: 'Gowun Batang', serif;
+}
+      #  .stApp {
+       #     background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
+       #     url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
+        #    background-size: cover; background-attachment: fixed; background-position: center;
+        #    color: #e2e8f0;
+        #}
         section[data-testid="stSidebar"] { background-color: #1e293b !important; border-right: 1px solid #334155; }
         section[data-testid="stSidebar"] * { color: #cbd5e1 !important; }
         [data-testid="stSidebarNav"] span { font-size: 1.1rem !important; font-weight: 600 !important; color: #e2e8f0 !important; }
