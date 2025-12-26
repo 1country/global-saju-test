@@ -39,7 +39,7 @@ st.markdown("""
 }
       #  .stApp {
        #     background-image: linear-gradient(rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)),
-       #     url("https://img.freepik.com/free-photo/abstract-paint-texture-background-blue-sumi-e-style_53876-129316.jpg");
+       #     url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s3.png");
         #    background-size: cover; background-attachment: fixed; background-position: center;
         #    color: #e2e8f0;
         #}
