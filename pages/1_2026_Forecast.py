@@ -45,6 +45,15 @@ st.markdown("""
 
 /* ---------- App Background ---------- */
 .stApp {
+    background-image:
+        linear-gradient(rgba(89, 0, 10, 0.88), rgba(89, 0, 10, 0.88)),
+        url("https://raw.githubusercontent.com/1country/global-saju-test/main/images/s2.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fefefe;
+    font-family: 'Gowun Batang', serif;
+.stApp {
     background-color: #7f1d1d;
     color: #fefefe;
     font-family: 'Gowun Batang', serif;
